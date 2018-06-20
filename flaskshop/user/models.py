@@ -34,8 +34,7 @@ class User(UserMixin, SurrogatePK, Model):
     #: The hashed password
     password = Column(db.Binary(128), nullable=True)
     created_at = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
-    first_name = Column(db.String(30), nullable=True)
-    last_name = Column(db.String(30), nullable=True)
+    nick_name = Column(db.String(30), nullable=True)
     active = Column(db.Boolean(), default=False)
     is_admin = Column(db.Boolean(), default=False)
 
@@ -63,3 +62,17 @@ class User(UserMixin, SurrogatePK, Model):
     def __repr__(self):
         """Represent instance as a unique string."""
         return '<User({username!r})>'.format(username=self.username)
+
+
+class UserAddress(SurrogatePK, Model):
+    """users address"""
+
+    __tablename__ = 'users_address'
+    user_id = reference_col('users', nullable=True)
+    province = Column(db.String(30), nullable=True)
+    city = Column(db.String(30), nullable=True)
+    district = Column(db.String(30), nullable=True)
+    address = Column(db.String(30), nullable=True)
+    contact_name = Column(db.String(30), nullable=True)
+    contact_phone = Column(db.String(30), nullable=True)
+    created_at = Column(db.DateTime, nullable=True, default=dt.datetime.utcnow)
