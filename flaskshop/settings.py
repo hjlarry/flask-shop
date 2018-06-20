@@ -6,7 +6,7 @@ import os
 class Config(object):
     """Base configuration."""
 
-    SECRET_KEY = os.environ.get('FLASKSHOP_SECRET', 'secret-key')  # TODO: Change me
+    SECRET_KEY = os.environ.get('FLASKSHOP_SECRET', 'thisisashop')
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     BCRYPT_LOG_ROUNDS = 13
@@ -31,10 +31,7 @@ class DevConfig(Config):
 
     ENV = 'dev'
     DEBUG = True
-    DB_NAME = 'dev.db'
-    # Put the db file in project root
-    DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///{0}'.format(DB_PATH)
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:root@127.0.0.1:3306/flaskshop'
     DEBUG_TB_ENABLED = True
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
 
