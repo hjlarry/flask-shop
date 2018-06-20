@@ -51,3 +51,6 @@ env/
 # webpack-built files
 /flaskshop/static/build/
 /flaskshop/webpack/manifest.json
+
+.DS_Store
+.idea
