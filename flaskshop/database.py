@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Database module, including the SQLAlchemy database object and DB-related utilities."""
+import datetime
+
 from .compat import basestring
 from .extensions import db
 
@@ -50,6 +52,7 @@ class SurrogatePK(object):
     __table_args__ = {'extend_existing': True}
 
     id = Column(db.Integer, primary_key=True)
+    created_at = Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
     @classmethod
     def get_by_id(cls, record_id):
