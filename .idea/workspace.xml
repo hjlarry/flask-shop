@@ -8,11 +8,6 @@
       <change beforePath="$PROJECT_DIR$/migrations/alembic.ini" afterPath="" />
       <change beforePath="$PROJECT_DIR$/migrations/env.py" afterPath="" />
       <change beforePath="$PROJECT_DIR$/migrations/script.py.mako" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/50fd31632bf9_.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/55b7a2a9e087_.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/56f3993e0e05_.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/8cc797c73521_.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/9da37c5c8d61_.py" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -67,7 +62,7 @@
             <entry file="file://$PROJECT_DIR$/flaskshop/product/models.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="195">
-                  <caret line="13" column="50" lean-forward="true" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
+                  <caret line="13" column="50" lean-forward="false" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
                   <folding />
                 </state>
               </provider>
@@ -86,8 +81,8 @@
           <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/.gitignore">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="795">
-                  <caret line="53" column="22" lean-forward="false" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
+                <state relative-caret-position="825">
+                  <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
@@ -761,15 +756,15 @@
     <entry file="file://$PROJECT_DIR$/flaskshop/product/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
-          <caret line="13" column="50" lean-forward="true" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
+          <caret line="13" column="50" lean-forward="false" selection-start-line="13" selection-start-column="50" selection-end-line="13" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="53" column="22" lean-forward="false" selection-start-line="53" selection-start-column="22" selection-end-line="53" selection-end-column="22" />
+        <state relative-caret-position="825">
+          <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
           <folding />
         </state>
       </provider>
