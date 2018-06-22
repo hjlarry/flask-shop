@@ -22,9 +22,17 @@ class Product(SurrogatePK, Model):
 
 
 class ProductSku(SurrogatePK, Model):
+    """sku of this product"""
+
     __tablename__ = 'product_skus'
     title = Column(db.String(255), nullable=False)
     description = Column(db.Text())
     price = Column(db.DECIMAL(10, 2))
     stock = Column(db.Integer())
-    product_id = Column(db.Integer())
+    product_id = reference_col('products')
+
+    def __init__(self, title, **kwargs):
+        db.Model.__init__(self, title=title, **kwargs)
+
+    def __repr__(self):
+        return f'<ProductSku({self.title})>'

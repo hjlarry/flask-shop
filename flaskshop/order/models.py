@@ -7,7 +7,8 @@ class Order(SurrogatePK, Model):
 
     __tablename__ = 'orders'
     no = Column(db.String(255), nullable=False, unique=True)
-    user_id = Column(db.Integer())
+    user_id = reference_col('users')
+    user = relationship('User', backref='orders')
     address = Column(db.Text())
     total_amount = Column(db.DECIMAL(10, 2))
     remark = Column(db.Text())
@@ -24,12 +25,15 @@ class Order(SurrogatePK, Model):
 
 
 class OrderItem(SurrogatePK, Model):
-    """An order of the app"""
+    """Items of the order"""
 
     __tablename__ = 'order_items'
-    order_id = Column(db.Integer())
-    product_id = Column(db.Integer())
-    product_sku_id = Column(db.Integer())
+    order_id = reference_col('orders')
+    order = relationship('Order', backref='items')
+    product_id = reference_col('products')
+    product = relationship('Product')
+    product_sku_id = reference_col('product_skus')
+    product_sku = relationship('ProductSku')
     amount = Column(db.Integer())
     rating = Column(db.Integer())
     price = Column(db.DECIMAL(10, 2))

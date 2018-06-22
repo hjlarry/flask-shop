@@ -5,20 +5,11 @@ from flask_login import UserMixin
 from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
 from flaskshop.extensions import bcrypt
 
-
-class Role(SurrogatePK, Model):
-    """A role for a user."""
-
-    __tablename__ = 'roles'
-    name = Column(db.String(80), unique=True, nullable=False)
-    user_id = reference_col('users', nullable=True)
-    user = relationship('User', backref='roles')
-
-    def __init__(self, name, **kwargs):
-        db.Model.__init__(self, name=name, **kwargs)
-
-    def __repr__(self):
-        return f'<Role({self.name})>'
+user_favorite_product = db.Table(
+    'user_favorite_products',
+    Column('user_id', db.Integer(), db.ForeignKey('users.id'), primary_key=True),
+    Column('product_id', db.Integer(), db.ForeignKey('products.id'), primary_key=True)
+)
 
 
 class User(UserMixin, SurrogatePK, Model):
@@ -28,10 +19,11 @@ class User(UserMixin, SurrogatePK, Model):
     username = Column(db.String(80), unique=True, nullable=False)
     email = Column(db.String(80), unique=True, nullable=False)
     #: The hashed password
-    password = Column(db.Binary(128), nullable=True)
-    nick_name = Column(db.String(255), nullable=True)
+    password = Column(db.Binary(128))
+    nick_name = Column(db.String(255))
     active = Column(db.Boolean(), default=False)
     is_admin = Column(db.Boolean(), default=False)
+    favor_products = relationship('Product', secondary=user_favorite_product, backref='liked_users')
 
     def __init__(self, username, email, password=None, **kwargs):
         db.Model.__init__(self, username=username, email=email, **kwargs)
@@ -56,13 +48,14 @@ class UserAddress(SurrogatePK, Model):
     """An address for a user"""
 
     __tablename__ = 'users_address'
-    user_id = reference_col('users', nullable=True)
-    province = Column(db.String(255), nullable=True)
-    city = Column(db.String(255), nullable=True)
-    district = Column(db.String(255), nullable=True)
-    address = Column(db.String(255), nullable=True)
-    contact_name = Column(db.String(255), nullable=True)
-    contact_phone = Column(db.String(80), nullable=True)
+    user_id = reference_col('users')
+    user = relationship('User', backref='addresses')
+    province = Column(db.String(255))
+    city = Column(db.String(255))
+    district = Column(db.String(255))
+    address = Column(db.String(255))
+    contact_name = Column(db.String(255))
+    contact_phone = Column(db.String(80))
 
     def __init__(self, **kwargs):
         db.Model.__init__(self, **kwargs)
@@ -71,14 +64,33 @@ class UserAddress(SurrogatePK, Model):
         return f'<Address({self.id})>'
 
 
-class UserFavoriteProduct(SurrogatePK, Model):
-    __tablename__ = 'user_favorite_products'
-    user_id = Column(db.Integer())
-    product_id = Column(db.Integer())
-
-
 class UserCart(SurrogatePK, Model):
+    """A cart of a user"""
+
     __tablename__ = 'cart_items'
-    user_id = Column(db.Integer())
-    product_sku_id = Column(db.Integer())
+    user_id = reference_col('users')
+    user = relationship('User', backref='cart_items')
+    product_sku_id = reference_col('product_skus')
+    product_sku = relationship('ProductSku')
     amount = Column(db.Integer())
+
+    def __init__(self, **kwargs):
+        db.Model.__init__(self, **kwargs)
+
+    def __repr__(self):
+        return f'<Cart({self.id})>'
+
+
+class Role(SurrogatePK, Model):
+    """A role for a user."""
+
+    __tablename__ = 'roles'
+    name = Column(db.String(80), unique=True, nullable=False)
+    user_id = reference_col('users')
+    user = relationship('User', backref='roles')
+
+    def __init__(self, name, **kwargs):
+        db.Model.__init__(self, name=name, **kwargs)
+
+    def __repr__(self):
+        return f'<Role({self.name})>'

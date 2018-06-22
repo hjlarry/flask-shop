@@ -64,7 +64,7 @@ class SurrogatePK(object):
         return None
 
 
-def reference_col(tablename, nullable=False, pk_name='id', **kwargs):
+def reference_col(tablename, nullable=True, pk_name='id', **kwargs):
     """Column that adds primary key foreign key reference.
 
     Usage: ::
