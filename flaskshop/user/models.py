@@ -26,7 +26,7 @@ class User(UserMixin, SurrogatePK, Model):
     favor_products = relationship('Product', secondary=user_favorite_product, backref='liked_users')
 
     def __init__(self, username, email, password=None, **kwargs):
-        db.Model.__init__(self, username=username, email=email, **kwargs)
+        super().__init__(username=username, email=email, **kwargs)
         if password:
             self.set_password(password)
         else:
@@ -57,9 +57,6 @@ class UserAddress(SurrogatePK, Model):
     contact_name = Column(db.String(255))
     contact_phone = Column(db.String(80))
 
-    def __init__(self, **kwargs):
-        db.Model.__init__(self, **kwargs)
-
     def __repr__(self):
         return f'<Address({self.id})>'
 
@@ -74,9 +71,6 @@ class UserCart(SurrogatePK, Model):
     product_sku = relationship('ProductSku')
     amount = Column(db.Integer())
 
-    def __init__(self, **kwargs):
-        db.Model.__init__(self, **kwargs)
-
     def __repr__(self):
         return f'<Cart({self.id})>'
 
@@ -88,9 +82,6 @@ class Role(SurrogatePK, Model):
     name = Column(db.String(80), unique=True, nullable=False)
     user_id = reference_col('users')
     user = relationship('User', backref='roles')
-
-    def __init__(self, name, **kwargs):
-        db.Model.__init__(self, name=name, **kwargs)
 
     def __repr__(self):
         return f'<Role({self.name})>'

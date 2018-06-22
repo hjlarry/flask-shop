@@ -53,6 +53,9 @@ class SurrogatePK(object):
     id = Column(db.Integer(), primary_key=True)
     created_at = Column(db.DateTime(), nullable=False, default=datetime.datetime.utcnow)
 
+    def __init__(self, **kwargs):
+        db.Model.__init__(self, **kwargs)
+
     @classmethod
     def get_by_id(cls, record_id):
         """Get record by ID."""

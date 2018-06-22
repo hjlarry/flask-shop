@@ -14,9 +14,6 @@ class Product(SurrogatePK, Model):
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
 
-    def __init__(self, title, **kwargs):
-        db.Model.__init__(self, title=title, **kwargs)
-
     def __repr__(self):
         return f'<Product({self.title})>'
 
@@ -30,9 +27,6 @@ class ProductSku(SurrogatePK, Model):
     price = Column(db.DECIMAL(10, 2))
     stock = Column(db.Integer())
     product_id = reference_col('products')
-
-    def __init__(self, title, **kwargs):
-        db.Model.__init__(self, title=title, **kwargs)
 
     def __repr__(self):
         return f'<ProductSku({self.title})>'

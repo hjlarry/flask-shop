@@ -1,5 +1,5 @@
 from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
-from flaskshop import utils
+from flaskshop import constant
 
 
 class Order(SurrogatePK, Model):
@@ -15,13 +15,16 @@ class Order(SurrogatePK, Model):
     paid_at = Column(db.DateTime())
     payment_method = Column(db.String(255))
     payment_no = Column(db.String(255))
-    refund_status = Column(db.String(255), default=utils.REFUND_STATUS_PENDING)
+    refund_status = Column(db.String(255), default=constant.REFUND_STATUS_PENDING)
     refund_no = Column(db.String(255))
     closed = Column(db.Boolean(), default=False)
     reviewed = Column(db.Boolean(), default=False)
-    ship_status = Column(db.String(255), default=utils.SHIP_STATUS_PENDING)
+    ship_status = Column(db.String(255), default=constant.SHIP_STATUS_PENDING)
     ship_data = Column(db.Text())
     extra = Column(db.Text())
+
+    def __repr__(self):
+        return f'<Order({self.id})>'
 
 
 class OrderItem(SurrogatePK, Model):
@@ -39,3 +42,6 @@ class OrderItem(SurrogatePK, Model):
     price = Column(db.DECIMAL(10, 2))
     review = Column(db.Text())
     reviewed_at = Column(db.DateTime())
+
+    def __repr__(self):
+        return f'<OrderItem({self.id})>'
