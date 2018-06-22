@@ -1,0 +1,24 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-narrow">
+  <h1>Login</h1>
+    <br/>
+    <form id="loginForm" class="form form-register" method="POST" action="" role="form">
+           {{ form.csrf_token }}
+            <div class="form-group">
+                {{form.username.label}}
+                {{form.username(placeholder="Username", class_="form-control")}}
+            </div>
+
+            <div class="form-group">
+                {{form.password.label}}
+                {{form.password(placeholder="Password", class_="form-control")}}
+            </div>
+
+            <p><input class="btn btn-default btn-submit" type="submit" value="Login"></p>
+    </form>
+
+</div>
+{% endblock %}
+

@@ -32,16 +32,9 @@
     </ul>
     {% elif form %}
     <ul class="nav navbar-nav navbar-right">
+      <li><a href="{{ url_for('public.login') }}">Login</a></li>
       <li><a href="{{ url_for('public.register') }}">Create account</a></li>
     </ul>
-    <form id="loginForm" method="POST" class="navbar-form form-inline navbar-right" action="/" role="login">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-      <div class="form-group">
-        {{ form.username(placeholder="Username", class_="form-control") }}
-        {{ form.password(placeholder="Password", class_="form-control") }}
-      </div>
-      <button type="submit" class="btn btn-default">Log in</button>
-    </form>
     {% endif %}
   </div><!-- /.navbar-collapse -->
   </div><!-- /.container -->
