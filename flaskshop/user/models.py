@@ -69,3 +69,16 @@ class UserAddress(SurrogatePK, Model):
 
     def __repr__(self):
         return f'<Address({self.id})>'
+
+
+class UserFavoriteProduct(SurrogatePK, Model):
+    __tablename__ = 'user_favorite_products'
+    user_id = Column(db.Integer())
+    product_id = Column(db.Integer())
+
+
+class UserCart(SurrogatePK, Model):
+    __tablename__ = 'cart_items'
+    user_id = Column(db.Integer())
+    product_sku_id = Column(db.Integer())
+    amount = Column(db.Integer())

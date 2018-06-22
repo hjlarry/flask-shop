@@ -2,7 +2,6 @@
 """Database module, including the SQLAlchemy database object and DB-related utilities."""
 import datetime
 
-from .compat import basestring
 from .extensions import db
 
 # Alias common SQLAlchemy names
@@ -51,14 +50,14 @@ class SurrogatePK(object):
 
     __table_args__ = {'extend_existing': True}
 
-    id = Column(db.Integer, primary_key=True)
-    created_at = Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    id = Column(db.Integer(), primary_key=True)
+    created_at = Column(db.DateTime(), nullable=False, default=datetime.datetime.utcnow)
 
     @classmethod
     def get_by_id(cls, record_id):
         """Get record by ID."""
         if any(
-                (isinstance(record_id, basestring) and record_id.isdigit(),
+                (isinstance(record_id, (str, bytes)) and record_id.isdigit(),
                  isinstance(record_id, (int, float))),
         ):
             return cls.query.get(int(record_id))
