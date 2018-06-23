@@ -12,3 +12,10 @@ def index():
     """List products."""
     products = Product.query.all()
     return render_template('products/index.html', products=products)
+
+
+@blueprint.route('/<id>')
+def show(id):
+    """show a product."""
+    product = Product.query.filter_by(id=id).first()
+    return render_template('products/show.html', product=product)
