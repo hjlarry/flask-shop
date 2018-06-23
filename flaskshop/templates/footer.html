@@ -1,14 +1,10 @@
-<footer>
-  <small>
-  <ul class="company">
-    <li>© hjlarry</li>
-  </ul>
+<footer class="footer">
+  <div class="container">
+      <p class="pull-left">
+        <a href="{{ url_for('public.about') }}">About</a>
+      </p>
 
-    <ul class="footer-nav">
-
-      <li><a href="{{ url_for('public.about') }}">About</a></li>
-
-      <li><a href="mailto:ultrahe@gmail.com">Contact</a></li>
-    </ul>
-  </small>
+      <p class="pull-right"><a href="mailto:ultrahe@gmail.com">Contact</a></p>
+  </div>
 </footer>
+
