@@ -1,10 +1,17 @@
-from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
+from flaskshop.database import (
+    Column,
+    Model,
+    SurrogatePK,
+    db,
+    reference_col,
+    relationship,
+)
 
 
 class Product(SurrogatePK, Model):
     """A product of the app"""
 
-    __tablename__ = 'products'
+    __tablename__ = "products"
     title = Column(db.String(255), nullable=False)
     description = Column(db.Text())
     image = Column(db.String(255))
@@ -15,18 +22,18 @@ class Product(SurrogatePK, Model):
     price = Column(db.DECIMAL(10, 2))
 
     def __repr__(self):
-        return f'<Product({self.title})>'
+        return f"<Product({self.title})>"
 
 
 class ProductSku(SurrogatePK, Model):
     """sku of this product"""
 
-    __tablename__ = 'product_skus'
+    __tablename__ = "product_skus"
     title = Column(db.String(255), nullable=False)
     description = Column(db.Text())
     price = Column(db.DECIMAL(10, 2))
     stock = Column(db.Integer())
-    product_id = reference_col('products')
+    product_id = reference_col("products")
 
     def __repr__(self):
-        return f'<ProductSku({self.title})>'
+        return f"<ProductSku({self.title})>"

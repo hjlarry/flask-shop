@@ -1,11 +1,7 @@
-{% extends "layout.html" %}
-{% block page_title %}
-product list
-{% endblock %}
-{% block content_class %}products-index-page{% endblock content_class %}
-{% block content %}
+{% extends "layout.html" %} {% block page_title %} product list {% endblock %} {% block content_class %}products-index-page{%
+endblock content_class %} {% block content %}
 <div class="row">
-    <div class="col-lg-10 col-lg-offset-1">
+  <div class="col-lg-10 col-lg-offset-1">
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="row">
@@ -33,12 +29,17 @@ product list
                     <img src="{{ product.image}}" alt="">
                   </a>
                 </div>
-                <div class="price"><b>$</b>{{ product.price }}</div>
+                <div class="price">
+                  <b>$</b>{{ product.price }}</div>
                 <a href="{{ url_for('product.show', id=product.id) }}">{{ product.title }}</a>
               </div>
               <div class="bottom">
-                <div class="sold_count">销量 <span>{{ product.sold_count }}笔</span></div>
-                <div class="review_count">评价 <span>{{ product.review_count }}</span></div>
+                <div class="sold_count">销量
+                  <span>{{ product.sold_count }}笔</span>
+                </div>
+                <div class="review_count">评价
+                  <span>{{ product.review_count }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -47,6 +48,6 @@ product list
         <div class="pull-right"></div>
       </div>
     </div>
-    </div>
-    </div>
+  </div>
+</div>
 {% endblock %}

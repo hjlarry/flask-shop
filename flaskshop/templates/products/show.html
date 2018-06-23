@@ -1,11 +1,7 @@
-{% extends "layout.html" %}
-{% block page_title %}
-{{product.title}}
-{% endblock %}
-{% block content_class %}products-show-page{% endblock content_class %}
-{% block content %}
+{% extends "layout.html" %} {% block page_title %} {{product.title}} {% endblock %} {% block content_class %}products-show-page{%
+endblock content_class %} {% block content %}
 <div class="row">
-    <div class="col-lg-10 col-lg-offset-1">
+  <div class="col-lg-10 col-lg-offset-1">
     <div class="panel panel-default">
       <div class="panel-body product-info">
         <div class="row">
@@ -14,11 +10,21 @@
           </div>
           <div class="col-sm-7">
             <div class="title">{{ product.title }}</div>
-            <div class="price"><label>价格</label><em>￥</em><span>{{ product.price }}</span></div>
+            <div class="price">
+              <label>价格</label>
+              <em>￥</em>
+              <span>{{ product.price }}</span>
+            </div>
             <div class="sales_and_reviews">
-              <div class="sold_count">累计销量 <span class="count">{{ product.sold_count }}</span></div>
-              <div class="review_count">累计评价 <span class="count">{{ product.review_count }}</span></div>
-              <div class="rating" title="评分 {{ product.rating }}">评分 <span class="count">{{ '★' * product.rating|int }}{{ '☆'* (5 - product.rating|int) }}</span></div>
+              <div class="sold_count">累计销量
+                <span class="count">{{ product.sold_count }}</span>
+              </div>
+              <div class="review_count">累计评价
+                <span class="count">{{ product.review_count }}</span>
+              </div>
+              <div class="rating" title="评分 {{ product.rating }}">评分
+                <span class="count">{{ '★' * product.rating|int }}{{ '☆'* (5 - product.rating|int) }}</span>
+              </div>
             </div>
             <div class="skus">
               <label>选择</label>
@@ -26,25 +32,34 @@
 
               </div>
             </div>
-            <div class="cart_amount"><label>数量</label><input type="text" class="form-control input-sm" value="1"><span>件</span><span class="stock"></span></div>
+            <div class="cart_amount">
+              <label>数量</label>
+              <input type="text" class="form-control input-sm" value="1">
+              <span>件</span>
+              <span class="stock"></span>
+            </div>
             <div class="buttons">
-              
-                <button class="btn btn-danger btn-disfavor">取消收藏</button>
-              
-                <button class="btn btn-success btn-favor">❤ 收藏</button>
-              
+
+              <button class="btn btn-danger btn-disfavor">取消收藏</button>
+
+              <button class="btn btn-success btn-favor">❤ 收藏</button>
+
               <button class="btn btn-primary btn-add-to-cart">加入购物车</button>
             </div>
           </div>
         </div>
         <div class="product-detail">
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#product-detail-tab" aria-controls="product-detail-tab" role="tab" data-toggle="tab">商品详情</a></li>
-            <li role="presentation"><a href="#product-reviews-tab" aria-controls="product-reviews-tab" role="tab" data-toggle="tab">用户评价</a></li>
+            <li role="presentation" class="active">
+              <a href="#product-detail-tab" aria-controls="product-detail-tab" role="tab" data-toggle="tab">商品详情</a>
+            </li>
+            <li role="presentation">
+              <a href="#product-reviews-tab" aria-controls="product-reviews-tab" role="tab" data-toggle="tab">用户评价</a>
+            </li>
           </ul>
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="product-detail-tab">
-              {{product.description }} 
+              {{product.description }}
             </div>
             <div role="tabpanel" class="tab-pane" id="product-reviews-tab">
               <!-- 评论列表开始 -->
@@ -55,6 +70,6 @@
         </div>
       </div>
     </div>
-    </div>
-    </div>
+  </div>
+</div>
 {% endblock %}

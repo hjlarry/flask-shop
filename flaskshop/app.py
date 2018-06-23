@@ -3,7 +3,16 @@
 from flask import Flask, render_template
 
 from flaskshop import commands, public, user, product, order
-from flaskshop.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager, migrate, webpack
+from flaskshop.extensions import (
+    bcrypt,
+    cache,
+    csrf_protect,
+    db,
+    debug_toolbar,
+    login_manager,
+    migrate,
+    webpack,
+)
 from flaskshop.settings import ProdConfig
 
 
@@ -12,7 +21,7 @@ def create_app(config_object=ProdConfig):
 
     :param config_object: The configuration object to use.
     """
-    app = Flask(__name__.split('.')[0])
+    app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
     register_extensions(app)
     register_blueprints(app)
@@ -50,8 +59,8 @@ def register_errorhandlers(app):
     def render_error(error):
         """Render error template."""
         # If a HTTPException, pull the `code` attribute; default to 500
-        error_code = getattr(error, 'code', 500)
-        return render_template('{0}.html'.format(error_code)), error_code
+        error_code = getattr(error, "code", 500)
+        return render_template("{0}.html".format(error_code)), error_code
 
     for errcode in [401, 404, 500]:
         app.errorhandler(errcode)(render_error)
@@ -63,9 +72,7 @@ def register_shellcontext(app):
 
     def shell_context():
         """Shell context objects."""
-        return {
-            'db': db,
-            'User': user.models.User}
+        return {"db": db, "User": user.models.User}
 
     app.shell_context_processor(shell_context)
 

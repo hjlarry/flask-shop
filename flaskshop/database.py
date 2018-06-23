@@ -48,7 +48,7 @@ class Model(CRUDMixin, db.Model):
 class SurrogatePK(object):
     """A mixin that adds a surrogate integer 'primary key' column named ``id`` to any declarative-mapped class."""
 
-    __table_args__ = {'extend_existing': True}
+    __table_args__ = {"extend_existing": True}
 
     id = Column(db.Integer(), primary_key=True)
     created_at = Column(db.DateTime(), nullable=False, default=datetime.datetime.utcnow)
@@ -60,14 +60,16 @@ class SurrogatePK(object):
     def get_by_id(cls, record_id):
         """Get record by ID."""
         if any(
-                (isinstance(record_id, (str, bytes)) and record_id.isdigit(),
-                 isinstance(record_id, (int, float))),
+            (
+                isinstance(record_id, (str, bytes)) and record_id.isdigit(),
+                isinstance(record_id, (int, float)),
+            )
         ):
             return cls.query.get(int(record_id))
         return None
 
 
-def reference_col(tablename, nullable=True, pk_name='id', **kwargs):
+def reference_col(tablename, nullable=True, pk_name="id", **kwargs):
     """Column that adds primary key foreign key reference.
 
     Usage: ::
@@ -76,5 +78,5 @@ def reference_col(tablename, nullable=True, pk_name='id', **kwargs):
         category = relationship('Category', backref='categories')
     """
     return Column(
-        db.ForeignKey('{0}.{1}'.format(tablename, pk_name)),
-        nullable=nullable, **kwargs)
+        db.ForeignKey("{0}.{1}".format(tablename, pk_name)), nullable=nullable, **kwargs
+    )
