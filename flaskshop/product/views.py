@@ -8,6 +8,7 @@ blueprint = Blueprint('product', __name__, url_prefix='/products', static_folder
 
 
 @blueprint.route('/')
-def products():
+def index():
     """List products."""
-    return render_template('users/members.html')
+    products = Product.query.all()
+    return render_template('products/index.html', products=products)

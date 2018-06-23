@@ -27,9 +27,7 @@
 </head>
 <body class="{% block body_class %}{% endblock %}">
 {% block body %}
-{% with form=form  %}
 {% include "nav.html" %}
-{% endwith %}
 
 <header>{% block header %}{% endblock %}</header>
 <div class="{% block content_class %}container{% endblock content_class %}">

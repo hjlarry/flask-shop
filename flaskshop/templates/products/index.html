@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block page_title %}
+product list
+{% endblock %}
+{% block content_class %}products-index-page{% endblock content_class %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <form action="" class="form-inline search-form">
+            <input type="text" class="form-control input-sm" name="search" placeholder="Search">
+            <button class="btn btn-primary btn-sm">Search</button>
+            <select name="order" class="form-control input-sm pull-right">
+              <option value="">排序方式</option>
+              <option value="price_asc">价格从低到高</option>
+              <option value="price_desc">价格从高到低</option>
+              <option value="sold_count_desc">销量从高到低</option>
+              <option value="sold_count_asc">销量从低到高</option>
+              <option value="rating_desc">评价从高到低</option>
+              <option value="rating_asc">评价从低到高</option>
+            </select>
+          </form>
+        </div>
+        <div class="row products-list">
+          {% for product in products %}
+          <div class="col-xs-3 product-item">
+            <div class="product-content">
+              <div class="top">
+                <div class="img">
+                  <a href="">
+                    <img src="{{ product.image}}" alt="">
+                  </a>
+                </div>
+                <div class="price"><b>$</b>{{ product.price }}</div>
+                <a href="">{{ product.title }}</a>
+              </div>
+              <div class="bottom">
+                <div class="sold_count">销量 <span>{{ product.sold_count }}笔</span></div>
+                <div class="review_count">评价 <span>{{ product.review_count }}</span></div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="pull-right"></div>
+      </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}
