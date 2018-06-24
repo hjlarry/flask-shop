@@ -5,7 +5,7 @@ endblock content_class %} {% block content %}
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="row">
-          <form action="" class="form-inline search-form">
+          <form action="{{url_for('product.index')}}" class="form-inline search-form">
             <input type="text" class="form-control input-sm" name="search" placeholder="Search">
             <button class="btn btn-primary btn-sm">Search</button>
             <select name="order" class="form-control input-sm pull-right">
@@ -50,4 +50,14 @@ endblock content_class %} {% block content %}
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+  $(document).ready(function () {
+    $('.search-form select[name=order]').on('change', function() {
+      $('.search-form').submit();
+    });
+  })
+</script>
 {% endblock %}

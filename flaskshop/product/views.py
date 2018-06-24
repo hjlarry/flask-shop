@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Product views."""
 from flask import Blueprint, render_template, request
+from sqlalchemy import or_
 
 from .models import Product
 
@@ -12,10 +13,21 @@ blueprint = Blueprint(
 @blueprint.route("/")
 def index():
     """List products."""
-    page = request.args.get('page', 1, type=int)
-    pagination = Product.query.filter_by(on_sale=True).paginate(page, per_page=16)
+    page = request.args.get("page", 1, type=int)
+    search = request.args.get("search", None)
+    build = Product.query.filter_by(on_sale=True)
+    if search:
+        build = build.filter(
+            or_(
+                Product.title.like("%" + search + "%"),
+                Product.description.like("%" + search + "%"),
+            )
+        )
+    pagination = build.paginate(page, per_page=16)
     products = pagination.items
-    return render_template("products/index.html", products=products, pagination=pagination)
+    return render_template(
+        "products/index.html", products=products, pagination=pagination
+    )
 
 
 @blueprint.route("/<id>")
