@@ -5,9 +5,15 @@ from glob import glob
 from subprocess import call
 
 import click
+import random
 from flask import current_app
 from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
+from faker import Faker
+
+from flaskshop.database import db
+from flaskshop.product.models import Product
+
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -129,3 +135,37 @@ def urls(url, order):
 
     for row in rows:
         click.echo(str_template.format(*row[:column_length]))
+
+
+@click.command()
+@with_appcontext
+def seed():
+    fake = Faker()
+
+    img_list = [
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/7kG1HekGK6.jpg",
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/1B3n0ATKrn.jpg",
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/r3BNRe4zXG.jpg",
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/C0bVuKB2nt.jpg",
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/82Wf2sg8gM.jpg",
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/nIvBAQO5Pj.jpg",
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/XrtIwzrxj7.jpg",
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/uYEHCJ1oRp.jpg",
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/2JMRaFwRpo.jpg",
+        "https://lccdn.phphub.org/uploads/images/201806/01/5320/pa7DrV43Mw.jpg",
+    ]
+
+    for i in range(60):
+        db.session.add(
+            Product(
+                title=fake.word(),
+                description=fake.text(),
+                image=random.choice(img_list),
+                rating=random.randint(0, 5),
+                sold_count=random.randint(100, 500),
+                review_count=random.randint(10, 300),
+                price=round(random.uniform(1, 5000), 2),
+            )
+        )
+
+    db.session.commit()
