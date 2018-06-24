@@ -45,7 +45,7 @@ endblock content_class %} {% block content %}
           </div>
           {% endfor %}
         </div>
-        <div class="pull-right"></div>
+        <div class="pull-right">{{ macros.pagination_widget(pagination, '.index') }}</div>
       </div>
     </div>
   </div>

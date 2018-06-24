@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Product views."""
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 
 from .models import Product
 
@@ -12,8 +12,10 @@ blueprint = Blueprint(
 @blueprint.route("/")
 def index():
     """List products."""
-    products = Product.query.all()
-    return render_template("products/index.html", products=products)
+    page = request.args.get('page', 1, type=int)
+    pagination = Product.query.filter_by(on_sale=True).paginate(page, per_page=16)
+    products = pagination.items
+    return render_template("products/index.html", products=products, pagination=pagination)
 
 
 @blueprint.route("/<id>")
