@@ -12,8 +12,7 @@ from werkzeug.exceptions import MethodNotAllowed, NotFound
 from faker import Faker
 
 from flaskshop.database import db
-from flaskshop.product.models import Product
-
+from flaskshop.product.models import Product, ProductSku
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -156,16 +155,28 @@ def seed():
     ]
 
     for i in range(60):
-        db.session.add(
-            Product(
-                title=fake.word(),
-                description=fake.text(),
-                image=random.choice(img_list),
-                rating=random.randint(0, 5),
-                sold_count=random.randint(100, 500),
-                review_count=random.randint(10, 300),
-                price=round(random.uniform(1, 5000), 2),
-            )
+        product = Product(
+            title=fake.word(),
+            description=fake.text(),
+            image=random.choice(img_list),
+            rating=random.randint(0, 5),
+            sold_count=random.randint(100, 500),
+            review_count=random.randint(10, 300),
+            price=round(random.uniform(1, 5000), 2),
         )
+        product_sku1 = ProductSku(
+            title=fake.word(),
+            description=fake.sentence(),
+            price=round(random.uniform(1, 5000), 2),
+            stock=random.randint(10, 300),
+        )
+        product_sku2 = ProductSku(
+            title=fake.word(),
+            description=fake.sentence(),
+            price=round(random.uniform(1, 5000), 2),
+            stock=random.randint(10, 300),
+        )
+        product.sku = [product_sku1, product_sku2]
+        db.session.add(product)
 
     db.session.commit()

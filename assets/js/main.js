@@ -5,7 +5,7 @@
  */
 
 // JavaScript modules
-require('jquery');
+window.$ = window.jQuery = require('jquery');
 require('font-awesome-webpack');
 require('bootstrap');
 
