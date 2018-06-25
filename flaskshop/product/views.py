@@ -68,3 +68,15 @@ def favor(id):
         return Response(status=200)
     else:
         return Response(status=401)
+
+
+@login_required
+@blueprint.route("/myfavor")
+def favorites():
+    """a user`s favorite products"""
+    page = request.args.get("page", 1, type=int)
+    pagination = current_user.favor_products.paginate(page, per_page=16)
+    products = pagination.items
+    return render_template(
+        "products/index.html", products=products, pagination=pagination
+    )

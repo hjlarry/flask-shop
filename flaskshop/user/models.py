@@ -31,7 +31,7 @@ class User(UserMixin, SurrogatePK, Model):
     active = Column(db.Boolean(), default=False)
     is_admin = Column(db.Boolean(), default=False)
     favor_products = relationship(
-        "Product", secondary=user_favorite_product, backref="liked_users"
+        "Product", secondary=user_favorite_product, backref="liked_users", lazy='dynamic'
     )
 
     def __init__(self, username, email, password=None, **kwargs):
