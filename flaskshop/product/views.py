@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Product views."""
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from flask_login import current_user
+from flask_login import current_user, login_required
 from sqlalchemy import or_
 from werkzeug.wrappers import Response
 
@@ -65,4 +65,6 @@ def favor(id):
         else:
             current_user.favor_products.remove(product)
         db.session.commit()
-    return Response('', status=200, mimetype='application/json')
+        return Response(status=200)
+    else:
+        return Response(status=401)
