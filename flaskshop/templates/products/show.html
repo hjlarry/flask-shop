@@ -75,7 +75,7 @@
                                 {{ product.description }}
                             </div>
                             <div role="tabpanel" class="tab-pane" id="product-reviews-tab">
-                                <!-- 评论列表开始 -->
+                                <!-- TODO:评论列表开始 -->
 
                                 <!-- 评论列表结束 -->
                             </div>
@@ -97,7 +97,7 @@
             });
 
             $('.btn-favor').click(function () {
-                axios.post('')
+                axios.post('{{ url_for('product.favor', id=product.id) }}')
                     .then(function () {
                         swal('操作成功', '', 'success')
                             .then(function () {  // 这里加了一个 then() 方法
@@ -113,7 +113,7 @@
             });
 
             $('.btn-disfavor').click(function () {
-                axios.delete('')
+                axios.delete('{{ url_for('product.favor', id=product.id) }}')
                     .then(function () {
                         swal('操作成功', '', 'success')
                             .then(function () {

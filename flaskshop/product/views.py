@@ -3,8 +3,10 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user
 from sqlalchemy import or_
+from werkzeug.wrappers import Response
 
 from .models import Product
+from flaskshop.extensions import csrf_protect, db
 
 blueprint = Blueprint(
     "product", __name__, url_prefix="/products", static_folder="../static"
@@ -50,3 +52,17 @@ def show(id):
         favored = product in current_user.favor_products
 
     return render_template("products/show.html", product=product, favored=favored)
+
+
+@csrf_protect.exempt
+@blueprint.route("/<id>/favor", methods=['POST', 'DELETE'])
+def favor(id):
+    """favor a product."""
+    if current_user.is_authenticated:
+        product = Product.query.filter_by(id=id).first()
+        if request.method == "POST":
+            current_user.favor_products.append(product)
+        else:
+            current_user.favor_products.remove(product)
+        db.session.commit()
+    return Response('', status=200, mimetype='application/json')
