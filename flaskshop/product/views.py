@@ -16,6 +16,7 @@ def index():
     """List products."""
     page = request.args.get("page", 1, type=int)
     search = request.args.get("search", None)
+    order = request.args.get("order", None)
     build = Product.query.filter_by(on_sale=True)
     if search:
         build = build.filter(
@@ -24,6 +25,12 @@ def index():
                 Product.description.like("%" + search + "%"),
             )
         )
+    if order:
+        col, ord = order.split('-')
+        if col in ('price', 'sold_count', 'rating') and ord in ('desc', 'asc'):
+            col = getattr(Product, col)
+            ord = getattr(col, ord)
+            build = build.order_by(ord())
     pagination = build.paginate(page, per_page=16)
     products = pagination.items
     return render_template(
