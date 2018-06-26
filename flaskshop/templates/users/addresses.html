@@ -1,0 +1,75 @@
+{% extends "layout.html" %} {% block page_title %} My Address {% endblock %}
+{% block content_class %}
+    user_addresses-index-page
+{% endblock content_class %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">Contact Addresses</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>Contact Name</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for address in addresses %}
+                            <tr>
+                                <td>{{ address.contact_name }}</td>
+                                <td>{{ address.full_address }}</td>
+                                <td>{{ address.contact_phone }}</td>
+                                <td>
+                                    <a href=""
+                                       class="btn btn-primary">Modify</a>
+                                    <button class="btn btn-danger btn-del-address" type="button"
+                                            data-id="{{ address.id }}">Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="pull-right"><a href="{{ url_for('user.edit_address') }}"
+                                               class="btn btn-primary">Create Address</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            // 删除按钮点击事件
+            $('.btn-del-address').click(function () {
+                // 获取按钮上 data-id 属性的值，也就是地址 ID
+                var id = $(this).data('id');
+                // 调用 sweetalert
+                swal({
+                    title: "Are you sure to del this address?",
+                    icon: "warning",
+                    buttons: ['No', 'Delete'],
+                    dangerMode: true,
+                })
+                    .then(function (willDelete) { // 用户点击按钮后会触发这个回调函数
+                        // 用户点击确定 willDelete 值为 true， 否则为 false
+                        // 用户点了取消，啥也不做
+                        if (!willDelete) {
+                            return;
+                        }
+                        // 调用删除接口，用 id 来拼接出请求的 url
+                        axios.delete('/user_addresses/' + id)
+                            .then(function () {
+                                // 请求成功之后重新加载页面
+                                location.reload();
+                            })
+                    });
+            });
+        });
+    </script>
+{% endblock %}

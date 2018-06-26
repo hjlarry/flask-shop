@@ -66,6 +66,10 @@ class UserAddress(SurrogatePK, Model):
     contact_name = Column(db.String(255))
     contact_phone = Column(db.String(80))
 
+    @property
+    def full_address(self):
+        return f"{self.province}{self.city}{self.district}{self.address}"
+
     def __repr__(self):
         return f"<Address({self.id})>"
 

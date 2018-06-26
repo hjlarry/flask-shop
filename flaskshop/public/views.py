@@ -4,8 +4,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
 
 from flaskshop.extensions import login_manager
-from flaskshop.public.forms import LoginForm
-from flaskshop.user.forms import RegisterForm
+from flaskshop.user.forms import RegisterForm, LoginForm
 from flaskshop.user.models import User
 from flaskshop.utils import flash_errors
 
@@ -70,5 +69,5 @@ def register():
 @blueprint.route("/about/")
 def about():
     """About page."""
-    form = LoginForm(request.form)
-    return render_template("public/about.html", form=form)
+
+    return render_template("public/about.html")

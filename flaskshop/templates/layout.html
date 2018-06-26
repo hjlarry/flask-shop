@@ -25,7 +25,6 @@
 <body class="{% block body_class %}{% endblock %}">
 {% block body %} {% include "nav.html" %}
 
-    <header>{% block header %}{% endblock %}</header>
     <div class="{% block content_class %}container{% endblock content_class %}">
 
         <div role="main">
@@ -53,7 +52,7 @@
 
     <!-- JavaScript at the bottom for fast page loading -->
     {{ javascript_tag('main_js') | safe }}
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    {#    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>#}
     {% block js %}{% endblock %}
     <!-- end scripts -->
 {% endblock %}

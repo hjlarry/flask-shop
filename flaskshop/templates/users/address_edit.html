@@ -1,0 +1,63 @@
+{% extends "layout.html" %}{% block page_title %} Edit Address {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='city-picker.css') }}">
+{% endblock %}
+{% block content_class %}user_addresses-create-page{% endblock content_class %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="text-center">
+                        新增收货地址
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" action="" method="post">
+                        {{ form.csrf_token }}
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">District</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="province_city"
+                                       value="北京市/北京市/东城区" id="city-picker">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.address.label(class_="control-label col-sm-2") }}
+                            <div class="col-sm-9">
+                                {{ form.address(placeholder="Please Enter Address Detail", class_="form-control") }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.contact_name.label(class_="control-label col-sm-2") }}
+                            <div class="col-sm-9">
+                                {{ form.contact_name(class_="form-control") }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.contact_phone.label(class_="control-label col-sm-2") }}
+                            <div class="col-sm-9">
+                                {{ form.contact_phone(class_="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ url_for('static', filename='city-picker.data.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='city-picker.min.js') }}"></script>
+    <script>
+        $("#city-picker").citypicker();
+    </script>
+{% endblock %}
