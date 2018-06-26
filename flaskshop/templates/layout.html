@@ -14,7 +14,7 @@
     </title>
     <meta name="description" content="{% block meta_description %}{% endblock %}">
     <meta name="author" content="{% block meta_author %}{% endblock %}">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Mobile viewport optimized: h5bp.com/viewport -->
     <meta name="viewport" content="width=device-width">
     {{ stylesheet_tag('main_css') | safe }} {% block css %}{% endblock %}
@@ -52,7 +52,6 @@
 
     <!-- JavaScript at the bottom for fast page loading -->
     {{ javascript_tag('main_js') | safe }}
-    {#    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>#}
     {% block js %}{% endblock %}
     <!-- end scripts -->
 {% endblock %}

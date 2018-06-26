@@ -6,7 +6,6 @@ from flask_login import login_required, current_user
 from .forms import AddressForm
 from .models import UserAddress
 from flaskshop.utils import flash_errors
-from flaskshop.extensions import csrf_protect
 
 blueprint = Blueprint("user", __name__, url_prefix="/users", static_folder="../static")
 
@@ -63,7 +62,6 @@ def edit_address():
     return render_template("users/address_edit.html", form=form, user_address=user_address)
 
 
-@csrf_protect.exempt
 @blueprint.route("/address/<id>", methods=["DELETE"])
 @login_required
 def delete_address(id):

@@ -6,7 +6,7 @@ from sqlalchemy import or_
 from werkzeug.wrappers import Response
 
 from .models import Product
-from flaskshop.extensions import csrf_protect, db
+from flaskshop.extensions import db
 
 blueprint = Blueprint(
     "product", __name__, url_prefix="/products", static_folder="../static"
@@ -54,7 +54,6 @@ def show(id):
     return render_template("products/show.html", product=product, favored=favored)
 
 
-@csrf_protect.exempt
 @blueprint.route("/<id>/favor", methods=['POST', 'DELETE'])
 def favor(id):
     """favor a product."""
