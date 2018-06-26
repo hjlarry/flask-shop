@@ -24,7 +24,7 @@
                                 <td>{{ address.full_address }}</td>
                                 <td>{{ address.contact_phone }}</td>
                                 <td>
-                                    <a href=""
+                                    <a href="{{ url_for('user.edit_address', id=address.id) }}"
                                        class="btn btn-primary">Modify</a>
                                     <button class="btn btn-danger btn-del-address" type="button"
                                             data-id="{{ address.id }}">Delete
@@ -63,7 +63,7 @@
                             return;
                         }
                         // 调用删除接口，用 id 来拼接出请求的 url
-                        axios.delete('/user_addresses/' + id)
+                        axios.delete('/users/address/' + id)
                             .then(function () {
                                 // 请求成功之后重新加载页面
                                 location.reload();
