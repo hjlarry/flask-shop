@@ -1,0 +1,101 @@
+{% extends "layout.html" %} {% block page_title %} My Cart {% endblock %} {% block content_class %}
+    cart-index-page{% endblock content_class %} {% block content %}
+
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">My Cart</div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all"></th>
+                            <th>Product Detail</th>
+                            <th>Unit Price</th>
+                            <th>Quantity</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody class="product_list">
+                        {% for item in cart_items %}
+                            <tr data-id="{{ item.product_sku.id }}">
+                                <td>
+                                    <input type="checkbox" name="select" value="{{ item.product_sku.id }}"
+                                            {{ 'checked' if item.product_sku.product.on_sale else 'disabled' }}>
+                                </td>
+                                <td class="product_info">
+                                    <div class="preview">
+                                        <a target="_blank"
+                                           href="{{ url_for('product.show', id=item.product_sku.product.id) }}">
+                                            <img src="{{ item.product_sku.product.image }}">
+                                        </a>
+                                    </div>
+                                    <div class=" {{ None if item.product_sku.product.on_sale else 'not_on_sale' }}">
+                                        <span class="product_title">
+                                        <a target="_blank"
+                                           href="{{ url_for('product.show', id=item.product_sku.product.id) }}">
+                                            {{ item.product_sku.product.title }}</a>
+                                        </span>
+                                        <span class="sku_title">{{ item.product_sku.title }}</span>
+                                        {% if not item.product_sku.product.on_sale %}
+                                            <span class="warning">This product is not on sale!</span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td><span class="price">￥{{ item.product_sku.price }}</span></td>
+                                <td>
+                                    <input type="text"
+                                           class="form-control input-sm amount" {{ None if item.product_sku.product.on_sale else 'disabled' }}
+                                           name="amount" value="{{ item.amount }}">
+                                </td>
+                                <td>
+                                    <button class="btn btn-xs btn-danger btn-remove">Remove</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div>
+                        <form class="form-horizontal" role="form" id="order-form">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">选择收货地址</label>
+                                <div class="col-sm-9 col-md-7">
+                                    <select class="form-control" name="address">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">备注</label>
+                                <div class="col-sm-9 col-md-7">
+                                    <textarea name="remark" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <!-- 优惠码开始 -->
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">优惠码</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="coupon_code">
+                                    <span class="help-block" id="coupon_desc"></span>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="button" class="btn btn-success" id="btn-check-coupon">检查</button>
+                                    <button type="button" class="btn btn-danger" style="display: none;"
+                                            id="btn-cancel-coupon">取消
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- 优惠码结束 -->
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-3">
+                                    <button type="button" class="btn btn-primary btn-create-order">提交订单</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

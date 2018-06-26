@@ -2,7 +2,7 @@
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
 
-from flaskshop import commands, public, user, product, order
+from flaskshop import commands, public, user, product, order, cart
 from flaskshop.extensions import (
     bcrypt,
     cache,
@@ -50,6 +50,7 @@ def register_blueprints(app):
     app.register_blueprint(user.views.blueprint)
     app.register_blueprint(product.views.blueprint)
     app.register_blueprint(order.views.blueprint)
+    app.register_blueprint(cart.views.blueprint)
     return None
 
 
