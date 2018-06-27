@@ -5,7 +5,6 @@ import uuid
 
 from .models import Order, OrderItem
 from flaskshop.user.models import UserAddress
-from flaskshop.product.models import ProductSku
 from flaskshop.cart.models import UserCart
 
 blueprint = Blueprint('order', __name__, url_prefix='/orders', static_folder='../static')
@@ -52,6 +51,9 @@ def store():
         total_amount += order_item.price
         cart_item.release(amount)
         items.append(order_item)
+
+    if not items:
+        return Response('Need choose an item first', status=422)
     Order.create(
         user=current_user,
         no=str(uuid.uuid1()),

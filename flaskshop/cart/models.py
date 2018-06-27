@@ -17,5 +17,5 @@ class UserCart(SurrogatePK, Model):
     def release(self, amount):
         """when submit order, release cart items in order"""
         self.amount -= amount
-        if self.amount < 0:
-            self.amount = 0
+        if self.amount <= 0:
+            self.delete()

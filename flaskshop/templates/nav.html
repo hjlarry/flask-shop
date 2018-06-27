@@ -22,7 +22,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user and current_user.is_authenticated %}
                     <li>
-                        <a href="{{ url_for('cart.carts') }}"><span class="glyphicon glyphicon-shopping-cart"
+                        <a href="{{ url_for('cart.index') }}"><span class="glyphicon glyphicon-shopping-cart"
                                                                     aria-hidden="true"></span></a>
                     </li>
                     <li class="dropdown">

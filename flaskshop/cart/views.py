@@ -16,19 +16,19 @@ def before_request():
 
 
 @blueprint.route('/')
-def carts():
+def index():
     """List cartItems."""
     cart_items = current_user.cart_items
     addresses = current_user.addresses
     return render_template('cart/index.html', cart_items=cart_items, addresses=addresses)
 
 
-@blueprint.route('/add', methods=['POST'])
-def cart_add():
+@blueprint.route('/', methods=['POST'])
+def add():
     """Add items to cart"""
     data = request.get_json()
     exist_item = UserCart.query.filter(
-        and_(UserCart.user_id == current_user.id, UserCart.product_sku_id == data['sku_id'])).first_or_404()
+        and_(UserCart.user_id == current_user.id, UserCart.product_sku_id == data['sku_id'])).first()
     if exist_item:
         exist_item.amount += int(data['amount'])
         UserCart.update(exist_item)
@@ -42,7 +42,7 @@ def cart_add():
 
 
 @blueprint.route('/<id>', methods=['DELETE'])
-def cart_del(id):
+def destroy(id):
     """Delete an item of a user`s cart"""
     cart = UserCart.query.filter_by(id=id).first()
     if cart in current_user.cart_items:
