@@ -55,18 +55,16 @@ def show(id):
 
 
 @blueprint.route("/<id>/favor", methods=['POST', 'DELETE'])
+@login_required
 def favor(id):
     """favor a product."""
-    if current_user.is_authenticated:
-        product = Product.query.filter_by(id=id).first()
-        if request.method == "POST":
-            current_user.favor_products.append(product)
-        else:
-            current_user.favor_products.remove(product)
-        db.session.commit()
-        return Response(status=200)
+    product = Product.query.filter_by(id=id).first()
+    if request.method == "POST":
+        current_user.favor_products.append(product)
     else:
-        return Response(status=401)
+        current_user.favor_products.remove(product)
+    db.session.commit()
+    return Response(status=200)
 
 
 @blueprint.route("/myfavor")
