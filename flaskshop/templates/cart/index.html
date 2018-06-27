@@ -108,7 +108,7 @@
             $('.btn-remove').click(function () {
                 // $(this) 可以获取到当前点击的 移除 按钮的 jQuery 对象
                 // closest() 方法可以获取到匹配选择器的第一个祖先元素，在这里就是当前点击的 移除 按钮之上的 <tr> 标签
-                // data('id') 方法可以获取到我们之前设置的 data-id 属性的值，也就是对应的 SKU id
+                // data('id') 方法可以获取到我们之前设置的 data-id 属性的值，这里是item.id
                 var id = $(this).closest('tr').data('id');
                 swal({
                     title: "Are you sure？",
@@ -166,11 +166,11 @@
                     }
                     // 把 SKU id 和数量存入请求参数数组中
                     req.items.push({
-                        sku_id: $(this).data('id'),
+                        item_id: $(this).data('id'),
                         amount: $input.val(),
                     })
                 });
-                axios.post('', req)
+                axios.post('{{ url_for("order.store") }}', req)
                     .then(function (response) {
                         swal('订单提交成功', '', 'success')
                             .then(() => {
@@ -179,14 +179,7 @@
                     }, function (error) {
                         if (error.response.status === 422) {
                             // http 状态码为 422 代表用户输入校验失败
-                            var html = '<div>';
-                            _.each(error.response.data.errors, function (errors) {
-                                _.each(errors, function (error) {
-                                    html += error + '<br>';
-                                })
-                            });
-                            html += '</div>';
-                            swal({content: $(html)[0], icon: 'error'})
+                            swal(error.response.data, '', 'error')
                         } else if (error.response.status === 403) { // 这里判断状态 403
                             swal(error.response.data.msg, '', 'error');
                         } else {

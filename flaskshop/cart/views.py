@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
+from sqlalchemy import and_
 
 from .models import UserCart
 
@@ -26,11 +27,17 @@ def carts():
 def cart_add():
     """Add items to cart"""
     data = request.get_json()
-    UserCart.create(
-        user=current_user,
-        product_sku_id=data['sku_id'],
-        amount=data['amount']
-    )
+    exist_item = UserCart.query.filter(
+        and_(UserCart.user_id == current_user.id, UserCart.product_sku_id == data['sku_id'])).first_or_404()
+    if exist_item:
+        exist_item.amount += int(data['amount'])
+        UserCart.update(exist_item)
+    else:
+        UserCart.create(
+            user=current_user,
+            product_sku_id=data['sku_id'],
+            amount=data['amount']
+        )
     return Response(status=200)
 
 

@@ -39,3 +39,12 @@ class ProductSku(SurrogatePK, Model):
 
     def __repr__(self):
         return f"<ProductSku({self.title})>"
+
+    def decrement_stock(self, amount):
+        if amount <= 0:
+            raise Exception('Can`t low than zero!')
+        if amount > self.stock:
+            print(amount)
+            print(self.stock)
+            raise Exception('Not enough stock!')
+        self.stock -= amount
