@@ -10,15 +10,20 @@ from flaskshop.utils import flash_errors
 blueprint = Blueprint("user", __name__, url_prefix="/users", static_folder="../static")
 
 
-@blueprint.route("/")
+@blueprint.before_request
 @login_required
+def before_request():
+    """The whole blueprint need to login first"""
+    pass
+
+
+@blueprint.route("/")
 def members():
     """List members."""
     return render_template("users/members.html")
 
 
 @blueprint.route("/address")
-@login_required
 def addresses():
     """List addresses."""
     addresses = current_user.addresses
@@ -26,7 +31,6 @@ def addresses():
 
 
 @blueprint.route("/address/edit", methods=["GET", "POST"])
-@login_required
 def edit_address():
     """Create and edit an address."""
     form = AddressForm(request.form)
@@ -63,7 +67,6 @@ def edit_address():
 
 
 @blueprint.route("/address/<id>", methods=["DELETE"])
-@login_required
 def delete_address(id):
     user_address = UserAddress.query.filter_by(id=id).first()
     if user_address in current_user.addresses:

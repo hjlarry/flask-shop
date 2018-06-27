@@ -111,9 +111,9 @@
                 // data('id') 方法可以获取到我们之前设置的 data-id 属性的值，也就是对应的 SKU id
                 var id = $(this).closest('tr').data('id');
                 swal({
-                    title: "确认要将该商品移除？",
+                    title: "Are you sure？",
                     icon: "warning",
-                    buttons: ['取消', '确定'],
+                    buttons: ['Cancel', 'Remove'],
                     dangerMode: true,
                 })
                     .then(function (willDelete) {

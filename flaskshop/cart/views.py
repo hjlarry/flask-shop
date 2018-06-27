@@ -7,8 +7,14 @@ from .models import UserCart
 blueprint = Blueprint('cart', __name__, url_prefix='/cart', static_folder='../static')
 
 
-@blueprint.route('/')
+@blueprint.before_request
 @login_required
+def before_request():
+    """The whole blueprint need to login first"""
+    pass
+
+
+@blueprint.route('/')
 def carts():
     """List cartItems."""
     cart_items = current_user.cart_items
@@ -17,7 +23,6 @@ def carts():
 
 
 @blueprint.route('/add', methods=['POST'])
-@login_required
 def cart_add():
     """Add items to cart"""
     data = request.get_json()
@@ -30,7 +35,9 @@ def cart_add():
 
 
 @blueprint.route('/<id>', methods=['DELETE'])
-@login_required
 def cart_del(id):
-    """delete an item of a user`s cart"""
-    pass
+    """Delete an item of a user`s cart"""
+    cart = UserCart.query.filter_by(id=id).first()
+    if cart in current_user.cart_items:
+        UserCart.delete(cart)
+    return Response(status=200)
