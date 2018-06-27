@@ -69,8 +69,8 @@ def favor(id):
         return Response(status=401)
 
 
-@login_required
 @blueprint.route("/myfavor")
+@login_required
 def favorites():
     """a user`s favorite products"""
     page = request.args.get("page", 1, type=int)
