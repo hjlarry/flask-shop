@@ -75,7 +75,7 @@ def store():
 @login_required
 def ali_pay(id):
     order = Order.query.filter_by(id=id).first()
-    payment_no = int(time.time())
+    payment_no = str(int(time.time())) + str(current_user.id)
     order_string = zhifubao.send_order(order.no, payment_no, order.total_amount)
     order.update(payment_method='alipay', payment_no=payment_no)
     return redirect(current_app.config['PURCHASE_URI'] + order_string)

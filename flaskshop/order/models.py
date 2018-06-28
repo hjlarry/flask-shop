@@ -13,7 +13,7 @@ class Order(SurrogatePK, Model):
     remark = Column(db.Text())
     paid_at = Column(db.DateTime())
     payment_method = Column(db.String(255))
-    payment_no = Column(db.String(255))
+    payment_no = Column(db.String(255), unique=True)
     refund_status = Column(db.String(255), default=constant.REFUND_STATUS_PENDING)
     refund_no = Column(db.String(255))
     closed = Column(db.Boolean(), default=False)
