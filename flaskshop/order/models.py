@@ -8,7 +8,6 @@ class Order(SurrogatePK, Model):
     __tablename__ = 'orders'
     no = Column(db.String(255), nullable=False, unique=True)
     user_id = reference_col('users')
-    user = relationship('User', backref='orders')
     address = Column(db.Text())
     total_amount = Column(db.DECIMAL(10, 2))
     remark = Column(db.Text())

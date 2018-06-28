@@ -33,6 +33,7 @@ class User(UserMixin, SurrogatePK, Model):
     favor_products = relationship(
         "Product", secondary=user_favorite_product, backref="liked_users", lazy='dynamic'
     )
+    orders = relationship('Order', backref="user", lazy='dynamic')
 
     def __init__(self, username, email, password=None, **kwargs):
         super().__init__(username=username, email=email, **kwargs)
@@ -72,9 +73,6 @@ class UserAddress(SurrogatePK, Model):
 
     def __repr__(self):
         return f"<Address({self.id})>"
-
-
-
 
 
 class Role(SurrogatePK, Model):

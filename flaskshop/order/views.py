@@ -21,7 +21,10 @@ def before_request():
 @blueprint.route('/')
 def index():
     """List orders."""
-    return render_template('users/members.html')
+    page = request.args.get("page", 1, type=int)
+    pagination = current_user.orders.paginate(page, per_page=16)
+    orders = pagination.items
+    return render_template('orders/index.html', orders=orders, pagination=pagination)
 
 
 @blueprint.route('/<id>')
