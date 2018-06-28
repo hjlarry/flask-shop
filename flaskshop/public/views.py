@@ -18,6 +18,7 @@ def load_user(user_id):
 
 
 @blueprint.route("/")
+@blueprint.route("/notify")
 def home():
     """Home page."""
     return render_template("public/home.html")
@@ -67,6 +68,7 @@ def register():
 
 
 @blueprint.route("/about/")
+@blueprint.route("/return")
 def about():
     """About page."""
 

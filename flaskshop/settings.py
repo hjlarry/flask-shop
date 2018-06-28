@@ -32,6 +32,7 @@ class DevConfig(Config):
     ENV = "dev"
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/flaskshop"
+    PURCHASE_URI = "https://openapi.alipaydev.com/gateway.do?"
     DEBUG_TB_ENABLED = True
     CACHE_TYPE = "simple"  # Can be "memcached", "redis", etc.
 
