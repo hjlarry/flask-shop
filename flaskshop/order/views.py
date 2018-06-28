@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 from werkzeug.wrappers import Response
 import uuid
+import json
 
 from .models import Order, OrderItem
 from flaskshop.user.models import UserAddress
@@ -26,7 +27,8 @@ def index():
 @blueprint.route('/<id>')
 def show(id):
     """Show an order."""
-    return render_template('users/members.html')
+    order = Order.query.filter_by(id=id).first()
+    return render_template('orders/show.html', order=order)
 
 
 @blueprint.route('/', methods=['POST'])
@@ -54,7 +56,7 @@ def store():
 
     if not items:
         return Response('Need choose an item first', status=422)
-    Order.create(
+    order = Order.create(
         user=current_user,
         no=str(uuid.uuid1()),
         address=address.full_address + address.contact_name + address.contact_phone,
@@ -62,4 +64,6 @@ def store():
         total_amount=total_amount,
         items=items
     )
-    return Response(status=200)
+    res = {'id': order.id}
+
+    return Response(json.dumps(res), status=200, mimetype='application/json')
