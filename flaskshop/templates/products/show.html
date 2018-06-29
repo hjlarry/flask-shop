@@ -95,9 +95,10 @@
                 $('.product-info .price span').text($(this).data('price'));
                 $('.product-info .stock').text('Stock：' + $(this).data('stock'));
             });
+            $('.sku-btn').eq(0).click();
 
             $('.btn-favor').click(function () {
-                axios.post('{{ url_for('product.favor', id=product.id) }}')
+                axios.post("{{ url_for('product.favor', id=product.id) }}")
                     .then(function () {
                         swal('Operate Success!', '', 'success')
                             .then(function () {  // 这里加了一个 then() 方法
@@ -113,7 +114,7 @@
             });
 
             $('.btn-disfavor').click(function () {
-                axios.delete('{{ url_for('product.favor', id=product.id) }}')
+                axios.delete("{{ url_for('product.favor', id=product.id) }}")
                     .then(function () {
                         swal('Operate Success!', '', 'success')
                             .then(function () {
@@ -125,7 +126,7 @@
             // 加入购物车按钮点击事件
             $('.btn-add-to-cart').click(function () {
                 // 请求加入购物车接口
-                axios.post('{{ url_for('cart.add')  }}', {
+                axios.post("{{ url_for('cart.add')  }}", {
                     sku_id: $('label.active input[name=skus]').val(),
                     amount: $('.cart_amount input').val(),
                 })
