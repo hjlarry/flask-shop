@@ -1,19 +1,30 @@
 from alipay import AliPay
 from flask import url_for
+import os
 
-with open("./flaskshop/order/payment/app_private_key.pem") as f:
-    app_private_key_string = f.read()
 
-with open("./flaskshop/order/payment/ali_public_key.pem") as f:
-    alipay_public_key_string = f.read()
+def get_alipay_string():
+    current_dir = os.path.dirname(__file__)
+    app_private_key = os.path.join(current_dir, "app_private_key.pem")
+    ali_public_key = os.path.join(current_dir, "ali_public_key.pem")
 
+    with open(app_private_key) as f:
+        app_private_key_string = f.read()
+
+    with open(ali_public_key) as f:
+        alipay_public_key_string = f.read()
+
+    return app_private_key_string, alipay_public_key_string
+
+
+app_private_key_string, alipay_public_key_string = get_alipay_string()
 pay_obj = AliPay(
     appid=2016080400161922,
     app_notify_url=None,  # 默认回调url
     app_private_key_string=app_private_key_string,
     alipay_public_key_string=alipay_public_key_string,  # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
     sign_type="RSA2",  # RSA 或者 RSA2
-    debug=True  # 默认False
+    debug=True,  # 默认False
 )
 
 
@@ -24,8 +35,8 @@ def send_order(no, payment_no, total_amount):
         out_trade_no=payment_no,
         total_amount=str(total_amount),
         subject=subject,
-        return_url='http://127.0.0.1:5000/orders/',
-        notify_url='http://a5d267a6.ngrok.io/orders/alipay/notify'
+        return_url="http://127.0.0.1:5000/orders/",
+        notify_url="http://a5d267a6.ngrok.io/orders/alipay/notify",
     )
     return order_string
 
