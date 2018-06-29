@@ -91,5 +91,11 @@ def ali_notify():
     if success:
         order = Order.query.filter_by(payment_no=data['out_trade_no']).first()
         order.update(paid_at=data['gmt_payment'])
-
     return 1
+
+@blueprint.route('/<id>/review')
+@login_required
+def review(id):
+    """Review an order."""
+    order = Order.query.filter_by(id=id).first()
+    return render_template('orders/review.html', order=order)

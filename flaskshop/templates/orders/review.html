@@ -1,0 +1,80 @@
+{% extends "layout.html" %} {% block page_title %}Order Review{% endblock %} {% block content_class %} orders-review-show-page{%
+endblock content_class %} {% block content %}
+
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                商品评价
+                <a class="pull-right" href="{{ url_for('order.index') }}">返回订单列表</a>
+            </div>
+            <div class="panel-body">
+                <form action="" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>商品名称</td>
+                                <td>打分</td>
+                                <td>评价</td>
+                            </tr>
+                            {% for item in order.items %}
+                            <tr>
+                                <td class="product-info">
+                                    <div class="preview">
+                                        <a target="_blank" href="{{ url_for('product.show', id=item.product_id) }}">
+                                            <img src="{{ item.product.image }}">
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <span class="product-title">
+                                            <a target="_blank" href="{{ url_for('product.show', id=item.product_id) }}">{{ item.product.title }}</a>
+                                        </span>
+                                        <span class="sku-title">{{ item.product_sku.title }}</span>
+                                    </div>
+                                    <input type="hidden" name="reviews[{{loop.index}}][id]" value="{{ item.id }}">
+                                </td>
+                                <td class="vertical-middle">
+                                    <!-- 如果订单已经评价则展示评分，下同 -->
+                                    {% if order.reviewed %}
+                                    <span class="rating-star-yes">{{ '★' * item.rating|int }}</span>
+                                    <span class="rating-star-no">{{ '★'* (5 - item.rating|int) }}</span>
+                                    {% else %}
+                                    <ul class="rate-area">
+                                        <input type="radio" id="5-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="5" checked />
+                                        <label for="5-star-{{loop.index}}"></label>
+                                        <input type="radio" id="4-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="4" />
+                                        <label for="4-star-{{loop.index}}"></label>
+                                        <input type="radio" id="3-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="3" />
+                                        <label for="3-star-{{loop.index}}"></label>
+                                        <input type="radio" id="2-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="2" />
+                                        <label for="2-star-{{loop.index}}"></label>
+                                        <input type="radio" id="1-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="1" />
+                                        <label for="1-star-{{loop.index}}"></label>
+                                    </ul>
+                                    {% endif %}
+                                </td>
+                                <td class="">
+                                    ..
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-center">
+                                    {% if not order.reviewed %}
+                                    <button type="submit" class="btn btn-primary center-block">提交</button>
+                                    {% else %}
+                                    <a href="{{ url_for('order.show',id=order.id) }}" class="btn btn-primary">查看订单</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
