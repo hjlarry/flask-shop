@@ -36,6 +36,7 @@ def edit_address():
     form = AddressForm(request.form)
     edit = request.args.get('id', None)
     user_address = UserAddress.query.filter_by(id=edit).first() if edit else None
+    province_city = user_address.province +'/'+ user_address.city +'/'+user_address.district if user_address else None
     if form.validate_on_submit():
         province, city, district = form.province_city.data.split('/')
         if edit:
@@ -63,7 +64,7 @@ def edit_address():
         return redirect(url_for("user.addresses"))
     else:
         flash_errors(form)
-    return render_template("users/address_edit.html", form=form, user_address=user_address)
+    return render_template("users/address_edit.html", form=form, user_address=user_address, province_city=province_city)
 
 
 @blueprint.route("/address/<id>", methods=["DELETE"])
