@@ -4,6 +4,7 @@ from werkzeug.wrappers import Response
 from sqlalchemy import and_
 
 from .models import UserCart
+from flaskshop.product.models import ProductSku
 
 blueprint = Blueprint('cart', __name__, url_prefix='/cart', static_folder='../static')
 
@@ -27,16 +28,22 @@ def index():
 def add():
     """Add items to cart"""
     data = request.get_json()
+    product_sku = ProductSku.query.filter_by(id=data['sku_id']).first()
+    amount = int(data['amount'])
+    try:
+        product_sku.can_add_to_cart(amount)
+    except Exception as e:
+        return Response(e.args, status=422)
     exist_item = UserCart.query.filter(
-        and_(UserCart.user_id == current_user.id, UserCart.product_sku_id == data['sku_id'])).first()
+        and_(UserCart.user == current_user, UserCart.product_sku == product_sku)).first()
     if exist_item:
-        exist_item.amount += int(data['amount'])
+        exist_item.amount += amount
         UserCart.update(exist_item)
     else:
         UserCart.create(
             user=current_user,
-            product_sku_id=data['sku_id'],
-            amount=data['amount']
+            product_sku=product_sku,
+            amount=amount
         )
     return Response(status=200)
 

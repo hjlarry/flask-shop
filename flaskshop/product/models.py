@@ -48,3 +48,12 @@ class ProductSku(SurrogatePK, Model):
             print(self.stock)
             raise Exception('Not enough stock!')
         self.stock -= amount
+
+    def can_add_to_cart(self, amount):
+        if not self.product.on_sale:
+            raise Exception('Not On Sale')
+        if self.stock == 0:
+            raise Exception('Empty Stock')
+        if amount > self.stock:
+            raise Exception('Not enough stock!')
+        return True
