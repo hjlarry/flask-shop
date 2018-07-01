@@ -1,5 +1,6 @@
 from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
 from flaskshop import constant
+from flask_login import current_user
 
 
 class Order(SurrogatePK, Model):
@@ -24,6 +25,15 @@ class Order(SurrogatePK, Model):
 
     def __repr__(self):
         return f'<Order({self.id})>'
+
+    def can_review(self):
+        if not self.paid_at:
+            raise Exception('Must pay before review!')
+        if self.reviewed:
+            raise Exception('Has reviewed before!')
+        if not self in current_user.orders:
+            raise Exception('This is not your order!')
+        return True
 
 
 class OrderItem(SurrogatePK, Model):

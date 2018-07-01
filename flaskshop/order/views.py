@@ -98,7 +98,7 @@ def ali_notify():
 def review(id):
     """Review an order."""
     order = Order.query.filter_by(id=id).first()
-    if request.method == 'POST':
+    if request.method == 'POST' and order.can_review():
         for item in order.items:
             item.update(
                 review=request.form.get('review'+str(item.id)),
