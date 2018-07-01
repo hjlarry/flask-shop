@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, current_app, url_for
 from flask_login import login_required, current_user
 from werkzeug.wrappers import Response
+from sqlalchemy import desc
 import uuid
 import json
 import time
@@ -19,7 +20,7 @@ blueprint = Blueprint('order', __name__, url_prefix='/orders', static_folder='..
 def index():
     """List orders."""
     page = request.args.get("page", 1, type=int)
-    pagination = current_user.orders.paginate(page, per_page=16)
+    pagination = current_user.orders.order_by(desc(Order.created_at)).paginate(page, per_page=16)
     orders = pagination.items
     return render_template('orders/index.html', orders=orders, pagination=pagination)
 
