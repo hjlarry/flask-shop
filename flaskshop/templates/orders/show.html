@@ -1,145 +1,147 @@
-{% extends "layout.html" %} {% block page_title %} View Order {% endblock %} {% block content_class %}
-    orders-show-page{% endblock content_class %} {% block content %}
+{% extends "layout.html" %} {% block page_title %} View Order {% endblock %} {% block content_class %} orders-show-page{%
+endblock content_class %} {% block content %}
 
-    <div class="row">
-        <div class="col-lg-10 col-lg-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>Order Detail</h4>
-                </div>
-                <div class="panel-body">
-                    <table class="table">
-                        <thead>
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Order Detail</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
                         <tr>
                             <th>Product Detail</th>
                             <th class="text-center">Unit Price</th>
                             <th class="text-center">Quantity</th>
                             <th class="text-right item-amount">Subtotal</th>
                         </tr>
-                        </thead>
-                        {% for item in order.items %}
-                            <tr>
-                                <td class="product-info">
-                                    <div class="preview">
-                                        <a target="_blank" href="{{ url_for('product.show', id=item.product_id) }}">
-                                            <img src="{{ item.product.image }}">
-                                        </a>
-                                    </div>
-                                    <div>
-            <span class="product-title">
-               <a target="_blank"
-                  href="{{ url_for('product.show', id=item.product_id) }}">{{ item.product.title }}</a>
-             </span>
-                                        <span class="sku-title">{{ item.product_sku.title }}</span>
-                                    </div>
-                                </td>
-                                <td class="sku-price text-center vertical-middle">${{ item.price }}</td>
-                                <td class="sku-amount text-center vertical-middle">{{ item.amount }}</td>
-                                <td class="item-amount text-right vertical-middle">
-                                    ${{ item.price * item.amount }}</td>
-                            </tr>
-                        {% endfor %}
-                        <tr>
-                            <td colspan="4"></td>
-                        </tr>
-                    </table>
-                    <div class="order-bottom">
-                        <div class="order-info">
-                            <div class="line">
-                                <div class="line-label">Address：</div>
-                                <div class="line-value">{{ order.address }}</div>
-                            </div>
-                            <div class="line">
-                                <div class="line-label">Remark：</div>
-                                <div class="line-value">{{ order.remark }}</div>
-                            </div>
-                            <div class="line">
-                                <div class="line-label">Order No.：</div>
-                                <div class="line-value">{{ order.no }}</div>
-                            </div>
-                            <!-- 输出物流状态 -->
-                            <div class="line">
-                                <div class="line-label">ShipStatus：</div>
-                                <div class="line-value">
-                                    {{ order.ship_status }}</div>
-                            </div>
-                            <!-- 如果有物流信息则展示 -->
-                            {% if order.ship_data %}
-                                <div class="line">
-                                    <div class="line-label">物流信息：</div>
-                                    <div class="line-value">{{ order.ship_data['express_company'] }}
-                                        {{ order.ship_data['express_no'] }}</div>
-                                </div>
-                            {% endif %}
-                            <!-- 订单已支付，且退款状态不是未退款时展示退款信息 -->
-                            {% if order.paid_at and not order.refund_status == 'pending' %}
-
-                                <div class="line">
-                                    <div class="line-label">退款状态：</div>
-                                    <div class="line-value">
-                                        {{ order.refund_status }}</div>
-                                </div>
-                                <div class="line">
-                                    <div class="line-label">退款理由：</div>
-                                    <div class="line-value">{{ order.extra['refund_reason'] }}</div>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div class="order-summary text-right">
-                            <!-- 展示优惠信息开始 -->
-                            {#                            @if($order->couponCode)#}
-                            {#                            <div class="text-primary">#}
-                            {#                                <span>优惠信息：</span>#}
-                            {#                                <div class="value"></div>#}
-                            {#                            </div>#}
-                            {#                            @endif#}
-                            <!-- 展示优惠信息结束 -->
-                            <div class="total-amount">
-                                <span>订单总价：</span>
-                                <div class="value">${{ order.total_amount }}</div>
+                    </thead>
+                    {% for item in order.items %}
+                    <tr>
+                        <td class="product-info">
+                            <div class="preview">
+                                <a target="_blank" href="{{ url_for('product.show', id=item.product_id) }}">
+                                    <img src="{{ item.product.image }}">
+                                </a>
                             </div>
                             <div>
-                                <span>订单状态：</span>
-                                <div class="value">
-                                    待处理
-                                </div>
+                                <span class="product-title">
+                                    <a target="_blank" href="{{ url_for('product.show', id=item.product_id) }}">{{ item.product.title }}</a>
+                                </span>
+                                <span class="sku-title">{{ item.product_sku.title }}</span>
                             </div>
-
-                            {% if order.extra and 'refund_disagree_reason' in order.extra %}
-                                <div>
-                                    <span>拒绝退款理由：</span>
-                                    <div class="value">{{ order.extra['refund_disagree_reason'] }}</div>
-                                </div>
-                            {% endif %}
-                            <!-- 支付按钮开始 -->
-                            {% if not order.paid_at and not order.closed %}
-
-                                <div class="payment-buttons">
-                                    <a class="btn btn-primary btn-sm"
-                                       href="{{ url_for('order.ali_pay', id=order.id) }}">支付宝支付</a>
-                                    <button class="btn btn-sm btn-success" id='btn-wechat'>微信支付</button>
-                                </div>
-                            {% endif %}
-                            <!-- 支付按钮结束 -->
-                            <!-- 如果订单的发货状态为已发货则展示确认收货按钮 -->
-                            {% if order.ship_status == 'delivered' %}
-                                <div class="receive-button">
-                                    <button type="button" id="btn-receive" class="btn btn-sm btn-success">确认收货</button>
-                                </div>
-                            {% endif %}
-                            <!-- 订单已支付，且退款状态是未退款时展示申请退款按钮 -->
-                            {% if order.paid_at and order.refund_status == 'pending' %}
-
-                                <div class="refund-button">
-                                    <button class="btn btn-sm btn-danger" id="btn-apply-refund">申请退款</button>
-                                </div>
-
-                            {% endif %}
+                        </td>
+                        <td class="sku-price text-center vertical-middle">${{ item.price }}</td>
+                        <td class="sku-amount text-center vertical-middle">{{ item.amount }}</td>
+                        <td class="item-amount text-right vertical-middle">
+                            ${{ item.price * item.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="4"></td>
+                    </tr>
+                </table>
+                <div class="order-bottom">
+                    <div class="order-info">
+                        <div class="line">
+                            <div class="line-label">Address：</div>
+                            <div class="line-value">{{ order.address }}</div>
                         </div>
+                        <div class="line">
+                            <div class="line-label">Remark：</div>
+                            <div class="line-value">{{ order.remark }}</div>
+                        </div>
+                        <div class="line">
+                            <div class="line-label">Order No.：</div>
+                            <div class="line-value">{{ order.no }}</div>
+                        </div>
+                        <!-- 输出物流状态 -->
+                        <div class="line">
+                            <div class="line-label">ShipStatus：</div>
+                            <div class="line-value">
+                                {{ order.ship_status }}</div>
+                        </div>
+                        <!-- 如果有物流信息则展示 -->
+                        {% if order.ship_data %}
+                        <div class="line">
+                            <div class="line-label">物流信息：</div>
+                            <div class="line-value">{{ order.ship_data['express_company'] }} {{ order.ship_data['express_no'] }}</div>
+                        </div>
+                        {% endif %}
+                        <!-- 订单已支付，且退款状态不是未退款时展示退款信息 -->
+                        {% if order.paid_at and not order.refund_status == 'pending' %}
+
+                        <div class="line">
+                            <div class="line-label">退款状态：</div>
+                            <div class="line-value">
+                                {{ order.refund_status }}</div>
+                        </div>
+                        <div class="line">
+                            <div class="line-label">退款理由：</div>
+                            <div class="line-value">{{ order.extra['refund_reason'] }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="order-summary text-right">
+                        <!-- 展示优惠信息开始 -->
+                        {# @if($order->couponCode)#} {#
+                        <div class="text-primary">#} {#
+                            <span>优惠信息：</span>#} {#
+                            <div class="value"></div>#} {# </div>#} {# @endif#}
+                        <!-- 展示优惠信息结束 -->
+                        <div class="total-amount">
+                            <span>订单总价：</span>
+                            <div class="value">${{ order.total_amount }}</div>
+                        </div>
+                        <div>
+                            <span>订单状态：</span>
+                            <div class="value">
+                                待处理
+                            </div>
+                        </div>
+
+                        {% if order.extra and 'refund_disagree_reason' in order.extra %}
+                        <div>
+                            <span>拒绝退款理由：</span>
+                            <div class="value">{{ order.extra['refund_disagree_reason'] }}</div>
+                        </div>
+                        {% endif %}
+                        <!-- 支付按钮开始 -->
+                        {% if not order.paid_at and not order.closed %}
+
+                        <div class="payment-buttons">
+                            <a class="btn btn-primary btn-sm" href="{{ url_for('order.ali_pay', id=order.id) }}">支付宝支付</a>
+                            <button class="btn btn-sm btn-success" id='btn-wechat'>微信支付</button>
+                        </div>
+                        {% endif %}
+                        <!-- 支付按钮结束 -->
+                        <!-- 如果订单的发货状态为已发货则展示确认收货按钮 -->
+                        {% if order.ship_status == 'delivered' %}
+                        <div class="receive-button">
+                            <button type="button" id="btn-receive" class="btn btn-sm btn-success">确认收货</button>
+                        </div>
+                        {% endif %}
+                        <!-- 订单已支付，且退款状态是未退款时展示申请退款按钮 -->
+                        {% if order.paid_at and order.refund_status == 'pending' %}
+
+                        <div class="refund-button">
+                            <button class="btn btn-sm btn-danger" id="btn-apply-refund">申请退款</button>
+                        </div>
+
+                        {% endif %} 
+                        {% if order.paid_at %}
+                        <div class="refund-button">
+                        <a class="btn btn-success btn-sm" href="{{url_for('order.review', id=order.id)}}">
+                            {{ '查看评价' if order.reviewed else '评价' }}
+                        </a>
+                    </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 {% endblock %}

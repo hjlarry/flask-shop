@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, current_app
+from flask import Blueprint, render_template, request, redirect, current_app, url_for
 from flask_login import login_required, current_user
 from werkzeug.wrappers import Response
 import uuid
@@ -93,9 +93,17 @@ def ali_notify():
         order.update(paid_at=data['gmt_payment'])
     return 1
 
-@blueprint.route('/<id>/review')
+@blueprint.route('/<id>/review', methods=['GET','POST'])
 @login_required
 def review(id):
     """Review an order."""
     order = Order.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        for item in order.items:
+            item.update(
+                review=request.form.get('review'+str(item.id)),
+                rating=request.form.get('rating'+str(item.id)),
+                reviewed_at=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) )
+        order.update(reviewed=True)
+        return redirect(url_for('order.index'))
     return render_template('orders/review.html', order=order)

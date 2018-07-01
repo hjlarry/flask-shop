@@ -9,8 +9,8 @@ endblock content_class %} {% block content %}
                 <a class="pull-right" href="{{ url_for('order.index') }}">返回订单列表</a>
             </div>
             <div class="panel-body">
-                <form action="" method="post">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <form action="{{url_for('order.review', id=order.id)}}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <table class="table">
                         <tbody>
                             <tr>
@@ -32,7 +32,6 @@ endblock content_class %} {% block content %}
                                         </span>
                                         <span class="sku-title">{{ item.product_sku.title }}</span>
                                     </div>
-                                    <input type="hidden" name="reviews[{{loop.index}}][id]" value="{{ item.id }}">
                                 </td>
                                 <td class="vertical-middle">
                                     <!-- 如果订单已经评价则展示评分，下同 -->
@@ -41,21 +40,25 @@ endblock content_class %} {% block content %}
                                     <span class="rating-star-no">{{ '★'* (5 - item.rating|int) }}</span>
                                     {% else %}
                                     <ul class="rate-area">
-                                        <input type="radio" id="5-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="5" checked />
+                                        <input type="radio" id="5-star-{{loop.index}}" name="rating{{item.id}}" value="5" />
                                         <label for="5-star-{{loop.index}}"></label>
-                                        <input type="radio" id="4-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="4" />
+                                        <input type="radio" id="4-star-{{loop.index}}" name="rating{{item.id}}" value="4" />
                                         <label for="4-star-{{loop.index}}"></label>
-                                        <input type="radio" id="3-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="3" />
+                                        <input type="radio" id="3-star-{{loop.index}}" name="rating{{item.id}}" value="3" checked/>
                                         <label for="3-star-{{loop.index}}"></label>
-                                        <input type="radio" id="2-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="2" />
+                                        <input type="radio" id="2-star-{{loop.index}}" name="rating{{item.id}}" value="2" />
                                         <label for="2-star-{{loop.index}}"></label>
-                                        <input type="radio" id="1-star-{{loop.index}}" name="reviews[{{loop.index}}][rating]" value="1" />
+                                        <input type="radio" id="1-star-{{loop.index}}" name="rating{{item.id}}" value="1" />
                                         <label for="1-star-{{loop.index}}"></label>
                                     </ul>
                                     {% endif %}
                                 </td>
-                                <td class="">
-                                    ..
+                                <td>
+                                    {% if order.reviewed %}
+                                    {{item.review}}
+                                    {% else %}
+                                    <textarea class="form-control" name="review{{item.id}}"></textarea>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
