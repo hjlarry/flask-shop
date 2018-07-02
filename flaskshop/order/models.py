@@ -13,6 +13,8 @@ class Order(SurrogatePK, Model):
     total_amount = Column(db.DECIMAL(10, 2))
     remark = Column(db.Text())
     paid_at = Column(db.DateTime())
+    coupon_code_id = reference_col('coupon_codes')
+    coupon_code = relationship('CouponCode', backref='order', uselist=False)
     payment_method = Column(db.String(255))
     payment_no = Column(db.String(255), unique=True)
     refund_status = Column(db.String(255), default=constant.REFUND_STATUS_PENDING)

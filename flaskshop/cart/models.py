@@ -1,4 +1,11 @@
-from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
+from flaskshop.database import (
+    Column,
+    Model,
+    SurrogatePK,
+    db,
+    reference_col,
+    relationship,
+)
 
 
 class UserCart(SurrogatePK, Model):
@@ -19,3 +26,19 @@ class UserCart(SurrogatePK, Model):
         self.amount -= amount
         if self.amount <= 0:
             self.delete()
+
+
+class CouponCode(SurrogatePK, Model):
+    """A promo code for an order"""
+
+    __tablename__ = "coupon_codes"
+    name = Column(db.String(255), nullable=False)
+    code = Column(db.String(255), unique=True, nullable=False)
+    type = Column(db.String(255), nullable=False)
+    value = Column(db.String(255), nullable=False)
+    total = Column(db.Integer())
+    used = Column(db.Integer(), default=0)
+    min_amount = Column(db.DECIMAL(10, 2))
+    not_before = Column(db.DateTime())
+    not_after = Column(db.DateTime())
+    enabled = Column(db.Boolean(), default=True)
