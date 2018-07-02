@@ -13,6 +13,8 @@ from faker import Faker
 
 from flaskshop.database import db
 from flaskshop.product.models import Product, ProductSku
+from flaskshop.cart.models import CouponCode
+from flaskshop.constant import TYPE_FIXED, TYPE_PERCENT
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -137,46 +139,72 @@ def urls(url, order):
 
 
 @click.command()
+@click.option("--type", default='product', help="which type to seed: product or coupon")
+@click.option("--num", default=60, help="how many to seed")
 @with_appcontext
-def seed():
+def seed(type, num):
     fake = Faker()
 
-    img_list = [
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/7kG1HekGK6.jpg",
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/1B3n0ATKrn.jpg",
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/r3BNRe4zXG.jpg",
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/C0bVuKB2nt.jpg",
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/82Wf2sg8gM.jpg",
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/nIvBAQO5Pj.jpg",
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/XrtIwzrxj7.jpg",
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/uYEHCJ1oRp.jpg",
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/2JMRaFwRpo.jpg",
-        "https://lccdn.phphub.org/uploads/images/201806/01/5320/pa7DrV43Mw.jpg",
-    ]
+    if type == 'product':
+        img_list = [
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/7kG1HekGK6.jpg",
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/1B3n0ATKrn.jpg",
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/r3BNRe4zXG.jpg",
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/C0bVuKB2nt.jpg",
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/82Wf2sg8gM.jpg",
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/nIvBAQO5Pj.jpg",
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/XrtIwzrxj7.jpg",
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/uYEHCJ1oRp.jpg",
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/2JMRaFwRpo.jpg",
+            "https://lccdn.phphub.org/uploads/images/201806/01/5320/pa7DrV43Mw.jpg",
+        ]
 
-    for i in range(60):
-        product = Product(
-            title=fake.word(),
-            description=fake.text(),
-            image=random.choice(img_list),
-            rating=random.randint(0, 5),
-            sold_count=random.randint(100, 500),
-            review_count=random.randint(10, 300),
-            price=round(random.uniform(1, 5000), 2),
-        )
-        product_sku1 = ProductSku(
-            title=fake.word(),
-            description=fake.sentence(),
-            price=round(random.uniform(1, 5000), 2),
-            stock=random.randint(10, 300),
-        )
-        product_sku2 = ProductSku(
-            title=fake.word(),
-            description=fake.sentence(),
-            price=round(random.uniform(1, 5000), 2),
-            stock=random.randint(10, 300),
-        )
-        product.sku = [product_sku1, product_sku2]
-        db.session.add(product)
+        for i in range(num):
+            product = Product(
+                title=fake.word(),
+                description=fake.text(),
+                image=random.choice(img_list),
+                rating=random.randint(0, 5),
+                sold_count=random.randint(100, 500),
+                review_count=random.randint(10, 300),
+                price=round(random.uniform(1, 5000), 2),
+            )
+            product_sku1 = ProductSku(
+                title=fake.word(),
+                description=fake.sentence(),
+                price=round(random.uniform(1, 5000), 2),
+                stock=random.randint(10, 300),
+            )
+            product_sku2 = ProductSku(
+                title=fake.word(),
+                description=fake.sentence(),
+                price=round(random.uniform(1, 5000), 2),
+                stock=random.randint(10, 300),
+            )
+            product.sku = [product_sku1, product_sku2]
+            db.session.add(product)
 
-    db.session.commit()
+        db.session.commit()
+    elif type == 'coupon':
+        for i in range(num):
+            type = random.choice([TYPE_FIXED, TYPE_PERCENT])
+            value = random.randint(1, 200) if type == TYPE_FIXED else random.randint(1, 50)
+            # 如果是固定金额，则最低订单金额必须要比优惠金额高 0.01 元
+            if type == TYPE_FIXED:
+                min_amount = value + 0.01
+            else:
+                # 如果是百分比折扣，有 50% 概率不需要最低订单金额
+                if random.randint(0, 100) < 50:
+                    min_amount = 0
+                else:
+                    min_amount = random.randint(100, 1000)
+            coupon = CouponCode(
+                title = fake.word(),
+                code = CouponCode.generate_code(),
+                type = type,
+                value = value,
+                total = 1000,
+                min_amount = min_amount
+            )
+            db.session.add(coupon)
+        db.session.commit()

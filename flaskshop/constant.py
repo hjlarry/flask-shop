@@ -8,3 +8,5 @@ SHIP_STATUS_PENDING = "pending"
 SHIP_STATUS_DELIVERED = "delivered"
 SHIP_STATUS_RECEIVED = "received"
 
+TYPE_FIXED = 'fixed'
+TYPE_PERCENT = 'percent'
