@@ -91,13 +91,13 @@ endblock content_class %} {% block content %}
                             <div class="value"></div>#} {# </div>#} {# @endif#}
                         <!-- 展示优惠信息结束 -->
                         <div class="total-amount">
-                            <span>订单总价：</span>
+                            <span>Total Amount：</span>
                             <div class="value">${{ order.total_amount }}</div>
                         </div>
                         <div>
-                            <span>订单状态：</span>
+                            <span>Order state：</span>
                             <div class="value">
-                                待处理
+                                Process
                             </div>
                         </div>
 
@@ -126,14 +126,14 @@ endblock content_class %} {% block content %}
                         {% if order.paid_at and order.refund_status == 'pending' %}
 
                         <div class="refund-button">
-                            <button class="btn btn-sm btn-danger" id="btn-apply-refund">申请退款</button>
+                            <button class="btn btn-sm btn-danger" id="btn-apply-refund">Request A Refound</button>
                         </div>
 
                         {% endif %} 
                         {% if order.paid_at %}
                         <div class="refund-button">
                         <a class="btn btn-success btn-sm" href="{{url_for('order.review', id=order.id)}}">
-                            {{ '查看评价' if order.reviewed else '评价' }}
+                            {{ 'Review detail' if order.reviewed else 'Review' }}
                         </a>
                     </div>
                         {% endif %}
@@ -144,4 +144,69 @@ endblock content_class %} {% block content %}
     </div>
 </div>
 
+{% endblock %}
+{% block js%}
+<script>
+        $(document).ready(function() {
+          // 微信支付按钮事件
+          $('#btn-wechat').click(function() {
+            swal({
+              // content 参数可以是一个 DOM 元素，这里我们用 jQuery 动态生成一个 img 标签，并通过 [0] 的方式获取到 DOM 元素
+              content: $('')[0],
+              // buttons 参数可以设置按钮显示的文案
+              buttons: ['关闭', '已完成付款'],
+            })
+            .then(function(result) {
+            // 如果用户点击了 已完成付款 按钮，则重新加载页面
+              if (result) {
+                location.reload();
+              }
+            })
+          });
+          // 确认收货按钮点击事件
+          $('#btn-receive').click(function() {
+            // 弹出确认框
+            swal({
+              title: "确认已经收到商品？",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+              buttons: ['取消', '确认收到'],
+            })
+            .then(function(ret) {
+              // 如果点击取消按钮则不做任何操作
+              if (!ret) {
+                return;
+              }
+              // ajax 提交确认操作
+              axios.post("{{ url_for('order.received', id=order.id) }}")
+                .then(function () {
+                  // 刷新页面
+                  location.reload();
+                })
+            });
+          });
+          // 退款按钮点击事件
+          $('#btn-apply-refund').click(function () {
+            swal({
+              text: '请输入退款理由',
+              content: "input",
+            }).then(function (input) {
+              // 当用户点击 swal 弹出框上的按钮时触发这个函数
+              if(!input) {
+                swal('退款理由不可空', '', 'error');
+                return;
+              }
+              // 请求退款接口
+              axios.post("{{ url_for('order.request_refund', id=order.id) }}", {reason: input})
+                .then(function () {
+                  swal('申请退款成功', '', 'success').then(function () {
+                    // 用户点击弹框上按钮时重新加载页面
+                    location.reload();
+                  });
+                });
+            });
+          });
+        });
+      </script>
 {% endblock %}

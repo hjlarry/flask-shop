@@ -35,6 +35,15 @@ class Order(SurrogatePK, Model):
             raise Exception('This is not your order!')
         return True
 
+    def can_refund(self):
+        if not self.paid_at:
+            raise Exception('Must pay before refund!')
+        if not self.refund_status == constant.REFUND_STATUS_PENDING:
+            raise Exception('Has request refund before!')
+        if not self in current_user.orders:
+            raise Exception('This is not your order!')
+        return True
+
 
 class OrderItem(SurrogatePK, Model):
     """Items of the order"""

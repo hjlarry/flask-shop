@@ -52,14 +52,14 @@
                                                         <td rowspan="{{ order.items | count }}" class="text-center">
                                                             {% if order.paid_at %}
                                                                 {% if order.refund_status == 'pending' %}
-                                                                    已支付
+                                                                    Alredy Paid
                                                                 {% else %}
                                                                     map
                                                                 {% endif %}
                                                             {% elif order.closed %}
-                                                                已关闭
+                                                                Alredy Closed
                                                             {% else %}
-                                                                未支付<br>
+                                                                Not Purchase<br>
                                                                 请于
                                                                 ...
                                                                 前完成支付<br>
@@ -68,11 +68,11 @@
                                                         </td>
                                                         <td rowspan="{{ order.items | count }}" class="text-center">
                                                             <a class="btn btn-primary btn-xs"
-                                                               href="{{ url_for('order.show', id=order.id) }}">查看订单</a>
+                                                               href="{{ url_for('order.show', id=order.id) }}">Order Detail</a>
                                                             {% if order.paid_at %}
                                                                 <a class="btn btn-success btn-xs"
                                                                    href="{{url_for('order.review', id=order.id)}}">
-                                                                    {{ '查看评价' if order.reviewed else '评价' }}
+                                                                    {{ 'Review detail' if order.reviewed else 'Review' }}
                                                                 </a>
                                                             {% endif %}
                                                         </td>
