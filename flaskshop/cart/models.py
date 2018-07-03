@@ -1,6 +1,6 @@
 import string
 import random
-import time
+import datetime
 
 from flaskshop.constant import TYPE_FIXED
 from flaskshop.database import (
@@ -71,10 +71,10 @@ class CouponCode(SurrogatePK, Model):
             raise Exception('This code can not use by system')
         if self.total - self.used < 0:
             raise Exception('The coupon has been redeemed')
-        if self.not_before and self.not_before > time.time():
+        if self.not_before and self.not_before > datetime.datetime.now():
             raise Exception('The coupon can not use now, please retry later')
-        if self.not_after and self.not_after < time.time():
-            raise Exception('该优惠券已过期')
+        if self.not_after and self.not_after < datetime.datetime.now():
+            raise Exception('The coupon has expired')
         if order_total_amount and order_total_amount < self.min_amount:
-            raise Exception('订单金额不满足该优惠券最低金额')
+            raise Exception('The order amount does not meet the minimum amount of the coupon')
         return True
