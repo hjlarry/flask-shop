@@ -74,12 +74,12 @@
                             {% if order.paid_at and not order.refund_status == 'pending' %}
 
                                 <div class="line">
-                                    <div class="line-label">退款状态：</div>
+                                    <div class="line-label">RefundStatus：</div>
                                     <div class="line-value">
                                         {{ order.refund_status }}</div>
                                 </div>
                                 <div class="line">
-                                    <div class="line-label">退款理由：</div>
+                                    <div class="line-label">RefundReason：</div>
                                     <div class="line-value">{{ order.extra['refund_reason'] }}</div>
                                 </div>
                             {% endif %}
@@ -122,17 +122,10 @@
                             <!-- 如果订单的发货状态为已发货则展示确认收货按钮 -->
                             {% if order.ship_status == 'delivered' %}
                                 <div class="receive-button">
-                                    <button type="button" id="btn-receive" class="btn btn-sm btn-success">确认收货</button>
-                                </div>
-                            {% endif %}
-                            <!-- 订单已支付，且退款状态是未退款时展示申请退款按钮 -->
-                            {% if order.paid_at and order.refund_status == 'pending' %}
-
-                                <div class="refund-button">
-                                    <button class="btn btn-sm btn-danger" id="btn-apply-refund">Request A Refound
+                                    <button type="button" id="btn-receive" class="btn btn-sm btn-success">Confirm
+                                        receipt
                                     </button>
                                 </div>
-
                             {% endif %}
                             {% if order.paid_at %}
                                 <div class="refund-button">
@@ -141,6 +134,14 @@
                                     </a>
                                 </div>
                             {% endif %}
+                            <!-- 订单已支付，且退款状态是未退款时展示申请退款按钮 -->
+                            {% if order.paid_at and order.refund_status == 'pending' %}
+                                <div class="refund-button">
+                                    <button class="btn btn-sm btn-danger" id="btn-apply-refund">Request A Refound
+                                    </button>
+                                </div>
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
@@ -171,11 +172,11 @@
             $('#btn-receive').click(function () {
                 // 弹出确认框
                 swal({
-                    title: "确认已经收到商品？",
+                    title: "Confirm that the goods have been received?",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
-                    buttons: ['取消', '确认收到'],
+                    buttons: ['Cancel', 'Confirm receipt'],
                 })
                     .then(function (ret) {
                         // 如果点击取消按钮则不做任何操作
@@ -193,18 +194,18 @@
             // 退款按钮点击事件
             $('#btn-apply-refund').click(function () {
                 swal({
-                    text: '请输入退款理由',
+                    text: 'Please enter the reason for the refund',
                     content: "input",
                 }).then(function (input) {
                     // 当用户点击 swal 弹出框上的按钮时触发这个函数
                     if (!input) {
-                        swal('退款理由不可空', '', 'error');
+                        swal('The reason for the refund cannot be null', '', 'error');
                         return;
                     }
                     // 请求退款接口
                     axios.post("{{ url_for('order.request_refund', id=order.id) }}", {reason: input})
                         .then(function () {
-                            swal('申请退款成功', '', 'success').then(function () {
+                            swal('Successful refund', '', 'success').then(function () {
                                 // 用户点击弹框上按钮时重新加载页面
                                 location.reload();
                             });

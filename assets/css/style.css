@@ -8811,7 +8811,7 @@ body {
 }
 
 .orders-show-page .order-info .line .line-label {
-  width: 80px;
+    width: 100px;
   text-align: right;
 }
 

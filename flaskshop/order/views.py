@@ -11,7 +11,7 @@ from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
 from flaskshop.user.models import UserAddress
 from flaskshop.cart.models import UserCart, CouponCode
-from flaskshop.constant import REFUND_STATUS_APPLIED
+from flaskshop.constant import REFUND_STATUS_APPLIED, SHIP_STATUS_RECEIVED
 
 blueprint = Blueprint(
     "order", __name__, url_prefix="/orders", static_folder="../static"
@@ -147,3 +147,9 @@ def request_refund(id):
 @login_required
 def received(id):
     order = Order.query.filter_by(id=id).first()
+    try:
+        order.can_review()
+    except Exception as e:
+        return Response(e.args, status=422)
+    order.update(ship_status=SHIP_STATUS_RECEIVED)
+    return Response(status=200)

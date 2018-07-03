@@ -5,8 +5,8 @@ endblock content_class %} {% block content %}
     <div class="col-lg-10 col-lg-offset-1">
         <div class="panel panel-default">
             <div class="panel-heading">
-                商品评价
-                <a class="pull-right" href="{{ url_for('order.index') }}">返回订单列表</a>
+                Product Review
+                <a class="pull-right" href="{{ url_for('order.index') }}">Back to OrderList</a>
             </div>
             <div class="panel-body">
                 <form action="{{url_for('order.review', id=order.id)}}" method="post">
@@ -14,9 +14,9 @@ endblock content_class %} {% block content %}
                     <table class="table">
                         <tbody>
                             <tr>
-                                <td>商品名称</td>
-                                <td>打分</td>
-                                <td>评价</td>
+                                <td>Product Title</td>
+                                <td>Rating</td>
+                                <td>Review</td>
                             </tr>
                             {% for item in order.items %}
                             <tr>
@@ -67,9 +67,10 @@ endblock content_class %} {% block content %}
                             <tr>
                                 <td colspan="3" class="text-center">
                                     {% if not order.reviewed %}
-                                    <button type="submit" class="btn btn-primary center-block">提交</button>
+                                        <button type="submit" class="btn btn-primary center-block">Submit</button>
                                     {% else %}
-                                    <a href="{{ url_for('order.show',id=order.id) }}" class="btn btn-primary">查看订单</a>
+                                        <a href="{{ url_for('order.show',id=order.id) }}" class="btn btn-primary">Order
+                                            Detail</a>
                                     {% endif %}
                                 </td>
                             </tr>
