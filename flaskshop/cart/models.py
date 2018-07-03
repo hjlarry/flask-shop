@@ -2,6 +2,7 @@ import string
 import random
 import time
 
+from flaskshop.constant import TYPE_FIXED
 from flaskshop.database import (
     Column,
     Model,
@@ -46,6 +47,15 @@ class CouponCode(SurrogatePK, Model):
     not_before = Column(db.DateTime())
     not_after = Column(db.DateTime())
     enabled = Column(db.Boolean(), default=True)
+
+    @property
+    def description(self):
+        full = ''
+        if self.min_amount > 0:
+            full = '满' + str(self.min_amount)
+        if self.type == TYPE_FIXED:
+            return full + '减' + str(self.value)
+        return full + '优惠' + str(self.value).replace('.00', '') + '%'
 
     @classmethod
     def generate_code(cls):

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
 from sqlalchemy import and_
+import json
 
 from .models import UserCart, CouponCode
 from flaskshop.product.models import ProductSku
@@ -67,4 +68,7 @@ def verify(code):
         coupon.check_available()
     except Exception as e:
         return Response(e.args, status=422)
-    return coupon
+    res = {
+        'description': coupon.description,
+    }
+    return Response(json.dumps(res), status=200)
