@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_webpack import Webpack
 from flask_wtf.csrf import CSRFProtect
+from flask_admin import Admin
 
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
@@ -17,3 +18,4 @@ migrate = Migrate(compare_type=True)
 cache = Cache()
 debug_toolbar = DebugToolbarExtension()
 webpack = Webpack()
+admin_manager = Admin(template_mode='bootstrap3')

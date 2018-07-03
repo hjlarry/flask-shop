@@ -2,7 +2,7 @@
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
 
-from flaskshop import commands, public, user, product, order, cart
+from flaskshop import commands, public, user, product, order, cart, admin
 from flaskshop.extensions import (
     bcrypt,
     cache,
@@ -12,6 +12,7 @@ from flaskshop.extensions import (
     login_manager,
     migrate,
     webpack,
+    admin_manager
 )
 from flaskshop.settings import ProdConfig
 
@@ -41,6 +42,7 @@ def register_extensions(app):
     debug_toolbar.init_app(app)
     migrate.init_app(app, db)
     webpack.init_app(app)
+    admin_manager.init_app(app)
     return None
 
 
@@ -51,6 +53,7 @@ def register_blueprints(app):
     app.register_blueprint(product.views.blueprint)
     app.register_blueprint(order.views.blueprint)
     app.register_blueprint(cart.views.blueprint)
+    app.register_blueprint(admin.views.blueprint)
     return None
 
 

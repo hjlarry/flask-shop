@@ -36,6 +36,7 @@ factory-boy = "==2.11.1"
 mysqlclient = "*"
 faker = "*"
 python-alipay-sdk = "*"
+flask-admin = "*"
 
 [dev-packages]
 
