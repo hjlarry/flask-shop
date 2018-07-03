@@ -78,3 +78,8 @@ class CouponCode(SurrogatePK, Model):
         if order_total_amount and order_total_amount < self.min_amount:
             raise Exception('The order amount does not meet the minimum amount of the coupon')
         return True
+
+    def get_adjusted_price(self, order_total_amount):
+        if self.type == TYPE_FIXED:
+            return max(0.01, float(order_total_amount) - float(self.value))
+        return float(order_total_amount) * (100 - float(self.value)) / 100

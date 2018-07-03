@@ -10,7 +10,7 @@ from .models import Order, OrderItem
 from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
 from flaskshop.user.models import UserAddress
-from flaskshop.cart.models import UserCart
+from flaskshop.cart.models import UserCart, CouponCode
 from flaskshop.constant import REFUND_STATUS_APPLIED
 
 blueprint = Blueprint(
@@ -46,6 +46,13 @@ def store():
     address = UserAddress.query.filter_by(id=data["address_id"]).first()
     total_amount = 0
     items = []
+    coupon = None
+    if data["coupon_code"]:
+        coupon = CouponCode.query.filter_by(code=data["coupon_code"]).first()
+        try:
+            coupon.check_available(order_total_amount=total_amount)
+        except Exception as e:
+            return Response(e.args, status=422)
     for item in data["items"]:
         cart_item = UserCart.query.filter_by(id=item["item_id"]).first()
         amount = int(item["amount"])
@@ -65,12 +72,17 @@ def store():
 
     if not items:
         return Response("Need choose an item first", status=422)
+    if coupon:
+        total_amount = coupon.get_adjusted_price(order_total_amount=total_amount)
+        coupon.used += 1
+
     order = Order.create(
         user=current_user,
         no=str(uuid.uuid1()),
         address=address.full_address + address.contact_name + address.contact_phone,
         remark=data["remark"],
         total_amount=total_amount,
+        coupon_code=coupon,
         items=items,
     )
     res = {"id": order.id}
