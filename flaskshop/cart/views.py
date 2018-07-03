@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
 from sqlalchemy import and_
 
-from .models import UserCart
+from .models import UserCart, CouponCode
 from flaskshop.product.models import ProductSku
 
 blueprint = Blueprint('cart', __name__, url_prefix='/cart', static_folder='../static')
@@ -55,3 +55,16 @@ def destroy(id):
     if cart in current_user.cart_items:
         UserCart.delete(cart)
     return Response(status=200)
+
+
+@blueprint.route('/coupon/<code>', methods=['POST'])
+def verify(code):
+    """check a coupon code"""
+    coupon = CouponCode.query.filter_by(code=code).first()
+    if not coupon:
+        return Response('It`s not a correct code!', status=422)
+    try:
+        coupon.check_available()
+    except Exception as e:
+        return Response(e.args, status=422)
+    return coupon

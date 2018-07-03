@@ -96,7 +96,7 @@ def ali_notify():
     if success:
         order = Order.query.filter_by(payment_no=data["out_trade_no"]).first()
         order.update(paid_at=data["gmt_payment"])
-    return 1
+    return Response(status=200)
 
 
 @blueprint.route("/<id>/review", methods=["GET", "POST"])
@@ -129,10 +129,9 @@ def request_refund(id):
     extra["refund_reason"] = reason
     order.update(refund_status=REFUND_STATUS_APPLIED, extra=extra)
     return Response(status=200)
-    
 
 
 @blueprint.route("/<id>/received", methods=["POST"])
 @login_required
 def received(id):
-    pass
+    order = Order.query.filter_by(id=id).first()

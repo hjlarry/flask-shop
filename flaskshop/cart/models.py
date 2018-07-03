@@ -1,5 +1,6 @@
 import string
 import random
+import time
 
 from flaskshop.database import (
     Column,
@@ -54,3 +55,16 @@ class CouponCode(SurrogatePK, Model):
             return code
         else:
             return cls.generate_code()
+
+    def check_available(self, order_total_amount=None):
+        if not self.enabled:
+            raise Exception('This code can not use by system')
+        if self.total - self.used < 0:
+            raise Exception('The coupon has been redeemed')
+        if self.not_before and self.not_before > time.time():
+            raise Exception('The coupon can not use now, please retry later')
+        if self.not_after and self.not_after < time.time():
+            raise Exception('该优惠券已过期')
+        if order_total_amount and order_total_amount < self.min_amount:
+            raise Exception('订单金额不满足该优惠券最低金额')
+        return True
