@@ -8,7 +8,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_webpack import Webpack
 from flask_wtf.csrf import CSRFProtect
-from flask_admin import Admin
+from flask_admin import Admin, AdminIndexView
 
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
@@ -18,4 +18,6 @@ migrate = Migrate(compare_type=True)
 cache = Cache()
 debug_toolbar = DebugToolbarExtension()
 webpack = Webpack()
-admin_manager = Admin(base_template='adminlte.html', template_mode='bootstrap3')
+admin_manager = Admin(index_view=AdminIndexView(menu_icon_type='fa',
+                                                menu_icon_value='fa-home nav-icon'),
+                      base_template='adminlte.html', template_mode='bootstrap3')

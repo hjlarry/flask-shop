@@ -16,5 +16,6 @@ class CustomView(ModelView):
 
 admin_manager.add_view(
     CustomView(Product, db.session, endpoint='Product_admin', menu_icon_type='fa',
-               menu_icon_value='fa-circle-o nav-icon'))
-admin_manager.add_view(ModelView(Order, db.session, endpoint='Order_admin'))
+               menu_icon_value='fa-bandcamp nav-icon'))
+admin_manager.add_view(ModelView(Order, db.session, endpoint='Order_admin', menu_icon_type='fa',
+                                 menu_icon_value='fa-cart-arrow-down nav-icon'))

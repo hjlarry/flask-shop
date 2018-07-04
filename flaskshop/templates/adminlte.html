@@ -100,46 +100,58 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
                         {%- for item in admin_view.admin.menu() %}
-                            <li class="nav-item">
-                                <a href="{{ item.get_url() }}" class="nav-link">{{ layout.menu_icon(item) }}
-                                    <p>{{ item.name }}</p></a>
-                            </li>
+                            {%- if item.is_category() -%}
+                                {% set children = item.get_children() %}
+                                {%- if children %}
+                                    {% set class_name = item.get_class_name() %}
+                                    <li class="nav-item has-treeview menu-open">
+                                        {%- if item.is_active(admin_view) %}
+                                            <a href="#" class="nav-link active">
+                                                {{ layout.menu_icon(item) }}
+                                                <p>{{ item.name }}<i class="right fa fa-angle-left"></i></p>
+                                            </a>
+                                        {% else %}
+                                            <a href="#" class="nav-link">
+                                                {{ layout.menu_icon(item) }}
+                                                <p>{{ item.name }}<i class="right fa fa-angle-left"></i></p>
+                                            </a>
+                                        {% endif %}
+                                        <ul class="nav nav-treeview">
+                                            {%- for child in children -%}
+                                                {% set class_name = child.get_class_name() %}
+                                                <li class="nav-item">
+                                                    {%- if child.is_active(admin_view) %}
+                                                        <a href="{{ child.get_url() }}" class="nav-link active"
+                                                                {% if child.target %}
+                                                           target="{{ child.target }}"{% endif %}>
+                                                    {% else %}
+                                                        <a href="{{ child.get_url() }}" class="nav-link"
+                                                                {% if child.target %}
+                                                           target="{{ child.target }}"{% endif %}>
+                                                    {%- endif %}
+                                                    {{ layout.menu_icon(child) }}<p>{{ child.name }}</p></a>
+                                                </li>
+                                            {%- endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {%- else %}
+                                {%- if item.is_accessible() and item.is_visible() -%}
+                                    {% set class_name = item.get_class_name() %}
+                                    <li class="nav-item">
+                                        {%- if item.is_active(admin_view) %}
+                                            <a href="{{ item.get_url() }}" class="nav-link active" {% if item.target %}
+                                               target="{{ item.target }}"{% endif %}>
+                                        {% else %}
+                                            <a href="{{ item.get_url() }}" class="nav-link" {% if item.target %}
+                                               target="{{ item.target }}"{% endif %}>
+                                        {%- endif %}
+                                        {{ layout.menu_icon(item) }}<p>{{ item.name }}</p></a>
+                                    </li>
+                                {%- endif -%}
+                            {% endif -%}
                         {% endfor %}
-                        {#                        <li class="nav-item has-treeview menu-open">#}
-                        {#                            <a href="#" class="nav-link active">#}
-                        {#                                <i class="nav-icon fa fa-dashboard"></i>#}
-                        {#                                <p>#}
-                        {#                                    Starter Pages#}
-                        {#                                    <i class="right fa fa-angle-left"></i>#}
-                        {#                                </p>#}
-                        {#                            </a>#}
-                        {#                            <ul class="nav nav-treeview">#}
-                        {#                                <li class="nav-item">#}
-                        {#                                    <a href="#" class="nav-link active">#}
-                        {#                                        <i class="fa fa-circle-o nav-icon"></i>#}
-                        {#                                        <p>Active Page</p>#}
-                        {#                                    </a>#}
-                        {#                                </li>#}
-                        {#                                <li class="nav-item">#}
-                        {#                                    <a href="#" class="nav-link">#}
-                        {#                                        <i class="fa fa-circle-o nav-icon"></i>#}
-                        {#                                        <p>Inactive Page</p>#}
-                        {#                                    </a>#}
-                        {#                                </li>#}
-                        {#                            </ul>#}
-                        {#                        </li>#}
-                        {#                        <li class="nav-item">#}
-                        {#                            <a href="#" class="nav-link">#}
-                        {#                                <i class="nav-icon fa fa-th"></i>#}
-                        {#                                <p>#}
-                        {#                                    Simple Link#}
-                        {#                                    <span class="right badge badge-danger">New</span>#}
-                        {#                                </p>#}
-                        {#                            </a>#}
-                        {#                        </li>#}
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
