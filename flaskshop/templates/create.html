@@ -1,0 +1,44 @@
+{% import 'admin/lib.html' as lib with context -%}
+{% import 'admin/static.html' as admin_static with context %}
+{% extends 'admin/model/create.html' %}
+{% block other_css %}
+    {{ lib.form_css() }}
+{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Create {{ admin_view.name|capitalize }}</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        {% call lib.form_tag(form) %}
+                            <div class="card-body">
+                                {{ lib.render_form_fields(form, form_opts=form_opts) }}
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                {{ lib.render_form_buttons(return_url, extra()) }}
+                            </div>
+                        {% endcall %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block tail_js %}
+    <script src="{{ admin_static.url(filename='vendor/moment.min.js', v='2.9.0') }}" type="text/javascript"></script>
+    <script src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='3.5.2') }}"
+            type="text/javascript"></script>
+    {{ lib.form_js() }}
+{% endblock %}

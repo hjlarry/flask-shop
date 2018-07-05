@@ -2,7 +2,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask import Blueprint
 
 from flaskshop.extensions import admin_manager, db
-from flaskshop.product.models import Product
+from flaskshop.product.models import Product, ProductSku
 from flaskshop.order.models import Order
 
 blueprint = Blueprint('admin_pannel', __name__, url_prefix='/admin', static_folder='../static')
@@ -13,7 +13,11 @@ class ProductView(ModelView):
     create_template = 'create.html'
     edit_template = 'edit.html'
     column_list = ('id', 'title', 'image', 'on_sale', 'rating', 'sold_count', 'review_count', 'price')
+    # column_filters = ('id', 'title') //TODO
     can_delete = False
+    can_export = True
+    # can_set_page_size = True //TODO
+    inline_models = (ProductSku,)
 
 
 admin_manager.add_view(

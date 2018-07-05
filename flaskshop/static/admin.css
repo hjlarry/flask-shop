@@ -1,0 +1,11 @@
+#sku {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.inline-form-field {
+    border-top: 1px solid #ccc;
+    padding: 20px;
+    margin: 10px 0;
+}

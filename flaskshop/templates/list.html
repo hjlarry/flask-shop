@@ -8,7 +8,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Bordered Table</h3>
+                            <h3 class="card-title">{{ admin_view.name|capitalize }} Lists</h3>
                             <div class="card-tools">
                                 {% if admin_view.can_create %}
                                     {%- if admin_view.create_modal -%}
@@ -19,6 +19,41 @@
                                            class="btn btn-sm btn-default">{{ _gettext('Create') }}</a>
                                     {%- endif -%}
                                 {% endif %}
+                                {% if admin_view.can_export %}
+                                    <a class="btn btn-sm btn-default"
+                                       href="{{ get_url('.export', export_type=admin_view.export_types[0], **request.args) }}"
+                                       title="{{ _gettext('Export') }}">
+                                        {{ _gettext('Export') }}
+                                    </a>
+
+                                {% endif %}
+
+                                {% block model_menu_bar_before_filters %}{% endblock %}
+
+                                {% if filters %}
+                                    <li class="dropdown">
+                                        {{ model_layout.filter_options() }}
+                                    </li>
+                                {% endif %}
+
+                                {% if can_set_page_size %}
+                                    <li class="dropdown">
+                                        {{ model_layout.page_size_form(page_size_url) }}
+                                    </li>
+                                {% endif %}
+
+                                {% if actions %}
+                                    <li class="dropdown">
+                                        {{ actionlib.dropdown(actions) }}
+                                    </li>
+                                {% endif %}
+
+                                {% if search_supported %}
+                                    <li>
+                                        {{ model_layout.search_form() }}
+                                    </li>
+                                {% endif %}
+                                {% block model_menu_bar_after_filters %}{% endblock %}
                             </div>
                         </div>
                         <!-- /.card-header -->

@@ -3,8 +3,11 @@
 {% block head_tail %}
     <link href="{{ url_for('static', filename='font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='adminlte.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='admin.css') }}" rel="stylesheet">
 {% endblock %}
 
+{% block other_css %}
+{% endblock %}
 
 <!-- Google Font: Source Sans Pro -->
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -201,6 +204,7 @@
     <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ url_for('static', filename='adminlte.min.js') }}"></script>
+    {% block tail_js %} {% endblock %}
     </body>
 {% endblock %}
 
