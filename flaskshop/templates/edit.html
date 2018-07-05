@@ -1,7 +1,8 @@
 {% import 'admin/lib.html' as lib with context -%}
 {% import 'admin/static.html' as admin_static with context %}
 {% extends 'admin/model/edit.html' %}
-{% block other_css %}
+{% block head_tail %}
+    {{ super() }}
     {{ lib.form_css() }}
 {% endblock %}
 

@@ -1,5 +1,9 @@
 {% extends 'admin/model/list.html' %}
 {% import 'admin/model/layout.html' as model_layout with context %}
+{% block head_tail %}
+    {{ super() }}
+    {{ lib.form_css() }}
+{% endblock %}
 
 {% block body %}
     <section class="content">
@@ -228,4 +232,47 @@
 
         </div><!-- /.container-fluid -->
     </section>
+{% endblock %}
+
+{% block tail_js %}
+    <script src="{{ admin_static.url(filename='vendor/moment.min.js', v='2.9.0') }}" type="text/javascript"></script>
+    <script src="{{ admin_static.url(filename='admin/js/filters.js', v='1.0.0') }}"></script>
+    {{ lib.form_js() }}
+
+    {{ actionlib.script(_gettext('Please select at least one record.'),
+                        actions,
+                        actions_confirmation) }}
+
+    <script language="javascript">
+        (function ($) {
+            $('[data-role=tooltip]').tooltip({
+                html: true,
+                placement: 'bottom'
+            });
+            {% if filter_groups %}
+                var filter = new AdminFilters(
+                    '#filter_form', '.field-filters',
+                    {{ filter_groups|tojson|safe }},
+                    {{ active_filters|tojson|safe }}
+                );
+            {% endif %}
+        })(jQuery);
+
+        // Catch exception when closing dialog with <esc> key
+        // and prevent accidental deletions.
+        function safeConfirm(msg) {
+            try {
+                var isconfirmed = confirm(msg);
+                if (isconfirmed == true) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (err) {
+                return false;
+            }
+        }
+    </script>
 {% endblock %}
