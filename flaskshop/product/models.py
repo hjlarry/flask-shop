@@ -21,7 +21,6 @@ class Product(SurrogatePK, Model):
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
 
-
     def __repr__(self):
         return f"<Product({self.title})>"
 
@@ -35,7 +34,7 @@ class ProductSku(SurrogatePK, Model):
     price = Column(db.DECIMAL(10, 2))
     stock = Column(db.Integer())
     product_id = reference_col("products")
-    product = relationship('Product', backref='sku')
+    product = relationship('Product', backref='sku', cascade="all,delete")
 
     def __repr__(self):
         return f"<ProductSku({self.title})>"
