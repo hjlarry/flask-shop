@@ -9,3 +9,26 @@
     padding: 20px;
     margin: 10px 0;
 }
+
+.list-buttons-column a {
+    display: block;
+    float: left;
+    color: #000;
+}
+
+.list-buttons-column button {
+    display: block;
+    border: none;
+}
+
+.list-buttons-column form {
+    margin-bottom: 0;
+}
+
+.dropdown-menu {
+    min-width: 9em;
+}
+
+.dropdown-menu li {
+    padding-left: 15px;
+}

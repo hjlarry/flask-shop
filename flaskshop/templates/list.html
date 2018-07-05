@@ -32,6 +32,7 @@
 
                                 {% endif %}
 
+
                                 {% block model_menu_bar_before_filters %}{% endblock %}
 
                                 {% if filters %}
@@ -41,15 +42,15 @@
                                 {% endif %}
 
                                 {% if can_set_page_size %}
-                                    <li class="dropdown">
-                                        {{ model_layout.page_size_form(page_size_url) }}
-                                    </li>
+
+                                    {{ model_layout.page_size_form(page_size_url, 'dropdown-toggle btn btn-sm btn-default') }}
+
                                 {% endif %}
 
                                 {% if actions %}
-                                    <li class="dropdown">
-                                        {{ actionlib.dropdown(actions) }}
-                                    </li>
+
+                                    {{ actionlib.dropdown(actions, 'dropdown-toggle btn btn-sm btn-default') }}
+
                                 {% endif %}
 
                                 {% if search_supported %}
@@ -72,11 +73,7 @@
                                                        title="{{ _gettext('Select all records') }}"/>
                                             </th>
                                         {% endif %}
-                                        {% block list_row_actions_header %}
-                                            {% if admin_view.column_display_actions %}
-                                                <th>&nbsp;Operation</th>
-                                            {% endif %}
-                                        {% endblock %}
+
                                         {% for c, name in list_columns %}
                                             {% set column = loop.index0 %}
                                             <th class="column-header col-{{ c }}">
@@ -106,6 +103,12 @@
                                                 {% endif %}
                                             </th>
                                         {% endfor %}
+
+                                        {% block list_row_actions_header %}
+                                            {% if admin_view.column_display_actions %}
+                                                <th>&nbsp;Operation</th>
+                                            {% endif %}
+                                        {% endblock %}
                                     {% endblock %}
                                 </tr>
                                 </thead>
@@ -119,17 +122,7 @@
                                                            title="{{ _gettext('Select record') }}"/>
                                                 </td>
                                             {% endif %}
-                                            {% block list_row_actions_column scoped %}
-                                                {% if admin_view.column_display_actions %}
-                                                    <td class="list-buttons-column">
-                                                        {% block list_row_actions scoped %}
-                                                            {% for action in list_row_actions %}
-                                                                {{ action.render_ctx(get_pk_value(row), row) }}
-                                                            {% endfor %}
-                                                        {% endblock %}
-                                                    </td>
-                                                {%- endif -%}
-                                            {% endblock %}
+
 
                                             {% for c, name in list_columns %}
                                                 <td class="col-{{ c }}">
@@ -145,6 +138,18 @@
                                                     {% endif %}
                                                 </td>
                                             {% endfor %}
+
+                                            {% block list_row_actions_column scoped %}
+                                                {% if admin_view.column_display_actions %}
+                                                    <td class="list-buttons-column">
+                                                        {% block list_row_actions scoped %}
+                                                            {% for action in list_row_actions %}
+                                                                {{ action.render_ctx(get_pk_value(row), row) }}
+                                                            {% endfor %}
+                                                        {% endblock %}
+                                                    </td>
+                                                {%- endif -%}
+                                            {% endblock %}
                                         {% endblock %}
                                     </tr>
                                 {% else %}
