@@ -1,0 +1,196 @@
+{% extends 'admin/model/list.html' %}
+{% import 'admin/model/layout.html' as model_layout with context %}
+
+{% block body %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Bordered Table</h3>
+                            <div class="card-tools">
+                                {% if admin_view.can_create %}
+                                    {%- if admin_view.create_modal -%}
+                                        {{ lib.add_modal_button(url=get_url('.create_view', url=return_url, modal=True), title=_gettext('Create New Record'), content=_gettext('Create')) }}
+                                    {% else %}
+                                        <a href="{{ get_url('.create_view', url=return_url) }}"
+                                           title="{{ _gettext('Create New Record') }}"
+                                           class="btn btn-sm btn-default">{{ _gettext('Create') }}</a>
+                                    {%- endif -%}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    {% block list_header scoped %}
+                                        {% if actions %}
+                                            <th class="list-checkbox-column">
+                                                <input type="checkbox" name="rowtoggle" class="action-rowtoggle"
+                                                       title="{{ _gettext('Select all records') }}"/>
+                                            </th>
+                                        {% endif %}
+                                        {% block list_row_actions_header %}
+                                            {% if admin_view.column_display_actions %}
+                                                <th>&nbsp;Operation</th>
+                                            {% endif %}
+                                        {% endblock %}
+                                        {% for c, name in list_columns %}
+                                            {% set column = loop.index0 %}
+                                            <th class="column-header col-{{ c }}">
+                                                {% if admin_view.is_sortable(c) %}
+                                                    {% if sort_column == column %}
+                                                        <a href="{{ sort_url(column, True) }}"
+                                                           title="{{ _gettext('Sort by %(name)s', name=name) }}">
+                                                            {{ name }}
+                                                            {% if sort_desc %}
+                                                                <span class="fa fa-chevron-up glyphicon glyphicon-chevron-up"></span>
+                                                            {% else %}
+                                                                <span class="fa fa-chevron-down glyphicon glyphicon-chevron-down"></span>
+                                                            {% endif %}
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{{ sort_url(column) }}"
+                                                           title="{{ _gettext('Sort by %(name)s', name=name) }}">{{ name }}</a>
+                                                    {% endif %}
+                                                {% else %}
+                                                    {{ name }}
+                                                {% endif %}
+                                                {% if admin_view.column_descriptions.get(c) %}
+                                                    <a class="fa fa-question-circle glyphicon glyphicon-question-sign"
+                                                       title="{{ admin_view.column_descriptions[c] }}"
+                                                       href="javascript:void(0)" data-role="tooltip"
+                                                    ></a>
+                                                {% endif %}
+                                            </th>
+                                        {% endfor %}
+                                    {% endblock %}
+                                </tr>
+                                </thead>
+                                {% for row in data %}
+                                    <tr>
+                                        {% block list_row scoped %}
+                                            {% if actions %}
+                                                <td>
+                                                    <input type="checkbox" name="rowid" class="action-checkbox"
+                                                           value="{{ get_pk_value(row) }}"
+                                                           title="{{ _gettext('Select record') }}"/>
+                                                </td>
+                                            {% endif %}
+                                            {% block list_row_actions_column scoped %}
+                                                {% if admin_view.column_display_actions %}
+                                                    <td class="list-buttons-column">
+                                                        {% block list_row_actions scoped %}
+                                                            {% for action in list_row_actions %}
+                                                                {{ action.render_ctx(get_pk_value(row), row) }}
+                                                            {% endfor %}
+                                                        {% endblock %}
+                                                    </td>
+                                                {%- endif -%}
+                                            {% endblock %}
+
+                                            {% for c, name in list_columns %}
+                                                <td class="col-{{ c }}">
+                                                    {% if admin_view.is_editable(c) %}
+                                                        {% set form = list_forms[get_pk_value(row)] %}
+                                                        {% if form.csrf_token %}
+                                                            {{ form[c](pk=get_pk_value(row), display_value=get_value(row, c), csrf=form.csrf_token._value()) }}
+                                                        {% else %}
+                                                            {{ form[c](pk=get_pk_value(row), display_value=get_value(row, c)) }}
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {{ get_value(row, c) }}
+                                                    {% endif %}
+                                                </td>
+                                            {% endfor %}
+                                        {% endblock %}
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="999">
+                                            {% block empty_list_message %}
+                                                <div class="text-center">
+                                                    {{ admin_view.get_empty_list_message() }}
+                                                </div>
+                                            {% endblock %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            {% block list_pager %}
+                                {% set pages = num_pages %}
+                                {% set generator = pager_url %}
+                                {% if pages > 1 %}
+                                    <ul class="pagination pagination-sm m-0 float-right">
+                                        {% set min = page - 3 %}
+                                        {% set max = page + 3 + 1 %}
+
+                                        {% if min < 0 %}
+                                            {% set max = max - min %}
+                                        {% endif %}
+                                        {% if max >= pages %}
+                                            {% set min = min - max + pages %}
+                                        {% endif %}
+
+                                        {% if min < 0 %}
+                                            {% set min = 0 %}
+                                        {% endif %}
+                                        {% if max >= pages %}
+                                            {% set max = pages %}
+                                        {% endif %}
+
+
+                                        {% if page > 0 %}
+                                            <li class="page-item">
+                                                <a href="{{ generator(page-1) }}" class="page-link">&lt;</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="disabled page-item">
+                                                <a href="javascript:void(0)" class="page-link">&lt;</a>
+                                            </li>
+                                        {% endif %}
+
+                                        {% for p in range(min, max) %}
+                                            {% if page == p %}
+                                                <li class="active page-item">
+                                                    <a href="javascript:void(0)" class="page-link">{{ p + 1 }}</a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item">
+                                                    <a href="{{ generator(p) }}" class="page-link">{{ p + 1 }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if page + 1 < pages %}
+                                            <li class="page-item">
+                                                <a href="{{ generator(page + 1) }}" class="page-link">&gt;</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="disabled page-item">
+                                                <a href="javascript:void(0)" class="page-link">&gt;</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                {% endif %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                    <!-- /.card -->
+
+
+                </div>
+
+            </div>
+
+
+        </div><!-- /.container-fluid -->
+    </section>
+{% endblock %}
