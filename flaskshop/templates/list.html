@@ -12,7 +12,18 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">{{ admin_view.name|capitalize }} Lists</h3>
+                            <h3 class="card-title">
+                                {% if actions %}
+                                    <div class="dropdown">
+                                        {{ actionlib.dropdown(actions, 'dropdown-toggle btn btn-sm btn-default') }}
+                                    </div>
+                                {% endif %}
+                                {% if can_set_page_size %}
+                                    <div class="dropdown">
+                                        {{ model_layout.page_size_form(page_size_url, 'dropdown-toggle btn btn-sm btn-default') }}
+                                    </div>
+                                {% endif %}
+                            </h3>
                             <div class="card-tools">
                                 {% if admin_view.can_create %}
                                     {%- if admin_view.create_modal -%}
@@ -41,17 +52,9 @@
                                     </li>
                                 {% endif %}
 
-                                {% if can_set_page_size %}
 
-                                    {{ model_layout.page_size_form(page_size_url, 'dropdown-toggle btn btn-sm btn-default') }}
 
-                                {% endif %}
 
-                                {% if actions %}
-
-                                    {{ actionlib.dropdown(actions, 'dropdown-toggle btn btn-sm btn-default') }}
-
-                                {% endif %}
 
                                 {% if search_supported %}
                                     <li>
@@ -225,6 +228,8 @@
                                     </ul>
                                 {% endif %}
                             {% endblock %}
+
+                            {{ actionlib.form(actions, get_url('.action_view')) }}
                         </div>
                     </div>
                     <!-- /.card -->
@@ -241,7 +246,10 @@
 
 {% block tail_js %}
     <script src="{{ admin_static.url(filename='vendor/moment.min.js', v='2.9.0') }}" type="text/javascript"></script>
+    <script src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='3.5.2') }}"
+            type="text/javascript"></script>
     <script src="{{ admin_static.url(filename='admin/js/filters.js', v='1.0.0') }}"></script>
+
     {{ lib.form_js() }}
 
     {{ actionlib.script(_gettext('Please select at least one record.'),

@@ -32,3 +32,8 @@
 .dropdown-menu li {
     padding-left: 15px;
 }
+
+.card-title .dropdown {
+    float: left;
+    margin-right: 10px;
+}
