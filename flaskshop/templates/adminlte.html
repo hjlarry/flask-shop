@@ -190,6 +190,11 @@
     <script src="{{ url_for('static', filename='admin/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
+    {% if admin_view.extra_js %}
+        {% for js_url in admin_view.extra_js %}
+            <script src="{{ js_url }}" type="text/javascript"></script>
+        {% endfor %}
+    {% endif %}
     {% block tail_js %} {% endblock %}
     </body>
 {% endblock %}

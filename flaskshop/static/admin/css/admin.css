@@ -1,0 +1,51 @@
+#sku {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.inline-form-field {
+    border-top: 1px solid #ccc;
+    padding: 20px;
+    margin: 10px 0;
+}
+
+.list-buttons-column a {
+    display: block;
+    float: left;
+    color: #000;
+}
+
+.list-buttons-column button {
+    display: block;
+    border: none;
+}
+
+.list-buttons-column form {
+    margin-bottom: 0;
+}
+
+.dropdown-menu {
+    min-width: 9em;
+}
+
+.dropdown-menu li {
+    padding-left: 15px;
+}
+
+.card-title .dropdown {
+    float: left;
+    margin-right: 10px;
+}
+
+.col-title, .col-on_sale, .col-rating, .col-sold_count, .col-review_count, .col-price {
+    text-align: center;
+}
+
+.list-buttons-column {
+    text-align: center;
+}
+
+.button-groups {
+    display: inline-flex;
+}

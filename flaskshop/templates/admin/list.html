@@ -53,9 +53,6 @@
                                 {% endif %}
 
 
-
-
-
                                 {% if search_supported %}
                                     <li>
                                         {{ model_layout.search_form() }}
@@ -109,7 +106,7 @@
 
                                         {% block list_row_actions_header %}
                                             {% if admin_view.column_display_actions %}
-                                                <th>&nbsp;Operation</th>
+                                                <th class="list-buttons-column">&nbsp;Operation</th>
                                             {% endif %}
                                         {% endblock %}
                                     {% endblock %}
@@ -145,11 +142,13 @@
                                             {% block list_row_actions_column scoped %}
                                                 {% if admin_view.column_display_actions %}
                                                     <td class="list-buttons-column">
-                                                        {% block list_row_actions scoped %}
+                                                        <div class="button-groups">
+                                                            {% block list_row_actions scoped %}
                                                             {% for action in list_row_actions %}
                                                                 {{ action.render_ctx(get_pk_value(row), row) }}
                                                             {% endfor %}
                                                         {% endblock %}
+                                                        </div>
                                                     </td>
                                                 {%- endif -%}
                                             {% endblock %}
