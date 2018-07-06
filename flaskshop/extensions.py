@@ -20,4 +20,5 @@ debug_toolbar = DebugToolbarExtension()
 webpack = Webpack()
 admin_manager = Admin(index_view=AdminIndexView(menu_icon_type='fa',
                                                 menu_icon_value='fa-home nav-icon'),
-                      base_template='adminlte.html', template_mode='bootstrap3')
+                      base_template='adminlte.html',
+                      template_mode='bootstrap3')

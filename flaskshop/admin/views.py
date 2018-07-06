@@ -9,23 +9,22 @@ from flaskshop.user.models import UserAddress
 blueprint = Blueprint('admin_pannel', __name__, url_prefix='/admin', static_folder='../static')
 
 
-class ProductView(ModelView):
-    list_template = 'list.html'
-    create_template = 'create.html'
-    edit_template = 'edit.html'
-    column_list = ('id', 'title', 'image', 'on_sale', 'rating', 'sold_count', 'review_count', 'price')
-    # column_filters = ('id', 'title') //TODO
+class CustomView(ModelView):
+    list_template = 'admin/list.html'
+    create_template = 'admin/create.html'
+    edit_template = 'admin/edit.html'
     can_delete = True
     can_export = True
     can_set_page_size = True
-    # inline_models = (ProductSku,)
 
 
-class UserAddressView(ModelView):
-    list_template = 'list.html'
-    create_template = 'create.html'
-    edit_template = 'edit.html'
-    can_export = True
+class ProductView(CustomView):
+    column_list = ('id', 'title', 'image', 'on_sale', 'rating', 'sold_count', 'review_count', 'price')
+    # column_filters = ('id', 'title') //TODO
+    inline_models = (ProductSku,)
+
+
+class UserAddressView(CustomView):
     can_delete = False
 
 

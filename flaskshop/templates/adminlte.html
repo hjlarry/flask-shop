@@ -1,9 +1,9 @@
 {% import 'admin/layout.html' as layout with context -%}
 
 {% block head_tail %}
-    <link href="{{ url_for('static', filename='font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='adminlte.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='admin.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='admin/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='admin/css/adminlte.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='admin/css/admin.css') }}" rel="stylesheet">
 {% endblock %}
 
 
@@ -185,11 +185,11 @@
     <!-- REQUIRED SCRIPTS -->
 
     <!-- jQuery -->
-    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/js/jquery.min.js') }}"></script>
     {#<!-- Bootstrap 4 -->#}
-    <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
-    <script src="{{ url_for('static', filename='adminlte.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
     {% block tail_js %} {% endblock %}
     </body>
 {% endblock %}
