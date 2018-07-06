@@ -38,7 +38,9 @@
     margin-right: 10px;
 }
 
-.col-title, .col-on_sale, .col-rating, .col-sold_count, .col-review_count, .col-price {
+.col-title, .col-on_sale, .col-rating, .col-sold_count, .col-review_count, 
+.col-price, .col-user, .col-total_amount, .col-type, .col-value, .col-enabled,
+.col-min_amount, .col-used_total, .col-active, .col-is_admin{
     text-align: center;
 }
 

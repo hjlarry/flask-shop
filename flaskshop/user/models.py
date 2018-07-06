@@ -74,14 +74,3 @@ class UserAddress(SurrogatePK, Model):
     def __repr__(self):
         return f"<Address({self.id})>"
 
-
-class Role(SurrogatePK, Model):
-    """A role for a user."""
-
-    __tablename__ = "roles"
-    name = Column(db.String(80), unique=True, nullable=False)
-    user_id = reference_col("users")
-    user = relationship("User", backref="roles")
-
-    def __repr__(self):
-        return f"<Role({self.name})>"
