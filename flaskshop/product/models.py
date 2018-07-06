@@ -16,7 +16,7 @@ class Product(SurrogatePK, Model):
     description = Column(db.Text())
     image = Column(db.String(255))
     on_sale = Column(db.Boolean(), default=True)
-    rating = Column(db.Float(8, 2), default=5.0)
+    rating = Column(db.DECIMAL(8, 2), default=5.0)
     sold_count = Column(db.Integer(), default=0)
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
@@ -34,7 +34,7 @@ class ProductSku(SurrogatePK, Model):
     price = Column(db.DECIMAL(10, 2))
     stock = Column(db.Integer())
     product_id = reference_col("products")
-    product = relationship('Product', backref='sku', cascade="all,delete")
+    product = relationship('Product', backref='sku')
 
     def __repr__(self):
         return f"<ProductSku({self.title})>"

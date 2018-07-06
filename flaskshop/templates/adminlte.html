@@ -69,7 +69,7 @@
                 <img src="{{ url_for('static', filename='img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                      class="brand-image img-circle elevation-3"
                      style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">Flask-Shop</span>
             </a>
 
             <!-- Sidebar -->
@@ -94,15 +94,16 @@
                                 {% set children = item.get_children() %}
                                 {%- if children %}
                                     {% set class_name = item.get_class_name() %}
-                                    <li class="nav-item has-treeview menu-open">
                                         {%- if item.is_active(admin_view) %}
+                                            <li class="nav-item has-treeview menu-open">
                                             <a href="#" class="nav-link active">
-                                                {{ layout.menu_icon(item) }}
+                                                <i class="{{ item.class_name }}"></i>
                                                 <p>{{ item.name }}<i class="right fa fa-angle-left"></i></p>
                                             </a>
                                         {% else %}
+                                            <li class="nav-item has-treeview">
                                             <a href="#" class="nav-link">
-                                                {{ layout.menu_icon(item) }}
+                                                <i class="{{ item.class_name }}"></i>
                                                 <p>{{ item.name }}<i class="right fa fa-angle-left"></i></p>
                                             </a>
                                         {% endif %}

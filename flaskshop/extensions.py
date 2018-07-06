@@ -18,7 +18,10 @@ migrate = Migrate(compare_type=True)
 cache = Cache()
 debug_toolbar = DebugToolbarExtension()
 webpack = Webpack()
-admin_manager = Admin(index_view=AdminIndexView(menu_icon_type='fa',
-                                                menu_icon_value='fa-home nav-icon'),
-                      base_template='adminlte.html',
-                      template_mode='bootstrap3')
+admin_manager = Admin(
+    index_view=AdminIndexView(menu_icon_type='fa', menu_icon_value='fa-home nav-icon'),
+    base_template='adminlte.html',
+    template_mode='bootstrap3',
+    category_icon_classes={'Products': 'fa fa-product-hunt nav-icon', 'Users': 'fa fa-users nav-icon'}
+
+)
