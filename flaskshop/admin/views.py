@@ -9,10 +9,13 @@ from wtforms.fields import (
     TextAreaField,
     PasswordField,
     TextField,
+    SelectField,
 )
 from wtforms.widgets import TextArea
+from wtforms.validators import Email, DataRequired
 
 from flaskshop.extensions import admin_manager, db
+from flaskshop.constant import *
 from flaskshop.product.models import Product, ProductSku
 from flaskshop.order.models import Order, OrderItem
 from flaskshop.user.models import User
@@ -43,6 +46,8 @@ class CustomView(ModelView):
     can_delete = True
     can_export = True
     can_set_page_size = True
+
+    form_widget_args = {"created_at": {"disabled": True}}
 
 
 class ProductView(CustomView):
@@ -119,9 +124,27 @@ class OrderView(CustomView):
         )
 
     def _format_price(view, context, model, name):
-        return Markup("￥{}".format(model.total_amount))   
+        return Markup("￥{}".format(model.total_amount))
 
     column_formatters = {"total_amount": _format_price}
+    form_extra_fields = {
+        "refund_status": SelectField(
+            choices=[
+                (REFUND_STATUS_APPLIED, REFUND_STATUS_APPLIED),
+                (REFUND_STATUS_FAILED, REFUND_STATUS_FAILED),
+                (REFUND_STATUS_PENDING, REFUND_STATUS_PENDING),
+                (REFUND_STATUS_PROCESSING, REFUND_STATUS_PROCESSING),
+                (REFUND_STATUS_SUCCESS, REFUND_STATUS_SUCCESS),
+            ]
+        ),
+        "ship_status": SelectField(
+            choices=[
+                (SHIP_STATUS_DELIVERED, SHIP_STATUS_DELIVERED),
+                (SHIP_STATUS_PENDING, SHIP_STATUS_PENDING),
+                (SHIP_STATUS_RECEIVED, SHIP_STATUS_RECEIVED),
+            ]
+        ),
+    }
 
 
 class CouponView(CustomView):
@@ -149,12 +172,24 @@ class CouponView(CustomView):
         return Markup("{}/{}".format(model.used, model.total))
 
     column_formatters = {"used_total": _format_used_total}
+    form_extra_fields = {
+        "type": SelectField(
+            choices=[(TYPE_FIXED, TYPE_FIXED), (TYPE_PERCENT, TYPE_PERCENT)]
+        )
+    }
 
 
 class UserView(CustomView):
     column_list = ("id", "username", "email", "active", "is_admin")
-    form_excluded_columns = ("orders", "favor_products", "addresses", "cart_items")
-    form_overrides = {"password": PasswordField}
+    form_excluded_columns = (
+        "orders",
+        "favor_products",
+        "addresses",
+        "cart_items",
+        "password",
+    )
+    form_args = dict(email=dict(validators=[Email(), DataRequired()]))
+    form_extra_fields = {"this_password": PasswordField("Password")}
 
     def __init__(self):
         super().__init__(
@@ -164,6 +199,19 @@ class UserView(CustomView):
             menu_icon_type="fa",
             menu_icon_value="fa-user nav-icon",
         )
+
+    def on_model_change(self, form, User, is_created):
+        if form.this_password.data:
+            User.set_password(form.this_password.data)
+
+    # form_rules = [
+    #     # Header and four fields. Email field will go above phone field.
+    #     rules.FieldSet(('username', 'email', 'active','this_password'), 'Personal'),
+    #     # Separate header and few fields
+    #     rules.Header('Location'),
+    #     # Show macro from Flask-Admin lib.html (it is included with 'lib' prefix)
+    #     rules.HTML(html)
+    # ]
 
 
 admin_manager.add_view(ProductView())
