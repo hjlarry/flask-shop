@@ -1,7 +1,15 @@
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.form import rules, fields
 from flask import Blueprint
 from jinja2 import Markup
-from wtforms.fields import IntegerField, BooleanField, DecimalField, TextAreaField
+from wtforms.fields import (
+    IntegerField,
+    BooleanField,
+    DecimalField,
+    TextAreaField,
+    PasswordField,
+    TextField,
+)
 from wtforms.widgets import TextArea
 
 from flaskshop.extensions import admin_manager, db
@@ -56,12 +64,26 @@ class ProductView(CustomView):
         "review_count",
         "price",
     )
-    inline_models = (ProductSku,)
+    product_sku_options = {
+        "form_excluded_columns": ("created_at",),
+        "form_overrides": dict(description=TextField),
+    }
+    inline_models = [(ProductSku, product_sku_options)]
     form_excluded_columns = ("liked_users",)
     extra_js = ["//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"]
 
     # column_editable_list = ('title', 'rating') //TODO
     # column_filters = ('id', 'title') //TODO
+
+    def __init__(self):
+        super().__init__(
+            Product,
+            db.session,
+            endpoint="Product_admin",
+            menu_icon_type="fa",
+            menu_icon_value="fa-bandcamp nav-icon",
+        )
+
     def _format_price(view, context, model, name):
         return Markup("￥{}".format(model.price))
 
@@ -87,6 +109,20 @@ class OrderView(CustomView):
     inline_models = (OrderItem,)
     form_excluded_columns = ("user",)
 
+    def __init__(self):
+        super().__init__(
+            Order,
+            db.session,
+            endpoint="Order_admin",
+            menu_icon_type="fa",
+            menu_icon_value="fa-cart-arrow-down nav-icon",
+        )
+
+    def _format_price(view, context, model, name):
+        return Markup("￥{}".format(model.total_amount))   
+
+    column_formatters = {"total_amount": _format_price}
+
 
 class CouponView(CustomView):
     column_list = (
@@ -100,6 +136,15 @@ class CouponView(CustomView):
     )
     form_excluded_columns = ("order",)
 
+    def __init__(self):
+        super().__init__(
+            CouponCode,
+            db.session,
+            endpoint="Coupon_admin",
+            menu_icon_type="fa",
+            menu_icon_value="fa-bitcoin nav-icon",
+        )
+
     def _format_used_total(view, context, model, name):
         return Markup("{}/{}".format(model.used, model.total))
 
@@ -109,38 +154,19 @@ class CouponView(CustomView):
 class UserView(CustomView):
     column_list = ("id", "username", "email", "active", "is_admin")
     form_excluded_columns = ("orders", "favor_products", "addresses", "cart_items")
+    form_overrides = {"password": PasswordField}
+
+    def __init__(self):
+        super().__init__(
+            User,
+            db.session,
+            endpoint="User_admin",
+            menu_icon_type="fa",
+            menu_icon_value="fa-user nav-icon",
+        )
 
 
-product_view = ProductView(
-    Product,
-    db.session,
-    endpoint="Product_admin",
-    menu_icon_type="fa",
-    menu_icon_value="fa-bandcamp nav-icon",
-)
-order_view = OrderView(
-    Order,
-    db.session,
-    endpoint="Order_admin",
-    menu_icon_type="fa",
-    menu_icon_value="fa-cart-arrow-down nav-icon",
-)
-coupon_view = CouponView(
-    CouponCode,
-    db.session,
-    endpoint="Coupon_admin",
-    menu_icon_type="fa",
-    menu_icon_value="fa-bitcoin nav-icon",
-)
-user_view = UserView(
-    User,
-    db.session,
-    endpoint="User_admin",
-    menu_icon_type="fa",
-    menu_icon_value="fa-user nav-icon",
-)
-
-admin_manager.add_view(product_view)
-admin_manager.add_view(order_view)
-admin_manager.add_view(coupon_view)
-admin_manager.add_view(user_view)
+admin_manager.add_view(ProductView())
+admin_manager.add_view(OrderView())
+admin_manager.add_view(CouponView())
+admin_manager.add_view(UserView())

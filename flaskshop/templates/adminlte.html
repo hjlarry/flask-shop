@@ -162,7 +162,8 @@
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
-
+            {# store the jinja2 context for form_rules rendering logic #}
+            {% set render_ctx = h.resolve_ctx() %}
             <!-- Main content -->
             {% block body %} {% endblock %}
             <!-- /.content -->
