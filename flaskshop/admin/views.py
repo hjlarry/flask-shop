@@ -1,6 +1,6 @@
+from flask import Blueprint, flash, redirect, request, url_for
 from flask_admin.contrib.sqla import ModelView
-from flask_admin.form import rules, fields
-from flask import Blueprint
+from flask_login import current_user
 from jinja2 import Markup
 from wtforms.fields import (
     IntegerField,
@@ -48,6 +48,17 @@ class CustomView(ModelView):
     can_set_page_size = True
 
     form_widget_args = {"created_at": {"disabled": True}}
+
+    def is_accessible(self):
+        if current_user.is_authenticated and not current_user.is_admin:
+            flash('This is not an administrator', 'warning')
+            return False
+        if current_user.is_admin:
+            return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('public.login', next=request.url))
 
 
 class ProductView(CustomView):
@@ -204,17 +215,5 @@ class UserView(CustomView):
         if form.this_password.data:
             User.set_password(form.this_password.data)
 
-    # form_rules = [
-    #     # Header and four fields. Email field will go above phone field.
-    #     rules.FieldSet(('username', 'email', 'active','this_password'), 'Personal'),
-    #     # Separate header and few fields
-    #     rules.Header('Location'),
-    #     # Show macro from Flask-Admin lib.html (it is included with 'lib' prefix)
-    #     rules.HTML(html)
-    # ]
 
-
-admin_manager.add_view(ProductView())
-admin_manager.add_view(OrderView())
-admin_manager.add_view(CouponView())
-admin_manager.add_view(UserView())
+admin_manager.add_views(ProductView(), OrderView(), CouponView(), UserView())

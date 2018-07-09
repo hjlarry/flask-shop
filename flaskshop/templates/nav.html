@@ -43,6 +43,11 @@
                             <li>
                                 <a href="{{ url_for('product.favorites') }}">My Favorites</a>
                             </li>
+                            {% if current_user.is_admin %}
+                            <li>
+                                <a href="{{ url_for('admin.index') }}"> Admin Panel </a>
+                            </li>
+                            {% endif %}
                             <li>
                                 <a href="{{ url_for('public.logout') }}"> Log Out </a>
                             </li>

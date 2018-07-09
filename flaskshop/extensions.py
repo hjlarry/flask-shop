@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """Extensions module. Each extension is initialized in the app factory located in app.py."""
+from flask import redirect, url_for, request, flash
 from flask_bcrypt import Bcrypt
 from flask_caching import Cache
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_webpack import Webpack
@@ -18,10 +19,26 @@ migrate = Migrate(compare_type=True)
 cache = Cache()
 debug_toolbar = DebugToolbarExtension()
 webpack = Webpack()
-admin_manager = Admin(
-    index_view=AdminIndexView(menu_icon_type='fa', menu_icon_value='fa-home nav-icon'),
-    base_template='adminlte.html',
-    template_mode='bootstrap3',
-    category_icon_classes={'Products': 'fa fa-product-hunt nav-icon', 'Users': 'fa fa-users nav-icon'}
 
+
+class CustomAdminIndexView(AdminIndexView):
+    def __init__(self):
+        super().__init__(menu_icon_type='fa', menu_icon_value='fa-home nav-icon')
+
+    def is_accessible(self):
+        if current_user.is_authenticated and not current_user.is_admin:
+            flash('This is not an administrator', 'warning')
+            return False
+        if current_user.is_admin:
+            return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('public.login', next=request.url))
+
+
+admin_manager = Admin(
+    index_view=CustomAdminIndexView(),
+    base_template='adminlte.html',
+    template_mode='bootstrap3'
 )
