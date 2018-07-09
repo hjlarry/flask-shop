@@ -180,13 +180,25 @@ class CouponView(CustomView):
         )
 
     def _format_used_total(view, context, model, name):
-        return Markup("{}/{}".format(model.used, model.total))
+        html = """
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width:{width}%">
+            {used}/{total}
+          </div>
+        </div>
+        """
+
+        return Markup(html.format(used=model.used, total=model.total, width=model.used / model.total * 100))
 
     column_formatters = {"used_total": _format_used_total}
     form_extra_fields = {
         "type": SelectField(
             choices=[(TYPE_FIXED, TYPE_FIXED), (TYPE_PERCENT, TYPE_PERCENT)]
         )
+    }
+    form_args = {
+        'not_before': {'label': 'Start Time'},
+        'not_after': {'label': 'End Time'},
     }
 
 
