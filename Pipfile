@@ -37,6 +37,7 @@ mysqlclient = "*"
 faker = "*"
 python-alipay-sdk = "*"
 flask-admin = "*"
+pillow = "*"
 
 [dev-packages]
 

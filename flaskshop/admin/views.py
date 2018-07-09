@@ -1,5 +1,6 @@
-from flask import Blueprint, flash, redirect, request, url_for
+from flask import Blueprint, flash, redirect, request, url_for, current_app
 from flask_admin.contrib.sqla import ModelView
+from flask_admin import form
 from flask_login import current_user
 from jinja2 import Markup
 from wtforms.fields import (
@@ -16,6 +17,7 @@ from wtforms.validators import Email, DataRequired
 
 from flaskshop.extensions import admin_manager, db
 from flaskshop.constant import *
+from flaskshop.settings import Config
 from flaskshop.product.models import Product, ProductSku
 from flaskshop.order.models import Order, OrderItem
 from flaskshop.user.models import User
@@ -104,16 +106,23 @@ class ProductView(CustomView):
         return Markup("￥{}".format(model.price))
 
     def _list_thumbnail(view, context, model, name):
-        return Markup("<img src={} width=200 height=100/>".format(model.image))
+        if model.image.startswith('http'):
+            url = model.image
+        else:
+            url = url_for('static', filename=form.thumbgen_filename(model.image))
+        return Markup("<img src={} width=200 height=100/>".format(url))
 
     column_formatters = {"price": _format_price, "image": _list_thumbnail}
 
     form_extra_fields = {
+        "image": form.ImageUploadField('Image', base_path=Config.STATIC_DIR, thumbnail_size=(200, 100, True),
+                                       relative_path='images/'),
         "on_sale": BooleanField(),
         "sold_count": IntegerField(),
         "review_count": IntegerField(),
         "rating": DecimalField(),
         "price": DecimalField(),
+
     }
 
     form_overrides = {"description": CKTextAreaField}
