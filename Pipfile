@@ -38,6 +38,7 @@ faker = "*"
 python-alipay-sdk = "*"
 flask-admin = "*"
 pillow = "*"
+libgravatar = "*"
 
 [dev-packages]
 

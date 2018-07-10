@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """User models."""
 from flask_login import UserMixin
+from libgravatar import Gravatar
 
 from flaskshop.database import (
     Column,
@@ -41,6 +42,10 @@ class User(UserMixin, SurrogatePK, Model):
             self.set_password(password)
         else:
             self.password = None
+
+    @property
+    def avatar(self):
+        return Gravatar(self.email).get_image()
 
     def set_password(self, password):
         """Set password."""
