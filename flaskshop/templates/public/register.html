@@ -1,30 +1,60 @@
-
 {% extends "layout.html" %}
 {% block content %}
-<div class="container-narrow">
-  <h1>Register</h1>
-    <br/>
-    <form id="registerForm" class="form form-register" method="POST" action="" role="form">
-           {{ form.csrf_token }}
-            <div class="form-group">
-                {{form.username.label}}
-                {{form.username(placeholder="Username", class_="form-control")}}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="text-center">
+                            Register
+                        </h2>
+                    </div>
+
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="POST" action="">
+                            {{ form.csrf_token }}
+                            <div class="form-group">
+                                {{ form.username.label(class_="control-label col-sm-2") }}
+                                <div class="col-sm-9">
+                                    {{ form.username(placeholder="Username", class_="form-control") }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.email.label(class_="control-label col-sm-2") }}
+                                <div class="col-sm-9">
+                                    {{ form.email(placeholder="Email", class_="form-control") }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.password.label(class_="control-label col-sm-2") }}
+                                <div class="col-sm-9">
+                                    {{ form.password(placeholder="Password",class_="form-control") }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.confirm.label(class_="control-label col-sm-2") }}
+                                <div class="col-sm-9">
+                                    {{ form.confirm(placeholder="Password (again)",class_="form-control") }}
+                                </div>
+                            </div>
+
+                            <div class="form-group text-center">
+                                <p>
+                                    <button type="submit" class="btn btn-primary">
+                                        Register
+                                    </button>
+                                </p>
+                                <p><em>Already registered?</em> Click <a href="{{ url_for('public.login') }}">here</a>
+                                    to login.</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                {{form.email.label}}
-                {{form.email(placeholder="Email", class_="form-control")}}
-            </div>
-            <div class="form-group">
-                {{form.password.label}}
-                {{form.password(placeholder="Password", class_="form-control")}}
-            </div>
-            <div class="form-group">
-                {{form.confirm.label}}
-                {{form.confirm(placeholder="Password (again)", class_="form-control")}}
-            </div>
-            <p><input class="btn btn-default btn-submit" type="submit" value="Register"></p>
-    </form>
-    <p><em>Already registered?</em> Click <a href="/">here</a> to login.</p>
-</div>
+        </div>
+    </div>
 {% endblock %}
 

@@ -1,3 +1,5 @@
+from flask import url_for
+
 from flaskshop.database import (
     Column,
     Model,
@@ -23,6 +25,13 @@ class Product(SurrogatePK, Model):
 
     def __repr__(self):
         return f"<Product({self.title})>"
+
+    @property
+    def img_url(self):
+        if self.image.startswith('http'):
+            return self.image
+        else:
+            return url_for('static', filename=self.image)
 
 
 class ProductSku(SurrogatePK, Model):

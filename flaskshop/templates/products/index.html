@@ -26,7 +26,7 @@ endblock content_class %} {% block content %}
               <div class="top">
                 <div class="img">
                   <a href="{{ url_for('product.show', id=product.id) }}">
-                    <img src="{{ product.image}}" alt="">
+                      <img src="{{ product.img_url }}" alt="">
                   </a>
                 </div>
                 <div class="price">
