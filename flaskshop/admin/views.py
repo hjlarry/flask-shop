@@ -91,7 +91,7 @@ class ProductView(CustomView):
     extra_js = ["//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"]
 
     # column_editable_list = ('title', 'rating') //TODO
-    # column_filters = ('id', 'title') //TODO
+    column_filters = ('id', 'title')
 
     def __init__(self):
         super().__init__(

@@ -23,6 +23,12 @@
                                         {{ model_layout.page_size_form(page_size_url, 'dropdown-toggle btn btn-sm btn-default') }}
                                     </div>
                                 {% endif %}
+                                {% if filters %}
+                                    <div class="dropdown">
+                                        {{ model_layout.filter_options('dropdown-toggle btn btn-sm btn-default') }}
+                                    </div>
+                                    {{ model_layout.filter_form() }}
+                                {% endif %}
                             </h3>
                             <div class="card-tools">
                                 {% if admin_view.can_create %}
@@ -44,22 +50,13 @@
                                 {% endif %}
 
 
-                                {% block model_menu_bar_before_filters %}{% endblock %}
-
-                                {% if filters %}
-                                    <li class="dropdown">
-                                        {{ model_layout.filter_options() }}
-                                    </li>
-                                {% endif %}
-
-
                                 {% if search_supported %}
                                     <li>
                                         {{ model_layout.search_form() }}
                                     </li>
                                 {% endif %}
-                                {% block model_menu_bar_after_filters %}{% endblock %}
                             </div>
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0">
@@ -144,10 +141,10 @@
                                                     <td class="list-buttons-column">
                                                         <div class="button-groups">
                                                             {% block list_row_actions scoped %}
-                                                            {% for action in list_row_actions %}
-                                                                {{ action.render_ctx(get_pk_value(row), row) }}
-                                                            {% endfor %}
-                                                        {% endblock %}
+                                                                {% for action in list_row_actions %}
+                                                                    {{ action.render_ctx(get_pk_value(row), row) }}
+                                                                {% endfor %}
+                                                            {% endblock %}
                                                         </div>
                                                     </td>
                                                 {%- endif -%}
