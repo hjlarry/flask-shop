@@ -26,11 +26,12 @@ class CustomAdminIndexView(AdminIndexView):
         super().__init__(menu_icon_type='fa', menu_icon_value='fa-home nav-icon')
 
     def is_accessible(self):
-        if current_user.is_authenticated and not current_user.is_admin:
-            flash('This is not an administrator', 'warning')
-            return False
-        if current_user.is_admin:
-            return True
+        if current_user.is_authenticated:
+            if current_user.is_admin:
+                return True
+            else:
+                flash('This is not an administrator', 'warning')
+                return False
         return False
 
     def inaccessible_callback(self, name, **kwargs):
