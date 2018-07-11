@@ -8,9 +8,7 @@ from werkzeug.wrappers import Response
 from .models import Product
 from flaskshop.extensions import db
 
-blueprint = Blueprint(
-    "product", __name__, url_prefix="/products", static_folder="../static"
-)
+blueprint = Blueprint("product", __name__, url_prefix="/products")
 
 
 @blueprint.route("/")

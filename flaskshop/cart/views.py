@@ -7,7 +7,7 @@ import json
 from .models import UserCart, CouponCode
 from flaskshop.product.models import ProductSku
 
-blueprint = Blueprint('cart', __name__, url_prefix='/cart', static_folder='../static')
+blueprint = Blueprint('cart', __name__, url_prefix='/cart')
 
 
 @blueprint.before_request

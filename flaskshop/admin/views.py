@@ -23,9 +23,7 @@ from flaskshop.order.models import Order, OrderItem
 from flaskshop.user.models import User
 from flaskshop.cart.models import CouponCode
 
-blueprint = Blueprint(
-    "admin_pannel", __name__, url_prefix="/admin", static_folder="../static"
-)
+blueprint = Blueprint("admin_pannel", __name__, url_prefix="/admin")
 
 
 class CKTextAreaWidget(TextArea):
@@ -97,7 +95,7 @@ class ProductView(CustomView):
         super().__init__(
             Product,
             db.session,
-            endpoint="Product_admin",
+            endpoint="product_admin",
             menu_icon_type="fa",
             menu_icon_value="fa-bandcamp nav-icon",
         )
@@ -138,7 +136,7 @@ class OrderView(CustomView):
         super().__init__(
             Order,
             db.session,
-            endpoint="Order_admin",
+            endpoint="order_admin",
             menu_icon_type="fa",
             menu_icon_value="fa-cart-arrow-down nav-icon",
         )
@@ -183,7 +181,7 @@ class CouponView(CustomView):
         super().__init__(
             CouponCode,
             db.session,
-            endpoint="Coupon_admin",
+            endpoint="coupon_admin",
             menu_icon_type="fa",
             menu_icon_value="fa-bitcoin nav-icon",
         )
@@ -227,7 +225,7 @@ class UserView(CustomView):
         super().__init__(
             User,
             db.session,
-            endpoint="User_admin",
+            endpoint="user_admin",
             menu_icon_type="fa",
             menu_icon_value="fa-user nav-icon",
         )

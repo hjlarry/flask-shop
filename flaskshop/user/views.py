@@ -7,7 +7,7 @@ from .forms import AddressForm
 from .models import UserAddress
 from flaskshop.utils import flash_errors
 
-blueprint = Blueprint("user", __name__, url_prefix="/users", static_folder="../static")
+blueprint = Blueprint("user", __name__, url_prefix="/users")
 
 
 @blueprint.before_request

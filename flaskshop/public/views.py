@@ -8,7 +8,7 @@ from flaskshop.user.forms import RegisterForm, LoginForm
 from flaskshop.user.models import User
 from flaskshop.utils import flash_errors
 
-blueprint = Blueprint("public", __name__, static_folder="../static")
+blueprint = Blueprint("public", __name__)
 
 
 @login_manager.user_loader
@@ -62,5 +62,3 @@ def register():
     else:
         flash_errors(form)
     return render_template("public/register.html", form=form)
-
-

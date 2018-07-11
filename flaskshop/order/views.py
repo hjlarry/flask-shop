@@ -13,9 +13,7 @@ from flaskshop.user.models import UserAddress
 from flaskshop.cart.models import UserCart, CouponCode
 from flaskshop.constant import REFUND_STATUS_APPLIED, SHIP_STATUS_RECEIVED
 
-blueprint = Blueprint(
-    "order", __name__, url_prefix="/orders", static_folder="../static"
-)
+blueprint = Blueprint("order", __name__, url_prefix="/orders")
 
 
 @blueprint.route("/")
