@@ -1,0 +1,24 @@
+{% import 'admin/static.html' as admin_static with context %}
+{% macro form_js() %}
+    {% if config.MAPBOX_MAP_ID %}
+        <script>
+            window.MAPBOX_MAP_ID = "{{ config.MAPBOX_MAP_ID }}";
+            {% if config.MAPBOX_ACCESS_TOKEN %}
+                window.MAPBOX_ACCESS_TOKEN = "{{ config.MAPBOX_ACCESS_TOKEN }}";
+            {% endif %}
+        </script>
+        <script src="{{ admin_static.url(filename='vendor/leaflet/leaflet.js', v='1.0.0') }}"></script>
+        <script src="{{ admin_static.url(filename='vendor/leaflet/leaflet.draw.js', v='0.3.2') }}"></script>
+        {% if config.MAPBOX_SEARCH %}
+            <script>
+                window.MAPBOX_SEARCH = "{{ config.MAPBOX_SEARCH }}";
+            </script>
+            <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places&key={{ config.get('GOOGLE_MAPS_API_KEY') }}"></script>
+        {% endif %}
+    {% endif %}
+    <script src="{{ admin_static.url(filename='vendor/bootstrap-daterangepicker/daterangepicker.js', v='1.3.22') }}"></script>
+    {% if editable_columns %}
+        <script src="{{ url_for('static', filename='admin/js/bootstrap-editable.min.js') }}"></script>
+    {% endif %}
+    <script src="{{ admin_static.url(filename='admin/js/form.js', v='1.0.1') }}"></script>
+{% endmacro %}

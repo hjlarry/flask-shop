@@ -15,7 +15,7 @@ from wtforms.fields import (
 from wtforms.widgets import TextArea
 from wtforms.validators import Email, DataRequired
 
-from flaskshop.extensions import admin_manager, db
+from flaskshop.extensions import admin_manager, db, csrf_protect
 from flaskshop.constant import *
 from flaskshop.settings import Config
 from flaskshop.product.models import Product, ProductSku
@@ -88,7 +88,7 @@ class ProductView(CustomView):
     form_excluded_columns = ("liked_users",)
     extra_js = ["//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"]
 
-    # column_editable_list = ('title', 'rating') //TODO
+    column_editable_list = ('title', 'rating')
     column_filters = ('id', 'title')
 
     def __init__(self):
@@ -235,4 +235,5 @@ class UserView(CustomView):
             User.set_password(form.this_password.data)
 
 
+csrf_protect.exempt(CustomView.ajax_update)
 admin_manager.add_views(ProductView(), OrderView(), CouponView(), UserView())
