@@ -22,3 +22,65 @@
     {% endif %}
     <script src="{{ admin_static.url(filename='admin/js/form.js', v='1.0.1') }}"></script>
 {% endmacro %}
+
+{% macro pager(page, pages, generator) -%}
+    {% if pages > 1 %}
+        <ul class="pagination pagination-sm m-0 float-right">
+            {% set min = page - 3 %}
+            {% set max = page + 3 + 1 %}
+
+            {% if min < 0 %}
+                {% set max = max - min %}
+            {% endif %}
+            {% if max >= pages %}
+                {% set min = min - max + pages %}
+            {% endif %}
+
+            {% if min < 0 %}
+                {% set min = 0 %}
+            {% endif %}
+            {% if max >= pages %}
+                {% set max = pages %}
+            {% endif %}
+
+
+            {% if page > 0 %}
+                <li class="page-item">
+                    <a href="{{ generator(page-1) }}" class="page-link">&lt;</a>
+                </li>
+            {% else %}
+                <li class="disabled page-item">
+                    <a href="javascript:void(0)" class="page-link">&lt;</a>
+                </li>
+            {% endif %}
+
+            {% for p in range(min, max) %}
+                {% if page == p %}
+                    <li class="active page-item">
+                        <a href="javascript:void(0)" class="page-link">{{ p + 1 }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a href="{{ generator(p) }}" class="page-link">{{ p + 1 }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page + 1 < pages %}
+                <li class="page-item">
+                    <a href="{{ generator(page + 1) }}" class="page-link">&gt;</a>
+                </li>
+            {% else %}
+                <li class="disabled page-item">
+                    <a href="javascript:void(0)" class="page-link">&gt;</a>
+                </li>
+            {% endif %}
+
+        </ul>
+    {% endif %}
+{%- endmacro %}
+
+{% macro menu_icon(item) -%}
+    {% set icon_value = item.get_icon_value() %}
+    <i class="fa {{ icon_value }}"></i>
+{%- endmacro %}

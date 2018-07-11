@@ -23,7 +23,7 @@ webpack = Webpack()
 
 class CustomAdminIndexView(AdminIndexView):
     def __init__(self):
-        super().__init__(menu_icon_type='fa', menu_icon_value='fa-home nav-icon')
+        super().__init__(menu_icon_value='fa-home nav-icon')
 
     def is_accessible(self):
         if current_user.is_authenticated:

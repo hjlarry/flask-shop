@@ -96,7 +96,6 @@ class ProductView(CustomView):
             Product,
             db.session,
             endpoint="product_admin",
-            menu_icon_type="fa",
             menu_icon_value="fa-bandcamp nav-icon",
         )
 
@@ -137,7 +136,6 @@ class OrderView(CustomView):
             Order,
             db.session,
             endpoint="order_admin",
-            menu_icon_type="fa",
             menu_icon_value="fa-cart-arrow-down nav-icon",
         )
 
@@ -182,7 +180,6 @@ class CouponView(CustomView):
             CouponCode,
             db.session,
             endpoint="coupon_admin",
-            menu_icon_type="fa",
             menu_icon_value="fa-bitcoin nav-icon",
         )
 
@@ -226,7 +223,6 @@ class UserView(CustomView):
             User,
             db.session,
             endpoint="user_admin",
-            menu_icon_type="fa",
             menu_icon_value="fa-user nav-icon",
         )
 

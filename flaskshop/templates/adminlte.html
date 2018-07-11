@@ -1,4 +1,4 @@
-{% import 'admin/layout.html' as layout with context -%}
+{% import 'admin/macros.html' as macro with context -%}
 
 {% block head_tail %}
     <link href="{{ url_for('static', filename='admin/css/font-awesome.min.css') }}" rel="stylesheet">
@@ -120,7 +120,7 @@
                                                                 {% if child.target %}
                                                            target="{{ child.target }}"{% endif %}>
                                                     {%- endif %}
-                                                    {{ layout.menu_icon(child) }}<p>{{ child.name }}</p></a>
+                                                    {{ macro.menu_icon(child) }}<p>{{ child.name }}</p></a>
                                                 </li>
                                             {%- endfor %}
                                         </ul>
@@ -137,7 +137,7 @@
                                             <a href="{{ item.get_url() }}" class="nav-link" {% if item.target %}
                                                target="{{ item.target }}"{% endif %}>
                                         {%- endif %}
-                                        {{ layout.menu_icon(item) }}<p>{{ item.name }}</p></a>
+                                        {{ macro.menu_icon(item) }}<p>{{ item.name }}</p></a>
                                     </li>
                                 {%- endif -%}
                             {% endif -%}
