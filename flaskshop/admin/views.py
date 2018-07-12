@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, redirect, request, url_for, current_app
 from flask_admin.contrib.sqla import ModelView
-from flask_admin import form
+from flask_admin import form, actions
 from flask_login import current_user
 from jinja2 import Markup
 from wtforms.fields import (
@@ -80,16 +80,26 @@ class ProductView(CustomView):
         "review_count",
         "price",
     )
+    column_editable_list = ('title', 'rating')
+    column_filters = ('id', 'title')
     product_sku_options = {
         "form_excluded_columns": ("created_at",),
         "form_overrides": dict(description=TextField),
     }
     inline_models = [(ProductSku, product_sku_options)]
-    form_excluded_columns = ("liked_users",)
     extra_js = ["//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"]
+    form_excluded_columns = ("liked_users",)
+    form_extra_fields = {
+        "image": form.ImageUploadField('Image', base_path=Config.STATIC_DIR, thumbnail_size=(200, 100, True),
+                                       relative_path='images/'),
+        "on_sale": BooleanField(),
+        "sold_count": IntegerField(),
+        "review_count": IntegerField(),
+        "rating": DecimalField(),
+        "price": DecimalField(),
 
-    column_editable_list = ('title', 'rating')
-    column_filters = ('id', 'title')
+    }
+    form_overrides = {"description": CKTextAreaField}
 
     def __init__(self):
         super().__init__(
@@ -111,18 +121,16 @@ class ProductView(CustomView):
 
     column_formatters = {"price": _format_price, "image": _list_thumbnail}
 
-    form_extra_fields = {
-        "image": form.ImageUploadField('Image', base_path=Config.STATIC_DIR, thumbnail_size=(200, 100, True),
-                                       relative_path='images/'),
-        "on_sale": BooleanField(),
-        "sold_count": IntegerField(),
-        "review_count": IntegerField(),
-        "rating": DecimalField(),
-        "price": DecimalField(),
-
-    }
-
-    form_overrides = {"description": CKTextAreaField}
+    @actions.action('on_sale', 'On/Offsale')
+    def action_change_on_sale(self, ids):
+        try:
+            query = Product.query.filter(Product.id.in_(ids))
+            for p in query.all():
+                p.update(on_sale=not p.on_sale)
+        except Exception as ex:
+            if not self.handle_view_exception(ex):
+                raise
+        return
 
 
 class OrderView(CustomView):
@@ -130,19 +138,6 @@ class OrderView(CustomView):
     column_list = ("id", "no", "user", "total_amount", "paid_at")
     inline_models = (OrderItem,)
     form_excluded_columns = ("user",)
-
-    def __init__(self):
-        super().__init__(
-            Order,
-            db.session,
-            endpoint="order_admin",
-            menu_icon_value="fa-cart-arrow-down nav-icon",
-        )
-
-    def _format_price(view, context, model, name):
-        return Markup("￥{}".format(model.total_amount))
-
-    column_formatters = {"total_amount": _format_price}
     form_extra_fields = {
         "refund_status": SelectField(
             choices=[
@@ -162,6 +157,19 @@ class OrderView(CustomView):
         ),
     }
 
+    def __init__(self):
+        super().__init__(
+            Order,
+            db.session,
+            endpoint="order_admin",
+            menu_icon_value="fa-cart-arrow-down nav-icon",
+        )
+
+    def _format_price(view, context, model, name):
+        return Markup("￥{}".format(model.total_amount))
+
+    column_formatters = {"total_amount": _format_price}
+
 
 class CouponView(CustomView):
     column_list = (
@@ -174,6 +182,15 @@ class CouponView(CustomView):
         "used_total",
     )
     form_excluded_columns = ("order",)
+    form_extra_fields = {
+        "type": SelectField(
+            choices=[(TYPE_FIXED, TYPE_FIXED), (TYPE_PERCENT, TYPE_PERCENT)]
+        )
+    }
+    form_args = {
+        'not_before': {'label': 'Start Time'},
+        'not_after': {'label': 'End Time'},
+    }
 
     def __init__(self):
         super().__init__(
@@ -195,15 +212,6 @@ class CouponView(CustomView):
         return Markup(html.format(used=model.used, total=model.total, width=model.used / model.total * 100))
 
     column_formatters = {"used_total": _format_used_total}
-    form_extra_fields = {
-        "type": SelectField(
-            choices=[(TYPE_FIXED, TYPE_FIXED), (TYPE_PERCENT, TYPE_PERCENT)]
-        )
-    }
-    form_args = {
-        'not_before': {'label': 'Start Time'},
-        'not_after': {'label': 'End Time'},
-    }
 
 
 class UserView(CustomView):
