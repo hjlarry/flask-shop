@@ -1,3 +1,4 @@
+import ast
 from flask import url_for
 
 from flaskshop.database import (
@@ -28,10 +29,21 @@ class Product(SurrogatePK, Model):
 
     @property
     def img_url(self):
+        if not self.image:
+            return None
         if self.image.startswith('http'):
             return self.image
         else:
-            return url_for('static', filename=self.image)
+            return url_for('static', filename=ast.literal_eval(self.image)[0])
+
+    @property
+    def img_list(self):
+        if not self.image:
+            return ['']
+        if self.image.startswith('http'):
+            return [self.image, ]
+        else:
+            return [url_for('static', filename=img) for img in ast.literal_eval(self.image)]
 
 
 class ProductSku(SurrogatePK, Model):

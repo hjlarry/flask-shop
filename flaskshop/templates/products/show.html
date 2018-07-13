@@ -6,8 +6,39 @@
                 <div class="panel-body product-info">
                     <div class="row">
                         <div class="col-sm-5">
-                            <img class="cover" src="{{ product.image }}" alt="">
-                        </div>
+                            <div id="myCarousel" class="carousel slide">
+                                <!-- 轮播（Carousel）指标 -->
+                                <ol class="carousel-indicators">
+                                    {% for img in product.img_list %}
+                                        <li data-target="#myCarousel"></li>
+                                    {% endfor %}
+                                </ol>
+
+                                <!-- 轮播（Carousel）项目 -->
+                                <div class="carousel-inner">
+                                    {% for img in product.img_list %}
+                                        {% if loop.first %}
+                                            <div class="item active">
+                                        {% else %}
+                                            <div class="item">
+                                        {% endif %}
+                                    <img src="{{ img }}"/>
+                                    </div>
+                                    {% endfor %}
+                                    </div>
+                                    <!-- 轮播（Carousel）导航 -->
+                                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" href="#myCarousel" role="button"
+                                       data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+
+                            </div>
                         <div class="col-sm-7">
                             <div class="title">{{ product.title }}</div>
                             <div class="price">
@@ -90,6 +121,7 @@
 {% block js %}
     <script>
         $(document).ready(function () {
+            $("#myCarousel").carousel('cycle');
             $('[data-toggle="tooltip"]').tooltip({trigger: 'hover'});
             $('.sku-btn').click(function () {
                 $('.product-info .price span').text($(this).data('price'));
