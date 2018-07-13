@@ -1,4 +1,5 @@
-from flask import Blueprint, flash, redirect, request, url_for, current_app
+import ast
+from flask import Blueprint, flash, redirect, request, url_for
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import form, actions
 from flask_login import current_user
@@ -7,12 +8,10 @@ from wtforms.fields import (
     IntegerField,
     BooleanField,
     DecimalField,
-    TextAreaField,
     PasswordField,
     TextField,
     SelectField,
 )
-from wtforms.widgets import TextArea
 from wtforms.validators import Email, DataRequired
 
 from flaskshop.extensions import admin_manager, db, csrf_protect
@@ -22,21 +21,9 @@ from flaskshop.product.models import Product, ProductSku
 from flaskshop.order.models import Order, OrderItem
 from flaskshop.user.models import User
 from flaskshop.cart.models import CouponCode
+from .utils import MultipleImageUploadField, CKTextAreaField
 
 blueprint = Blueprint("admin_pannel", __name__, url_prefix="/admin")
-
-
-class CKTextAreaWidget(TextArea):
-    def __call__(self, field, **kwargs):
-        if kwargs.get("class"):
-            kwargs["class"] += " ckeditor"
-        else:
-            kwargs.setdefault("class", "ckeditor")
-        return super(CKTextAreaWidget, self).__call__(field, **kwargs)
-
-
-class CKTextAreaField(TextAreaField):
-    widget = CKTextAreaWidget()
 
 
 class CustomView(ModelView):
@@ -90,8 +77,8 @@ class ProductView(CustomView):
     extra_js = ["//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"]
     form_excluded_columns = ("liked_users",)
     form_extra_fields = {
-        "image": form.ImageUploadField('Image', base_path=Config.STATIC_DIR, thumbnail_size=(200, 100, True),
-                                       relative_path='images/'),
+        "image": MultipleImageUploadField('Image', base_path=Config.STATIC_DIR, thumbnail_size=(200, 100, True),
+                                          relative_path='images/'),
         "on_sale": BooleanField(),
         "sold_count": IntegerField(),
         "review_count": IntegerField(),
@@ -113,10 +100,12 @@ class ProductView(CustomView):
         return Markup("￥{}".format(model.price))
 
     def _list_thumbnail(view, context, model, name):
-        if model.image.startswith('http'):
+        if not model.image:
+            return ''
+        elif model.image.startswith('http'):
             url = model.image
         else:
-            url = url_for('static', filename=form.thumbgen_filename(model.image))
+            url = url_for('static', filename=form.thumbgen_filename(ast.literal_eval(model.image)[0]))
         return Markup("<img src={} width=200 height=100/>".format(url))
 
     column_formatters = {"price": _format_price, "image": _list_thumbnail}
