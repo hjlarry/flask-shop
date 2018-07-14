@@ -25,10 +25,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
-    "city-picker": "0.0.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
-    "sweetalert": "^2.1.0"
+    "sweetalert": "^2.1.0",
+    "sync-exec": "^0.6.2"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
