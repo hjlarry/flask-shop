@@ -24,7 +24,7 @@ class Product(SurrogatePK, Model):
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
     category_id = reference_col("categories")
-    category = relationship('Category', backref='products')
+    category = relationship("Category", backref="products")
 
     def __repr__(self):
         return f"<Product({self.title})>"
@@ -33,19 +33,21 @@ class Product(SurrogatePK, Model):
     def img_url(self):
         if not self.image:
             return None
-        if self.image.startswith('http'):
+        if self.image.startswith("http"):
             return self.image
         else:
-            return url_for('static', filename=ast.literal_eval(self.image)[0])
+            return url_for("static", filename=ast.literal_eval(self.image)[0])
 
     @property
     def img_list(self):
         if not self.image:
-            return ['']
-        if self.image.startswith('http'):
-            return [self.image, ]
+            return [""]
+        if self.image.startswith("http"):
+            return [self.image]
         else:
-            return [url_for('static', filename=img) for img in ast.literal_eval(self.image)]
+            return [
+                url_for("static", filename=img) for img in ast.literal_eval(self.image)
+            ]
 
 
 class ProductSku(SurrogatePK, Model):
@@ -57,35 +59,37 @@ class ProductSku(SurrogatePK, Model):
     price = Column(db.DECIMAL(10, 2))
     stock = Column(db.Integer())
     product_id = reference_col("products")
-    product = relationship('Product', backref='sku')
+    product = relationship("Product", backref="sku")
 
     def __repr__(self):
         return f"<ProductSku({self.title})>"
 
     def decrement_stock(self, amount):
         if amount <= 0:
-            raise Exception('Can`t low than zero!')
+            raise Exception("Can`t low than zero!")
         if amount > self.stock:
             print(amount)
             print(self.stock)
-            raise Exception('Not enough stock!')
+            raise Exception("Not enough stock!")
         self.stock -= amount
 
     def can_add_to_cart(self, amount):
         if not self.product.on_sale:
-            raise Exception('Not On Sale')
+            raise Exception("Not On Sale")
         if self.stock == 0:
-            raise Exception('Empty Stock')
+            raise Exception("Empty Stock")
         if amount > self.stock:
-            raise Exception('Not enough stock!')
+            raise Exception("Not enough stock!")
         return True
 
 
 class Category(SurrogatePK, Model):
     """a category of a product"""
-    
+
     __tablename__ = "categories"
     title = Column(db.String(255), nullable=False)
     parent_id = reference_col("categories")
-    parent = relationship("Category", backref="children")
     background_img = Column(db.String(255))
+
+
+Category.parent = relationship("Category", backref="children", remote_side=Category.id)
