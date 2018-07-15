@@ -27,7 +27,7 @@
     width: 10px;
     margin-top: -3px;
     height: 5px;
-    background: url(../static/drop-arrow.png) -10px -25px no-repeat;
+    background: url(../city-picker/drop-arrow.png) -10px -25px no-repeat;
 }
 
 .city-picker-span.focus,
