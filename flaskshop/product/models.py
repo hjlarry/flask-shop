@@ -23,6 +23,8 @@ class Product(SurrogatePK, Model):
     sold_count = Column(db.Integer(), default=0)
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
+    category_id = reference_col("categories")
+    category = relationship('Category', backref='products')
 
     def __repr__(self):
         return f"<Product({self.title})>"
@@ -77,3 +79,13 @@ class ProductSku(SurrogatePK, Model):
         if amount > self.stock:
             raise Exception('Not enough stock!')
         return True
+
+
+class Category(SurrogatePK, Model):
+    """a category of a product"""
+    
+    __tablename__ = "categories"
+    title = Column(db.String(255), nullable=False)
+    parent_id = reference_col("categories")
+    parent = relationship("Category", backref="children")
+    background_img = Column(db.String(255))
