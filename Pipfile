@@ -1,7 +1,11 @@
 [[source]]
-url = "https://pypi.org/simple"
-verify_ssl = true
+url = "http://pypi.douban.com/simple"
+verify_ssl = false
 name = "pypi"
+
+[global]
+trusted-host = "files.pythonhosted.org"
+
 
 [packages]
 flask = "==1.0.2"
@@ -39,6 +43,7 @@ python-alipay-sdk = "*"
 flask-admin = "*"
 pillow = "*"
 libgravatar = "*"
+bootstrap-flask = "*"
 
 [dev-packages]
 

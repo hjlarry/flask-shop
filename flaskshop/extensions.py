@@ -10,6 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_webpack import Webpack
 from flask_wtf.csrf import CSRFProtect
 from flask_admin import Admin, AdminIndexView
+from flask_bootstrap import Bootstrap
 
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
@@ -19,6 +20,7 @@ migrate = Migrate(compare_type=True)
 cache = Cache()
 debug_toolbar = DebugToolbarExtension()
 webpack = Webpack()
+bootstrap = Bootstrap()
 
 
 class CustomAdminIndexView(AdminIndexView):
@@ -40,6 +42,6 @@ class CustomAdminIndexView(AdminIndexView):
 
 admin_manager = Admin(
     index_view=CustomAdminIndexView(),
-    base_template='adminlte.html',
+    base_template='admin/layout.html',
     template_mode='bootstrap3'
 )

@@ -12,7 +12,8 @@ from flaskshop.extensions import (
     login_manager,
     migrate,
     webpack,
-    admin_manager
+    admin_manager,
+    bootstrap
 )
 from flaskshop.settings import ProdConfig
 
@@ -43,6 +44,7 @@ def register_extensions(app):
     migrate.init_app(app, db)
     webpack.init_app(app)
     admin_manager.init_app(app)
+    bootstrap.init_app(app)
     return None
 
 
