@@ -6,6 +6,7 @@ from sqlalchemy import or_
 from werkzeug.wrappers import Response
 
 from .models import Product
+from .forms import AddCartForm
 from flaskshop.extensions import db
 
 blueprint = Blueprint("product", __name__, url_prefix="/products")
@@ -42,14 +43,10 @@ def index():
 def show(id):
     """show a product."""
     product = Product.query.filter_by(id=id).first()
-    favored = False
-    if not product.on_sale:
-        flash("The product is not on sale", "warning")
-        return redirect(url_for("product.index"))
-    if current_user.is_authenticated:
-        favored = product in current_user.favor_products
+    form = AddCartForm(request.form)
+    favored = False  # TODO
 
-    return render_template("products/show.html", product=product, favored=favored)
+    return render_template("products/details.html", product=product, form=form)
 
 
 @blueprint.route("/<id>/favor", methods=['POST', 'DELETE'])

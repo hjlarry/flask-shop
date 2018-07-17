@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_field %}
+
+{% block title %}
+  {{ product.name }}
+{% endblock %}
+{{ bootstrap.load_css() }}
+
+{% block breadcrumb %}
+  <ul class="breadcrumbs list-unstyled">
+    <li>
+      <a href="{{ url_for('public.home') }}">
+        Home
+      </a>
+    </li>
+    {% if product.category %}
+      <li>
+        <a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a>
+      </li>
+    {% endif %}
+    <li>
+      <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+    </li>
+  </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+
+  <div class="row product">
+
+    <div class="col-md-6 col-12 product__gallery">
+      {% with images=product.img_list %}
+        {% if images %}
+          <div id="carousel-example-generic" class="carousel slide">
+            <div class="carousel-inner" role="listbox">
+              {% for image in images %}
+                <div class="carousel-item{% if loop.first %} active{% endif %}">
+                  <img class="d-block img-fluid lazyload lazypreload"
+                       alt=""
+                       src="{{ image }}"
+                       data-src="{{ image }}"
+                  />
+                </div>
+              {% endfor %}
+            </div>
+            {% if images|length > 1 %}
+              <a class="carousel-control-prev" href="#carousel-example-generic" role="button" data-slide="prev">
+                <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
+              </a>
+              <a class="carousel-control-next" href="#carousel-example-generic" role="button" data-slide="next">
+                <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
+              </a>
+            {% endif %}
+            <ol class="carousel-indicators d-none d-md-block">
+              {% for image in images %}
+                {% if images|length > 1 %}
+                  <li data-target="#carousel-example-generic" {% if loop.first %} class="active"{% endif %}>
+                    <img class="lazyload lazypreload" src="{{ image }}" data-src="{{ image }}">
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ol>
+          </div>
+        {% else %}
+          <img alt="" class="img-fluid lazyload lazypreload">
+        {% endif %}
+      {% endwith %}
+    </div>
+    <div class="col-md-6 col-12 product__info">
+      <h1 class="product__info__name">
+        {{ product }}
+      </h1>
+
+      {% if product.on_sale %}
+        {% block orderform %}
+
+          <form id="product-form" role="form" class="product-form clearfix" method="post"
+                action="" novalidate>
+            {{ form.csrf_token }}
+            {{ render_field(form.variant) }}
+            <div class="product__info__quantity">
+              {{ render_field(form.quantity) }}
+            </div>
+
+            <div class="form-group product__info__button">
+              <button class="btn primary">
+                Add to cart
+              </button>
+            </div>
+          </form>
+
+        {% endblock %}
+        <div class="product__info__form-error">
+          <small class="text-danger"></small>
+        </div>
+
+      {% else %}
+        <p class="alert alert-warning">
+          This product is currently <strong>unavailable</strong>.
+        </p>
+      {% endif %}
+      <div class="product__info__description">
+        <h3>Description</h3>
+        <hr>
+        {{ product.description|safe }}
+      </div>
+      <hr>
+      <table>
+
+      </table>
+    </div>
+  </div>
+  {{ bootstrap.load_js() }}
+{% endblock content %}
+

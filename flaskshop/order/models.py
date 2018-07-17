@@ -73,7 +73,7 @@ class OrderItem(SurrogatePK, Model):
     __tablename__ = 'order_items'
     order_id = reference_col('orders')
     order = relationship('Order', backref='items')
-    product_id = reference_col('products')
+    product_id = reference_col('product_product')
     product = relationship('Product')
     product_sku_id = reference_col('product_skus')
     product_sku = relationship('ProductSku')

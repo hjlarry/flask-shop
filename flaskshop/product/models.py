@@ -14,7 +14,7 @@ from flaskshop.database import (
 class Product(SurrogatePK, Model):
     """A product of the app"""
 
-    __tablename__ = "products"
+    __tablename__ = "product_product"
     title = Column(db.String(255), nullable=False)
     description = Column(db.Text())
     image = Column(db.String(255))
@@ -24,7 +24,7 @@ class Product(SurrogatePK, Model):
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
     category_id = reference_col("product_category")
-    category = relationship("Category", backref="products")
+    category = relationship("Category", backref="product_product")
 
     def __repr__(self):
         return f"<Product({self.title})>"
@@ -52,6 +52,10 @@ class Product(SurrogatePK, Model):
                 url_for("static", filename=img) for img in ast.literal_eval(self.image)
             ]
 
+    @property
+    def get_absolute_url(self):
+        return url_for('product.show', id=self.id)
+
 
 class ProductSku(SurrogatePK, Model):
     """sku of this product"""
@@ -61,7 +65,7 @@ class ProductSku(SurrogatePK, Model):
     description = Column(db.Text())
     price = Column(db.DECIMAL(10, 2))
     stock = Column(db.Integer())
-    product_id = reference_col("products")
+    product_id = reference_col("product_product")
     product = relationship("Product", backref="sku")
 
     def __repr__(self):
