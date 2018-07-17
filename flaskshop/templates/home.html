@@ -1,57 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="home">
-        <div class="row">
-            <div class="col-sm-12 home__block1">
-                <div class="home--square">
-                    <div class="home--content">
-                        <div class="home--content-wrapper">
-                            <div class="home--content-inner">
-                                <h1>Promo & Sale</h1>
-                                <h2>from the Northpole</h2>
-                                <a class="btn btn-secondary home__button" href="#">
-                                    Shop now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="home">
+    <div class="row">
+      <div class="col-sm-12 home__block1">
+        <div class="home--square">
+          <div class="home--content">
+            <div class="home--content-wrapper">
+              <div class="home--content-inner">
+                <h1>Promo & Sale</h1>
+                <h2>from the Northpole</h2>
+                <a class="btn btn-secondary home__button" href="#">
+                  Shop now
+                </a>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-6 home__block2">
-                <div class="home--square">
-                    <div class="home--content">
-                        <div class="home--content-wrapper">
-                            <div class="home--content-inner">
-                                <h1>Size & Colours</h1>
-                                <a class="btn btn-secondary home__button" href="#">Shop now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 home__block3">
-                <div class="home--square">
-                    <div class="home--content">
-                        <div class="home--content-wrapper">
-                            <div class="home--content-inner">
-                                <h1>Digital Downloads</h1>
-                                <a class="btn btn-secondary home__button" href="#">Shop now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% if products %}
-            <div class="home__featured">
-                <h2 class="text-center">Featured products</h2>
-                <div class="row">
-                    product/_items.html
-                </div>
-            </div>
-        {% endif %}
+      </div>
     </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-6 home__block2">
+        <div class="home--square">
+          <div class="home--content">
+            <div class="home--content-wrapper">
+              <div class="home--content-inner">
+                <h1>Size & Colours</h1>
+                <a class="btn btn-secondary home__button" href="#">Shop now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6 home__block3">
+        <div class="home--square">
+          <div class="home--content">
+            <div class="home--content-wrapper">
+              <div class="home--content-inner">
+                <h1>Digital Downloads</h1>
+                <a class="btn btn-secondary home__button" href="#">Shop now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if products %}
+      <div class="home__featured">
+        <h2 class="text-center">Featured products</h2>
+        <div class="row">
+          {% include('products/_items.html') %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}

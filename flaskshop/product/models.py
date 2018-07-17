@@ -29,6 +29,9 @@ class Product(SurrogatePK, Model):
     def __repr__(self):
         return f"<Product({self.title})>"
 
+    def __str__(self):
+        return self.title
+
     @property
     def img_url(self):
         if not self.image:

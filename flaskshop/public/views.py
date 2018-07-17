@@ -6,6 +6,7 @@ from flask_login import login_required, login_user, logout_user
 from flaskshop.extensions import login_manager
 from flaskshop.user.forms import RegisterForm, LoginForm
 from flaskshop.user.models import User
+from flaskshop.product.models import Product
 from flaskshop.utils import flash_errors
 
 blueprint = Blueprint("public", __name__)
@@ -20,7 +21,8 @@ def load_user(user_id):
 @blueprint.route("/")
 def home():
     """Home page."""
-    return render_template("home.html")
+    products = Product.query.paginate(1, per_page=8).items
+    return render_template("home.html", products=products)
 
 
 @blueprint.route("/login", methods=["GET", "POST"])
