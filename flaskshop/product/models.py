@@ -23,7 +23,7 @@ class Product(SurrogatePK, Model):
     sold_count = Column(db.Integer(), default=0)
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
-    category_id = reference_col("categories")
+    category_id = reference_col("product_category")
     category = relationship("Category", backref="products")
 
     def __repr__(self):
@@ -86,9 +86,9 @@ class ProductSku(SurrogatePK, Model):
 class Category(SurrogatePK, Model):
     """a category of a product"""
 
-    __tablename__ = "categories"
+    __tablename__ = "product_category"
     title = Column(db.String(255), nullable=False)
-    parent_id = reference_col("categories")
+    parent_id = reference_col("product_category")
     background_img = Column(db.String(255))
 
 

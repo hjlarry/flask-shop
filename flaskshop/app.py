@@ -27,9 +27,11 @@ def create_app(config_object=ProdConfig):
     app.config.from_object(config_object)
     register_extensions(app)
     register_blueprints(app)
+    register_global_varibles(app)
     register_errorhandlers(app)
     register_shellcontext(app)
     register_commands(app)
+
     return app
 
 
@@ -56,6 +58,17 @@ def register_blueprints(app):
     app.register_blueprint(order.views.blueprint)
     app.register_blueprint(cart.views.blueprint)
     app.register_blueprint(admin.views.blueprint)
+    return None
+
+
+def register_global_varibles(app):
+    """Register global varibles for jinja2"""
+    from flaskshop.public.models import Site
+    @app.context_processor
+    def inject_param():
+        site = Site.query.first()
+        return dict(site=site)
+
     return None
 
 

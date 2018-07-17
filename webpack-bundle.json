@@ -1,1 +1,18 @@
-{"status":"done","publicPath":"http://localhost:2992/static/build/","chunks":{"storefront":[{"name":"storefront.47101737c0c762cebd80.css","publicPath":"http://localhost:2992/static/build/storefront.47101737c0c762cebd80.css","path":"/Users/hejl/JianGuo/flask-shop/flaskshop/static/build/storefront.47101737c0c762cebd80.css"},{"name":"storefront.47101737c0c762cebd80.js","publicPath":"http://localhost:2992/static/build/storefront.47101737c0c762cebd80.js","path":"/Users/hejl/JianGuo/flask-shop/flaskshop/static/build/storefront.47101737c0c762cebd80.js"}]}}
+{
+  "status": "done",
+  "publicPath": "http://localhost:2992/static/build/",
+  "chunks": {
+    "storefront": [
+      {
+        "name": "storefront.ebfc65e5b98bc1193c9e.css",
+        "publicPath": "http://localhost:2992/static/build/storefront.ebfc65e5b98bc1193c9e.css",
+        "path": "/Users/hejl/JianGuo/flask-shop/flaskshop/static/build/storefront.ebfc65e5b98bc1193c9e.css"
+      },
+      {
+        "name": "storefront.ebfc65e5b98bc1193c9e.js",
+        "publicPath": "http://localhost:2992/static/build/storefront.ebfc65e5b98bc1193c9e.js",
+        "path": "/Users/hejl/JianGuo/flask-shop/flaskshop/static/build/storefront.ebfc65e5b98bc1193c9e.js"
+      }
+    ]
+  }
+}
