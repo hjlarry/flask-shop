@@ -91,5 +91,9 @@ class Category(SurrogatePK, Model):
     parent_id = reference_col("product_category")
     background_img = Column(db.String(255))
 
+    def get_absolute_url(self):
+        return 1
+        # return reverse('page:details', kwargs={'slug': self.slug})
+
 
 Category.parent = relationship("Category", backref="children", remote_side=Category.id)

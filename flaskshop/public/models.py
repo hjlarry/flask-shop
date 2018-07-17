@@ -48,10 +48,23 @@ class MenuItem(SurrogatePK, Model):
     menu_id = reference_col("menu_menu")
     menu = relationship("Menu", backref="menu_items")
     page_id = reference_col("page_page")
+    page = relationship("Page")
     parent_id = reference_col("menu_menuitem")
 
     def __repr__(self):
         return f"<MenuItem({self.title})>"
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def linked_object(self):
+        return self.category or self.page  # //TODO collection
+
+    @property
+    def get_url(self):
+        linked_object = self.linked_object
+        return linked_object.get_absolute_url() if linked_object else self.url
 
 
 MenuItem.parent = relationship("MenuItem", backref="children", remote_side=MenuItem.id)
@@ -67,3 +80,7 @@ class Page(SurrogatePK, Model):
 
     def __repr__(self):
         return f"<Page({self.title})>"
+
+    def get_absolute_url(self):
+        return 1
+        # return reverse('page:details', kwargs={'slug': self.slug})

@@ -30,3 +30,35 @@
 </div>
 {% endmacro %}
 
+{% macro menu(menu_items, horizontal=true) %}
+<ul class="menu {% if horizontal %}nav mb-4 mb-md-0{% endif %}{% if request.get_full_path == home_url %} no-border{% endif %}">
+  {% for item in menu_items %}
+  {% with children=item.children %}
+    <li class="{% if horizontal %}nav-item{% endif %} {% if children %}nav-item__dropdown{% endif %} menu__item">
+      <a class="{% if horizontal %}nav-link{% endif %}" href="{{ item.get_url }}">
+        {{ item }}
+      </a>
+      {% if children %}
+        <div class="{% if horizontal %}nav-item__dropdown-content{% else %}nav-item__submenu{% endif %}">
+          <div class="container">
+            <ul>
+            {% for child in children %}
+              <li>
+                <a href="{{ child.get_url }}">
+                  {% if horizontal %}
+                    <strong>{{ child }}</strong>
+                  {% else %}
+                    {{ child }}
+                  {% endif %}
+                </a>
+              </li>
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+    </li>
+  {% endwith %}
+  {% endfor %}
+</ul>
+{% endmacro %}

@@ -1,3 +1,4 @@
+{% import '_macros.html' as macros %}
 <!DOCTYPE html>
 <html class="no-js">
 <head>
@@ -131,7 +132,7 @@
     </div>
     <div class="navbar__menu container d-block">
       <nav class="navigation">
-        MENU
+        {{ macros.menu(site.top_menu.menu_items) }}
       </nav>
     </div>
   </header>
@@ -161,7 +162,7 @@
           </a>
         </div>
         <div class="col-md-3 col-sm-6">
-          Bottom Menu
+          {{ macros.menu(site.bottom_menu.menu_items, false) }}
         </div>
         <div class="col-md-3 col-sm-6">
           <ul>
