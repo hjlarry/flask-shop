@@ -1,0 +1,35 @@
+// GLOBAL
+$global-padding: 1rem;
+$global-margin: 1rem;
+$button-border-radius: 4px;
+
+// COLORS
+$body-color: #333333;
+$white: #fff;
+$light-gray: #f2f2f2;
+$gray: #D3D1D0;
+$darken-gray: darken($gray, 10%);
+$skull-gray: #828282;
+$blue: #26A5D4;
+$darken-blue: darken($blue, 10%);
+$red: #EB5757;
+$dark-red: #c53636;
+$green: #27AE60;
+$beige: #FFFAEC;
+
+// TYPOGRAPHY
+$font-family-sans-serif: 'Lato', sans-serif;
+$h1-font-size: 3rem;
+$h2-font-size: 1.3rem;
+$h3-font-size: 1rem;
+
+$theme-colors: (
+        primary: $blue,
+        secondary: $white,
+        success: $green,
+        info: #17a2b8,
+        warning: #ffc107,
+        danger: $red,
+        light: #f8f9fa,
+        dark: #343a40
+);

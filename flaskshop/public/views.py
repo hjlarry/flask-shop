@@ -20,7 +20,7 @@ def load_user(user_id):
 @blueprint.route("/")
 def home():
     """Home page."""
-    return render_template("public/home.html")
+    return render_template("home.html")
 
 
 @blueprint.route("/login", methods=["GET", "POST"])
