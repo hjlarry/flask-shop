@@ -7,6 +7,7 @@ from werkzeug.wrappers import Response
 
 from .models import Product
 from .forms import AddCartForm
+from .utils import get_product_attributes_data
 from flaskshop.extensions import db
 
 blueprint = Blueprint("product", __name__, url_prefix="/products")
@@ -44,9 +45,10 @@ def show(id):
     """show a product."""
     product = Product.query.filter_by(id=id).first()
     form = AddCartForm(request.form)
+    product_attributes = get_product_attributes_data(product)
     favored = False  # TODO
 
-    return render_template("products/details.html", product=product, form=form)
+    return render_template("products/details.html", product=product, form=form, product_attributes=product_attributes)
 
 
 @blueprint.route("/<id>/favor", methods=['POST', 'DELETE'])

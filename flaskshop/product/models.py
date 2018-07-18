@@ -1,5 +1,7 @@
 import ast
+import json
 from flask import url_for
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from flaskshop.database import (
     Column,
@@ -22,12 +24,28 @@ class Product(SurrogatePK, Model):
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
     category_id = reference_col("product_category")
-    category = relationship("Category", backref="product_product")
+    category = relationship("Category", backref="products")
     is_featured = Column(db.Boolean(), default=False)
-
+    product_type_id = reference_col("product_producttype")
+    product_type = relationship("ProductType", backref="products")
+    _attributes = Column('attributes', db.Text())
 
     def __str__(self):
         return self.title
+
+    @hybrid_property
+    def attributes(self):
+        if self._attributes:
+            return {int(k): v for k, v in json.loads(self._attributes).items()}
+        else:
+            return dict()
+
+    @attributes.setter
+    def attributes(self, value):
+        if isinstance(value, dict):
+            self._attributes = json.dumps(self.attributes.update(value))
+        else:
+            raise Exception('Must set a dict for product attribute')
 
     @property
     def img_url(self):
@@ -63,7 +81,6 @@ class ProductSku(SurrogatePK, Model):
     product_id = reference_col("product_product")
     product = relationship("Product", backref="sku")
 
-
     def decrement_stock(self, amount):
         if amount <= 0:
             raise Exception("Can`t low than zero!")
@@ -95,12 +112,21 @@ class Category(SurrogatePK, Model):
 
 Category.parent = relationship("Category", backref="children", remote_side=Category.id)
 
+product_type_product_attrbuites = db.Table(
+    "product_producttype_product_attributes",
+    Column("producttype_id", db.Integer(), db.ForeignKey("product_producttype.id"), primary_key=True),
+    Column("productattribute_id", db.Integer(), db.ForeignKey("product_productattribute.id"), primary_key=True),
+)
+
 
 class ProductType(SurrogatePK, Model):
     __tablename__ = "product_producttype"
     title = Column(db.String(255), nullable=False)
     has_variants = Column(db.Boolean(), default=True)
     is_shipping_required = Column(db.Boolean(), default=False)
+    product_attributes = relationship(
+        "ProductAttribute", secondary=product_type_product_attrbuites, backref="product_types", lazy='dynamic'
+    )
 
 
 class ProductVariant(SurrogatePK, Model):
@@ -115,6 +141,18 @@ class ProductAttribute(SurrogatePK, Model):
     __tablename__ = "product_productattribute"
     title = Column(db.String(255), nullable=False)
 
+    def __str__(self):
+        return self.title
+
+
+class AttributeChoiceValue(SurrogatePK, Model):
+    __tablename__ = "product_attributechoicevalue"
+    title = Column(db.String(255), nullable=False)
+    attribute_id = reference_col("product_productattribute")
+    attribute = relationship("ProductAttribute", backref="values")
+
+    def __str__(self):
+        return self.title
 
 
 class ProductImage(SurrogatePK, Model):
