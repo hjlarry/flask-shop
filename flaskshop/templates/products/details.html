@@ -39,6 +39,7 @@
                        alt=""
                        src="{{ image }}"
                        data-src="{{ image }}"
+                       width=255
                   />
                 </div>
               {% endfor %}
@@ -50,11 +51,12 @@
               <a class="carousel-control-next" href="#carousel-example-generic" role="button" data-slide="next">
                 <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
               </a>
+{#              TODO#}
             {% endif %}
             <ol class="carousel-indicators d-none d-md-block">
               {% for image in images %}
                 {% if images|length > 1 %}
-                  <li data-target="#carousel-example-generic" {% if loop.first %} class="active"{% endif %}>
+                  <li data-target="#carousel-example-generic" data-slide-to="{{ loop.index - 1 }}" {% if loop.first %} class="active"{% endif %}>
                     <img class="lazyload lazypreload" src="{{ image }}" data-src="{{ image }}">
                   </li>
                 {% endif %}
@@ -110,6 +112,6 @@
       </table>
     </div>
   </div>
-  {{ bootstrap.load_js() }}
-{% endblock content %}
 
+
+{% endblock content %}

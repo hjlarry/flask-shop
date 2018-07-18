@@ -10,7 +10,7 @@ class AddCartForm(FlaskForm):
         "variant", validators=[DataRequired()]
     )
     quantity = StringField(
-        "quantity", validators=[DataRequired()]
+        "quantity", validators=[DataRequired()], default=1
     )
 
     def __init__(self, *args, **kwargs):
