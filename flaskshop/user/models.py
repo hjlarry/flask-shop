@@ -21,8 +21,6 @@ user_favorite_product = db.Table(
 
 
 class User(UserMixin, SurrogatePK, Model):
-    """A user of the app."""
-
     __tablename__ = "users"
     username = Column(db.String(80), unique=True, nullable=False)
     email = Column(db.String(80), unique=True, nullable=False)
@@ -55,13 +53,8 @@ class User(UserMixin, SurrogatePK, Model):
         """Check password."""
         return bcrypt.check_password_hash(self.password, value)
 
-    def __repr__(self):
-        return f"<User({self.username})>"
-
 
 class UserAddress(SurrogatePK, Model):
-    """An address for a user"""
-
     __tablename__ = "users_address"
     user_id = reference_col("users")
     user = relationship("User", backref="addresses")
@@ -75,7 +68,3 @@ class UserAddress(SurrogatePK, Model):
     @property
     def full_address(self):
         return f"{self.province}{self.city}{self.district}{self.address}"
-
-    def __repr__(self):
-        return f"<Address({self.id})>"
-

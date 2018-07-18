@@ -12,8 +12,6 @@ from flaskshop.database import (
 
 
 class Product(SurrogatePK, Model):
-    """A product of the app"""
-
     __tablename__ = "product_product"
     title = Column(db.String(255), nullable=False)
     description = Column(db.Text())
@@ -25,9 +23,8 @@ class Product(SurrogatePK, Model):
     price = Column(db.DECIMAL(10, 2))
     category_id = reference_col("product_category")
     category = relationship("Category", backref="product_product")
+    is_featured = Column(db.Boolean(), default=False)
 
-    def __repr__(self):
-        return f"<Product({self.title})>"
 
     def __str__(self):
         return self.title
@@ -58,8 +55,6 @@ class Product(SurrogatePK, Model):
 
 
 class ProductSku(SurrogatePK, Model):
-    """sku of this product"""
-
     __tablename__ = "product_skus"
     title = Column(db.String(255), nullable=False)
     description = Column(db.Text())
@@ -68,8 +63,6 @@ class ProductSku(SurrogatePK, Model):
     product_id = reference_col("product_product")
     product = relationship("Product", backref="sku")
 
-    def __repr__(self):
-        return f"<ProductSku({self.title})>"
 
     def decrement_stock(self, amount):
         if amount <= 0:
@@ -91,8 +84,6 @@ class ProductSku(SurrogatePK, Model):
 
 
 class Category(SurrogatePK, Model):
-    """a category of a product"""
-
     __tablename__ = "product_category"
     title = Column(db.String(255), nullable=False)
     parent_id = reference_col("product_category")
@@ -100,7 +91,35 @@ class Category(SurrogatePK, Model):
 
     def get_absolute_url(self):
         return 1
-        # return reverse('page:details', kwargs={'slug': self.slug})
 
 
 Category.parent = relationship("Category", backref="children", remote_side=Category.id)
+
+
+class ProductType(SurrogatePK, Model):
+    __tablename__ = "product_producttype"
+    title = Column(db.String(255), nullable=False)
+    has_variants = Column(db.Boolean(), default=True)
+    is_shipping_required = Column(db.Boolean(), default=False)
+
+
+class ProductVariant(SurrogatePK, Model):
+    __tablename__ = "product_variant"
+    sku = Column(db.String(32), unique=True)
+    title = Column(db.String(255), nullable=False)
+    price_override = Column(db.DECIMAL(10, 2))
+    quantity = Column(db.Integer())
+
+
+class ProductAttribute(SurrogatePK, Model):
+    __tablename__ = "product_productattribute"
+    title = Column(db.String(255), nullable=False)
+
+
+
+class ProductImage(SurrogatePK, Model):
+    __tablename__ = "product_productimage"
+    image = Column(db.String(255))
+    order = Column(db.Integer())
+    product_id = reference_col("product_product")
+    product = relationship("Product", backref="images")

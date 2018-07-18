@@ -56,6 +56,10 @@ class SurrogatePK(object):
     def __init__(self, **kwargs):
         db.Model.__init__(self, **kwargs)
 
+    def __repr__(self):
+        class_ = type(self)
+        return f"<{class_.__module__}.{class_.__name__}(id={self.id})>"
+
     @classmethod
     def get_by_id(cls, record_id):
         """Get record by ID."""
