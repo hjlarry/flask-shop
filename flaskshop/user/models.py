@@ -15,6 +15,7 @@ from flaskshop.extensions import bcrypt
 
 user_favorite_product = db.Table(
     "user_favorite_products",
+    Column("id", db.Integer(), primary_key=True),
     Column("user_id", db.Integer(), db.ForeignKey("users.id"), primary_key=True),
     Column("product_id", db.Integer(), db.ForeignKey("product_product.id"), primary_key=True),
 )

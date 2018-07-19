@@ -114,6 +114,7 @@ Category.parent = relationship("Category", backref="children", remote_side=Categ
 
 product_type_product_attrbuites = db.Table(
     "product_producttype_product_attributes",
+    Column("id", db.Integer(), primary_key=True),
     Column("producttype_id", db.Integer(), db.ForeignKey("product_producttype.id"), primary_key=True),
     Column("productattribute_id", db.Integer(), db.ForeignKey("product_productattribute.id"), primary_key=True),
 )
