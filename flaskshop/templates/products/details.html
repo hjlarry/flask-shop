@@ -76,11 +76,19 @@
 
       {% if product.on_sale %}
         {% block orderform %}
-
-          <form id="product-form" role="form" class="product-form clearfix" method="post"
-                action="" novalidate>
+          <form id="product-form" role="form" class="product-form clearfix" method="post" action="" novalidate>
             {{ form.csrf_token }}
-            {{ render_field(form.variant) }}
+            <div class="variant-picker">
+              <div class="variant-picker__label">{{ form.variant.label.text|safe }}</div>
+              <div class="btn-group" data-toggle="buttons">
+                {% for item in form.variant -%}
+                  <label class="btn btn-secondary variant-picker__option">
+                    {{ item()|safe }} {{ item.label.text|safe }}
+                  </label>
+                {% endfor %}
+              </div>
+            </div>
+
             <div class="product__info__quantity">
               {{ render_field(form.quantity) }}
             </div>

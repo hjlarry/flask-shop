@@ -1,18 +1,20 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField
+from wtforms import PasswordField, StringField, RadioField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 
 class AddCartForm(FlaskForm):
     """add cart form."""
 
-    variant = StringField(
-        "variant", validators=[DataRequired()]
+    variant = RadioField(
+        "variant", validators=[DataRequired()],
     )
     quantity = StringField(
         "quantity", validators=[DataRequired()], default=1
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, product, *args, **kwargs):
         """Create instance."""
         super().__init__(*args, **kwargs)
+        self.variant.choices = list([(vari.id, vari) for vari in product.variant])
+        self.variant.default = 2

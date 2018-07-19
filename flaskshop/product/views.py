@@ -44,10 +44,9 @@ def index():
 def show(id):
     """show a product."""
     product = Product.query.filter_by(id=id).first()
-    form = AddCartForm(request.form)
+    form = AddCartForm(product, request.form)
     product_attributes = get_product_attributes_data(product)
     favored = False  # TODO
-
     return render_template("products/details.html", product=product, form=form, product_attributes=product_attributes)
 
 

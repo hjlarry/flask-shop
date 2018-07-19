@@ -136,6 +136,26 @@ class ProductVariant(SurrogatePK, Model):
     title = Column(db.String(255), nullable=False)
     price_override = Column(db.DECIMAL(10, 2))
     quantity = Column(db.Integer())
+    product_id = reference_col("product_product")
+    product = relationship("Product", backref="variant")
+    _attributes = Column('attributes', db.String(255))
+
+    def __str__(self):
+        return self.title
+
+    @hybrid_property
+    def attributes(self):
+        if self._attributes:
+            return {int(k): v for k, v in json.loads(self._attributes).items()}
+        else:
+            return dict()
+
+    @attributes.setter
+    def attributes(self, value):
+        if isinstance(value, dict):
+            self._attributes = json.dumps(self.attributes.update(value))
+        else:
+            raise Exception('Must set a dict for product variant attribute')
 
 
 class ProductAttribute(SurrogatePK, Model):
