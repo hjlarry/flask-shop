@@ -9,6 +9,7 @@ from .models import Product
 from .forms import AddCartForm
 from .utils import get_product_attributes_data
 from flaskshop.extensions import db
+from flaskshop.cart.models import Cart, CartLine
 
 blueprint = Blueprint("product", __name__, url_prefix="/products")
 
@@ -44,10 +45,16 @@ def index():
 def show(id):
     """show a product."""
     product = Product.query.filter_by(id=id).first()
-    form = AddCartForm(product, request.form)
+    form = AddCartForm(request.form, product=product)
     product_attributes = get_product_attributes_data(product)
     favored = False  # TODO
     return render_template("products/details.html", product=product, form=form, product_attributes=product_attributes)
+
+
+@blueprint.route("/<id>/add", methods=['POST'])
+def product_add_to_cart(id):
+    CartLine.create(variant_id=request.form.get('variant'))
+    return redirect(url_for('product.show', id=id))
 
 
 @blueprint.route("/<id>/favor", methods=['POST', 'DELETE'])

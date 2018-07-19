@@ -15,8 +15,8 @@ from flaskshop.database import (
 
 class UserCart(SurrogatePK, Model):
     __tablename__ = "cart_items"
-    user_id = reference_col("users")
-    user = relationship("User", backref="cart_items")
+    # user_id = reference_col("users")
+    # user = relationship("User", backref="cart_items")
     product_sku_id = reference_col("product_skus")
     product_sku = relationship("ProductSku")
     amount = Column(db.Integer())
@@ -26,6 +26,24 @@ class UserCart(SurrogatePK, Model):
         self.amount -= amount
         if self.amount <= 0:
             self.delete()
+
+
+class Cart(SurrogatePK, Model):
+    __tablename__ = "checkout_cart"
+    user_id = reference_col("users")
+    user = relationship("User", backref="cart_items")
+    token = Column(db.String(255))
+    voucher_code = Column(db.String(255))
+    quantity = Column(db.Integer())
+
+
+class CartLine(SurrogatePK, Model):
+    __tablename__ = "checkout_cartline"
+    cart_id = reference_col("checkout_cart")
+    cart = relationship("Cart", backref="cart_lines")
+    quantity = Column(db.Integer())
+    variant_id = reference_col("product_variant")
+    variant = relationship("ProductVariant")
 
 
 class CouponCode(SurrogatePK, Model):

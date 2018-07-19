@@ -7,14 +7,14 @@ class AddCartForm(FlaskForm):
     """add cart form."""
 
     variant = RadioField(
-        "variant", validators=[DataRequired()],
+        "variant",
     )
     quantity = StringField(
         "quantity", validators=[DataRequired()], default=1
     )
 
-    def __init__(self, product, *args, **kwargs):
+    def __init__(self, *args, product=None, **kwargs):
         """Create instance."""
         super().__init__(*args, **kwargs)
-        self.variant.choices = list([(vari.id, vari) for vari in product.variant])
-        self.variant.default = 2
+        if product:
+            self.variant.choices = [(vari.id, vari) for vari in product.variant]
