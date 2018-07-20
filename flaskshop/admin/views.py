@@ -19,7 +19,7 @@ from flaskshop.constant import *
 from flaskshop.settings import Config
 from flaskshop.product.models import Product, ProductSku
 from flaskshop.order.models import Order, OrderItem
-from flaskshop.user.models import User
+from flaskshop.account.models import User
 from flaskshop.checkout.models import CouponCode
 from .utils import MultipleImageUploadField, CKTextAreaField
 

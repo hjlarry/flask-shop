@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_field %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+  <div class="col-lg-10 col-sm-12 m-auto">
+    <div class="row login">
+      <div class="col-md-6 login__register">
+        <div class="login__register-link">
+          <h3>Already have an account?</h3>
+          <img class="signup-img lazyload lazypreload" data-src="{{ url_for('static', filename='img/login-bg.png') }}">
+          <p><a rel="nofollow" href="{{ url_for('account.login') }}" class="btn secondary narrow">
+            Log in
+          </a></p>
+        </div>
+      </div>
+      <div class="col-md-6 login__form">
+        <form method="post" action="">
+          <fieldset>
+            <h3>Create an account</h3>
+            {{ form.csrf_token }}
+            {{ render_field(form.username) }}
+            {{ render_field(form.email) }}
+            {{ render_field(form.password) }}
+            {{ render_field(form.confirm) }}
+          </fieldset>
+          <button type="submit" class="btn primary narrow">
+            Create an account
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

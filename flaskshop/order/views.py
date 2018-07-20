@@ -9,7 +9,7 @@ import time
 from .models import Order, OrderItem
 from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
-from flaskshop.user.models import UserAddress
+from flaskshop.account.models import UserAddress
 from flaskshop.checkout.models import Cart,CouponCode
 from flaskshop.constant import REFUND_STATUS_APPLIED, SHIP_STATUS_RECEIVED
 

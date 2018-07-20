@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test forms."""
 
-from flaskshop.user.forms import RegisterForm, LoginForm
+from flaskshop.account.forms import RegisterForm, LoginForm
 
 
 class TestRegisterForm:

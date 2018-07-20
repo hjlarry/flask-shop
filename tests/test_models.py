@@ -4,7 +4,7 @@ import datetime as dt
 
 import pytest
 
-from flaskshop.user.models import Role, User
+from flaskshop.account.models import Role, User
 
 from .factories import UserFactory
 

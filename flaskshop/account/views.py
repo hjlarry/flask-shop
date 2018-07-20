@@ -1,20 +1,51 @@
 # -*- coding: utf-8 -*-
 """User views."""
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, login_user, logout_user
 
-from .forms import AddressForm
-from .models import UserAddress
+from .forms import AddressForm, LoginForm, RegisterForm
+from .models import UserAddress, User
 from flaskshop.utils import flash_errors
 
-blueprint = Blueprint("user", __name__, url_prefix="/users")
+blueprint = Blueprint("account", __name__, url_prefix="/account")
 
 
-@blueprint.before_request
+@blueprint.route("/login", methods=["GET", "POST"])
+def login():
+    """login page."""
+    form = LoginForm(request.form)
+    if form.validate_on_submit():
+        login_user(form.user)
+        redirect_url = request.args.get("next") or url_for("public.home")
+        return redirect(redirect_url)
+    else:
+        flash_errors(form)
+    return render_template("account/login.html", form=form)
+
+@blueprint.route("/logout/")
 @login_required
-def before_request():
-    """The whole blueprint need to login first"""
-    pass
+def logout():
+    """Logout."""
+    logout_user()
+    flash("You are logged out.", "info")
+    return redirect(url_for("public.home"))
+
+
+@blueprint.route("/signup/", methods=["GET", "POST"])
+def signup():
+    """Register new user."""
+    form = RegisterForm(request.form)
+    if form.validate_on_submit():
+        User.create(
+            username=form.username.data,
+            email=form.email.data,
+            password=form.password.data,
+            active=True,
+        )
+        return redirect(url_for("public.home"))
+    else:
+        flash_errors(form)
+    return render_template("account/signup.html", form=form)
 
 
 @blueprint.route("/")

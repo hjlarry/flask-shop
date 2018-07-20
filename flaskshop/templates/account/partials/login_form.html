@@ -1,0 +1,35 @@
+{% from 'bootstrap/form.html' import render_field %}
+<form method="post" action="" novalidate>
+  <fieldset>
+    {{ form.csrf_token }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+  </fieldset>
+  <div class="row login__btn-group">
+    <div class="col-sm-12">
+      <button class="btn primary narrow" type="submit">
+        Log in
+      </button>
+      <a rel="nofollow" class="link--styled" href="">
+        Forgot password?
+      </a>
+
+      <hr>
+      <div class="row">
+        <div class="col-sm-6 col-md-12 col-xl-6">
+          <a class="btn social-btn facebook" href="">
+            <svg data-src="{{ url_for('static', filename='img/facebook-logo.svg') }}" width="18" height="18"/>
+            <small>Facebook</small>
+          </a>
+        </div>
+        <div class="col-sm-6 col-md-12 col-xl-6">
+          <a class="btn social-btn google" href="">
+            <svg data-src="{{ url_for('static', filename='img/google-logo.svg') }}" width="18" height="18"/>
+            <small>Google</small>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>

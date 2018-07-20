@@ -4,7 +4,7 @@ from factory import PostGenerationMethodCall, Sequence
 from factory.alchemy import SQLAlchemyModelFactory
 
 from flaskshop.database import db
-from flaskshop.user.models import User
+from flaskshop.account.models import User
 
 
 class BaseFactory(SQLAlchemyModelFactory):

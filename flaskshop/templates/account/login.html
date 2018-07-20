@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+  <div class="col-lg-10 col-sm-12 m-auto">
+    <div class="row login">
+      <div class="col-md-6 login__register">
+        <div class="login__register-link">
+          <h3>Don't have an account yet?</h3>
+          <img class="lazyload lazypreload"
+               data-src="{{ url_for('static', filename='img/login-bg.png') }}"
+               >
+          <a rel="nofollow" href="{{ url_for('account.signup') }}" class="btn secondary narrow">
+            Register
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6 login__form">
+        <h3>Log in</h3>
+        {% include "account/partials/login_form.html" %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
