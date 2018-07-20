@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user, login_user, logout_user
 
-from .forms import AddressForm, LoginForm, RegisterForm
+from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm
 from .models import UserAddress, User
 from flaskshop.utils import flash_errors
 
@@ -17,10 +17,12 @@ def login():
     if form.validate_on_submit():
         login_user(form.user)
         redirect_url = request.args.get("next") or url_for("public.home")
+        flash("You are log in.", "success")
         return redirect(redirect_url)
     else:
         flash_errors(form)
     return render_template("account/login.html", form=form)
+
 
 @blueprint.route("/logout/")
 @login_required
@@ -36,12 +38,14 @@ def signup():
     """Register new user."""
     form = RegisterForm(request.form)
     if form.validate_on_submit():
-        User.create(
+        user = User.create(
             username=form.username.data,
             email=form.email.data,
             password=form.password.data,
             active=True,
         )
+        login_user(user)
+        flash("You are signed up.", "success")
         return redirect(url_for("public.home"))
     else:
         flash_errors(form)
@@ -49,9 +53,20 @@ def signup():
 
 
 @blueprint.route("/")
-def members():
-    """List members."""
-    return render_template("users/members.html")
+def index():
+    form = ChangePasswordForm(request.form)
+    return render_template("account/details.html", form=form)
+
+
+@blueprint.route("/setpwd", methods=["POST"])
+def set_password():
+    form = ChangePasswordForm(request.form)
+    if form.validate_on_submit():
+        current_user.update(password=form.password.data)
+        flash("You have changed password.", "success")
+    else:
+        flash_errors(form)
+    return redirect(url_for("account.index"))
 
 
 @blueprint.route("/address")

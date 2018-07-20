@@ -48,18 +48,18 @@
                   </li>
                 {% endif %}
                 <li>
-                  <a href="{{ url_for('order.index') }}">
-                    My Order</a>
+                  <a href="{{ url_for('account.index') }}">
+                    Your Account</a>
                 </li>
 
                 <li>
-                  <a href="{{ url_for('public.logout') }}">
+                  <a href="{{ url_for('account.logout') }}">
                     Log Out</a>
                 </li>
 
               {% else %}
                 <li>
-                  <a rel="nofollow" href="{{ url_for('public.register') }}">
+                  <a rel="nofollow" href="{{ url_for('account.signup') }}">
                     Register
                   </a>
                 </li>
@@ -146,14 +146,14 @@
 {% endblock %}
 <div class="container maincontent">
   {% block topcontent %}{% endblock topcontent %}
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
+
+{% for message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{ message[0] }}">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message[1] }}
+</div>
+{% endfor %}
+
   {% block breadcrumb %}
   {% endblock breadcrumb %}
   {% block content %}
@@ -198,18 +198,18 @@
               </li>
 
               <li>
-                <a href="{{ url_for('public.logout') }}">
+                <a href="{{ url_for('account.logout') }}">
                   Log out</a>
               </li>
 
             {% else %}
               <li>
-                <a rel="nofollow" href="{{ url_for('public.register') }}">
+                <a rel="nofollow" href="{{ url_for('account.signup') }}">
                   Register
                 </a>
               </li>
               <li>
-                <a rel="nofollow" href="{{ url_for('public.login') }}">
+                <a rel="nofollow" href="{{ url_for('account.login') }}">
                   Log in
                 </a>
               </li>

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """User forms."""
 from flask_wtf import FlaskForm
+from flask_login import current_user
 from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
@@ -74,6 +75,30 @@ class LoginForm(FlaskForm):
         if not self.user.active:
             self.username.errors.append("User not activated")
             return False
+        return True
+
+
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField("Old Password", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    confirm = PasswordField("Verify password",
+                            validators=[DataRequired(), EqualTo("password", message="Passwords must match")])
+
+    def __init__(self, *args, **kwargs):
+        """Create instance."""
+        super().__init__(*args, **kwargs)
+        self.user = current_user
+
+    def validate(self):
+        """Validate the form."""
+        initial_validation = super().validate()
+        if not initial_validation:
+            return False
+
+        if not self.user.check_password(self.old_password.data):
+            self.old_password.errors.append("Invalid password")
+            return False
+
         return True
 
 

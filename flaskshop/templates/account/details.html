@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_field %}
+{% block title %}Your profile{% endblock %}
+{% block breadcrumb %}
+  <ul class="breadcrumbs list-unstyled">
+    <li>
+      <a href="{{ url_for('public.home') }}">
+        Home
+      </a>
+    </li>
+    <li>Your account (<b>{{ current_user }}</b>)</li>
+  </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+  <div class="account">
+    <div class="account__nav container">
+      <h2>My account</h2>
+      <ul class="nav nav-tabs col-lg-10 m-auto" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#orders" role="tab">
+            <h3>Recent Orders</h3>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link " data-toggle="tab" href="#password" role="tab">
+            <h3>Change password</h3>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#addresses" role="tab">
+            <h3>Addresses book</h3>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="tab-content col-lg-10 m-auto">
+      <div class="tab-pane active fade show" id="orders" role="tabpanel">
+        <div id="accordion" role="tablist" aria-multiselectable="true">
+          {% if orders|length %}
+            <div class="table__header">
+              <div class="row">
+                <div class="col-md-2 col-3">
+                  <small>Order</small>
+                </div>
+                <div class="col-md-3 d-none d-md-block">
+                  <small>Date</small>
+                </div>
+                <div class="col-md-2 col-4 text-right">
+                  <small>Summary</small>
+                </div>
+                <div class="col-md-4 d-none d-md-block">
+                  <small>Status</small>
+                </div>
+                <div class="col-md-1 col-5"></div>
+              </div>
+            </div>
+            {% for order in orders %}
+              <div class="table__row">
+                <div class="row">
+                  <div class="col-md-2 col-3">
+                    {{ order }}
+                  </div>
+                  <div class="col-md-3 d-none d-md-block">
+                    {{ order.created }}
+                  </div>
+                  <div class="col-md-2 col-4">
+                    <span class="float-right">
+                      {{ order.total.gross }}
+                    </span>
+                  </div>
+                  <div class="col-md-4 d-none d-md-block">
+                    {{ order.status }}
+                  </div>
+                  <div class="col-md-1 col-5">
+                    <a href="{{ order.get_absolute_url }}" class="float-right link--styled">
+                      Details
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="row mt-4">
+              <div class="m-auto">
+                {#                pagnation#}
+              </div>
+            </div>
+          {% else %}
+            <h3 class="text-sm-center account__orders-empty">
+              There are not any completed orders yet.
+            </h3>
+          {% endif %}
+        </div>
+      </div>
+      <div class="tab-pane fade" id="password" role="tabpanel">
+        <div class="row ">
+          <div class="col-md-8 col-lg-6 m-auto account__password">
+            <form action="{{ url_for('account.set_password') }}" method="post">
+              {{ form.csrf_token }}
+              {{ render_field(form.old_password) }}
+              {{ render_field(form.password) }}
+              {{ render_field(form.confirm) }}
+
+              <input type="submit" class="btn primary narrow"
+                     value="Change password">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="addresses" role="tabpanel">
+        <div class="card-deck-wrapper account__addresses">
+          <div class="row card-deck">
+            {% for address in current_user.addresses %}
+              <div class="col-md-6">
+                <div class="card card-block">
+                  format address
+                  <ul class="icons">
+                    <li>
+                      <a href="">
+                        Edit
+                      </a>
+                    </li>
+                    <li>
+                      <a class="delete-icon">
+                        <svg data-src="{{ url_for('static', filename='img/delete.svg') }}" height="20px"
+                             width="20px"></svg>
+                      </a>
+                    </li>
+                  </ul>
+                  {#                  {% include "account/address_delete.html" with pk=address.pk %}#}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          {% if addresses|length == 0 %}
+            <h3 class="text-sm-center">
+              You will see new addresses here after first successful checkout.
+            </h3>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

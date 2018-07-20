@@ -18,7 +18,7 @@ def before_request():
 
 @blueprint.route('/cart')
 def cart_index():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and current_user.cart:
         cart_lines = current_user.cart.lines
     else:
         cart_lines = None

@@ -2,6 +2,7 @@
 """User models."""
 from flask_login import UserMixin
 from libgravatar import Gravatar
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from flaskshop.database import (
     Column,
@@ -26,7 +27,7 @@ class User(UserMixin, SurrogatePK, Model):
     username = Column(db.String(80), unique=True, nullable=False)
     email = Column(db.String(80), unique=True, nullable=False)
     #: The hashed password
-    password = Column(db.Binary(128))
+    _password = Column('password', db.Binary(128))
     nick_name = Column(db.String(255))
     active = Column(db.Boolean(), default=False)
     is_admin = Column(db.Boolean(), default=False)
@@ -42,13 +43,20 @@ class User(UserMixin, SurrogatePK, Model):
         else:
             self.password = None
 
+    def __str__(self):
+        return self.username
+
+    @hybrid_property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        self._password = bcrypt.generate_password_hash(value)
+
     @property
     def avatar(self):
         return Gravatar(self.email).get_image()
-
-    def set_password(self, password):
-        """Set password."""
-        self.password = bcrypt.generate_password_hash(password)
 
     def check_password(self, value):
         """Check password."""
