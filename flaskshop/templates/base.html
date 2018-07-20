@@ -40,9 +40,10 @@
             <ul class="float-right">
               {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
+
                   <li>
                     <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
-                      Dashboard
+                       Dashboard
                     </a>
                   </li>
                 {% endif %}
@@ -118,12 +119,18 @@
                   <svg data-src="{{ url_for('static', filename='img/cart.svg') }}"
                        width="35" height="30"></svg>
                 </div>
+                {% if current_user.is_authenticated and current_user.cart.quantity %}
+                <span class="badge ">
+                      {{ current_user.cart.quantity }}
+                </span>
+                {% else %}
                 <span class="badge empty">
                       0
                 </span>
+                {% endif %}
               </a>
-              <div class="cart-dropdown d-none">
-                {% include 'cart_dropdown.html' %}
+              <div class="cart-dropdown ">
+                {% include "cart_dropdown.html" %}
               </div>
             </div>
           </div>

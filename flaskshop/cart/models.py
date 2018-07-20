@@ -31,7 +31,7 @@ class UserCart(SurrogatePK, Model):
 class Cart(SurrogatePK, Model):
     __tablename__ = "checkout_cart"
     user_id = reference_col("users")
-    user = relationship("User", backref="cart", uselist=False)
+    user = relationship("User", backref=db.backref("cart", uselist=False))
     token = Column(db.String(255))
     voucher_code = Column(db.String(255))
     quantity = Column(db.Integer())
@@ -40,7 +40,7 @@ class Cart(SurrogatePK, Model):
 class CartLine(SurrogatePK, Model):
     __tablename__ = "checkout_cartline"
     cart_id = reference_col("checkout_cart")
-    cart = relationship("Cart", backref="cart_lines")
+    cart = relationship("Cart", backref="lines")
     quantity = Column(db.Integer())
     variant_id = reference_col("product_variant")
     variant = relationship("ProductVariant")

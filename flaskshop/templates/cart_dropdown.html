@@ -1,0 +1,62 @@
+<div class="container">
+  {% if current_user.cart.quantity > 0 %}
+    <div id="cart-dropdown-list"
+         class="cart-dropdown__list{% if current_user.cart.lines|length <= 2 %} overflow{% endif %}">
+      {% for line in current_user.cart.lines %}
+        <div class="row item">
+          <div class="col-md-10">
+            <a class="link--clean" href="{{ line.variant_url }}">
+              <img class="cart-dropdown__image lazyload lazypreload"
+                   alt=""
+                   src="">
+              <h3>
+                {{ line.product }}1
+                <span>x{{ line.quantity }}</span>
+                <p>{{ line.variant }}</p>
+              </h3>
+            </a>
+          </div>
+          <div class="col-md-2">
+            <div class="float-right">
+              <h3>
+                Price
+              </h3>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="row cart-dropdown__total" data-quantity="{{ quantity }}">
+      <div class="col-md-8">
+        <h3>
+          Subtotal
+          <span>Shipment and taxes calculated at checkout</span>
+        </h3>
+      </div>
+      <div class="col-md-4">
+        <h3 class="float-md-right price {% if current_user.cart.lines|length <= 2 %}single{% endif %}"
+            data-quantity="{{ quantity }}">
+          <p>
+            Price
+          </p>
+        </h3>
+      </div>
+    </div>
+    <div class="row cart-dropdown__actions">
+      <div class="col-md-1"></div>
+      <div class="col-md-5">
+        <a href="" class="btn secondary narrow float-md-right">Go to cart</a>
+      </div>
+      <div class="col-md-5">
+        <a href="" class="btn primary narrow float-md-right">Checkout</a>
+      </div>
+    </div>
+  {% else %}
+    <div class="text-md-center cart-dropdown__empty">
+      <h3>There are no products in your shopping cart.</h3>
+      <img src="{{ url_for('static', filename='img/empty-cart-bg.png') }}"
+           class="lazyload lazypreload">
+      <a href="" class="btn primary">Check out our sales</a>
+    </div>
+  {% endif %}
+</div>
