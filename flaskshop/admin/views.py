@@ -20,7 +20,7 @@ from flaskshop.settings import Config
 from flaskshop.product.models import Product, ProductSku
 from flaskshop.order.models import Order, OrderItem
 from flaskshop.user.models import User
-from flaskshop.cart.models import CouponCode
+from flaskshop.checkout.models import CouponCode
 from .utils import MultipleImageUploadField, CKTextAreaField
 
 blueprint = Blueprint("admin_pannel", __name__, url_prefix="/admin")

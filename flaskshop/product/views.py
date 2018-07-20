@@ -9,7 +9,7 @@ from .models import Product
 from .forms import AddCartForm
 from .utils import get_product_attributes_data
 from flaskshop.extensions import db
-from flaskshop.cart.models import Cart, CartLine
+from flaskshop.checkout.models import Cart, CartLine
 
 blueprint = Blueprint("product", __name__, url_prefix="/products")
 

@@ -13,21 +13,6 @@ from flaskshop.database import (
 )
 
 
-class UserCart(SurrogatePK, Model):
-    __tablename__ = "cart_items"
-    # user_id = reference_col("users")
-    # user = relationship("User", backref="cart_items")
-    product_sku_id = reference_col("product_skus")
-    product_sku = relationship("ProductSku")
-    amount = Column(db.Integer())
-
-    def release(self, amount):
-        """when submit order, release cart items in order"""
-        self.amount -= amount
-        if self.amount <= 0:
-            self.delete()
-
-
 class Cart(SurrogatePK, Model):
     __tablename__ = "checkout_cart"
     user_id = reference_col("users")

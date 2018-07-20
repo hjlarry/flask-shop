@@ -10,7 +10,7 @@ from .models import Order, OrderItem
 from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
 from flaskshop.user.models import UserAddress
-from flaskshop.cart.models import UserCart, CouponCode
+from flaskshop.checkout.models import Cart,CouponCode
 from flaskshop.constant import REFUND_STATUS_APPLIED, SHIP_STATUS_RECEIVED
 
 blueprint = Blueprint("order", __name__, url_prefix="/orders")
@@ -52,7 +52,7 @@ def store():
         except Exception as e:
             return Response(e.args, status=422)
     for item in data["items"]:
-        cart_item = UserCart.query.filter_by(id=item["item_id"]).first()
+        cart_item = Cart.query.filter_by(id=item["item_id"]).first()
         amount = int(item["amount"])
         try:
             cart_item.product_sku.decrement_stock(amount)

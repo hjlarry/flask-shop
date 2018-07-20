@@ -13,7 +13,7 @@ from faker import Faker
 
 from flaskshop.database import db
 from flaskshop.product.models import Product, ProductSku
-from flaskshop.cart.models import CouponCode
+from flaskshop.checkout.models import CouponCode
 from flaskshop.constant import TYPE_FIXED, TYPE_PERCENT
 
 HERE = os.path.abspath(os.path.dirname(__file__))
