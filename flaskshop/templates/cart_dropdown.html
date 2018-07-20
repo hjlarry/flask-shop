@@ -5,12 +5,12 @@
       {% for line in current_user.cart.lines %}
         <div class="row item">
           <div class="col-md-10">
-            <a class="link--clean" href="{{ line.variant_url }}">
+            <a class="link--clean" href="{{ line.product.get_absolute_url }}">
               <img class="cart-dropdown__image lazyload lazypreload"
                    alt=""
-                   src="">
+                   src="{{ line.product.get_first_img }}">
               <h3>
-                {{ line.product }}1
+                {{ line.product }}
                 <span>x{{ line.quantity }}</span>
                 <p>{{ line.variant }}</p>
               </h3>
@@ -19,7 +19,7 @@
           <div class="col-md-2">
             <div class="float-right">
               <h3>
-                Price
+                ${{ line.variant.price }}
               </h3>
             </div>
           </div>
@@ -29,7 +29,7 @@
     <div class="row cart-dropdown__total" data-quantity="{{ quantity }}">
       <div class="col-md-8">
         <h3>
-          Subtotal
+          Subtotal<br>
           <span>Shipment and taxes calculated at checkout</span>
         </h3>
       </div>
@@ -37,7 +37,7 @@
         <h3 class="float-md-right price {% if current_user.cart.lines|length <= 2 %}single{% endif %}"
             data-quantity="{{ quantity }}">
           <p>
-            Price
+            ${{ current_user.cart.total }}
           </p>
         </h3>
       </div>

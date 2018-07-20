@@ -71,6 +71,10 @@ class Product(SurrogatePK, Model):
     def get_absolute_url(self):
         return url_for('product.show', id=self.id)
 
+    @property
+    def get_first_img(self):
+        return self.img_list[0]
+
 
 class ProductSku(SurrogatePK, Model):
     __tablename__ = "product_skus"
@@ -156,6 +160,10 @@ class ProductVariant(SurrogatePK, Model):
             self._attributes = json.dumps(self.attributes.update(value))
         else:
             raise Exception('Must set a dict for product variant attribute')
+
+    @property
+    def price(self):
+        return self.price_override if self.price_override else self.product.price
 
 
 class ProductAttribute(SurrogatePK, Model):

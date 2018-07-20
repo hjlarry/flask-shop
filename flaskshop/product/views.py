@@ -53,13 +53,19 @@ def show(id):
 
 @blueprint.route("/<id>/add", methods=['POST'])
 def product_add_to_cart(id):
-    quantity = request.form.get('quantity')
+    quantity = int(request.form.get('quantity'))
+    variant_id = int(request.form.get('variant'))
     if current_user.cart:
         cart = current_user.cart
         cart.quantity += quantity
     else:
         cart = Cart.create(user=current_user, quantity=quantity)
-    CartLine.create(variant_id=request.form.get('variant'), quantity=quantity, cart=cart)
+    line = CartLine.query.filter_by(cart=cart, variant_id=variant_id).first()
+    if line:
+        quantity += line.quantity
+        line.update(quantity=quantity)
+    else:
+        CartLine.create(variant_id=variant_id, quantity=quantity, cart=cart)
     return redirect(url_for('product.show', id=id))
 
 

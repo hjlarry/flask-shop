@@ -36,6 +36,12 @@ class Cart(SurrogatePK, Model):
     voucher_code = Column(db.String(255))
     quantity = Column(db.Integer())
 
+    @property
+    def total(self):
+        # TODO discount and tax
+        subtotal = (line.subtotal for line in self.lines)
+        return sum(subtotal)
+
 
 class CartLine(SurrogatePK, Model):
     __tablename__ = "checkout_cartline"
@@ -44,6 +50,14 @@ class CartLine(SurrogatePK, Model):
     quantity = Column(db.Integer())
     variant_id = reference_col("product_variant")
     variant = relationship("ProductVariant")
+
+    @property
+    def product(self):
+        return self.variant.product
+
+    @property
+    def subtotal(self):
+        return self.variant.price * self.quantity
 
 
 class CouponCode(SurrogatePK, Model):
