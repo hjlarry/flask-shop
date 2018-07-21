@@ -10,8 +10,17 @@ import unicodedata
 from faker import Factory
 from faker.providers import BaseProvider
 
-from flaskshop.product.models import Category, ProductType, Product, ProductVariant, ProductImage, ProductAttribute, AttributeChoiceValue
+from flaskshop.product.models import (
+    Category,
+    ProductType,
+    Product,
+    ProductVariant,
+    ProductImage,
+    ProductAttribute,
+    AttributeChoiceValue,
+)
 from flaskshop.public.models import Menu, Site
+
 
 def flash_errors(form, category="warning"):
     """Flash all errors for a form."""
@@ -22,92 +31,86 @@ def flash_errors(form, category="warning"):
 
 fake = Factory.create()
 
-GROCERIES_CATEGORY = {'name': 'Groceries', 'image_name': 'groceries.jpg'}
+GROCERIES_CATEGORY = {"name": "Groceries", "image_name": "groceries.jpg"}
 
 DEFAULT_SCHEMA = {
-    'T-Shirt': {
-        'category': {
-            'name': 'Apparel',
-            'image_name': 'apparel.jpg'},
-        'product_attributes': {
-            'Color': ['Blue', 'White'],
-            'Collar': ['Round', 'V-Neck', 'Polo'],
-            'Brand': ['Saleor']},
-        'variant_attributes': {
-            'Size': ['XS', 'S', 'M', 'L', 'XL', 'XXL']},
-        'images_dir': 't-shirts/',
-        'is_shipping_required': True},
-    'Mugs': {
-        'category': {
-            'name': 'Accessories',
-            'image_name': 'accessories.jpg'},
-        'product_attributes': {
-            'Brand': ['Saleor']},
-        'variant_attributes': {},
-        'images_dir': 'mugs/',
-        'is_shipping_required': True},
-    'Coffee': {
-        'category': {
-            'name': 'Coffees',
-            'image_name': 'coffees.jpg',
-            'parent': GROCERIES_CATEGORY},
-        'product_attributes': {
-            'Coffee Genre': ['Arabica', 'Robusta'],
-            'Brand': ['Saleor']},
-        'variant_attributes': {
-            'Box Size': ['100g', '250g', '500g', '1kg']},
-        'different_variant_prices': True,
-        'images_dir': 'coffee/',
-        'is_shipping_required': True},
-    'Candy': {
-        'category': {
-            'name': 'Candies',
-            'image_name': 'candies.jpg',
-            'parent': GROCERIES_CATEGORY},
-        'product_attributes': {
-            'Flavor': ['Sour', 'Sweet'],
-            'Brand': ['Saleor']},
-        'variant_attributes': {
-            'Candy Box Size': ['100g', '250g', '500g']},
-        'images_dir': 'candy/',
-        'is_shipping_required': True},
-    'E-books': {
-        'category': {
-            'name': 'Books',
-            'image_name': 'books.jpg'},
-        'product_attributes': {
-            'Author': ['John Doe', 'Milionare Pirate'],
-            'Publisher': ['Mirumee Press', 'Saleor Publishing'],
-            'Language': ['English', 'Pirate']},
-        'variant_attributes': {},
-        'images_dir': 'books/',
-        'is_shipping_required': False},
-    'Books': {
-        'category': {
-            'name': 'Books',
-            'image_name': 'books.jpg'},
-        'product_attributes': {
-            'Author': ['John Doe', 'Milionare Pirate'],
-            'Publisher': ['Mirumee Press', 'Saleor Publishing'],
-            'Language': ['English', 'Pirate']},
-        'variant_attributes': {
-            'Cover': ['Soft', 'Hard']},
-        'images_dir': 'books/',
-        'is_shipping_required': True}}
+    "T-Shirt": {
+        "category": {"name": "Apparel", "image_name": "apparel.jpg"},
+        "product_attributes": {
+            "Color": ["Blue", "White"],
+            "Collar": ["Round", "V-Neck", "Polo"],
+            "Brand": ["Saleor"],
+        },
+        "variant_attributes": {"Size": ["XS", "S", "M", "L", "XL", "XXL"]},
+        "images_dir": "t-shirts/",
+        "is_shipping_required": True,
+    },
+    "Mugs": {
+        "category": {"name": "Accessories", "image_name": "accessories.jpg"},
+        "product_attributes": {"Brand": ["Saleor"]},
+        "variant_attributes": {},
+        "images_dir": "mugs/",
+        "is_shipping_required": True,
+    },
+    "Coffee": {
+        "category": {
+            "name": "Coffees",
+            "image_name": "coffees.jpg",
+            "parent": GROCERIES_CATEGORY,
+        },
+        "product_attributes": {
+            "Coffee Genre": ["Arabica", "Robusta"],
+            "Brand": ["Saleor"],
+        },
+        "variant_attributes": {"Box Size": ["100g", "250g", "500g", "1kg"]},
+        "different_variant_prices": True,
+        "images_dir": "coffee/",
+        "is_shipping_required": True,
+    },
+    "Candy": {
+        "category": {
+            "name": "Candies",
+            "image_name": "candies.jpg",
+            "parent": GROCERIES_CATEGORY,
+        },
+        "product_attributes": {"Flavor": ["Sour", "Sweet"], "Brand": ["Saleor"]},
+        "variant_attributes": {"Candy Box Size": ["100g", "250g", "500g"]},
+        "images_dir": "candy/",
+        "is_shipping_required": True,
+    },
+    "E-books": {
+        "category": {"name": "Books", "image_name": "books.jpg"},
+        "product_attributes": {
+            "Author": ["John Doe", "Milionare Pirate"],
+            "Publisher": ["Mirumee Press", "Saleor Publishing"],
+            "Language": ["English", "Pirate"],
+        },
+        "variant_attributes": {},
+        "images_dir": "books/",
+        "is_shipping_required": False,
+    },
+    "Books": {
+        "category": {"name": "Books", "image_name": "books.jpg"},
+        "product_attributes": {
+            "Author": ["John Doe", "Milionare Pirate"],
+            "Publisher": ["Mirumee Press", "Saleor Publishing"],
+            "Language": ["English", "Pirate"],
+        },
+        "variant_attributes": {"Cover": ["Soft", "Hard"]},
+        "images_dir": "books/",
+        "is_shipping_required": True,
+    },
+}
 COLLECTIONS_SCHEMA = [
-    {
-        'name': 'Summer collection',
-        'image_name': 'summer.jpg'},
-    {
-        'name': 'Winter sale',
-        'image_name': 'sale.jpg'}]
+    {"name": "Summer collection", "image_name": "summer.jpg"},
+    {"name": "Winter sale", "image_name": "sale.jpg"},
+]
 
 
 def create_attributes_and_values(attribute_data):
     attributes = []
     for attribute_name, attribute_values in attribute_data.items():
-        attribute = create_attribute(
-            slug=attribute_name, name=attribute_name)
+        attribute = create_attribute(slug=attribute_name, name=attribute_name)
         for value in attribute_values:
             create_attribute_value(attribute, name=value)
         attributes.append(attribute)
@@ -115,15 +118,14 @@ def create_attributes_and_values(attribute_data):
 
 
 def create_product_type_with_attributes(name, schema):
-    product_attributes_schema = schema.get('product_attributes', {})
-    variant_attributes_schema = schema.get('variant_attributes', {})
-    is_shipping_required = schema.get('is_shipping_required', True)
+    product_attributes_schema = schema.get("product_attributes", {})
+    variant_attributes_schema = schema.get("variant_attributes", {})
+    is_shipping_required = schema.get("is_shipping_required", True)
     product_type = get_or_create_product_type(
-        name=name, is_shipping_required=is_shipping_required)
-    product_attributes = create_attributes_and_values(
-        product_attributes_schema)
-    variant_attributes = create_attributes_and_values(
-        variant_attributes_schema)
+        name=name, is_shipping_required=is_shipping_required
+    )
+    product_attributes = create_attributes_and_values(product_attributes_schema)
+    variant_attributes = create_attributes_and_values(variant_attributes_schema)
     product_type.product_attributes.add(*product_attributes)
     product_type.variant_attributes.add(*variant_attributes)
     return product_type
@@ -132,8 +134,7 @@ def create_product_type_with_attributes(name, schema):
 def create_product_types_by_schema(root_schema):
     results = []
     for product_type_name, schema in root_schema.items():
-        product_type = create_product_type_with_attributes(
-            product_type_name, schema)
+        product_type = create_product_type_with_attributes(product_type_name, schema)
         results.append((product_type, schema))
     return results
 
@@ -144,7 +145,7 @@ def set_product_attributes(product, product_type):
         value = random.choice(product_attribute.values.all())
         attr_dict[str(product_attribute.pk)] = str(value.pk)
     product.attributes = attr_dict
-    product.save(update_fields=['attributes'])
+    product.save(update_fields=["attributes"])
 
 
 def get_variant_combinations(product):
@@ -157,66 +158,71 @@ def get_variant_combinations(product):
     # attribute value id. Casted to string.
     variant_attr_map = {
         attr: attr.values.all()
-        for attr in product.product_type.variant_attributes.all()}
+        for attr in product.product_type.variant_attributes.all()
+    }
     all_combinations = itertools.product(*variant_attr_map.values())
     return [
-        {str(attr_value.attribute.pk): str(attr_value.pk)
-         for attr_value in combination}
-        for combination in all_combinations]
+        {str(attr_value.attribute.pk): str(attr_value.pk) for attr_value in combination}
+        for combination in all_combinations
+    ]
 
 
 def get_price_override(schema, combinations_num, current_price):
     prices = []
-    if schema.get('different_variant_prices'):
+    if schema.get("different_variant_prices"):
         prices = sorted(
             [current_price + fake.money() for _ in range(combinations_num)],
-            reverse=True)
+            reverse=True,
+        )
     return prices
 
 
 def create_products_by_type(
-        product_type, schema, placeholder_dir, how_many=10, create_images=True,
-        stdout=None):
-    category = get_or_create_category(schema['category'], placeholder_dir)
+    product_type, schema, placeholder_dir, how_many=10, create_images=True, stdout=None
+):
+    category = get_or_create_category(schema["category"], placeholder_dir)
 
     for dummy in range(how_many):
-        product = create_product(
-            product_type=product_type, category=category)
+        product = create_product(product_type=product_type, category=category)
         set_product_attributes(product, product_type)
         if create_images:
-            type_placeholders = os.path.join(
-                placeholder_dir, schema['images_dir'])
-            create_product_images(
-                product, random.randrange(1, 5), type_placeholders)
+            type_placeholders = os.path.join(placeholder_dir, schema["images_dir"])
+            create_product_images(product, random.randrange(1, 5), type_placeholders)
         variant_combinations = get_variant_combinations(product)
 
-        prices = get_price_override(
-            schema, len(variant_combinations), product.price)
-        variants_with_prices = itertools.zip_longest(
-            variant_combinations, prices)
+        prices = get_price_override(schema, len(variant_combinations), product.price)
+        variants_with_prices = itertools.zip_longest(variant_combinations, prices)
 
         for i, variant_price in enumerate(variants_with_prices, start=1337):
             attr_combination, price = variant_price
-            sku = '%s-%s' % (product.pk, i)
+            sku = "%s-%s" % (product.pk, i)
             create_variant(
-                product, attributes=attr_combination, sku=sku,
-                price_override=price)
+                product, attributes=attr_combination, sku=sku, price_override=price
+            )
 
         if not variant_combinations:
             # Create min one variant for products without variant level attrs
-            sku = '%s-%s' % (product.pk, fake.random_int(1000, 100000))
+            sku = "%s-%s" % (product.pk, fake.random_int(1000, 100000))
             create_variant(product, sku=sku)
         if stdout is not None:
-            stdout.write('Product: %s (%s), %s variant(s)' % (
-                product, product_type.name, len(variant_combinations) or 1))
+            stdout.write(
+                "Product: %s (%s), %s variant(s)"
+                % (product, product_type.name, len(variant_combinations) or 1)
+            )
 
 
-def create_products_by_schema(placeholder_dir, how_many, create_images,
-                              stdout=None, schema=DEFAULT_SCHEMA):
+def create_products_by_schema(
+    placeholder_dir, how_many, create_images, stdout=None, schema=DEFAULT_SCHEMA
+):
     for product_type, type_schema in create_product_types_by_schema(schema):
         create_products_by_type(
-            product_type, type_schema, placeholder_dir,
-            how_many=how_many, create_images=create_images, stdout=stdout)
+            product_type,
+            type_schema,
+            placeholder_dir,
+            how_many=how_many,
+            create_images=create_images,
+            stdout=stdout,
+        )
 
 
 # class SaleorProvider(BaseProvider):
@@ -235,27 +241,32 @@ def create_products_by_schema(placeholder_dir, how_many, create_images,
 
 
 def get_email(first_name, last_name):
-    _first = unicodedata.normalize('NFD', first_name).encode('ascii', 'ignore')
-    _last = unicodedata.normalize('NFD', last_name).encode('ascii', 'ignore')
-    return '%s.%s@example.com' % (
-        _first.lower().decode('utf-8'), _last.lower().decode('utf-8'))
+    _first = unicodedata.normalize("NFD", first_name).encode("ascii", "ignore")
+    _last = unicodedata.normalize("NFD", last_name).encode("ascii", "ignore")
+    return "%s.%s@example.com" % (
+        _first.lower().decode("utf-8"),
+        _last.lower().decode("utf-8"),
+    )
 
 
 def get_or_create_category(category_schema, placeholder_dir):
-    if 'parent' in category_schema:
+    if "parent" in category_schema:
         parent_id = get_or_create_category(
-            category_schema['parent'], placeholder_dir).id
+            category_schema["parent"], placeholder_dir
+        ).id
     else:
         parent_id = None
-    category_name = category_schema['name']
-    image_name = category_schema['image_name']
+    category_name = category_schema["name"]
+    image_name = category_schema["image_name"]
     image_dir = get_product_list_images_dir(placeholder_dir)
     defaults = {
-        'description': fake.text(),
-        'slug': fake.slug(category_name),
-        'background_image': get_image(image_dir, image_name)}
+        "description": fake.text(),
+        "slug": fake.slug(category_name),
+        "background_image": get_image(image_dir, image_name),
+    }
     return Category.objects.get_or_create(
-        name=category_name, parent_id=parent_id, defaults=defaults)[0]
+        name=category_name, parent_id=parent_id, defaults=defaults
+    )[0]
 
 
 def get_or_create_product_type(name, **kwargs):
@@ -273,19 +284,21 @@ def get_or_create_product_type(name, **kwargs):
 def create_product(**kwargs):
     description = fake.paragraphs(5)
     defaults = {
-        'name': fake.company(),
-        'price': fake.money(),
-        'description': '\n\n'.join(description)}
+        "name": fake.company(),
+        "price": fake.money(),
+        "description": "\n\n".join(description),
+    }
     defaults.update(kwargs)
-    return Product.objects.create(**defaults)
+    return Product.create(**defaults)
 
 
 def create_variant(product, **kwargs):
     defaults = {
-        'product': product,
-        'quantity': fake.random_int(1, 50),
-        'cost_price': fake.money(),
-        'quantity_allocated': fake.random_int(1, 50)}
+        "product": product,
+        "quantity": fake.random_int(1, 50),
+        "cost_price": fake.money(),
+        "quantity_allocated": fake.random_int(1, 50),
+    }
     defaults.update(kwargs)
     variant = ProductVariant(**defaults)
     # if variant.attributes:
@@ -305,22 +318,16 @@ def create_product_image(product, placeholder_dir):
 
 
 def create_attribute(**kwargs):
-    slug = fake.word()
-    defaults = {
-        'slug': slug,
-        'name': slug.title()}
+    defaults = {"title": fake.word().title()}
     defaults.update(kwargs)
-    attribute = ProductAttribute.objects.get_or_create(**defaults)[0]
+    attribute = ProductAttribute.get_or_create(**defaults)
     return attribute
 
 
 def create_attribute_value(attribute, **kwargs):
-    name = fake.word()
-    defaults = {
-        'attribute': attribute,
-        'name': name}
+    defaults = {"attribute": attribute, "title": fake.word()}
     defaults.update(kwargs)
-    attribute_value = AttributeChoiceValue.objects.get_or_create(**defaults)[0]
+    attribute_value = AttributeChoiceValue.get_or_create(**defaults)
     return attribute_value
 
 
@@ -338,9 +345,6 @@ def create_product_images(product, how_many, placeholder_dir):
 #         postal_code=fake.postcode(),
 #         country=fake.country_code())
 #     return address
-
-
-
 
 
 # def create_payment(order):
@@ -372,7 +376,7 @@ def create_product_images(product, how_many, placeholder_dir):
 
 
 def create_order_line(order, discounts, taxes):
-    product = Product.objects.all().order_by('?')[0]
+    product = Product.objects.all().order_by("?")[0]
     variant = product.variants.all()[0]
     quantity = random.randrange(1, 5)
     variant.quantity += quantity
@@ -385,7 +389,7 @@ def create_order_line(order, discounts, taxes):
         quantity=quantity,
         variant=variant,
         unit_price=variant.get_price(discounts=discounts, taxes=taxes),
-        )
+    )
 
 
 def create_order_lines(order, discounts, taxes, how_many=10):
@@ -452,9 +456,6 @@ def create_order_lines(order, discounts, taxes, how_many=10):
 #     return sale
 
 
-
-
-
 # def create_orders(how_many=10):
 #     taxes = get_taxes_for_country(Country(settings.DEFAULT_COUNTRY))
 #     discounts = Sale.objects.prefetch_related('products', 'categories')
@@ -517,9 +518,9 @@ def create_order_lines(order, discounts, taxes, how_many=10):
 
 
 def set_featured_products(how_many=8):
-    pks = Product.objects.order_by('?')[:how_many].values_list('pk', flat=True)
+    pks = Product.objects.order_by("?")[:how_many].values_list("pk", flat=True)
     Product.objects.filter(pk__in=pks).update(is_featured=True)
-    yield 'Featured products created'
+    yield "Featured products created"
 
 
 # def add_address_to_admin(email):
@@ -555,21 +556,22 @@ def create_page():
         <a href="https://github.com/mirumee/saleor/">Get Saleor</a> today!
     </p>
     """
-    page_data = {'content': content, 'title': 'About', 'is_visible': True}
-    page, dummy = Page.objects.get_or_create(slug='about', **page_data)
-    yield 'Page %s created' % page.slug
+    page_data = {"content": content, "title": "About", "is_visible": True}
+    page, dummy = Page.objects.get_or_create(slug="about", **page_data)
+    yield "Page %s created" % page.slug
 
 
 def generate_menu_items(menu: Menu, category: Category, parent_menu_item):
     menu_item, created = menu.items.get_or_create(
-        name=category.name, category=category, parent=parent_menu_item)
+        name=category.name, category=category, parent=parent_menu_item
+    )
 
     if created:
-        yield 'Created menu item for category %s' % category
+        yield "Created menu item for category %s" % category
 
     for child in category.get_children():
         for msg in generate_menu_items(menu, child, menu_item):
-            yield '\t%s' % msg
+            yield "\t%s" % msg
 
 
 def generate_menu_tree(menu):
@@ -583,33 +585,31 @@ def generate_menu_tree(menu):
 def create_menus():
     # Create navbar menu with category links
     top_menu, _ = Menu.objects.get_or_create(
-        name=settings.DEFAULT_MENUS['top_menu_name'])
+        name=settings.DEFAULT_MENUS["top_menu_name"]
+    )
     if not top_menu.items.exists():
-        yield 'Created navbar menu'
+        yield "Created navbar menu"
         for msg in generate_menu_tree(top_menu):
             yield msg
 
     # Create footer menu with collections and pages
     bottom_menu, _ = Menu.objects.get_or_create(
-        name=settings.DEFAULT_MENUS['bottom_menu_name'])
+        name=settings.DEFAULT_MENUS["bottom_menu_name"]
+    )
     if not bottom_menu.items.exists():
-        collection = Collection.objects.order_by('?')[0]
+        collection = Collection.objects.order_by("?")[0]
         item, _ = bottom_menu.items.get_or_create(
-            name='Collections',
-            collection=collection)
+            name="Collections", collection=collection
+        )
 
-        for collection in Collection.objects.filter(
-                background_image__isnull=False):
+        for collection in Collection.objects.filter(background_image__isnull=False):
             bottom_menu.items.get_or_create(
-                name=collection.name,
-                collection=collection,
-                parent=item)
+                name=collection.name, collection=collection, parent=item
+            )
 
-        page = Page.objects.order_by('?')[0]
-        bottom_menu.items.get_or_create(
-            name=page.title,
-            page=page)
-        yield 'Created footer menu'
+        page = Page.objects.order_by("?")[0]
+        bottom_menu.items.get_or_create(name=page.title, page=page)
+        yield "Created footer menu"
     site = Site.objects.get_current()
     site_settings = site.settings
     site_settings.top_menu = top_menu
@@ -618,23 +618,25 @@ def create_menus():
 
 
 def get_product_list_images_dir(placeholder_dir):
-    product_list_images_dir = os.path.join(
-        placeholder_dir, PRODUCTS_LIST_DIR)
+    product_list_images_dir = os.path.join(placeholder_dir, PRODUCTS_LIST_DIR)
     return product_list_images_dir
 
 
 def get_image(image_dir, image_name):
     img_path = os.path.join(image_dir, image_name)
-    return File(open(img_path, 'rb'))
+    return File(open(img_path, "rb"))
+
 
 def create_users(how_many=10):
     for dummy in range(how_many):
         user = create_fake_user()
-        yield 'User: %s' % (user.email,)
+        yield "User: %s" % (user.email,)
 
 
 def create_fake_user():
     # address = create_address()
-    email = get_email(address.first_name, address.last_name)
-    user = User.create(email=email, password='password', is_active = True)
+    email = get_email(fake.first_name(), fake.last_name())
+    user = User.create(
+        username=fake.first_name(), email=email, password="password", is_active=True
+    )
     return user

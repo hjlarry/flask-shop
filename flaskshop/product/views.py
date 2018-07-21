@@ -44,7 +44,7 @@ def index():
 @blueprint.route("/<id>")
 def show(id):
     """show a product."""
-    product = Product.query.filter_by(id=id).first()
+    product = Product.get_by_id(id)
     form = AddCartForm(request.form, product=product)
     product_attributes = get_product_attributes_data(product)
     favored = False  # TODO
