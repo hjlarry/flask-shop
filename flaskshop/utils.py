@@ -340,18 +340,7 @@ def create_product_images(product, how_many, placeholder_dir):
 #     return address
 
 
-# def create_fake_user():
-#     address = create_address()
-#     email = get_email(address.first_name, address.last_name)
-#
-#     user = User.objects.create_user(email=email, password='password')
-#
-#     user.addresses.add(address)
-#     user.default_billing_address = address
-#     user.default_shipping_address = address
-#     user.is_active = True
-#     user.save()
-#     return user
+
 
 
 # def create_payment(order):
@@ -463,10 +452,7 @@ def create_order_lines(order, discounts, taxes, how_many=10):
 #     return sale
 
 
-def create_users(how_many=10):
-    for dummy in range(how_many):
-        user = create_fake_user()
-        yield 'User: %s' % (user.email,)
+
 
 
 # def create_orders(how_many=10):
@@ -640,3 +626,15 @@ def get_product_list_images_dir(placeholder_dir):
 def get_image(image_dir, image_name):
     img_path = os.path.join(image_dir, image_name)
     return File(open(img_path, 'rb'))
+
+def create_users(how_many=10):
+    for dummy in range(how_many):
+        user = create_fake_user()
+        yield 'User: %s' % (user.email,)
+
+
+def create_fake_user():
+    # address = create_address()
+    email = get_email(address.first_name, address.last_name)
+    user = User.create(email=email, password='password', is_active = True)
+    return user
