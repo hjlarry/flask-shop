@@ -64,13 +64,22 @@ class SurrogatePK(object):
     def get_by_id(cls, record_id):
         """Get record by ID."""
         if any(
-                (
-                        isinstance(record_id, (str, bytes)) and record_id.isdigit(),
-                        isinstance(record_id, (int, float)),
-                )
+            (
+                isinstance(record_id, (str, bytes)) and record_id.isdigit(),
+                isinstance(record_id, (int, float)),
+            )
         ):
             return cls.query.get(int(record_id))
         return None
+
+    @classmethod
+    def get_or_create(cls, **kwargs):
+        instance = cls.query.filter_by(**kwargs).first()
+        if instance:
+            return instance
+        else:
+            instance = cls.create(**kwargs)
+            return instance
 
 
 def reference_col(tablename, nullable=True, pk_name="id", **kwargs):
@@ -82,6 +91,11 @@ def reference_col(tablename, nullable=True, pk_name="id", **kwargs):
         category = relationship('Category', backref='categories')
     """
     return Column(
-        db.ForeignKey("{0}.{1}".format(tablename, pk_name), ondelete='SET NULL', onupdate='CASCADE'), nullable=nullable,
-        **kwargs
+        db.ForeignKey(
+            "{0}.{1}".format(tablename, pk_name),
+            ondelete="SET NULL",
+            onupdate="CASCADE",
+        ),
+        nullable=nullable,
+        **kwargs,
     )
