@@ -107,10 +107,24 @@ COLLECTIONS_SCHEMA = [
 ]
 
 
+def create_attribute(**kwargs):
+    defaults = {"title": fake.word().title()}
+    defaults.update(kwargs)
+    attribute = ProductAttribute.get_or_create(**defaults)
+    return attribute
+
+
+def create_attribute_value(attribute, **kwargs):
+    defaults = {"attribute": attribute, "title": fake.word()}
+    defaults.update(kwargs)
+    attribute_value = AttributeChoiceValue.get_or_create(**defaults)
+    return attribute_value
+
+
 def create_attributes_and_values(attribute_data):
     attributes = []
     for attribute_name, attribute_values in attribute_data.items():
-        attribute = create_attribute(slug=attribute_name, name=attribute_name)
+        attribute = create_attribute(name=attribute_name)
         for value in attribute_values:
             create_attribute_value(attribute, name=value)
         attributes.append(attribute)
@@ -146,35 +160,6 @@ def set_product_attributes(product, product_type):
         attr_dict[str(product_attribute.pk)] = str(value.pk)
     product.attributes = attr_dict
     product.save(update_fields=["attributes"])
-
-
-def get_variant_combinations(product):
-    # Returns all possible variant combinations
-    # For example: product type has two variant attributes: Size, Color
-    # Size has available values: [S, M], Color has values [Red, Green]
-    # All combinations will be generated (S, Red), (S, Green), (M, Red),
-    # (M, Green)
-    # Output is list of dicts, where key is product attribute id and value is
-    # attribute value id. Casted to string.
-    variant_attr_map = {
-        attr: attr.values.all()
-        for attr in product.product_type.variant_attributes.all()
-    }
-    all_combinations = itertools.product(*variant_attr_map.values())
-    return [
-        {str(attr_value.attribute.pk): str(attr_value.pk) for attr_value in combination}
-        for combination in all_combinations
-    ]
-
-
-def get_price_override(schema, combinations_num, current_price):
-    prices = []
-    if schema.get("different_variant_prices"):
-        prices = sorted(
-            [current_price + fake.money() for _ in range(combinations_num)],
-            reverse=True,
-        )
-    return prices
 
 
 def create_products_by_type(
@@ -225,30 +210,6 @@ def create_products_by_schema(
         )
 
 
-# class SaleorProvider(BaseProvider):
-#     def money(self):
-#         return Money(
-#             fake.pydecimal(2, 2, positive=True), settings.DEFAULT_CURRENCY)
-#
-#     def delivery_region(self):
-#         return random.choice(DELIVERY_REGIONS)
-#
-#     def shipping_method(self):
-#         return random.choice(ShippingMethod.objects.all())
-
-
-# fake.add_provider(SaleorProvider)
-
-
-def get_email(first_name, last_name):
-    _first = unicodedata.normalize("NFD", first_name).encode("ascii", "ignore")
-    _last = unicodedata.normalize("NFD", last_name).encode("ascii", "ignore")
-    return "%s.%s@example.com" % (
-        _first.lower().decode("utf-8"),
-        _last.lower().decode("utf-8"),
-    )
-
-
 def get_or_create_category(category_schema, placeholder_dir):
     if "parent" in category_schema:
         parent_id = get_or_create_category(
@@ -264,21 +225,13 @@ def get_or_create_category(category_schema, placeholder_dir):
         "slug": fake.slug(category_name),
         "background_image": get_image(image_dir, image_name),
     }
-    return Category.objects.get_or_create(
+    return Category.get_or_create(
         name=category_name, parent_id=parent_id, defaults=defaults
-    )[0]
+    )
 
 
 def get_or_create_product_type(name, **kwargs):
     return ProductType.objects.get_or_create(name=name, defaults=kwargs)[0]
-
-
-# def get_or_create_collection(name, placeholder_dir, image_name):
-#     background_image = get_image(placeholder_dir, image_name)
-#     defaults = {
-#         'slug': fake.slug(name),
-#         'background_image': background_image}
-#     return Collection.objects.get_or_create(name=name, defaults=defaults)[0]
 
 
 def create_product(**kwargs):
@@ -317,23 +270,215 @@ def create_product_image(product, placeholder_dir):
     return product_image
 
 
-def create_attribute(**kwargs):
-    defaults = {"title": fake.word().title()}
-    defaults.update(kwargs)
-    attribute = ProductAttribute.get_or_create(**defaults)
-    return attribute
-
-
-def create_attribute_value(attribute, **kwargs):
-    defaults = {"attribute": attribute, "title": fake.word()}
-    defaults.update(kwargs)
-    attribute_value = AttributeChoiceValue.get_or_create(**defaults)
-    return attribute_value
-
-
 def create_product_images(product, how_many, placeholder_dir):
     for dummy in range(how_many):
         create_product_image(product, placeholder_dir)
+
+
+def set_featured_products(how_many=8):
+    pks = Product.objects.order_by("?")[:how_many].values_list("pk", flat=True)
+    Product.objects.filter(pk__in=pks).update(is_featured=True)
+    yield "Featured products created"
+
+
+def get_product_list_images_dir(placeholder_dir):
+    product_list_images_dir = os.path.join(placeholder_dir, PRODUCTS_LIST_DIR)
+    return product_list_images_dir
+
+
+def get_image(image_dir, image_name):
+    img_path = os.path.join(image_dir, image_name)
+    return File(open(img_path, "rb"))
+
+
+def create_page():
+    content = """
+    <h2 align="center">AN OPENSOURCE STOREFRONT PLATFORM FOR PERFECTIONISTS</h2>
+    <h3 align="center">WRITTEN IN PYTHON, BEST SERVED AS A BESPOKE, HIGH-PERFORMANCE E-COMMERCE SOLUTION</h3>
+    <p><br></p>
+    <p><img src="http://getsaleor.com/images/main-pic.svg"></p>
+    <p style="text-align: center;">
+        <a href="https://github.com/mirumee/saleor/">Get Saleor</a> today!
+    </p>
+    """
+    page_data = {"content": content, "title": "About", "is_visible": True}
+    page, dummy = Page.objects.get_or_create(slug="about", **page_data)
+    yield "Page %s created" % page.slug
+
+
+def generate_menu_items(menu: Menu, category: Category, parent_menu_item):
+    menu_item, created = menu.items.get_or_create(
+        name=category.name, category=category, parent=parent_menu_item
+    )
+
+    if created:
+        yield "Created menu item for category %s" % category
+
+    for child in category.get_children():
+        for msg in generate_menu_items(menu, child, menu_item):
+            yield "\t%s" % msg
+
+
+def generate_menu_tree(menu):
+    categories = Category.tree.get_queryset()
+    for category in categories:
+        if not category.parent_id:
+            for msg in generate_menu_items(menu, category, None):
+                yield msg
+
+
+def create_menus():
+    # Create navbar menu with category links
+    top_menu, _ = Menu.objects.get_or_create(
+        name=settings.DEFAULT_MENUS["top_menu_name"]
+    )
+    if not top_menu.items.exists():
+        yield "Created navbar menu"
+        for msg in generate_menu_tree(top_menu):
+            yield msg
+
+    # Create footer menu with collections and pages
+    bottom_menu, _ = Menu.objects.get_or_create(
+        name=settings.DEFAULT_MENUS["bottom_menu_name"]
+    )
+    if not bottom_menu.items.exists():
+        collection = Collection.objects.order_by("?")[0]
+        item, _ = bottom_menu.items.get_or_create(
+            name="Collections", collection=collection
+        )
+
+        for collection in Collection.objects.filter(background_image__isnull=False):
+            bottom_menu.items.get_or_create(
+                name=collection.name, collection=collection, parent=item
+            )
+
+        page = Page.objects.order_by("?")[0]
+        bottom_menu.items.get_or_create(name=page.title, page=page)
+        yield "Created footer menu"
+    site = Site.objects.get_current()
+    site_settings = site.settings
+    site_settings.top_menu = top_menu
+    site_settings.bottom_menu = bottom_menu
+    site_settings.save()
+
+
+def get_email(first_name, last_name):
+    _first = unicodedata.normalize("NFD", first_name).encode("ascii", "ignore")
+    _last = unicodedata.normalize("NFD", last_name).encode("ascii", "ignore")
+    return "%s.%s@example.com" % (
+        _first.lower().decode("utf-8"),
+        _last.lower().decode("utf-8"),
+    )
+
+
+def create_users(how_many=10):
+    for dummy in range(how_many):
+        user = create_fake_user()
+        yield "User: %s" % (user.email,)
+
+
+def create_fake_user():
+    # address = create_address()
+    email = get_email(fake.first_name(), fake.last_name())
+    user = User.create(
+        username=fake.first_name(), email=email, password="password", is_active=True
+    )
+    return user
+
+
+def create_order_line(order, discounts, taxes):
+    product = Product.objects.all().order_by("?")[0]
+    variant = product.variants.all()[0]
+    quantity = random.randrange(1, 5)
+    variant.quantity += quantity
+    variant.quantity_allocated += quantity
+    variant.save()
+    return order.lines.create(
+        product_name=variant.display_product(),
+        product_sku=variant.sku,
+        is_shipping_required=variant.is_shipping_required(),
+        quantity=quantity,
+        variant=variant,
+        unit_price=variant.get_price(discounts=discounts, taxes=taxes),
+    )
+
+
+def create_order_lines(order, discounts, taxes, how_many=10):
+    for dummy in range(how_many):
+        yield create_order_line(order, discounts, taxes)
+
+
+# def get_variant_combinations(product):
+#     # Returns all possible variant combinations
+#     # For example: product type has two variant attributes: Size, Color
+#     # Size has available values: [S, M], Color has values [Red, Green]
+#     # All combinations will be generated (S, Red), (S, Green), (M, Red),
+#     # (M, Green)
+#     # Output is list of dicts, where key is product attribute id and value is
+#     # attribute value id. Casted to string.
+#     variant_attr_map = {
+#         attr: attr.values.all()
+#         for attr in product.product_type.variant_attributes.all()
+#     }
+#     all_combinations = itertools.product(*variant_attr_map.values())
+#     return [
+#         {str(attr_value.attribute.pk): str(attr_value.pk) for attr_value in combination}
+#         for combination in all_combinations
+#     ]
+
+
+# def get_price_override(schema, combinations_num, current_price):
+#     prices = []
+#     if schema.get("different_variant_prices"):
+#         prices = sorted(
+#             [current_price + fake.money() for _ in range(combinations_num)],
+#             reverse=True,
+#         )
+#     return prices
+
+# class SaleorProvider(BaseProvider):
+#     def money(self):
+#         return Money(
+#             fake.pydecimal(2, 2, positive=True), settings.DEFAULT_CURRENCY)
+#
+#     def delivery_region(self):
+#         return random.choice(DELIVERY_REGIONS)
+#
+#     def shipping_method(self):
+#         return random.choice(ShippingMethod.objects.all())
+
+
+# fake.add_provider(SaleorProvider)
+
+
+# def get_or_create_collection(name, placeholder_dir, image_name):
+#     background_image = get_image(placeholder_dir, image_name)
+#     defaults = {
+#         'slug': fake.slug(name),
+#         'background_image': background_image}
+#     return Collection.objects.get_or_create(name=name, defaults=defaults)[0]
+
+# def add_address_to_admin(email):
+#     address = create_address()
+#     user = User.objects.get(email=email)
+#     store_user_address(user, address, AddressType.BILLING)
+#     store_user_address(user, address, AddressType.SHIPPING)
+#
+#
+# def create_fake_collection(placeholder_dir, collection_data):
+#     image_dir = get_product_list_images_dir(placeholder_dir)
+#     collection = get_or_create_collection(
+#         name=collection_data['name'], placeholder_dir=image_dir,
+#         image_name=collection_data['image_name'])
+#     products = Product.objects.order_by('?')[:4]
+#     collection.products.add(*products)
+#     return collection
+
+
+# def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
+#     for collection_data in COLLECTIONS_SCHEMA:
+#         collection = create_fake_collection(placeholder_dir, collection_data)
+#         yield 'Collection: %s' % (collection,)
 
 
 # def create_address():
@@ -373,29 +518,6 @@ def create_product_images(product, how_many, placeholder_dir):
 #         payment.captured_amount = payment.total
 #         payment.save()
 #     return payment
-
-
-def create_order_line(order, discounts, taxes):
-    product = Product.objects.all().order_by("?")[0]
-    variant = product.variants.all()[0]
-    quantity = random.randrange(1, 5)
-    variant.quantity += quantity
-    variant.quantity_allocated += quantity
-    variant.save()
-    return order.lines.create(
-        product_name=variant.display_product(),
-        product_sku=variant.sku,
-        is_shipping_required=variant.is_shipping_required(),
-        quantity=quantity,
-        variant=variant,
-        unit_price=variant.get_price(discounts=discounts, taxes=taxes),
-    )
-
-
-def create_order_lines(order, discounts, taxes, how_many=10):
-    for dummy in range(how_many):
-        yield create_order_line(order, discounts, taxes)
-
 
 # def create_fulfillments(order):
 #     for line in order:
@@ -515,128 +637,3 @@ def create_order_lines(order, discounts, taxes, how_many=10):
 # def create_groups():
 #     group = create_fake_group()
 #     return 'Group: %s' % (group.name,)
-
-
-def set_featured_products(how_many=8):
-    pks = Product.objects.order_by("?")[:how_many].values_list("pk", flat=True)
-    Product.objects.filter(pk__in=pks).update(is_featured=True)
-    yield "Featured products created"
-
-
-# def add_address_to_admin(email):
-#     address = create_address()
-#     user = User.objects.get(email=email)
-#     store_user_address(user, address, AddressType.BILLING)
-#     store_user_address(user, address, AddressType.SHIPPING)
-#
-#
-# def create_fake_collection(placeholder_dir, collection_data):
-#     image_dir = get_product_list_images_dir(placeholder_dir)
-#     collection = get_or_create_collection(
-#         name=collection_data['name'], placeholder_dir=image_dir,
-#         image_name=collection_data['image_name'])
-#     products = Product.objects.order_by('?')[:4]
-#     collection.products.add(*products)
-#     return collection
-
-
-# def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
-#     for collection_data in COLLECTIONS_SCHEMA:
-#         collection = create_fake_collection(placeholder_dir, collection_data)
-#         yield 'Collection: %s' % (collection,)
-
-
-def create_page():
-    content = """
-    <h2 align="center">AN OPENSOURCE STOREFRONT PLATFORM FOR PERFECTIONISTS</h2>
-    <h3 align="center">WRITTEN IN PYTHON, BEST SERVED AS A BESPOKE, HIGH-PERFORMANCE E-COMMERCE SOLUTION</h3>
-    <p><br></p>
-    <p><img src="http://getsaleor.com/images/main-pic.svg"></p>
-    <p style="text-align: center;">
-        <a href="https://github.com/mirumee/saleor/">Get Saleor</a> today!
-    </p>
-    """
-    page_data = {"content": content, "title": "About", "is_visible": True}
-    page, dummy = Page.objects.get_or_create(slug="about", **page_data)
-    yield "Page %s created" % page.slug
-
-
-def generate_menu_items(menu: Menu, category: Category, parent_menu_item):
-    menu_item, created = menu.items.get_or_create(
-        name=category.name, category=category, parent=parent_menu_item
-    )
-
-    if created:
-        yield "Created menu item for category %s" % category
-
-    for child in category.get_children():
-        for msg in generate_menu_items(menu, child, menu_item):
-            yield "\t%s" % msg
-
-
-def generate_menu_tree(menu):
-    categories = Category.tree.get_queryset()
-    for category in categories:
-        if not category.parent_id:
-            for msg in generate_menu_items(menu, category, None):
-                yield msg
-
-
-def create_menus():
-    # Create navbar menu with category links
-    top_menu, _ = Menu.objects.get_or_create(
-        name=settings.DEFAULT_MENUS["top_menu_name"]
-    )
-    if not top_menu.items.exists():
-        yield "Created navbar menu"
-        for msg in generate_menu_tree(top_menu):
-            yield msg
-
-    # Create footer menu with collections and pages
-    bottom_menu, _ = Menu.objects.get_or_create(
-        name=settings.DEFAULT_MENUS["bottom_menu_name"]
-    )
-    if not bottom_menu.items.exists():
-        collection = Collection.objects.order_by("?")[0]
-        item, _ = bottom_menu.items.get_or_create(
-            name="Collections", collection=collection
-        )
-
-        for collection in Collection.objects.filter(background_image__isnull=False):
-            bottom_menu.items.get_or_create(
-                name=collection.name, collection=collection, parent=item
-            )
-
-        page = Page.objects.order_by("?")[0]
-        bottom_menu.items.get_or_create(name=page.title, page=page)
-        yield "Created footer menu"
-    site = Site.objects.get_current()
-    site_settings = site.settings
-    site_settings.top_menu = top_menu
-    site_settings.bottom_menu = bottom_menu
-    site_settings.save()
-
-
-def get_product_list_images_dir(placeholder_dir):
-    product_list_images_dir = os.path.join(placeholder_dir, PRODUCTS_LIST_DIR)
-    return product_list_images_dir
-
-
-def get_image(image_dir, image_name):
-    img_path = os.path.join(image_dir, image_name)
-    return File(open(img_path, "rb"))
-
-
-def create_users(how_many=10):
-    for dummy in range(how_many):
-        user = create_fake_user()
-        yield "User: %s" % (user.email,)
-
-
-def create_fake_user():
-    # address = create_address()
-    email = get_email(fake.first_name(), fake.last_name())
-    user = User.create(
-        username=fake.first_name(), email=email, password="password", is_active=True
-    )
-    return user
