@@ -17,7 +17,7 @@ from wtforms.validators import Email, DataRequired
 from flaskshop.extensions import admin_manager, db, csrf_protect
 from flaskshop.constant import *
 from flaskshop.settings import Config
-from flaskshop.product.models import Product, ProductSku
+from flaskshop.product.models import Product
 from flaskshop.order.models import Order, OrderItem
 from flaskshop.account.models import User
 from flaskshop.checkout.models import CouponCode
@@ -73,7 +73,7 @@ class ProductView(CustomView):
         "form_excluded_columns": ("created_at",),
         "form_overrides": dict(description=TextField),
     }
-    inline_models = [(ProductSku, product_sku_options)]
+    # inline_models = [(ProductSku, product_sku_options)]
     extra_js = ["//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"]
     form_excluded_columns = ("liked_users",)
     form_extra_fields = {

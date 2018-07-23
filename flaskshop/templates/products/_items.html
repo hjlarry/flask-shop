@@ -5,7 +5,7 @@
         <div>
           <img class="img-responsive lazyload lazypreload"
                alt=""
-               src="{{ product.img_list[0] }}">
+               src="{{ product.get_first_img }}">
           <span class="product-list-item-name" title="{{ product }}">{{ product }}</span>
         </div>
         <div class="panel-footer">

@@ -52,7 +52,10 @@ class Product(SurrogatePK, Model):
 
     @property
     def get_first_img(self):
-        return self.images[0]
+        if self.images:
+            return ast.literal_eval(self.images)[0]
+        return ''
+
 
 class Category(SurrogatePK, Model):
     __tablename__ = "product_category"

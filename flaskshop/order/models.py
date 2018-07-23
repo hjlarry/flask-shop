@@ -75,8 +75,6 @@ class OrderItem(SurrogatePK, Model):
     order = relationship('Order', backref='items')
     product_id = reference_col('product_product')
     product = relationship('Product')
-    product_sku_id = reference_col('product_skus')
-    product_sku = relationship('ProductSku')
     amount = Column(db.Integer())
     rating = Column(db.Integer())
     price = Column(db.DECIMAL(10, 2))

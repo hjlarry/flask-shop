@@ -34,7 +34,7 @@ class MenuItem(SurrogatePK, Model):
     category_id = reference_col("product_category")
     category = relationship("Category")
     menu_id = reference_col("menu_menu")
-    menu = relationship("Menu", backref="menu_items")
+    menu = relationship("Menu", backref="items")
     page_id = reference_col("page_page")
     page = relationship("Page")
     parent_id = reference_col("menu_menuitem")
