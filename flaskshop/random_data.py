@@ -120,6 +120,10 @@ def create_attributes_and_values(attribute_data):
     return attributes
 
 
+def get_or_create_product_type(title, **kwargs):
+    return ProductType.get_or_create(title=title, **kwargs)
+
+
 def create_product_type_with_attributes(name, schema):
     product_attributes_schema = schema.get("product_attributes", {})
     variant_attributes_schema = schema.get("variant_attributes", {})
@@ -143,15 +147,16 @@ def create_product_types_by_schema(root_schema):
         results.append((product_type, schema))
     return results
 
+
 # above complete
 
 def set_product_attributes(product, product_type):
     attr_dict = {}
     for product_attribute in product_type.product_attributes.all():
-        value = random.choice(product_attribute.values.all())
-        attr_dict[str(product_attribute.pk)] = str(value.pk)
+        value = random.choice(product_attribute.values)
+        attr_dict[str(product_attribute.id)] = str(value.id)
     product.attributes = attr_dict
-    product.save(update_fields=["attributes"])
+    product.save()
 
 
 def create_products_by_type(
@@ -165,26 +170,26 @@ def create_products_by_type(
         if create_images:
             type_placeholders = os.path.join(placeholder_dir, schema["images_dir"])
             create_product_images(product, random.randrange(1, 5), type_placeholders)
-        variant_combinations = get_variant_combinations(product)
+        # variant_combinations = get_variant_combinations(product)
 
-        prices = get_price_override(schema, len(variant_combinations), product.price)
-        variants_with_prices = itertools.zip_longest(variant_combinations, prices)
+        # prices = get_price_override(schema, len(variant_combinations), product.price)
+        # variants_with_prices = itertools.zip_longest(variant_combinations, prices)
 
-        for i, variant_price in enumerate(variants_with_prices, start=1337):
-            attr_combination, price = variant_price
-            sku = "%s-%s" % (product.pk, i)
-            create_variant(
-                product, attributes=attr_combination, sku=sku, price_override=price
-            )
+        # for i, variant_price in enumerate(variants_with_prices, start=1337):
+        #     attr_combination, price = variant_price
+        #     sku = "%s-%s" % (product.pk, i)
+        #     create_variant(
+        #         product, attributes=attr_combination, sku=sku, price_override=price
+        #     )
 
-        if not variant_combinations:
+        # if not variant_combinations:
             # Create min one variant for products without variant level attrs
-            sku = "%s-%s" % (product.pk, fake.random_int(1000, 100000))
-            create_variant(product, sku=sku)
+        sku = "%s-%s" % (product.id, fake.random_int(1000, 100000))
+        create_variant(product, sku=sku)
         if stdout is not None:
             stdout.write(
                 "Product: %s (%s), %s variant(s)"
-                % (product, product_type.name, len(variant_combinations) or 1)
+                % (product, product_type.name, 1)
             )
 
 
@@ -213,24 +218,18 @@ def get_or_create_category(category_schema, placeholder_dir):
     image_name = category_schema["image_name"]
     image_dir = get_product_list_images_dir(placeholder_dir)
     defaults = {
-        "description": fake.text(),
-        "slug": fake.slug(category_name),
-        "background_image": get_image(image_dir, image_name),
+        "background_img": get_image(image_dir, image_name),
     }
     return Category.get_or_create(
-        name=category_name, parent_id=parent_id, defaults=defaults
+        title=category_name, parent_id=parent_id, **defaults
     )
-
-
-def get_or_create_product_type(title, **kwargs):
-    return ProductType.get_or_create(title=title, **kwargs)
 
 
 def create_product(**kwargs):
     description = fake.paragraphs(5)
     defaults = {
-        "name": fake.company(),
-        "price": fake.money(),
+        "title": fake.company(),
+        "price": fake.pydecimal(2, 2, positive=True),
         "description": "\n\n".join(description),
     }
     defaults.update(kwargs)
@@ -241,8 +240,8 @@ def create_variant(product, **kwargs):
     defaults = {
         "product": product,
         "quantity": fake.random_int(1, 50),
-        "cost_price": fake.money(),
-        "quantity_allocated": fake.random_int(1, 50),
+        # "cost_price": fake.pydecimal(2, 2, positive=True),
+        # "quantity_allocated": fake.random_int(1, 50),
     }
     defaults.update(kwargs)
     variant = ProductVariant(**defaults)
@@ -253,7 +252,7 @@ def create_variant(product, **kwargs):
 
 
 def create_product_image(product, placeholder_dir):
-    placeholder_root = os.path.join(Config.PROJECT_ROOT, placeholder_dir)
+    placeholder_root = os.path.join(Config.APP_DIR, placeholder_dir)
     image_name = random.choice(os.listdir(placeholder_root))
     image = get_image(placeholder_dir, image_name)
     product_image = ProductImage(product=product, image=image)

@@ -53,7 +53,7 @@ class Product(SurrogatePK, Model):
     @property
     def get_first_img(self):
         if self.images:
-            return ast.literal_eval(self.images)[0]
+            return self.images[0]
         return ''
 
 
@@ -103,7 +103,7 @@ class ProductType(SurrogatePK, Model):
 class ProductVariant(SurrogatePK, Model):
     __tablename__ = "product_variant"
     sku = Column(db.String(32), unique=True)
-    title = Column(db.String(255), nullable=False)
+    title = Column(db.String(255))
     price_override = Column(db.DECIMAL(10, 2))
     quantity = Column(db.Integer())
     product_id = reference_col("product_product")
@@ -156,3 +156,6 @@ class ProductImage(SurrogatePK, Model):
     order = Column(db.Integer())
     product_id = reference_col("product_product")
     product = relationship("Product", backref="images")
+
+    def __str__(self):
+        return self.image
