@@ -9,6 +9,7 @@ from flask import current_app
 from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
 from flaskshop.random_data import create_users, create_menus
+from flaskshop.random_data import create_products_by_schema, DEFAULT_SCHEMA
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -133,16 +134,17 @@ def urls(url, order):
 
 
 @click.command()
-@click.option("--type", default='user', help="which type to seed")
+@click.option("--type", default='default', help="which type to seed")
 @click.option("--num", default=5, help="how many to seed")
 @with_appcontext
 def seed(type, num):
-    create_dict = {
-        'user': create_users,
-        'menu': create_menus,
-    }
-    # fn = create_dict[type]
-    # for msg in fn(num):
-    #     click.echo(msg)
-    from flaskshop.random_data import create_product_types_by_schema, DEFAULT_SCHEMA
-    create_product_types_by_schema(DEFAULT_SCHEMA)
+    if type == 'default':
+        create_products_by_schema(placeholder_dir='placeholders', how_many=10, create_images=True)
+    else:
+        create_dict = {
+            'user': create_users,
+            'menu': create_menus,
+        }
+        fn = create_dict[type]
+        for msg in fn(num):
+            click.echo(msg)

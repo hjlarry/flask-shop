@@ -42,7 +42,12 @@ class Product(SurrogatePK, Model):
     @attributes.setter
     def attributes(self, value):
         if isinstance(value, dict):
-            self._attributes = json.dumps(self.attributes.update(value))
+            if self._attributes:
+                old_attr = {k: v for k, v in json.loads(self._attributes).items()}
+                old_attr.update(value)
+                self._attributes = json.dumps(old_attr)
+            else:
+                self._attributes = json.dumps(value)
         else:
             raise Exception("Must set a dict for product attribute")
 
@@ -63,8 +68,12 @@ class Category(SurrogatePK, Model):
     parent_id = reference_col("product_category")
     background_img = Column(db.String(255))
 
+    def __str__(self):
+        return self.title
+
+    @property
     def get_absolute_url(self):
-        return 1
+        return ''
 
 
 Category.parent = relationship("Category", backref="children", remote_side=Category.id)
@@ -158,4 +167,4 @@ class ProductImage(SurrogatePK, Model):
     product = relationship("Product", backref="images")
 
     def __str__(self):
-        return self.image
+        return url_for('static', filename=self.image)
