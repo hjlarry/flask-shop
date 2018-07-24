@@ -14,7 +14,7 @@ from flaskshop.product.models import (
     ProductAttribute,
     AttributeChoiceValue,
 )
-from flaskshop.public.models import Menu, Site
+from flaskshop.public.models import Menu, Site, MenuItem
 from flaskshop.account.models import User
 from flaskshop.settings import Config
 
@@ -299,14 +299,17 @@ def get_image(image_dir, image_name):
 
 
 def generate_menu_items(menu: Menu, category: Category, parent_menu_item):
-    menu_item, created = menu.items.get_or_create(
-        name=category.name, category=category, parent=parent_menu_item
+    menu_item, created = MenuItem.get_or_create(
+        title=category.title, category=category, parent=parent_menu_item
     )
+    if not parent_menu_item:
+        menu.items.append(menu_item)
+        menu.save()
 
     if created:
         yield "Created menu item for category %s" % category
 
-    for child in category.get_children():
+    for child in category.children:
         for msg in generate_menu_items(menu, child, menu_item):
             yield "\t%s" % msg
 
