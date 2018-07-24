@@ -80,7 +80,24 @@ Category.parent = relationship("Category", backref="children", remote_side=Categ
 
 product_type_product_attrbuites = db.Table(
     "product_producttype_product_attributes",
-    Column("id", db.Integer(), primary_key=True),
+    Column("id", db.Integer(), primary_key=True, autoincrement=True),
+    Column(
+        "producttype_id",
+        db.Integer(),
+        db.ForeignKey("product_producttype.id"),
+        primary_key=True,
+    ),
+    Column(
+        "productattribute_id",
+        db.Integer(),
+        db.ForeignKey("product_productattribute.id"),
+        primary_key=True,
+    ),
+)
+
+product_type_variant_attrbuites = db.Table(
+    "product_producttype_variant_attributes",
+    Column("id", db.Integer(), primary_key=True, autoincrement=True),
     Column(
         "producttype_id",
         db.Integer(),
@@ -105,6 +122,12 @@ class ProductType(SurrogatePK, Model):
         "ProductAttribute",
         secondary=product_type_product_attrbuites,
         backref="product_types",
+        lazy="dynamic",
+    )
+    variant_attributes = relationship(
+        "ProductAttribute",
+        secondary=product_type_variant_attrbuites,
+        backref="variant_types",
         lazy="dynamic",
     )
 
