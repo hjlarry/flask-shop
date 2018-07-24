@@ -43,7 +43,7 @@ class Product(SurrogatePK, Model):
     def attributes(self, value):
         if isinstance(value, dict):
             if self._attributes:
-                old_attr = {k: v for k, v in json.loads(self._attributes).items()}
+                old_attr = json.loads(self._attributes)
                 old_attr.update(value)
                 self._attributes = json.dumps(old_attr)
             else:
@@ -155,9 +155,14 @@ class ProductVariant(SurrogatePK, Model):
     @attributes.setter
     def attributes(self, value):
         if isinstance(value, dict):
-            self._attributes = json.dumps(self.attributes.update(value))
+            if self._attributes:
+                old_attr = json.loads(self._attributes)
+                old_attr.update(value)
+                self._attributes = json.dumps(old_attr)
+            else:
+                self._attributes = json.dumps(value)
         else:
-            raise Exception("Must set a dict for product variant attribute")
+            raise Exception("Must set a dict for product attribute")
 
     @property
     def price(self):
