@@ -11,7 +11,7 @@ def get_product_attributes_data(product):
 
 def get_name_from_attributes(variant):
     """Generates ProductVariant's name based on its attributes."""
-    attributes = variant.product.product_type.variant_attributes.all()
+    attributes = variant.product.product_type.variant_attributes
     values = get_attributes_display_map(variant, attributes)
     return generate_name_from_values(values)
 

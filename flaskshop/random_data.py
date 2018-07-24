@@ -15,6 +15,7 @@ from flaskshop.product.models import (
     AttributeChoiceValue,
 )
 from flaskshop.public.models import Menu, Site, MenuItem
+from flaskshop.product.utils import get_name_from_attributes
 from flaskshop.account.models import User
 from flaskshop.settings import Config
 
@@ -128,14 +129,14 @@ def create_product_type_with_attributes(name, schema):
     product_attributes_schema = schema.get("product_attributes", {})
     variant_attributes_schema = schema.get("variant_attributes", {})
     is_shipping_required = schema.get("is_shipping_required", True)
-    product_type, _ = get_or_create_product_type(
+    product_type = get_or_create_product_type(
         title=name, is_shipping_required=is_shipping_required
     )
     product_attributes = create_attributes_and_values(product_attributes_schema)
     variant_attributes = create_attributes_and_values(variant_attributes_schema)
 
     product_type.product_attributes.extend(product_attributes)
-    # product_type.variant_attributes.add(*variant_attributes)
+    product_type.variant_attributes.extend(variant_attributes)
     product_type.save()
     return product_type
 
@@ -152,9 +153,10 @@ def create_product_types_by_schema(root_schema):
 
 def set_product_attributes(product, product_type):
     attr_dict = {}
-    for product_attribute in product_type.product_attributes.all():
+    for product_attribute in product_type.product_attributes:
         value = random.choice(product_attribute.values)
         attr_dict[str(product_attribute.id)] = str(value.id)
+
     product.attributes = attr_dict
     product.save()
 
@@ -170,22 +172,22 @@ def create_products_by_type(
         if create_images:
             type_placeholders = os.path.join(placeholder_dir, schema["images_dir"])
             create_product_images(product, random.randrange(1, 5), type_placeholders)
-        # variant_combinations = get_variant_combinations(product)
+        variant_combinations = get_variant_combinations(product)
 
-        # prices = get_price_override(schema, len(variant_combinations), product.price)
-        # variants_with_prices = itertools.zip_longest(variant_combinations, prices)
+        prices = get_price_override(schema, len(variant_combinations), product.price)
+        variants_with_prices = itertools.zip_longest(variant_combinations, prices)
 
-        # for i, variant_price in enumerate(variants_with_prices, start=1337):
-        #     attr_combination, price = variant_price
-        #     sku = "%s-%s" % (product.pk, i)
-        #     create_variant(
-        #         product, attributes=attr_combination, sku=sku, price_override=price
-        #     )
+        for i, variant_price in enumerate(variants_with_prices, start=1337):
+            attr_combination, price = variant_price
+            sku = "%s-%s" % (product.id, i)
+            create_variant(
+                product, attributes=attr_combination, sku=sku, price_override=price
+            )
 
-        # if not variant_combinations:
-        # Create min one variant for products without variant level attrs
-        sku = "%s-%s" % (product.id, fake.random_int(1000, 100000))
-        create_variant(product, sku=sku)
+        if not variant_combinations:
+            # Create min one variant for products without variant level attrs
+            sku = "%s-%s" % (product.id, fake.random_int(1000, 100000))
+            create_variant(product, sku=sku)
         if stdout is not None:
             stdout.write(
                 "Product: %s (%s), %s variant(s)"
@@ -244,15 +246,18 @@ def create_variant(product, **kwargs):
         # "quantity_allocated": fake.random_int(1, 50),
     }
     defaults.update(kwargs)
+    attributes = defaults.pop('attributes')
     variant = ProductVariant(**defaults)
-    # if variant.attributes:
-    #     variant.name = get_name_from_attributes(variant)
+    variant.attributes = attributes
+
+    if variant.attributes:
+        variant.title = get_name_from_attributes(variant)
     variant.save()
     return variant
 
 
 def create_product_image(product, placeholder_dir):
-    placeholder_root = os.path.join(Config.APP_DIR, placeholder_dir)
+    placeholder_root = os.path.join(Config.STATIC_DIR, placeholder_dir)
     image_name = random.choice(os.listdir(placeholder_root))
     image = get_image(placeholder_dir, image_name)
     product_image = ProductImage(product=product, image=image)
@@ -413,12 +418,12 @@ def get_variant_combinations(product):
     # Output is list of dicts, where key is product attribute id and value is
     # attribute value id. Casted to string.
     variant_attr_map = {
-        attr: attr.values.all()
-        for attr in product.product_type.variant_attributes.all()
+        attr: attr.values
+        for attr in product.product_type.variant_attributes
     }
     all_combinations = itertools.product(*variant_attr_map.values())
     return [
-        {str(attr_value.attribute.pk): str(attr_value.pk) for attr_value in combination}
+        {str(attr_value.attribute.id): str(attr_value.id) for attr_value in combination}
         for combination in all_combinations
     ]
 
@@ -427,7 +432,7 @@ def get_price_override(schema, combinations_num, current_price):
     prices = []
     if schema.get("different_variant_prices"):
         prices = sorted(
-            [current_price + fake.money() for _ in range(combinations_num)],
+            [current_price + fake.pydecimal(2, 2, positive=True) for _ in range(combinations_num)],
             reverse=True,
         )
     return prices
