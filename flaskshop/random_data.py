@@ -99,14 +99,14 @@ COLLECTIONS_SCHEMA = [
 def create_attribute(**kwargs):
     # defaults = {"title": fake.word().title()}
     # defaults.update(kwargs)
-    attribute = ProductAttribute.get_or_create(**kwargs)
+    attribute, _ = ProductAttribute.get_or_create(**kwargs)
     return attribute
 
 
 def create_attribute_value(attribute, **kwargs):
     defaults = {"attribute": attribute}
     defaults.update(kwargs)
-    attribute_value = AttributeChoiceValue.get_or_create(**defaults)
+    attribute_value, _ = AttributeChoiceValue.get_or_create(**defaults)
     return attribute_value
 
 
@@ -121,14 +121,14 @@ def create_attributes_and_values(attribute_data):
 
 
 def get_or_create_product_type(title, **kwargs):
-    return ProductType.get_or_create(title=title, **kwargs)
+    return ProductType.get_or_create(title=title, **kwargs)[0]
 
 
 def create_product_type_with_attributes(name, schema):
     product_attributes_schema = schema.get("product_attributes", {})
     variant_attributes_schema = schema.get("variant_attributes", {})
     is_shipping_required = schema.get("is_shipping_required", True)
-    product_type = get_or_create_product_type(
+    product_type, _ = get_or_create_product_type(
         title=name, is_shipping_required=is_shipping_required
     )
     product_attributes = create_attributes_and_values(product_attributes_schema)
@@ -183,7 +183,7 @@ def create_products_by_type(
         #     )
 
         # if not variant_combinations:
-            # Create min one variant for products without variant level attrs
+        # Create min one variant for products without variant level attrs
         sku = "%s-%s" % (product.id, fake.random_int(1000, 100000))
         create_variant(product, sku=sku)
         if stdout is not None:
@@ -222,7 +222,7 @@ def get_or_create_category(category_schema, placeholder_dir):
     }
     return Category.get_or_create(
         title=category_name, parent_id=parent_id, **defaults
-    )
+    )[0]
 
 
 def create_product(**kwargs):
@@ -321,13 +321,13 @@ def generate_menu_tree(menu):
 
 def create_menus(num=None):
     # Create navbar menu with category links
-    top_menu = Menu.get_or_create(title='top_menu')
+    top_menu, _ = Menu.get_or_create(title='top_menu')
     if not top_menu.items:
         yield "Created navbar menu"
         for msg in generate_menu_tree(top_menu):
             yield msg
 
-    bottom_menu = Menu.get_or_create(title='bottom_menu')
+    bottom_menu, _ = Menu.get_or_create(title='bottom_menu')
     # Create footer menu with collections and pages
     # bottom_menu, _ = Menu.objects.get_or_create(
     #     name=settings.DEFAULT_MENUS["bottom_menu_name"]
@@ -373,7 +373,7 @@ def create_users(how_many=10):
 def create_fake_user():
     # address = create_address()
     email = get_email(fake.first_name(), fake.last_name())
-    user = User.get_or_create(
+    user, _ = User.get_or_create(
         username=fake.first_name(), email=email, password='password', active=True
     )
     return user

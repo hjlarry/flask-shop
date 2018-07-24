@@ -76,10 +76,10 @@ class SurrogatePK(object):
     def get_or_create(cls, **kwargs):
         instance = cls.query.filter_by(**kwargs).first()
         if instance:
-            return instance
+            return instance, False
         else:
             instance = cls.create(**kwargs)
-            return instance
+            return instance, True
 
 
 def reference_col(tablename, nullable=True, pk_name="id", **kwargs):
