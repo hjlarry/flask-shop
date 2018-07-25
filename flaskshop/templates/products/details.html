@@ -79,6 +79,7 @@
           <form id="product-form" role="form" class="product-form1 clearfix" method="post"
                 action="{{ url_for('product.product_add_to_cart', id=product.id) }}" novalidate>
             {{ form.csrf_token }}
+          {% if form.variant.choices | length > 1 %}
             <div class="variant-picker">
               <div class="variant-picker__label">{{ form.variant.label.text|safe }}</div>
               <div class="btn-group" data-toggle="buttons">
@@ -96,6 +97,13 @@
 {#              TODO:to fix switch button bug#}
               </div>
             </div>
+            {% else %}
+            {% for item in form.variant -%}
+                  <label class="btn btn-secondary variant-picker__option active" style="display: none">
+                    {{ item(checked='checked')|safe }}
+                  </label>
+                {% endfor %}
+          {% endif %}
 
             <div class="product__info__quantity">
               {{ render_field(form.quantity) }}

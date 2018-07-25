@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}
+  {{ object.name }}
+{% endblock %}
+
+
+{% block breadcrumb %}
+  <div class="row">
+    <div class="col-md-7">
+      <ul class="breadcrumbs list-unstyled d-none d-md-block">
+        {% block breadcrumb_part %}{% endblock %}
+      </ul>
+    </div>
+    <div class="col-md-5">
+      <h3 class="d-md-none float-left filters-toggle">
+        Filters
+      </h3>
+      <div class="sort-by">
+        <div class="click-area d-none"></div>
+        <button class="btn btn-link">
+          <div>
+            <span>
+              {% if now_sorted_by == 'name' %}
+                  Sort by: <b>name</b>
+              {% elif now_sorted_by == 'price' %}
+                  Sort by: <b>price</b>
+              {% endif %}
+            </span>
+            <div class="sort-order-icon">
+              {% if is_descending %}
+                <svg data-src="{{ url_for('static', filename='img/arrow-down.svg') }}"></svg>
+              {% else %}
+                <svg data-src="{{ url_for('static', filename='img/arrow-up.svg') }}"></svg>
+              {% endif %}
+            </div>
+          </div>
+        </button>
+        <ul class="sort-list d-none">
+          {% for choice, label in sort_by_choices.items() %}
+            <li>
+              <div class="row">
+                <div class="col-6">
+                  Sort by
+                  <strong>{{ label }}</strong>
+                </div>
+                <div class="col-6">
+                  <div>
+                    <a href="">
+                      <span>ascending</span>
+                      <div class="sort-order-icon float-right">
+                        <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/arrow-up.svg') }}">
+                      </div>
+                    </a>
+                    <a href="">
+                      <span>descending</span>
+                      <div class="sort-order-icon float-right">
+                        <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/arrow-down.svg') }}">
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block topcontent %}
+  {% if object.background_image %}
+    <div class="row" id="product-list-image" style="background-image: url('{{ object.background_image }}')"></div>
+  {% endif %}
+{% endblock topcontent %}
+
+{% block content %}
+
+  <div id="product-list-page">
+    <div class="row">
+      <div class="col-md-4 col-lg-3">
+        {% block filters %}{% endblock filters %}
+      </div>
+      <div class="col-md-8 col-lg-9 product-list">
+        <div>
+          <div>
+          {% set products = object.products %}
+            {% if products %}
+              <div class="row">
+                {% include "products/_items.html" %}
+              </div>
+              <div class="row">
+                <div class="m-auto">
+
+                    12
+
+                </div>
+              </div>
+            {% else %}
+              <div class="row no-results">
+                <div class="col-12">
+                  <svg data-src="{{ url_for('static', filename='img/no-results-bg.svg') }}"
+                       width="360"
+                       height="360"></svg>
+                  <p>Sorry, no matches found for your request.</p>
+                  <p>Try again or shop new arrivals.</p>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

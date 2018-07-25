@@ -48,3 +48,17 @@ def generate_name_from_values(attributes_dict):
         for attribute_pk, attributechoice_value in sorted(
             attributes_dict.items(),
             key=lambda x: x[0]))
+
+
+def get_product_list_context(request):
+    sort_by_choices = {
+        'name': 'name',
+        'price': 'price'
+    }
+    arg_sort_by = request.args.get('sort_by')
+    is_descending = arg_sort_by.startswith('-') if arg_sort_by else False
+    return {
+        'sort_by_choices': sort_by_choices,
+        'is_descending': is_descending,
+        'now_sorted_by': arg_sort_by or 'name'
+    }

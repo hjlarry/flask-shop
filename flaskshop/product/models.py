@@ -1,4 +1,3 @@
-import ast
 import json
 from flask import url_for
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -73,7 +72,7 @@ class Category(SurrogatePK, Model):
 
     @property
     def get_absolute_url(self):
-        return ''
+        return url_for('product.show_category', id=self.id)
 
 
 Category.parent = relationship("Category", backref="children", remote_side=Category.id)
@@ -143,7 +142,7 @@ class ProductVariant(SurrogatePK, Model):
     _attributes = Column("attributes", db.String(255))
 
     def __str__(self):
-        return self.title
+        return self.title if self.title else self.product.title
 
     @hybrid_property
     def attributes(self):

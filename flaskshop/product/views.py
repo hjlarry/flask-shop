@@ -5,40 +5,13 @@ from flask_login import current_user, login_required
 from sqlalchemy import or_
 from werkzeug.wrappers import Response
 
-from .models import Product
+from .models import Product, Category
 from .forms import AddCartForm
-from .utils import get_product_attributes_data
+from .utils import get_product_attributes_data, get_product_list_context
 from flaskshop.extensions import db
 from flaskshop.checkout.models import Cart, CartLine
 
 blueprint = Blueprint("product", __name__, url_prefix="/products")
-
-
-@blueprint.route("/")
-def index():
-    """List products."""
-    page = request.args.get("page", 1, type=int)
-    search = request.args.get("search", None)
-    order = request.args.get("order", None)
-    build = Product.query.filter_by(on_sale=True)
-    if search:
-        build = build.filter(
-            or_(
-                Product.title.like("%" + search + "%"),
-                Product.description.like("%" + search + "%"),
-            )
-        )
-    if order:
-        col, ord = order.split('-')
-        if col in ('price', 'sold_count', 'rating') and ord in ('desc', 'asc'):
-            col = getattr(Product, col)
-            ord = getattr(col, ord)
-            build = build.order_by(ord())
-    pagination = build.paginate(page, per_page=16)
-    products = pagination.items
-    return render_template(
-        "products/index.html", products=products, pagination=pagination
-    )
 
 
 @blueprint.route("/<id>")
@@ -55,7 +28,7 @@ def show(id):
 @login_required
 def product_add_to_cart(id):
     quantity = int(request.form.get('quantity'))
-    variant_id = int(request.form.get('variant'))
+    variant_id = int(request.form.get('variant', 0))
     if current_user.cart:
         cart = current_user.cart
         cart.quantity += quantity
@@ -68,6 +41,14 @@ def product_add_to_cart(id):
     else:
         CartLine.create(variant_id=variant_id, quantity=quantity, cart=cart)
     return redirect(url_for('product.show', id=id))
+
+
+@blueprint.route("/category/<id>")
+def show_category(id):
+    category = Category.get_by_id(id)
+    ctx = get_product_list_context(request)
+    ctx.update(object=category)
+    return render_template("products/product_list_base.html", **ctx)
 
 
 @blueprint.route("/<id>/favor", methods=['POST', 'DELETE'])
