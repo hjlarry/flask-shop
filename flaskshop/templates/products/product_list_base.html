@@ -48,13 +48,13 @@
                 </div>
                 <div class="col-6">
                   <div>
-                    <a href="">
+                    <a href="{{ get_sort_by_url(choice) }}">
                       <span>ascending</span>
                       <div class="sort-order-icon float-right">
                         <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/arrow-up.svg') }}">
                       </div>
                     </a>
-                    <a href="">
+                    <a href="{{ get_sort_by_url(choice, descending=True) }}">
                       <span>descending</span>
                       <div class="sort-order-icon float-right">
                         <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/arrow-down.svg') }}">

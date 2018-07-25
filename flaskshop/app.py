@@ -64,10 +64,23 @@ def register_blueprints(app):
 def register_global_varibles(app):
     """Register global varibles for jinja2"""
     from flaskshop.public.models import Site
+    from flask import request
+    from urllib.parse import urlencode
+
     @app.context_processor
     def inject_param():
         site = Site.query.first()
         return dict(site=site)
+
+    def get_sort_by_url(field, descending=False):
+        request_get = request.args.copy()
+        if descending:
+            request_get['sort_by'] = '-' + field
+        else:
+            request_get['sort_by'] = field
+        return '%s?%s' % (request.path, urlencode(request_get))
+
+    app.add_template_global(get_sort_by_url, 'get_sort_by_url')
 
     return None
 
