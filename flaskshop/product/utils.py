@@ -28,9 +28,9 @@ def get_attributes_display_map(obj, attributes):
         value = obj.attributes.get(attribute.id)
         if value:
             choices = {a.id: a for a in attribute.values}
-            choice_obj = choices.get(value)
+            choice_obj = choices.get(int(value))
             if choice_obj:
-                display_map[attribute.id] = choice_obj
+                display_map[attribute.id] = choice_obj.title
             else:
                 display_map[attribute.id] = value
     return display_map

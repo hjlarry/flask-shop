@@ -52,6 +52,7 @@ def show(id):
 
 
 @blueprint.route("/<id>/add", methods=['POST'])
+@login_required
 def product_add_to_cart(id):
     quantity = int(request.form.get('quantity'))
     variant_id = int(request.form.get('variant'))
