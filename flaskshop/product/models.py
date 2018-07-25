@@ -22,7 +22,7 @@ class Product(SurrogatePK, Model):
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
     category_id = reference_col("product_category")
-    category = relationship("Category", backref="products")
+    category = relationship("Category")
     is_featured = Column(db.Boolean(), default=False)
     product_type_id = reference_col("product_producttype")
     product_type = relationship("ProductType", backref="products")
@@ -66,6 +66,7 @@ class Category(SurrogatePK, Model):
     title = Column(db.String(255), nullable=False)
     parent_id = reference_col("product_category")
     background_img = Column(db.String(255))
+    products = relationship('Product', lazy='dynamic')
 
     def __str__(self):
         return self.title

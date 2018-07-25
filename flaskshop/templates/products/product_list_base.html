@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
 
 
 
@@ -24,9 +25,9 @@
           <div>
             <span>
               {% if now_sorted_by == 'name' %}
-                  Sort by: <b>name</b>
+                Sort by: <b>name</b>
               {% elif now_sorted_by == 'price' %}
-                  Sort by: <b>price</b>
+                Sort by: <b>price</b>
               {% endif %}
             </span>
             <div class="sort-order-icon">
@@ -51,13 +52,15 @@
                     <a href="{{ get_sort_by_url(choice) }}">
                       <span>ascending</span>
                       <div class="sort-order-icon float-right">
-                        <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/arrow-up.svg') }}">
+                        <img class="lazyload lazypreload"
+                             data-src="{{ url_for('static', filename='img/arrow-up.svg') }}">
                       </div>
                     </a>
                     <a href="{{ get_sort_by_url(choice, descending=True) }}">
                       <span>descending</span>
                       <div class="sort-order-icon float-right">
-                        <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/arrow-down.svg') }}">
+                        <img class="lazyload lazypreload"
+                             data-src="{{ url_for('static', filename='img/arrow-down.svg') }}">
                       </div>
                     </a>
                   </div>
@@ -87,7 +90,7 @@
       <div class="col-md-8 col-lg-9 product-list">
         <div>
           <div>
-          {% set products = object.products %}
+
             {% if products %}
               <div class="row">
                 {% include "products/_items.html" %}
@@ -95,7 +98,7 @@
               <div class="row">
                 <div class="m-auto">
 
-                    12
+                  {{ render_pagination(pagination) }}
 
                 </div>
               </div>
