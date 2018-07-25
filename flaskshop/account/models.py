@@ -22,7 +22,7 @@ user_favorite_product = db.Table(
 )
 
 
-class User(SurrogatePK, Model):
+class User(SurrogatePK, Model, UserMixin):
     __tablename__ = "users"
     username = Column(db.String(80), unique=True, nullable=False)
     email = Column(db.String(80), unique=True, nullable=False)
