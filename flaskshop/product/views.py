@@ -45,6 +45,7 @@ def product_add_to_cart(id):
 
 @blueprint.route("/category/<id>")
 def show_category(id):
+    # TODO: filter query
     page = request.args.get("page", 1, type=int)
     category = Category.get_by_id(id)
     pagination = category.products.paginate(page, per_page=16)

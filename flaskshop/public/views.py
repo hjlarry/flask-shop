@@ -20,3 +20,8 @@ def home():
     """Home page."""
     products = Product.query.filter_by(is_featured=True).limit(8)
     return render_template("home.html", products=products)
+
+
+@blueprint.route("/style")
+def style():
+    return render_template("style_guide.html")

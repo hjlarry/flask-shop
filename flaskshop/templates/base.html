@@ -43,7 +43,7 @@
 
                   <li>
                     <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
-                       Dashboard
+                      Dashboard
                     </a>
                   </li>
                 {% endif %}
@@ -120,11 +120,11 @@
                        width="35" height="30"></svg>
                 </div>
                 {% if current_user.is_authenticated and current_user.cart.quantity %}
-                <span class="badge ">
+                  <span class="badge ">
                       {{ current_user.cart.quantity }}
                 </span>
                 {% else %}
-                <span class="badge empty">
+                  <span class="badge empty">
                       0
                 </span>
                 {% endif %}
@@ -147,12 +147,12 @@
 <div class="container maincontent">
   {% block topcontent %}{% endblock topcontent %}
 
-{% for message in get_flashed_messages(with_categories=True) %}
-<div class="alert alert-{{ message[0] }}">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    {{ message[1] }}
-</div>
-{% endfor %}
+  {% for message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-{{ message[0] }}">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ message[1] }}
+    </div>
+  {% endfor %}
 
   {% block breadcrumb %}
   {% endblock breadcrumb %}
@@ -185,12 +185,13 @@
                     Dashboard
                   </a>
                 </li>
-                <li>
-                  <a href="" target="_blank">
-                    Style guide
-                  </a>
-                </li>
               {% endif %}
+              <li>
+                <a href="{{ url_for('public.style') }}" target="_blank">
+                  Style guide
+                </a>
+              </li>
+
               <li>
                 <a href="{{ url_for('order.index') }}">
                   Your account
