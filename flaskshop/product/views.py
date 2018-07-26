@@ -49,9 +49,9 @@ def show_category(id):
     category = Category.get_by_id(id)
     pagination = category.products.paginate(page, per_page=16)
     products = pagination.items
-    ctx = get_product_list_context(request)
+    ctx = get_product_list_context(request, products)
     ctx.update(object=category, pagination=pagination, products=products)
-    return render_template("products/product_list_base.html", **ctx)
+    return render_template("category/index.html", **ctx)
 
 
 @blueprint.route("/<id>/favor", methods=['POST', 'DELETE'])

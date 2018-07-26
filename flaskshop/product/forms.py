@@ -18,3 +18,13 @@ class AddCartForm(FlaskForm):
         super().__init__(*args, **kwargs)
         if product:
             self.variant.choices = [(vari.id, vari) for vari in product.variant]
+
+
+class FilterForm(FlaskForm):
+    price = StringField(
+        "quantity",
+    )
+
+    def __init__(self, *args, **kwargs):
+        """Create instance."""
+        super().__init__(*args, **kwargs)

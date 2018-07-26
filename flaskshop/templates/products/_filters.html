@@ -1,0 +1,75 @@
+<div class="product-filters">
+  <div class="product-filters__title">
+    <h2>
+      <strong>{{ object }}</strong>
+    </h2>
+    {% block title_tree %}{% endblock title_tree %}
+  </div>
+</div>
+<div class="filters-menu__body d-none d-md-block">
+  <h2>
+    Filters
+    {#    {% if filter.is_bound_unsorted %}#}
+    {#      <a href="../">#}
+    {#        <span class="clear-filters float-right">Clear filters</span>#}
+    {#      </a>#}
+    {#    {% endif %}#}
+  </h2>
+  <div class="product-filters">
+    <div class="product-filters__attributes" data-icon-up="{{ url_for('static', filename='img/chevron-up.svg') }}"
+         data-icon-down="{{ url_for('static', filename='img/chevron-down.svg') }}">
+      <form method="get">
+        {% for attr in attr_filter %}
+
+          <div class="filter-section" aria-expanded="true">
+            <div class="filter-section__header">
+              <h3>{{ attr }}</h3>
+              <div class="filter-section__icon">
+                <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/chevron-up.svg') }}">
+              </div>
+            </div>
+            <div class="filter-section__content">
+              <div class="filter-form-field">
+                <ul>
+                  {% for value in attr.values %}
+                      <li>
+                        <label for="{{ attr.title + loop.index|string }}">
+                          <input type="checkbox" name="{{ attr }}" value="{{ value.id }}" id="{{ attr.title + loop.index|string }}">
+                          {{ value }}
+                        </label>
+                      </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        {% endfor %}
+
+
+        <div class="filter-section" aria-expanded="true">
+          <div class="filter-section__header">
+            <h3>Price</h3>
+            <div class="filter-section__icon">
+              <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/chevron-up.svg') }}">
+            </div>
+          </div>
+          <div class="filter-section__content">
+            <div class="filter-form-field price-field">
+              <input id="price_from" name="price_from"
+                     value="" type="number" min="0"
+                     class="form-control d-inline"
+                     placeholder="from"/><span>-</span><input id="price_to" name="price_to"
+                                                              value=""
+                                                              type="number" min="0"
+                                                              class="form-control d-inline" placeholder="to"/>
+            </div>
+          </div>
+        </div>
+
+
+        <button class="btn primary" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+</div>

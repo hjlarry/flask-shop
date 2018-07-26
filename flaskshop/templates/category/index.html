@@ -1,0 +1,15 @@
+{% extends "products/product_list_base.html" %}
+
+
+{% block breadcrumb_part %}
+  <li>
+    <a href="{{ url_for('public.home') }}">Home</a>
+  </li>
+  <li><a href='{{ object.get_absolute_url }}'>{{ object.title }}</a></li>
+{% endblock %}
+
+{% block filters %}
+  {% with category=object %}
+  {% include "category/filters.html" %}
+  {% endwith %}
+{% endblock filters %}
