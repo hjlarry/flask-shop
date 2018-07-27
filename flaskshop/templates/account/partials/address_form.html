@@ -1,0 +1,26 @@
+{% from 'bootstrap/form.html' import render_field %}
+<div class="i18n-address">
+  <div class="row">
+    {{ form.csrf_token }}
+    <div class="col-6">
+      {{ render_field(form.province) }}
+    </div>
+    <div class="col-6">
+      {{ render_field(form.city) }}
+    </div>
+    <div class="col-6">
+      {{ render_field(form.district) }}
+    </div>
+    <div class="col-6">
+      {{ render_field(form.address) }}
+    </div>
+    <div class="col-6">
+      {{ render_field(form.contact_name) }}
+    </div>
+    <div class="col-6">
+      {{ render_field(form.contact_phone) }}
+    </div>
+
+  </div>
+
+</div>

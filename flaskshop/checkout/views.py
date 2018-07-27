@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
-from sqlalchemy import and_
 import json
 
 from .models import Cart, CouponCode
+from flaskshop.account.forms import AddressForm
+from flaskshop.account.models import UserAddress
 
 blueprint = Blueprint('checkout', __name__, url_prefix='/checkout')
 
@@ -39,3 +40,25 @@ def verify(code):
         'description': coupon.description,
     }
     return Response(json.dumps(res), status=200)
+
+
+@blueprint.route('/shipping_address', methods=['GET', 'POST'])
+def checkout_shipping_address():
+    form = AddressForm(request.form)
+    if form.validate_on_submit():
+        UserAddress.create(
+            province=form.province.data,
+            city=form.city.data,
+            district=form.district.data,
+            address=form.address.data,
+            contact_name=form.contact_name.data,
+            contact_phone=form.contact_phone.data,
+            user=current_user
+        )
+        return redirect(url_for('checkout.checkout_shipping_method'))
+    return render_template('checkout/shipping_address.html', form=form)
+
+
+@blueprint.route('/shipping_method')
+def checkout_shipping_method():
+    return render_template('checkout/shipping_method.html')

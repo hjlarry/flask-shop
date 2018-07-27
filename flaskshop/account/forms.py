@@ -105,7 +105,9 @@ class ChangePasswordForm(FlaskForm):
 class AddressForm(FlaskForm):
     """Address form."""
 
-    province_city = StringField("Province City", validators=[DataRequired()])
+    province = StringField("Province", validators=[DataRequired()])
+    city = StringField("City", validators=[DataRequired()])
+    district = StringField("District", validators=[DataRequired()])
     address = StringField("Address", validators=[DataRequired()])
     contact_name = StringField("Contact name", validators=[DataRequired()])
     contact_phone = StringField("Contact Phone", validators=[DataRequired(), Length(min=11, max=11)])

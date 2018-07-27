@@ -1,0 +1,25 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  {% for address in current_user.addresses %}
+    <div class="radio {% if address %} address_hide{% else %} address_show{% endif %}">
+      <label>
+        <input type="radio" name="{{ radio_name }}" value="{{ radio_value }}" id="address_{{ radio_value }}"
+               {% if radio_value == value %}checked{% endif %}>
+        <div class="address-details">
+
+        </div>
+      </label>
+    </div>
+  {% endfor %}
+    <div class="radio {% if address %} address_hide{% else %} address_show{% endif %}">
+      <label>
+        <input type="radio" name="{{ radio_name }}" value="{{ radio_value }}" id="address_{{ radio_value }}"
+               {% if radio_value == value %}checked{% endif %}>
+        Enter a new address
+      </label>
+    </div>
+
+    <div class="checkout__new-address">
+      {% include "account/partials/address_form.html" %}
+    </div>
+
+</div>

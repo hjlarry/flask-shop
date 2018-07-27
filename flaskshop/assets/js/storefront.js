@@ -11,7 +11,7 @@ import './components/sorter';
 import './components/language-picker';
 import './components/footer';
 import './components/product-filters';
-import './components/address-form';
+// import './components/address-form';
 import './components/password-input';
 import './components/styleguide';
 import './components/misc';
