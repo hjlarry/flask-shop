@@ -8,8 +8,8 @@ import click
 from flask import current_app
 from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
-from flaskshop.random_data import create_users, create_menus
-from flaskshop.random_data import create_products_by_schema, DEFAULT_SCHEMA
+from flaskshop.random_data import create_users, create_menus, create_addresses
+from flaskshop.random_data import create_products_by_schema
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -140,10 +140,13 @@ def urls(url, order):
 def seed(type, num):
     if type == 'default':
         create_products_by_schema(placeholder_dir='placeholders', how_many=10, create_images=True)
+        create_users(10)
+        create_menus()
     else:
         create_dict = {
             'user': create_users,
             'menu': create_menus,
+            'address': create_addresses
         }
         fn = create_dict[type]
         for msg in fn(num):

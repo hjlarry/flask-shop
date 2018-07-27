@@ -16,10 +16,22 @@ from flaskshop.product.models import (
 )
 from flaskshop.public.models import Menu, Site, MenuItem
 from flaskshop.product.utils import get_name_from_attributes
-from flaskshop.account.models import User
+from flaskshop.account.models import User, UserAddress
+from flaskshop.checkout.models import ShippingMethod
 from flaskshop.settings import Config
 
 fake = Factory.create()
+
+
+class SaleorProvider(BaseProvider):
+    def money(self):
+        return fake.pydecimal(2, 2, positive=True)
+
+    def shipping_method(self):
+        return random.choice(ShippingMethod.query.all())
+
+
+fake.add_provider(SaleorProvider)
 
 GROCERIES_CATEGORY = {"name": "Groceries", "image_name": "groceries.jpg"}
 
@@ -437,20 +449,30 @@ def get_price_override(schema, combinations_num, current_price):
         )
     return prices
 
-# class SaleorProvider(BaseProvider):
-#     def money(self):
-#         return Money(
-#             fake.pydecimal(2, 2, positive=True), settings.DEFAULT_CURRENCY)
-#
-#     def delivery_region(self):
-#         return random.choice(DELIVERY_REGIONS)
-#
-#     def shipping_method(self):
-#         return random.choice(ShippingMethod.objects.all())
+
+def create_fake_address():
+    address = UserAddress.create(
+        contact_name=fake.name(),
+        province=fake.state(),
+        city=fake.city(),
+        district=fake.city_suffix(),
+        address=fake.street_address(),
+        contact_phone=fake.phone_number()
+    )
+    return address
 
 
-# fake.add_provider(SaleorProvider)
+def create_addresses(how_many=10):
+    for dummy in range(how_many):
+        address = create_fake_address()
+        yield "Address: %s" % (address.contact_name,)
 
+
+def create_shipping_methods():
+    shipping_method = ShippingMethod.create(name='UPC', price=fake.money())
+    yield 'Shipping method #%d' % shipping_method.id
+    shipping_method = ShippingMethod.create(name='DHL', price=fake.money())
+    yield 'Shipping method #%d' % shipping_method.id
 
 # def get_or_create_collection(name, placeholder_dir, image_name):
 #     background_image = get_image(placeholder_dir, image_name)
@@ -480,17 +502,6 @@ def get_price_override(schema, combinations_num, current_price):
 #     for collection_data in COLLECTIONS_SCHEMA:
 #         collection = create_fake_collection(placeholder_dir, collection_data)
 #         yield 'Collection: %s' % (collection,)
-
-
-# def create_address():
-#     address = Address.objects.create(
-#         first_name=fake.first_name(),
-#         last_name=fake.last_name(),
-#         street_address_1=fake.street_address(),
-#         city=fake.city(),
-#         postal_code=fake.postcode(),
-#         country=fake.country_code())
-#     return address
 
 
 # def create_payment(order):
@@ -593,13 +604,7 @@ def get_price_override(schema, combinations_num, current_price):
 #         yield 'Sale: %s' % (sale,)
 #
 #
-# def create_shipping_methods():
-#     shipping_method = ShippingMethod.objects.create(name='UPC')
-#     shipping_method.price_per_country.create(price=fake.money())
-#     yield 'Shipping method #%d' % shipping_method.id
-#     shipping_method = ShippingMethod.objects.create(name='DHL')
-#     shipping_method.price_per_country.create(price=fake.money())
-#     yield 'Shipping method #%d' % shipping_method.id
+
 #
 #
 # def create_vouchers():
