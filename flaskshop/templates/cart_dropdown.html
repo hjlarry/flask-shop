@@ -45,10 +45,10 @@
     <div class="row cart-dropdown__actions">
       <div class="col-md-1"></div>
       <div class="col-md-5">
-        <a href="" class="btn secondary narrow float-md-right">Go to cart</a>
+        <a href="{{ url_for('checkout.cart_index') }}" class="btn secondary narrow float-md-right">Go to cart</a>
       </div>
       <div class="col-md-5">
-        <a href="" class="btn primary narrow float-md-right">Checkout</a>
+        <a href="{{ url_for('checkout.checkout_shipping_address') }}" class="btn primary narrow float-md-right">Checkout</a>
       </div>
     </div>
   {% else %}
