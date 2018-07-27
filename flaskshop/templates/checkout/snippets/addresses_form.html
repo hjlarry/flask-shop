@@ -1,3 +1,4 @@
+{% import '_macros.html' as macros %}
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   {% for address in current_user.addresses %}
     <div class="radio {% if address %} address_hide{% else %} address_show{% endif %}">
@@ -5,10 +6,7 @@
         <input type="radio" name="address_sel" value="{{ address.id }}" id="address_{{ radio_value }}"
                {% if radio_value == value %}checked{% endif %}>
         <div class="address-details">
-          {{ address.province }}{{ address.city }}{{ address.district }}<br>
-          {{ address.address }}<br>
-          {{ address.contact_name }}<br>
-          {{ address.contact_phone }}<br>
+          {{ macros.format_address(address) }}
         </div>
       </label>
     </div>

@@ -47,6 +47,15 @@ class CartLine(SurrogatePK, Model):
         return self.variant.price * self.quantity
 
 
+class ShippingMethod(SurrogatePK, Model):
+    __tablename__ = "checkout_shippingmethod"
+    title = Column(db.String(255), nullable=False)
+    price = Column(db.DECIMAL(10, 2))
+
+    def __str__(self):
+        return self.title
+
+
 class CouponCode(SurrogatePK, Model):
     __tablename__ = "coupon_codes"
     title = Column(db.String(255), nullable=False)
