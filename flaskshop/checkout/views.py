@@ -45,8 +45,12 @@ def verify(code):
 @blueprint.route('/shipping_address', methods=['GET', 'POST'])
 def checkout_shipping_address():
     form = AddressForm(request.form)
-    if form.validate_on_submit():
-        UserAddress.create(
+    if request.method == 'GET':
+        return render_template('checkout/shipping_address.html', form=form)
+    if request.form['address_sel'] == 'new':
+        if not form.validate_on_submit():
+            return
+        user_address = UserAddress.create(
             province=form.province.data,
             city=form.city.data,
             district=form.district.data,
@@ -55,8 +59,10 @@ def checkout_shipping_address():
             contact_phone=form.contact_phone.data,
             user=current_user
         )
-        return redirect(url_for('checkout.checkout_shipping_method'))
-    return render_template('checkout/shipping_address.html', form=form)
+    else:
+        user_address = UserAddress.get_by_id(request.form['address_sel'])
+    current_user.cart.update(address=user_address)
+    return redirect(url_for('checkout.checkout_shipping_method'))
 
 
 @blueprint.route('/shipping_method')

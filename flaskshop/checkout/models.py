@@ -20,6 +20,8 @@ class Cart(SurrogatePK, Model):
     token = Column(db.String(255))
     voucher_code = Column(db.String(255))
     quantity = Column(db.Integer())
+    shipping_address_id = reference_col("users_address")
+    address = relationship("UserAddress")
 
     @property
     def total(self):

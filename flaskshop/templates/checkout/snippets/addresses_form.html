@@ -2,17 +2,20 @@
   {% for address in current_user.addresses %}
     <div class="radio {% if address %} address_hide{% else %} address_show{% endif %}">
       <label>
-        <input type="radio" name="{{ radio_name }}" value="{{ radio_value }}" id="address_{{ radio_value }}"
+        <input type="radio" name="address_sel" value="{{ address.id }}" id="address_{{ radio_value }}"
                {% if radio_value == value %}checked{% endif %}>
         <div class="address-details">
-
+          {{ address.province }}{{ address.city }}{{ address.district }}<br>
+          {{ address.address }}<br>
+          {{ address.contact_name }}<br>
+          {{ address.contact_phone }}<br>
         </div>
       </label>
     </div>
   {% endfor %}
     <div class="radio {% if address %} address_hide{% else %} address_show{% endif %}">
       <label>
-        <input type="radio" name="{{ radio_name }}" value="{{ radio_value }}" id="address_{{ radio_value }}"
+        <input type="radio" name="address_sel" value="new" id="address_{{ radio_value }}"
                {% if radio_value == value %}checked{% endif %}>
         Enter a new address
       </label>
