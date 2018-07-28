@@ -58,7 +58,7 @@ class Product(SurrogatePK, Model):
     def get_first_img(self):
         if self.images:
             return self.images[0]
-        return ''
+        return ""
 
 
 class Category(SurrogatePK, Model):
@@ -66,14 +66,14 @@ class Category(SurrogatePK, Model):
     title = Column(db.String(255), nullable=False)
     parent_id = reference_col("product_category")
     background_img = Column(db.String(255))
-    products = relationship('Product', lazy='dynamic')
+    products = relationship("Product", lazy="dynamic")
 
     def __str__(self):
         return self.title
 
     @property
     def get_absolute_url(self):
-        return url_for('product.show_category', id=self.id)
+        return url_for("product.show_category", id=self.id)
 
 
 Category.parent = relationship("Category", backref="children", remote_side=Category.id)
@@ -195,4 +195,34 @@ class ProductImage(SurrogatePK, Model):
     product = relationship("Product", backref="images")
 
     def __str__(self):
-        return url_for('static', filename=self.image)
+        return url_for("static", filename=self.image)
+
+
+product_collection = db.Table(
+    "product_collections",
+    Column("id", db.Integer(), primary_key=True, autoincrement=True),
+    Column(
+        "product_id",
+        db.Integer(),
+        db.ForeignKey("product_product.id"),
+        primary_key=True,
+    ),
+    Column(
+        "collection_id", db.Integer(), db.ForeignKey("collections.id"), primary_key=True
+    ),
+)
+
+
+class Collection(SurrogatePK, Model):
+    __tablename__ = "collections"
+    title = Column(db.String(255), nullable=False)
+    background_img = Column(db.String(255))
+    products = relationship("Product", secondary=product_collection, lazy="dynamic")
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def get_absolute_url(self):
+        return url_for("product.show_collection", id=self.id)
+
