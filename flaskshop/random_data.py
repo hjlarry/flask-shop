@@ -14,7 +14,7 @@ from flaskshop.product.models import (
     ProductAttribute,
     AttributeChoiceValue,
 )
-from flaskshop.public.models import Menu, Site, MenuItem
+from flaskshop.public.models import Menu, Site, MenuItem, Page
 from flaskshop.product.utils import get_name_from_attributes
 from flaskshop.account.models import User, UserAddress
 from flaskshop.checkout.models import ShippingMethod
@@ -163,6 +163,7 @@ def create_product_types_by_schema(root_schema):
 
 # above complete
 
+
 def set_product_attributes(product, product_type):
     attr_dict = {}
     for product_attribute in product_type.product_attributes:
@@ -174,7 +175,7 @@ def set_product_attributes(product, product_type):
 
 
 def create_products_by_type(
-        product_type, schema, placeholder_dir, how_many=10, create_images=True, stdout=None
+    product_type, schema, placeholder_dir, how_many=10, create_images=True, stdout=None
 ):
     category = get_or_create_category(schema["category"], placeholder_dir)
 
@@ -202,13 +203,12 @@ def create_products_by_type(
             create_variant(product, sku=sku)
         if stdout is not None:
             stdout.write(
-                "Product: %s (%s), %s variant(s)"
-                % (product, product_type.name, 1)
+                "Product: %s (%s), %s variant(s)" % (product, product_type.name, 1)
             )
 
 
 def create_products_by_schema(
-        placeholder_dir, how_many, create_images, stdout=None, schema=DEFAULT_SCHEMA
+    placeholder_dir, how_many, create_images, stdout=None, schema=DEFAULT_SCHEMA
 ):
     for product_type, type_schema in create_product_types_by_schema(schema):
         create_products_by_type(
@@ -231,12 +231,10 @@ def get_or_create_category(category_schema, placeholder_dir):
     category_name = category_schema["name"]
     image_name = category_schema["image_name"]
     image_dir = get_product_list_images_dir(placeholder_dir)
-    defaults = {
-        "background_img": get_image(image_dir, image_name),
-    }
-    return Category.get_or_create(
-        title=category_name, parent_id=parent_id, **defaults
-    )[0]
+    defaults = {"background_img": get_image(image_dir, image_name)}
+    return Category.get_or_create(title=category_name, parent_id=parent_id, **defaults)[
+        0
+    ]
 
 
 def create_product(**kwargs):
@@ -258,7 +256,7 @@ def create_variant(product, **kwargs):
         # "quantity_allocated": fake.random_int(1, 50),
     }
     defaults.update(kwargs)
-    attributes = defaults.pop('attributes')
+    attributes = defaults.pop("attributes")
     variant = ProductVariant(**defaults)
     variant.attributes = attributes
 
@@ -290,7 +288,7 @@ def set_featured_products(how_many=8):
 
 
 def get_product_list_images_dir(placeholder_dir):
-    product_list_images_dir = os.path.join(placeholder_dir, 'products-list/')
+    product_list_images_dir = os.path.join(placeholder_dir, "products-list/")
     return product_list_images_dir
 
 
@@ -300,19 +298,19 @@ def get_image(image_dir, image_name):
     return img_path
 
 
-# def create_page():
-#     content = """
-#     <h2 align="center">AN OPENSOURCE STOREFRONT PLATFORM FOR PERFECTIONISTS</h2>
-#     <h3 align="center">WRITTEN IN PYTHON, BEST SERVED AS A BESPOKE, HIGH-PERFORMANCE E-COMMERCE SOLUTION</h3>
-#     <p><br></p>
-#     <p><img src="http://getsaleor.com/images/main-pic.svg"></p>
-#     <p style="text-align: center;">
-#         <a href="https://github.com/mirumee/saleor/">Get Saleor</a> today!
-#     </p>
-#     """
-#     page_data = {"content": content, "title": "About", "is_visible": True}
-#     page, dummy = Page.objects.get_or_create(slug="about", **page_data)
-#     yield "Page %s created" % page.slug
+def create_page():
+    content = """
+    <h2 align="center">AN OPENSOURCE STOREFRONT PLATFORM FOR PERFECTIONISTS</h2>
+    <h3 align="center">WRITTEN IN PYTHON, BEST SERVED AS A BESPOKE, HIGH-PERFORMANCE E-COMMERCE SOLUTION</h3>
+    <p><br></p>
+    <p><img src="http://getsaleor.com/images/main-pic.svg"></p>
+    <p style="text-align: center;">
+        <a href="https://github.com/mirumee/saleor/">Get Saleor</a> today!
+    </p>
+    """
+    page_data = {"content": content, "title": "About", "is_visible": True}
+    page, _ = Page.get_or_create(**page_data)
+    yield "Page %s created" % page.title
 
 
 def generate_menu_items(menu: Menu, category: Category, parent_menu_item):
@@ -341,13 +339,13 @@ def generate_menu_tree(menu):
 
 def create_menus(num=None):
     # Create navbar menu with category links
-    top_menu, _ = Menu.get_or_create(title='top_menu')
+    top_menu, _ = Menu.get_or_create(title="top_menu")
     if not top_menu.items:
         yield "Created navbar menu"
         for msg in generate_menu_tree(top_menu):
             yield msg
 
-    bottom_menu, _ = Menu.get_or_create(title='bottom_menu')
+    bottom_menu, _ = Menu.get_or_create(title="bottom_menu")
     # Create footer menu with collections and pages
     # bottom_menu, _ = Menu.objects.get_or_create(
     #     name=settings.DEFAULT_MENUS["bottom_menu_name"]
@@ -368,7 +366,9 @@ def create_menus(num=None):
     #     yield "Created footer menu"
     site = Site.query.first()
     if not site:
-        site = Site.create(header_text='TEST SALEOR - A SAMPLE SHO', description='sth about this site')
+        site = Site.create(
+            header_text="TEST SALEOR - A SAMPLE SHO", description="sth about this site"
+        )
 
     site.top_menu = top_menu
     site.bottom_menu = bottom_menu
@@ -394,7 +394,7 @@ def create_fake_user():
     # address = create_address()
     email = get_email(fake.first_name(), fake.last_name())
     user, _ = User.get_or_create(
-        username=fake.first_name(), email=email, password='password', active=True
+        username=fake.first_name(), email=email, password="password", active=True
     )
     return user
 
@@ -430,8 +430,7 @@ def get_variant_combinations(product):
     # Output is list of dicts, where key is product attribute id and value is
     # attribute value id. Casted to string.
     variant_attr_map = {
-        attr: attr.values
-        for attr in product.product_type.variant_attributes
+        attr: attr.values for attr in product.product_type.variant_attributes
     }
     all_combinations = itertools.product(*variant_attr_map.values())
     return [
@@ -444,7 +443,10 @@ def get_price_override(schema, combinations_num, current_price):
     prices = []
     if schema.get("different_variant_prices"):
         prices = sorted(
-            [current_price + fake.pydecimal(2, 2, positive=True) for _ in range(combinations_num)],
+            [
+                current_price + fake.pydecimal(2, 2, positive=True)
+                for _ in range(combinations_num)
+            ],
             reverse=True,
         )
     return prices
@@ -457,7 +459,7 @@ def create_fake_address():
         city=fake.city(),
         district=fake.city_suffix(),
         address=fake.street_address(),
-        contact_phone=fake.phone_number()
+        contact_phone=fake.phone_number(),
     )
     return address
 
@@ -468,11 +470,12 @@ def create_addresses(how_many=10):
         yield "Address: %s" % (address.contact_name,)
 
 
-def create_shipping_methods():
-    shipping_method = ShippingMethod.create(name='UPC', price=fake.money())
-    yield 'Shipping method #%d' % shipping_method.id
-    shipping_method = ShippingMethod.create(name='DHL', price=fake.money())
-    yield 'Shipping method #%d' % shipping_method.id
+def create_shipping_methods(num=None):
+    shipping_method = ShippingMethod.create(name="UPC", price=fake.money())
+    yield "Shipping method #%d" % shipping_method.id
+    shipping_method = ShippingMethod.create(name="DHL", price=fake.money())
+    yield "Shipping method #%d" % shipping_method.id
+
 
 # def get_or_create_collection(name, placeholder_dir, image_name):
 #     background_image = get_image(placeholder_dir, image_name)

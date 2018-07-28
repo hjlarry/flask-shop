@@ -8,8 +8,15 @@ import click
 from flask import current_app
 from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
-from flaskshop.random_data import create_users, create_menus, create_addresses
-from flaskshop.random_data import create_products_by_schema
+from flaskshop.random_data import (
+    create_users,
+    create_menus,
+    create_addresses,
+    create_shipping_methods,
+    create_products_by_schema,
+    create_page
+)
+
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -134,19 +141,25 @@ def urls(url, order):
 
 
 @click.command()
-@click.option("--type", default='default', help="which type to seed")
+@click.option("--type", default="default", help="which type to seed")
 @click.option("--num", default=5, help="how many to seed")
 @with_appcontext
 def seed(type, num):
-    if type == 'default':
-        create_products_by_schema(placeholder_dir='placeholders', how_many=10, create_images=True)
+    if type == "default":
+        create_products_by_schema(
+            placeholder_dir="placeholders", how_many=10, create_images=True
+        )
         create_users(10)
+        create_addresses(10)
         create_menus()
+        create_shipping_methods()
+        create_page()
     else:
         create_dict = {
-            'user': create_users,
-            'menu': create_menus,
-            'address': create_addresses
+            "user": create_users,
+            "menu": create_menus,
+            "address": create_addresses,
+            "ship": create_shipping_methods
         }
         fn = create_dict[type]
         for msg in fn(num):
