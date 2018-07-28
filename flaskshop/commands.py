@@ -149,6 +149,7 @@ def seed(type, num):
         create_products_by_schema(
             placeholder_dir="placeholders", how_many=10, create_images=True
         )
+        create_collections_by_schema(placeholder_dir="placeholders")
         create_users(10)
         create_addresses(10)
         create_menus()

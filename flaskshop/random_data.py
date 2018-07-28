@@ -345,25 +345,22 @@ def create_menus(num=None):
         for msg in generate_menu_tree(top_menu):
             yield msg
 
-    bottom_menu, _ = Menu.get_or_create(title="bottom_menu")
     # Create footer menu with collections and pages
-    # bottom_menu, _ = Menu.objects.get_or_create(
-    #     name=settings.DEFAULT_MENUS["bottom_menu_name"]
-    # )
-    # if not bottom_menu.items.exists():
-    #     collection = Collection.objects.order_by("?")[0]
-    #     item, _ = bottom_menu.items.get_or_create(
-    #         name="Collections", collection=collection
-    #     )
-    #
-    #     for collection in Collection.objects.filter(background_image__isnull=False):
-    #         bottom_menu.items.get_or_create(
-    #             name=collection.name, collection=collection, parent=item
-    #         )
-    #
-    #     page = Page.objects.order_by("?")[0]
-    #     bottom_menu.items.get_or_create(name=page.title, page=page)
-    #     yield "Created footer menu"
+    bottom_menu, _ = Menu.get_or_create(title="bottom_menu")
+    if not bottom_menu.items.exists():
+        collection = Collection.query.first()
+        item, _ = bottom_menu.items.get_or_create(
+            name="Collections", collection=collection
+        )
+
+        for collection in Collection.query.all():
+            bottom_menu.items.get_or_create(
+                name=collection.name, collection=collection, parent=item
+            )
+
+        page = Page.query.first()
+        bottom_menu.items.get_or_create(name=page.title, page=page)
+        yield "Created footer menu"
     site = Site.query.first()
     if not site:
         site = Site.create(
@@ -477,12 +474,11 @@ def create_shipping_methods(num=None):
     yield "Shipping method #%d" % shipping_method.id
 
 
-# def get_or_create_collection(name, placeholder_dir, image_name):
-#     background_image = get_image(placeholder_dir, image_name)
-#     defaults = {
-#         'slug': fake.slug(name),
-#         'background_image': background_image}
-#     return Collection.objects.get_or_create(name=name, defaults=defaults)[0]
+def get_or_create_collection(name, placeholder_dir, image_name):
+    background_image = get_image(placeholder_dir, image_name)
+    defaults = {"title": fake.word(), "background_image": background_image}
+    return Collection.get_or_create(name=name, defaults=defaults)[0]
+
 
 # def add_address_to_admin(email):
 #     address = create_address()
@@ -491,20 +487,23 @@ def create_shipping_methods(num=None):
 #     store_user_address(user, address, AddressType.SHIPPING)
 #
 #
-# def create_fake_collection(placeholder_dir, collection_data):
-#     image_dir = get_product_list_images_dir(placeholder_dir)
-#     collection = get_or_create_collection(
-#         name=collection_data['name'], placeholder_dir=image_dir,
-#         image_name=collection_data['image_name'])
-#     products = Product.objects.order_by('?')[:4]
-#     collection.products.add(*products)
-#     return collection
+def create_fake_collection(placeholder_dir, collection_data):
+    image_dir = get_product_list_images_dir(placeholder_dir)
+    collection = get_or_create_collection(
+        name=collection_data["name"],
+        placeholder_dir=image_dir,
+        image_name=collection_data["image_name"],
+    )
+    products = Product.query.limit(4)
+    collection.products.add(*products)
+    collection.save()
+    return collection
 
 
-# def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
-#     for collection_data in COLLECTIONS_SCHEMA:
-#         collection = create_fake_collection(placeholder_dir, collection_data)
-#         yield 'Collection: %s' % (collection,)
+def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
+    for collection_data in COLLECTIONS_SCHEMA:
+        collection = create_fake_collection(placeholder_dir, collection_data)
+        yield "Collection: %s" % (collection,)
 
 
 # def create_payment(order):
