@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Click commands."""
-import os
-from glob import glob
+from pathlib import Path
 from subprocess import call
 
 import click
@@ -14,13 +13,13 @@ from flaskshop.random_data import (
     create_addresses,
     create_shipping_methods,
     create_products_by_schema,
-    create_page
+    create_page,
 )
 
 
-HERE = os.path.abspath(os.path.dirname(__file__))
-PROJECT_ROOT = os.path.join(HERE, os.pardir)
-TEST_PATH = os.path.join(PROJECT_ROOT, "tests")
+HERE = Path(__file__).resolve()
+PROJECT_ROOT = HERE.parent
+TEST_PATH = PROJECT_ROOT / "tests"
 
 
 @click.command()
@@ -43,9 +42,9 @@ def test():
 def lint(fix_imports):
     """Lint and check code style with flake8 and isort."""
     skip = ["node_modules", "requirements"]
-    root_files = glob("*.py")
+    root_files = Path(".").glob("*.py")
     root_directories = [
-        name for name in next(os.walk("."))[1] if not name.startswith(".")
+        file for file in next(Path(".").iterdir()) if not file.name.startswith(".")
     ]
     files_and_directories = [
         arg for arg in root_files + root_directories if arg not in skip
@@ -70,12 +69,9 @@ def clean():
 
     Borrowed from Flask-Script, converted to use Click.
     """
-    for dirpath, dirnames, filenames in os.walk("."):
-        for filename in filenames:
-            if filename.endswith(".pyc") or filename.endswith(".pyo"):
-                full_pathname = os.path.join(dirpath, filename)
-                click.echo("Removing {}".format(full_pathname))
-                os.remove(full_pathname)
+    for file in Path(".").glob("**/*.pyc").extend(Path(".").glob("**/*.pyo")):
+        click.echo("Removing {}".format(file))
+        file.unlink()
 
 
 @click.command()
@@ -160,7 +156,7 @@ def seed(type, num):
             "user": create_users,
             "menu": create_menus,
             "address": create_addresses,
-            "ship": create_shipping_methods
+            "ship": create_shipping_methods,
         }
         fn = create_dict[type]
         for msg in fn(num):

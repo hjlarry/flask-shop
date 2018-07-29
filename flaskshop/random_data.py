@@ -1,5 +1,4 @@
 import itertools
-import os
 import random
 import unicodedata
 from faker import Factory
@@ -183,7 +182,7 @@ def create_products_by_type(
         product = create_product(product_type=product_type, category=category)
         set_product_attributes(product, product_type)
         if create_images:
-            type_placeholders = os.path.join(placeholder_dir, schema["images_dir"])
+            type_placeholders = placeholder_dir / schema["images_dir"]
             create_product_images(product, random.randrange(1, 5), type_placeholders)
         variant_combinations = get_variant_combinations(product)
 
@@ -267,8 +266,8 @@ def create_variant(product, **kwargs):
 
 
 def create_product_image(product, placeholder_dir):
-    placeholder_root = os.path.join(Config.STATIC_DIR, placeholder_dir)
-    image_name = random.choice(os.listdir(placeholder_root))
+    placeholder_root = Config.STATIC_DIR / placeholder_dir
+    image_name = random.choice(placeholder_root.iterdir())
     image = get_image(placeholder_dir, image_name)
     product_image = ProductImage(product=product, image=image)
     product_image.save()
@@ -288,12 +287,12 @@ def set_featured_products(how_many=8):
 
 
 def get_product_list_images_dir(placeholder_dir):
-    product_list_images_dir = os.path.join(placeholder_dir, "products-list/")
+    product_list_images_dir = placeholder_dir / "products-list"
     return product_list_images_dir
 
 
 def get_image(image_dir, image_name):
-    img_path = os.path.join(image_dir, image_name)
+    img_path = image_dir / image_name
     # return File(open(img_path, "rb"))
     return img_path
 

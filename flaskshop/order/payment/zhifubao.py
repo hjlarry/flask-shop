@@ -1,12 +1,13 @@
 from alipay import AliPay
 from flask import url_for
-import os
+from pathlib import Path
+
 
 
 def get_alipay_string():
-    current_dir = os.path.dirname(__file__)
-    app_private_key = os.path.join(current_dir, "app_private_key.pem")
-    ali_public_key = os.path.join(current_dir, "ali_public_key.pem")
+    current_dir = Path(__file__).resolve()
+    app_private_key = current_dir / "app_private_key.pem"
+    ali_public_key = current_dir / "ali_public_key.pem"
 
     with open(app_private_key) as f:
         app_private_key_string = f.read()

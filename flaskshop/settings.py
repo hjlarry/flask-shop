@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """Application configuration."""
-import os
+from pathlib import Path
 
 
 class Config(object):
     """Base configuration."""
 
-    SECRET_KEY = os.environ.get("FLASKSHOP_SECRET", "thisisashop")
-    APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
-    PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
-    STATIC_DIR = os.path.join(APP_DIR, 'static')
+    SECRET_KEY = "thisisashop"
+    APP_DIR = Path(__file__).resolve()  # This directory
+    PROJECT_ROOT = APP_DIR.parent
+    STATIC_DIR = APP_DIR / "static"
     BCRYPT_LOG_ROUNDS = 13
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
