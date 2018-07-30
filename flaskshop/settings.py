@@ -7,7 +7,7 @@ class Config(object):
     """Base configuration."""
 
     SECRET_KEY = "thisisashop"
-    APP_DIR = Path(__file__).resolve().parent  # This directory
+    APP_DIR = Path(__file__).parent  # This directory
     PROJECT_ROOT = APP_DIR.parent
     STATIC_DIR = APP_DIR / "static"
     BCRYPT_LOG_ROUNDS = 13

@@ -269,7 +269,7 @@ def create_variant(product, **kwargs):
 def create_product_image(product, placeholder_dir):
     placeholder_root = Config.STATIC_DIR / placeholder_dir
     image_name = random.choice(list(placeholder_root.iterdir()))
-    image = get_image(placeholder_dir, image_name)
+    image = image_name.relative_to(Config.STATIC_DIR )
     product_image = ProductImage(product=product, image=image)
     product_image.save()
     # create_product_thumbnails.delay(product_image.pk)
