@@ -20,3 +20,6 @@ class AddCartForm(FlaskForm):
             self.variant.choices = [(vari.id, vari) for vari in product.variant]
 
 
+
+
+

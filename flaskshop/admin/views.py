@@ -229,4 +229,4 @@ class UserView(CustomView):
 
 
 csrf_protect.exempt(CustomView.ajax_update)
-admin_manager.add_views(ProductView(), OrderView(), CouponView(), UserView())
+# admin_manager.add_views(UserView(), ProductView(), OrderView(), CouponView(), )

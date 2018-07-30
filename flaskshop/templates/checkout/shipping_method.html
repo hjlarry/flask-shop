@@ -1,5 +1,5 @@
 {% extends "checkout/details.html" %}
-
+{% from 'bootstrap/form.html' import render_field %}
 
 {% block forms %}
   <h3>Shipping address</h3>
@@ -7,12 +7,13 @@
   <p><a href="{{ url_for('checkout.checkout_shipping_address') }}">Select other address</a></p>
   <hr>
   <form method="post" novalidate>
-
-    <h2>Shipping method</h2>
-
+    {{ form.csrf_token }}
+    {{ render_field(form.shipping_method) }}
+    <hr>
+    {{ render_field(form.note) }}
     <p class="text-md-right">
       <button type="submit" class="btn primary">
-        Continue
+        ORDER & PAY
       </button>
     </p>
   </form>

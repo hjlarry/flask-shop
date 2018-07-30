@@ -3,7 +3,8 @@ from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
 import json
 
-from .models import Cart, CouponCode
+from .models import CouponCode
+from .forms import ShippingMethodForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
 
@@ -67,4 +68,5 @@ def checkout_shipping_address():
 
 @blueprint.route('/shipping_method')
 def checkout_shipping_method():
-    return render_template('checkout/shipping_method.html')
+    form = ShippingMethodForm(request.form)
+    return render_template('checkout/shipping_method.html', form=form)

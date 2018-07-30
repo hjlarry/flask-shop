@@ -53,7 +53,7 @@ class ShippingMethod(SurrogatePK, Model):
     price = Column(db.DECIMAL(10, 2))
 
     def __str__(self):
-        return self.title
+        return self.title + '   $' + str(self.price)
 
 
 class CouponCode(SurrogatePK, Model):
