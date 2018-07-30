@@ -33,6 +33,8 @@ class MenuItem(SurrogatePK, Model):
     level = Column(db.Integer(), default=0)
     category_id = reference_col("product_category")
     category = relationship("Category")
+    collection_id = reference_col("product_collection")
+    collection = relationship("Collection")
     menu_id = reference_col("menu_menu")
     menu = relationship("Menu", backref="items")
     page_id = reference_col("page_page")

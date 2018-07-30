@@ -12,6 +12,7 @@ from flaskshop.product.models import (
     ProductImage,
     ProductAttribute,
     AttributeChoiceValue,
+    Collection
 )
 from flaskshop.public.models import Menu, Site, MenuItem, Page
 from flaskshop.product.utils import get_name_from_attributes
@@ -174,7 +175,7 @@ def set_product_attributes(product, product_type):
 
 
 def create_products_by_type(
-    product_type, schema, placeholder_dir, how_many=10, create_images=True, stdout=None
+        product_type, schema, placeholder_dir, how_many=10, create_images=True, stdout=None
 ):
     category = get_or_create_category(schema["category"], placeholder_dir)
 
@@ -207,7 +208,7 @@ def create_products_by_type(
 
 
 def create_products_by_schema(
-    placeholder_dir, how_many, create_images, stdout=None, schema=DEFAULT_SCHEMA
+        placeholder_dir, how_many, create_images, stdout=None, schema=DEFAULT_SCHEMA
 ):
     for product_type, type_schema in create_product_types_by_schema(schema):
         create_products_by_type(
@@ -267,7 +268,7 @@ def create_variant(product, **kwargs):
 
 def create_product_image(product, placeholder_dir):
     placeholder_root = Config.STATIC_DIR / placeholder_dir
-    image_name = random.choice(placeholder_root.iterdir())
+    image_name = random.choice(list(placeholder_root.iterdir()))
     image = get_image(placeholder_dir, image_name)
     product_image = ProductImage(product=product, image=image)
     product_image.save()
@@ -346,19 +347,19 @@ def create_menus(num=None):
 
     # Create footer menu with collections and pages
     bottom_menu, _ = Menu.get_or_create(title="bottom_menu")
-    if not bottom_menu.items.exists():
+    if not bottom_menu.items:
         collection = Collection.query.first()
-        item, _ = bottom_menu.items.get_or_create(
-            name="Collections", collection=collection
+        item, _ = MenuItem.get_or_create(
+            title="Collections", collection=collection, menu=bottom_menu
         )
 
         for collection in Collection.query.all():
-            bottom_menu.items.get_or_create(
-                name=collection.name, collection=collection, parent=item
+            MenuItem.get_or_create(
+                title=collection.title, collection=collection, parent=item
             )
 
         page = Page.query.first()
-        bottom_menu.items.get_or_create(name=page.title, page=page)
+        MenuItem.get_or_create(title=page.title, page=page)
         yield "Created footer menu"
     site = Site.query.first()
     if not site:
@@ -390,7 +391,7 @@ def create_fake_user():
     # address = create_address()
     email = get_email(fake.first_name(), fake.last_name())
     user, _ = User.get_or_create(
-        username=fake.first_name(), email=email, password="password", active=True
+        username=fake.first_name() + fake.last_name(), email=email, password="password", active=True
     )
     return user
 
@@ -467,16 +468,15 @@ def create_addresses(how_many=10):
 
 
 def create_shipping_methods(num=None):
-    shipping_method = ShippingMethod.create(name="UPC", price=fake.money())
+    shipping_method = ShippingMethod.create(title="UPC", price=fake.money())
     yield "Shipping method #%d" % shipping_method.id
-    shipping_method = ShippingMethod.create(name="DHL", price=fake.money())
+    shipping_method = ShippingMethod.create(title="DHL", price=fake.money())
     yield "Shipping method #%d" % shipping_method.id
 
 
-def get_or_create_collection(name, placeholder_dir, image_name):
-    background_image = get_image(placeholder_dir, image_name)
-    defaults = {"title": fake.word(), "background_image": background_image}
-    return Collection.get_or_create(name=name, defaults=defaults)[0]
+def get_or_create_collection(title, placeholder_dir, image_name):
+    background_img = get_image(placeholder_dir, image_name)
+    return Collection.get_or_create(title=title, background_img=background_img)[0]
 
 
 # def add_address_to_admin(email):
@@ -489,21 +489,20 @@ def get_or_create_collection(name, placeholder_dir, image_name):
 def create_fake_collection(placeholder_dir, collection_data):
     image_dir = get_product_list_images_dir(placeholder_dir)
     collection = get_or_create_collection(
-        name=collection_data["name"],
+        title=collection_data["name"],
         placeholder_dir=image_dir,
         image_name=collection_data["image_name"],
     )
     products = Product.query.limit(4)
-    collection.products.add(*products)
+    collection.products.extend(products)
     collection.save()
     return collection
 
 
 def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
-    for collection_data in COLLECTIONS_SCHEMA:
+    for collection_data in schema:
         collection = create_fake_collection(placeholder_dir, collection_data)
         yield "Collection: %s" % (collection,)
-
 
 # def create_payment(order):
 #     status = random.choice(

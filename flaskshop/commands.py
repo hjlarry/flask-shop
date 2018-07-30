@@ -2,11 +2,12 @@
 """Click commands."""
 from pathlib import Path
 from subprocess import call
-
 import click
 from flask import current_app
 from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
+from pathlib import Path
+
 from flaskshop.random_data import (
     create_users,
     create_menus,
@@ -14,8 +15,8 @@ from flaskshop.random_data import (
     create_shipping_methods,
     create_products_by_schema,
     create_page,
+    create_collections_by_schema
 )
-
 
 HERE = Path(__file__).resolve()
 PROJECT_ROOT = HERE.parent
@@ -142,15 +143,22 @@ def urls(url, order):
 @with_appcontext
 def seed(type, num):
     if type == "default":
+        place_holder = Path("placeholders")
         create_products_by_schema(
-            placeholder_dir="placeholders", how_many=10, create_images=True
+            placeholder_dir=place_holder, how_many=10, create_images=True
         )
-        create_collections_by_schema(placeholder_dir="placeholders")
-        create_users(10)
-        create_addresses(10)
-        create_menus()
-        create_shipping_methods()
-        create_page()
+        for msg in create_collections_by_schema(placeholder_dir=place_holder):
+            click.echo(msg)
+        for msg in create_users(10):
+            click.echo(msg)
+        for msg in create_addresses(10):
+            click.echo(msg)
+        for msg in create_menus():
+            click.echo(msg)
+        for msg in create_shipping_methods():
+            click.echo(msg)
+        for msg in create_page():
+            click.echo(msg)
     else:
         create_dict = {
             "user": create_users,

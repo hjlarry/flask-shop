@@ -199,7 +199,7 @@ class ProductImage(SurrogatePK, Model):
 
 
 product_collection = db.Table(
-    "product_collections",
+    "product_collection_products",
     Column("id", db.Integer(), primary_key=True, autoincrement=True),
     Column(
         "product_id",
@@ -208,13 +208,13 @@ product_collection = db.Table(
         primary_key=True,
     ),
     Column(
-        "collection_id", db.Integer(), db.ForeignKey("collections.id"), primary_key=True
+        "collection_id", db.Integer(), db.ForeignKey("product_collection.id"), primary_key=True
     ),
 )
 
 
 class Collection(SurrogatePK, Model):
-    __tablename__ = "collections"
+    __tablename__ = "product_collection"
     title = Column(db.String(255), nullable=False)
     background_img = Column(db.String(255))
     products = relationship("Product", secondary=product_collection, lazy="dynamic")
