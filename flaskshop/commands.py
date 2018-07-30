@@ -7,6 +7,7 @@ from flask import current_app
 from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
 from pathlib import Path
+from itertools import chain
 
 from flaskshop.random_data import (
     create_users,
@@ -43,12 +44,11 @@ def test():
 def lint(fix_imports):
     """Lint and check code style with flake8 and isort."""
     skip = ["node_modules", "requirements"]
-    root_files = Path(".").glob("*.py")
-    root_directories = [
-        file for file in next(Path(".").iterdir()) if not file.name.startswith(".")
-    ]
+    root_files = Path(PROJECT_ROOT).glob("*.py")
+    root_directories = (file for file in Path(PROJECT_ROOT).iterdir() if not file.name.startswith("."))
+
     files_and_directories = [
-        arg for arg in root_files + root_directories if arg not in skip
+        arg.name for arg in chain(root_files, root_directories) if arg.name not in skip
     ]
 
     def execute_tool(description, *args):
@@ -70,7 +70,7 @@ def clean():
 
     Borrowed from Flask-Script, converted to use Click.
     """
-    for file in Path(".").glob("**/*.pyc").extend(Path(".").glob("**/*.pyo")):
+    for file in chain(Path(PROJECT_ROOT).glob("**/*.pyc"), Path(PROJECT_ROOT).glob("**/*.pyo")):
         click.echo("Removing {}".format(file))
         file.unlink()
 
@@ -153,12 +153,13 @@ def seed(type, num):
             click.echo(msg)
         for msg in create_addresses(10):
             click.echo(msg)
+        for msg in create_page():
+            click.echo(msg)
         for msg in create_menus():
             click.echo(msg)
         for msg in create_shipping_methods():
             click.echo(msg)
-        for msg in create_page():
-            click.echo(msg)
+
     else:
         create_dict = {
             "user": create_users,
