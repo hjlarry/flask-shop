@@ -243,6 +243,7 @@ def create_product(**kwargs):
         "title": fake.company(),
         "price": fake.pydecimal(2, 2, positive=True),
         "description": "\n\n".join(description),
+        "is_featured": random.choice([0, 1])
     }
     defaults.update(kwargs)
     return Product.create(**defaults)
@@ -269,7 +270,7 @@ def create_variant(product, **kwargs):
 def create_product_image(product, placeholder_dir):
     placeholder_root = Config.STATIC_DIR / placeholder_dir
     image_name = random.choice(list(placeholder_root.iterdir()))
-    image = image_name.relative_to(Config.STATIC_DIR )
+    image = image_name.relative_to(Config.STATIC_DIR)
     product_image = ProductImage(product=product, image=image)
     product_image.save()
     # create_product_thumbnails.delay(product_image.pk)
@@ -337,7 +338,7 @@ def generate_menu_tree(menu):
                 yield msg
 
 
-def create_menus(num=None):
+def create_menus():
     # Create navbar menu with category links
     top_menu, _ = Menu.get_or_create(title="top_menu")
     if not top_menu.items:
@@ -467,7 +468,7 @@ def create_addresses(how_many=10):
         yield "Address: %s" % (address.contact_name,)
 
 
-def create_shipping_methods(num=None):
+def create_shipping_methods():
     shipping_method = ShippingMethod.create(title="UPC", price=fake.money())
     yield "Shipping method #%d" % shipping_method.id
     shipping_method = ShippingMethod.create(title="DHL", price=fake.money())
@@ -479,13 +480,6 @@ def get_or_create_collection(title, placeholder_dir, image_name):
     return Collection.get_or_create(title=title, background_img=background_img)[0]
 
 
-# def add_address_to_admin(email):
-#     address = create_address()
-#     user = User.objects.get(email=email)
-#     store_user_address(user, address, AddressType.BILLING)
-#     store_user_address(user, address, AddressType.SHIPPING)
-#
-#
 def create_fake_collection(placeholder_dir, collection_data):
     image_dir = get_product_list_images_dir(placeholder_dir)
     collection = get_or_create_collection(
@@ -503,6 +497,16 @@ def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
     for collection_data in schema:
         collection = create_fake_collection(placeholder_dir, collection_data)
         yield "Collection: %s" % (collection,)
+
+
+def create_admin():
+    address1 = create_fake_address()
+    address2 = create_fake_address()
+    address3 = create_fake_address()
+    user = User.create(username='hjlarry', email='hjlarry@163.com', password='123', active=True, is_admin=True)
+    user.addresses = [address1, address2, address3]
+    user.save()
+    yield f'Admin {user.username} created'
 
 # def create_payment(order):
 #     status = random.choice(

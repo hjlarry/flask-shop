@@ -16,7 +16,8 @@ from flaskshop.random_data import (
     create_shipping_methods,
     create_products_by_schema,
     create_page,
-    create_collections_by_schema
+    create_collections_by_schema,
+    create_admin,
 )
 
 HERE = Path(__file__).resolve()
@@ -139,27 +140,17 @@ def urls(url, order):
 
 @click.command()
 @click.option("--type", default="default", help="which type to seed")
-@click.option("--num", default=5, help="how many to seed")
 @with_appcontext
-def seed(type, num):
+def seed(type):
     if type == "default":
         place_holder = Path("placeholders")
         create_products_by_schema(
             placeholder_dir=place_holder, how_many=10, create_images=True
         )
-        for msg in create_collections_by_schema(placeholder_dir=place_holder):
+        create_generator = chain(create_collections_by_schema(place_holder), create_users(), create_addresses(),
+                                 create_page(), create_menus(), create_shipping_methods(), create_admin())
+        for msg in create_generator:
             click.echo(msg)
-        for msg in create_users(10):
-            click.echo(msg)
-        for msg in create_addresses(10):
-            click.echo(msg)
-        for msg in create_page():
-            click.echo(msg)
-        for msg in create_menus():
-            click.echo(msg)
-        for msg in create_shipping_methods():
-            click.echo(msg)
-
     else:
         create_dict = {
             "user": create_users,
@@ -168,5 +159,5 @@ def seed(type, num):
             "ship": create_shipping_methods,
         }
         fn = create_dict[type]
-        for msg in fn(num):
+        for msg in fn():
             click.echo(msg)
