@@ -3,11 +3,6 @@
   "version": "1.0.0",
   "description": "a shop project with flask",
   "scripts": {
-    "build": "NODE_ENV=production webpack --progress --colors -p",
-    "start": "concurrently -n \"WEBPACK,FLASK\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run webpack-dev-server\" \"npm run flask-server\"",
-    "webpack-dev-server": "NODE_ENV=debug webpack-dev-server --port 2992 --hot --inline --mode development",
-    "flask-server": "FLASK_APP=$PWD/autoapp.py FLASK_DEBUG=1 flask run",
-    "lint": "eslint \"assets/js/*.js\"",
     "mpvue": "node mpvue/build/dev-server.js",
     "mpvue-start": "node  mpvue/build/dev-server.js",
     "mpvue-build": "node  mpvue/build/build.js"
@@ -76,7 +71,7 @@
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
-    "webpack": "^4.3.0",
+    "webpack": "^3.11.0",
     "webpack-bundle-tracker": "^0.3.0",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4",

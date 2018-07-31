@@ -1,0 +1,14 @@
+<template name="weui$a5ef71c6">
+  <view class="_div data-v-4cf873ea page">
+    <view class="_div data-v-4cf873ea page__hd">
+      <view class="_div data-v-4cf873ea page__title">Msg</view>
+      <view class="_div data-v-4cf873ea page__desc">提示页</view>
+    </view>
+    <view class="_div data-v-4cf873ea page__bd">
+      <view class="_div data-v-4cf873ea weui-btn-area">
+        <button class="_button data-v-4cf873ea weui-btn" type="default" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">成功提示页</button>
+        <button class="_button data-v-4cf873ea weui-btn" type="default" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">失败提示页</button>
+      </view>
+    </view>
+  </view>
+</template>

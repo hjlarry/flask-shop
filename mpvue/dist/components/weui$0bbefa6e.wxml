@@ -1,0 +1,20 @@
+<template name="weui$0bbefa6e">
+  <view class="_div data-v-cd38fdd4 page">
+    <view class="_div data-v-cd38fdd4 page__hd">
+      <view class="_div data-v-cd38fdd4 page__title">Loadmore</view>
+      <view class="_div data-v-cd38fdd4 page__desc">加载更多</view>
+    </view>
+    <view class="_div data-v-cd38fdd4 page__bd">
+      <view class="_div data-v-cd38fdd4 weui-loadmore">
+        <view class="_div data-v-cd38fdd4 weui-loading"></view>
+        <view class="_div data-v-cd38fdd4 weui-loadmore__tips">正在加载</view>
+      </view>
+      <view class="_div data-v-cd38fdd4 weui-loadmore weui-loadmore_line">
+        <view class="_div data-v-cd38fdd4 weui-loadmore__tips weui-loadmore__tips_in-line">暂无数据</view>
+      </view>
+      <view class="_div data-v-cd38fdd4 weui-loadmore weui-loadmore_line weui-loadmore_dot">
+        <view class="_div data-v-cd38fdd4 weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+      </view>
+    </view>
+  </view>
+</template>

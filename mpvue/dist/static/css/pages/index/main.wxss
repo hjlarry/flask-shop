@@ -1,0 +1,32 @@
+@import "/static/css/vendor.wxss";
+
+.userinfo.data-v-1e5087bc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userinfo-avatar.data-v-1e5087bc {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+.userinfo-nickname.data-v-1e5087bc {
+  color: #aaa;
+}
+.usermotto.data-v-1e5087bc {
+  margin-top: 300rpx;
+}
+.form-control.data-v-1e5087bc {
+  display: block;
+  padding: 0 24rpx;
+  margin-bottom: 10rpx;
+  border: 2rpx solid #ccc;
+}
+.counter.data-v-1e5087bc {
+  display: inline-block;
+  margin: 20rpx auto;
+  padding: 10rpx 20rpx;
+  color: blue;
+  border: 2rpx solid blue;
+}

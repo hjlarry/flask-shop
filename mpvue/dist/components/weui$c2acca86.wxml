@@ -1,0 +1,14 @@
+<template name="weui$c2acca86">
+  <view class="_div data-v-326896ca page">
+    <view class="_div data-v-326896ca page__hd">
+      <view class="_div data-v-326896ca page__title">Dialog</view>
+      <view class="_div data-v-326896ca page__desc">对话框，采用小程序原生的modal</view>
+    </view>
+    <view class="_div data-v-326896ca page__bd">
+      <view class="_div data-v-326896ca weui-btn-area">
+        <button class="_button data-v-326896ca weui-btn" type="default" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">Confirm Dialog</button>
+        <button class="_button data-v-326896ca weui-btn" type="default" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">Alert Dialog</button>
+      </view>
+    </view>
+  </view>
+</template>

@@ -1,0 +1,13 @@
+@import "/static/css/vendor.wxss";
+
+.counter-warp {
+  text-align: center;
+  margin-top: 200rpx;
+}
+.home {
+  display: inline-block;
+  margin: 200rpx auto;
+  padding: 10rpx 20rpx;
+  color: blue;
+  border: 2rpx solid blue;
+}
