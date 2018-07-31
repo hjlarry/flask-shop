@@ -47,7 +47,7 @@ docs/_build
 env/
 
 # npm
-/node_modules/
+node_modules
 
 # webpack-built files
 /flaskshop/static/build/
