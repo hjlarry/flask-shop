@@ -1,22 +1,22 @@
 <import src="card$7cf89015" />
 <template name="index$40739894">
-  <view class="_div data-v-1e5087bc container" bindtap="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}">
-    <view class="_div data-v-1e5087bc userinfo" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">
-      <image class="_img data-v-1e5087bc userinfo-avatar" wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-      <view class="_div data-v-1e5087bc userinfo-nickname">
+  <view class="_div data-v-6b277275 container" bindtap="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}">
+    <view class="_div data-v-6b277275 userinfo" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">
+      <image class="_img data-v-6b277275 userinfo-avatar" wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <view class="_div data-v-6b277275 userinfo-nickname">
         <template data="{{...$root[$kk+'0'], $root}}" is="card$7cf89015"></template>
       </view>
     </view>
-    <view class="_div data-v-1e5087bc usermotto">
-      <view class="_div data-v-1e5087bc user-motto">
+    <view class="_div data-v-6b277275 usermotto">
+      <view class="_div data-v-6b277275 user-motto">
         <template data="{{...$root[$kk+'1'], $root}}" is="card$7cf89015"></template>
       </view>
     </view>
-    <form class="_form data-v-1e5087bc form-container">
-      <input type="text" class="_input data-v-1e5087bc form-control" value="{{motto}}" bindinput="handleProxy" placeholder="v-model" data-eventid="{{'1'}}" data-comkey="{{$k}}" />
-      <input type="text" class="_input data-v-1e5087bc form-control" value="{{motto}}" bindblur="handleProxy" placeholder="v-model.lazy" data-eventid="{{'2'}}" data-comkey="{{$k}}" />
+    <form class="_form data-v-6b277275 form-container">
+      <input type="text" class="_input data-v-6b277275 form-control" value="{{motto}}" bindinput="handleProxy" placeholder="v-model" data-eventid="{{'1'}}" data-comkey="{{$k}}" />
+      <input type="text" class="_input data-v-6b277275 form-control" value="{{motto}}" bindblur="handleProxy" placeholder="v-model.lazy" data-eventid="{{'2'}}" data-comkey="{{$k}}" />
     </form>
-    <navigator url="/pages/counter/main" class="_a data-v-1e5087bc counter">去往Vuex示例页面</navigator>
-    <navigator url="/pages/weui/main" class="_a data-v-1e5087bc counter">ttt</navigator>
+    <navigator url="/pages/counter/main" class="_a data-v-6b277275 counter">去往Vuex示例页面</navigator>
+    <navigator url="/pages/weui/main" class="_a data-v-6b277275 counter">ttt</navigator>
   </view>
 </template>

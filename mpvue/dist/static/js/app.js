@@ -69,7 +69,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "mpvue/src/App.vue"
+Component.options.__file = "src/App.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -79,9 +79,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d3bf19ce", Component.options)
+    hotAPI.createRecord("data-v-4fd132a8", Component.options)
   } else {
-    hotAPI.reload("data-v-d3bf19ce", Component.options)
+    hotAPI.reload("data-v-4fd132a8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

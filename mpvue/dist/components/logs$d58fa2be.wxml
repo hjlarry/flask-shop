@@ -1,8 +1,8 @@
 <import src="card$7cf89015" />
 <template name="logs$d58fa2be">
-  <view class="_div data-v-0e442e96">
-    <view class="_ul data-v-0e442e96 container log-list">
-      <view wx:key="index" key="{{index}}" class="_li data-v-0e442e96 log-item {{[aa ? 'red' : '']}}" wx:for="{{logs}}" wx:for-index="index" wx:for-item="log">
+  <view class="_div data-v-4f649c02">
+    <view class="_ul data-v-4f649c02 container log-list">
+      <view wx:key="index" key="{{index}}" class="_li data-v-4f649c02 log-item {{[aa ? 'red' : '']}}" wx:for="{{logs}}" wx:for-index="index" wx:for-item="log">
         <template data="{{...$root[$kk+'0-'+index], $root}}" is="card$7cf89015"></template>
       </view>
     </view>
