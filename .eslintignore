@@ -1,0 +1,4 @@
+mpvue/build/*.js
+mpvue/config/*.js
+mpvue/static
+webpack.config.js
