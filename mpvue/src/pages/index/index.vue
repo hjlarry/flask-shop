@@ -2,9 +2,12 @@
   <div class="container" @click="clickHandle('test click', $event)">
 
     <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
+      <div class="userinfo-avatar">
+        <open-data type="userAvatarUrl"></open-data>
+      </div>
+
       <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
+        <open-data type="userNickName"></open-data>
       </div>
     </div>
 
@@ -60,7 +63,7 @@ export default {
 
   created () {
     // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
+    // this.getUserInfo()
   }
 }
 </script>

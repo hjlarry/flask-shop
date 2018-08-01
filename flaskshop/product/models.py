@@ -201,7 +201,7 @@ class ProductImage(SurrogatePK, Model):
     product = relationship("Product", backref="images")
 
     def __str__(self):
-        return url_for("static", filename=self.image)
+        return url_for("static", filename=self.image, _external=True)
 
 
 product_collection = db.Table(
