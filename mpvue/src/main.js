@@ -29,26 +29,26 @@ export default {
             list: [{
                 pagePath: 'pages/index/main',
                 text: 'Home',
-                iconPath: 'static/images/icon_nav_button.png',
-                selectedIconPath: 'static/images/icon_nav_button.png'
+                iconPath: 'static/images/nav_home.png',
+                selectedIconPath: 'static/images/nav_home_sel.png'
             },
                 {
                     pagePath: 'pages/product/main',
                     text: 'Product',
-                    iconPath: 'static/images/icon_nav_cell.png',
-                    selectedIconPath: 'static/images/icon_nav_cell.png'
+                    iconPath: 'static/images/nav_type.png',
+                    selectedIconPath: 'static/images/nav_type_sel.png'
                 },
                 {
                     pagePath: 'pages/cart/main',
                     text: 'Cart',
-                    iconPath: 'static/images/icon_nav_cell.png',
-                    selectedIconPath: 'static/images/icon_nav_cell.png'
+                    iconPath: 'static/images/nav_cart.png',
+                    selectedIconPath: 'static/images/nav_cart_sel.png'
                 },
                 {
                     pagePath: 'pages/account/main',
                     text: 'Me',
-                    iconPath: 'static/images/icon_nav_toast.png',
-                    selectedIconPath: 'static/images/icon_nav_toast.png'
+                    iconPath: 'static/images/nav_me.png',
+                    selectedIconPath: 'static/images/nav_me_sel.png'
                 }
             ]
             /* eslint-enable */
