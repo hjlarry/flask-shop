@@ -54,4 +54,4 @@ node_modules
 /flaskshop/webpack/manifest.json
 
 # mpvue build files
-/flaskshop/mpvue/dist
+/mpvue/dist/
