@@ -64,10 +64,10 @@ class SurrogatePK(object):
     def get_by_id(cls, record_id):
         """Get record by ID."""
         if any(
-            (
-                isinstance(record_id, (str, bytes)) and record_id.isdigit(),
-                isinstance(record_id, (int, float)),
-            )
+                (
+                        isinstance(record_id, (str, bytes)) and record_id.isdigit(),
+                        isinstance(record_id, (int, float)),
+                )
         ):
             return cls.query.get(int(record_id))
         return None
@@ -80,6 +80,9 @@ class SurrogatePK(object):
         else:
             instance = cls.create(**kwargs)
             return instance, True
+
+    def to_dict(self):
+        return self.__dict__.copy()
 
 
 def reference_col(tablename, nullable=True, pk_name="id", **kwargs):

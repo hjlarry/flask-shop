@@ -6,7 +6,6 @@ name = "pypi"
 [global]
 trusted-host = "files.pythonhosted.org"
 
-
 [packages]
 flask = "==1.0.2"
 "jinja2" = "==2.10"
@@ -44,6 +43,7 @@ flask-admin = "*"
 pillow = "*"
 libgravatar = "*"
 bootstrap-flask = "*"
+flask-restplus = "*"
 
 [dev-packages]
 
