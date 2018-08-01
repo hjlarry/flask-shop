@@ -1,5 +1,0 @@
-<template name="card$4387034c">
-  <view class="_div data-v-b9bc5cc2">
-    <view class="_p data-v-b9bc5cc2 card"> {{text}} </view>
-  </view>
-</template>

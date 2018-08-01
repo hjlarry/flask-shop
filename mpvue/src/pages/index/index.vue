@@ -18,8 +18,6 @@
       <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
       <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
     </form>
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
-    <a href="/pages/weui/main" class="counter">ttt</a>
   </div>
 </template>
 

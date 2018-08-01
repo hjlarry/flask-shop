@@ -1,1 +1,0 @@
-<import src="../../components/weui$d92cb1d8" /><template is="weui$d92cb1d8" data="{{ ...$root['0'], $root }}"/>
