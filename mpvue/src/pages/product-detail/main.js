@@ -5,7 +5,10 @@ const app = new Vue(App)
 app.$mount()
 
 export default {
-  config: {
-    navigationBarTitleText: 'Product list'
+    config: {
+        navigationBarTitleText: 'Product Detail'
+    },
+    onLoad: function(options) {
+
   }
 }
