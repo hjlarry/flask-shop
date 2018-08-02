@@ -35,3 +35,10 @@ page {
     text-align: left;
     font-size: 14px;
 }
+
+.page__operation {
+    position: fixed;
+    bottom: 10px;
+    margin: 0 10px;
+    width: 95%;
+}
