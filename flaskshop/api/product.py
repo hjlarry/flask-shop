@@ -1,31 +1,34 @@
 from flask_restplus import Namespace, Resource, fields
+from flask import request
 from flaskshop.product.models import Product
 
 api = Namespace('products', description='Products related operations')
 
-product = api.model('Product', {
+product = api.model('ProductList', {
     'id': fields.String(required=True, description='The product identifier'),
     'title': fields.String(required=True, description='The product name'),
-    'description': fields.String(required=True, description='The product description'),
-    'first_img': fields.String(required=True, description='The product img'),
+    'description': fields.String(description='The product description'),
+    'first_img': fields.String(description='The product first img', attribute='get_first_img'),
+    'images': fields.List(fields.String, description='The product images')
 })
 
 
 @api.route('/')
-class CatList(Resource):
+class ProductList(Resource):
     @api.doc('list_products')
     @api.marshal_list_with(product)
     def get(self):
         """List all products"""
-        products = Product.query.filter_by(is_featured=True).limit(8)
-        return [p.to_dict() for p in products]
+        page = request.args.get('page', 1, int)
+        products = Product.query.paginate(page, per_page=8).items
+        return products
 
 
 @api.route('/<id>')
 @api.param('id', 'The product identifier')
 @api.response(404, 'Product not found')
-class Cat(Resource):
-    @api.doc('get_cat')
+class ProductDetail(Resource):
+    @api.doc('get_product')
     @api.marshal_with(product)
     def get(self, id):
         """Fetch a product """

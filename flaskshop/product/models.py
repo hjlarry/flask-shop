@@ -60,12 +60,6 @@ class Product(SurrogatePK, Model):
             return self.images[0]
         return ""
 
-    def to_dict(self):
-        res = super().to_dict()
-        res['first_img'] = self.get_first_img
-        return res
-
-
 
 class Category(SurrogatePK, Model):
     __tablename__ = "product_category"
