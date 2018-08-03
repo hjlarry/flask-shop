@@ -11,7 +11,8 @@
                     </div>
                 </swiper>
                 <div class="weui-article">
-                    <div class="weui-article__h1">{{product_content.title}}</div>
+                    <div class="weui-article__h1">{{product_content.title}} <span class="right">${{product_content.price}}</span>
+                    </div>
                     <div class="weui-article__section">
                         <div class="weui-article__section">
                             <div class="weui-article__p">
@@ -20,32 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="weui-panel weui-panel_access">
-                    <div class="weui-panel__hd">文字组合列表</div>
-                    <div class="weui-panel__bd">
-                        <div class="weui-cells weui-cells_after-title">
-                            <radio-group @change="radioChange">
-                                <label class="weui-cell weui-check__label" v-for="(item,index) in radioItems"
-                                       :key="index">
-                                    <radio class="weui-check" :value="item.value" :checked="item.checked"/>
-                                    <div class="weui-cell__bd">{{item.name}}</div>
-                                    <div class="weui-cell__ft weui-cell__ft_in-radio" v-if="item.checked">
-                                        <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
-                                    </div>
-                                </label>
-                            </radio-group>
-                            <div class="weui-cell weui-cell_link">
-                                <div class="weui-cell__bd">添加更多</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="weui-panel__ft">
-                        <div class="weui-cell weui-cell_access weui-cell_link">
-                            <div class="weui-cell__bd">查看更多</div>
-                            <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-                        </div>
-                    </div>
-                </div>
+
 
             </div>
             <div class="page__operation">
@@ -54,15 +30,34 @@
 
         </div>
         <div class="panel" :class="{ 'show': show_panel}">
-
-            <div class="weui-cell weui-cell_input">
-                <div class="weui-cell__hd">
-                    <div class="weui-label">qq</div>
-                </div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入qq"/>
+            <div class="weui-panel weui-panel_access">
+                <div class="weui-panel__bd">
+                    <div class="weui-cell weui-cell_input">
+                        <div class="weui-cell__hd">
+                            <div class="weui-label">Quantity</div>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" :value="quantity"/>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div class="weui-panel weui-panel_access">
+                <div class="weui-panel__hd">Choose Type <span class="right">${{variant_price}}</span></div>
+                <div class="weui-panel__bd">
+                    <div class="weui-cell weui-cell_input">
+                        <div class="weui-cell__bd">
+                            <button v-for="(item,index) in variant" class="weui-btn mini-btn" :type="item.button_type"
+                                    :key="item.id" size="mini" @click="chooseVariant(index)">
+                                {{item.title}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="weui-btn" type="primary">Add to Cart</button>
         </div>
     </div>
 
@@ -81,7 +76,10 @@
                 duration: 900,
                 circular: true,
                 show_panel: false,
-                product_content: {}
+                quantity: 1,
+                variant_price: 0,
+                product_content: {},
+                variant: []
             }
         },
         methods: {
@@ -94,13 +92,29 @@
                 fly.get('http://127.0.0.1:5000/api/v1/products/' + id).then(res => {
                     wx.hideLoading()
                     this.product_content = res.data;
+                    this.variant = this.product_content.variant
+                    this.variant.forEach(function (value) {
+                        value.button_type = 'default'
+                    })
+                    this.chooseVariant(0)
                     console.log(res.data)
                 })
-
             },
             showCartPanel() {
                 this.show_panel = true
-                console.log(111)
+            },
+            chooseVariant(index) {
+                this.variant_price = this.variant[index].price
+                for (let i = 0; i < this.variant.length; ++i) {
+                    let item = this.variant[i]
+                    if (index === i) {
+                        item.button_type = 'primary'
+                        this.$set(this.variant, i, item);
+                    } else {
+                        item.button_type = 'default'
+                        this.$set(this.variant, i, item);
+                    }
+                }
             }
         },
         mounted() {
@@ -115,15 +129,20 @@
     }
 
     .panel {
+        background-color: #eee;
+        width: 95%;
+        height: auto;
+        margin: 0 auto;
+        padding: 10px;
+        overflow: hidden;
         position: fixed;
-        width: 100%;
-        height: 400px;
-        background-color: #ffffff;
+        bottom: 0;
         display: none;
     }
 
     .show {
         display: block;
     }
+
 
 </style>
