@@ -65,7 +65,7 @@
 </template>
 
 <script>
-    import Fly from 'flyio/dist/npm/wx';
+    import fly from '@/utils/index'
 
     export default {
         data() {
@@ -91,8 +91,7 @@
                     title: 'Loading Data',
                     mask: true
                 })
-                let fly = new Fly();
-                fly.get('http://127.0.0.1:5000/api/v1/products/' + id).then(res => {
+                fly.get('products/' + id).then(res => {
                     wx.hideLoading()
                     this.product_content = res.data;
                     this.variant = this.product_content.variant
@@ -125,8 +124,7 @@
                     title: 'Loading Data',
                     mask: true
                 })
-                let fly = new Fly();
-                fly.post('http://127.0.0.1:5000/api/v1/products/' + this.$root.$mp.query.id, this.post_data).then(res => {
+                fly.post('products/' + this.$root.$mp.query.id, this.post_data).then(res => {
                     console.log(res.data)
                 })
             }

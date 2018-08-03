@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import Fly from 'flyio/dist/npm/wx';
+    import fly from '@/utils/index'
 
     export default {
         data() {
@@ -37,12 +37,10 @@
                     title: 'Loading Data',
                     mask: true
                 })
-                let fly = new Fly();
-                fly.get('http://127.0.0.1:5000/api/v1/products/').then(res => {
+                fly.get('products/').then(res => {
                     wx.hideLoading()
                     this.contentList = res.data;
                 })
-
             }
         },
         created() {
