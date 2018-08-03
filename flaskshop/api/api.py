@@ -1,9 +1,11 @@
 from flask import Blueprint
 from flask_restplus import Api
+from flaskshop.extensions import csrf_protect
 
 from .product import api as product_api
 
 blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
+csrf_protect.exempt(blueprint)
 api = Api(blueprint, version='1.0', title='Saleor API',
           description='A simple API',
           )

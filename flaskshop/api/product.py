@@ -1,8 +1,12 @@
 from flask_restplus import Namespace, Resource, fields
 from flask import request
+
 from flaskshop.product.models import Product
 
 api = Namespace('products', description='Products related operations')
+parser = api.parser()
+parser.add_argument('sku', type=str, required=True, help='The sku')
+parser.add_argument('quantity', type=int, required=True, help='The quantity')
 
 product_list = api.model('ProductList', {
     'id': fields.String(required=True, description='The product identifier'),
@@ -50,3 +54,9 @@ class ProductDetail(Resource):
         if product:
             return product
         api.abort(404)
+
+    @api.doc(parser=parser)
+    def post(self, id):
+        '''post product to current user cart'''
+        args = parser.parse_args()
+        return args

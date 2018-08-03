@@ -37,7 +37,7 @@
                             <div class="weui-label">Quantity</div>
                         </div>
                         <div class="weui-cell__bd">
-                            <input class="weui-input" :value="quantity"/>
+                            <input class="weui-input" :value="post_data.quantity"/>
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <button class="weui-btn" type="primary">Add to Cart</button>
+            <button class="weui-btn" type="primary" @click="postProductData">Add to Cart</button>
         </div>
     </div>
 
@@ -76,10 +76,13 @@
                 duration: 900,
                 circular: true,
                 show_panel: false,
-                quantity: 1,
                 variant_price: 0,
                 product_content: {},
-                variant: []
+                variant: [],
+                post_data: {
+                    quantity: 1,
+                    sku: ''
+                }
             }
         },
         methods: {
@@ -104,7 +107,6 @@
                 this.show_panel = true
             },
             chooseVariant(index) {
-                this.variant_price = this.variant[index].price
                 for (let i = 0; i < this.variant.length; ++i) {
                     let item = this.variant[i]
                     if (index === i) {
@@ -115,6 +117,18 @@
                         this.$set(this.variant, i, item);
                     }
                 }
+                this.variant_price = this.variant[index].price
+                this.post_data.sku = this.variant[index].sku
+            },
+            postProductData: function () {
+                wx.showLoading({
+                    title: 'Loading Data',
+                    mask: true
+                })
+                let fly = new Fly();
+                fly.post('http://127.0.0.1:5000/api/v1/products/' + this.$root.$mp.query.id, this.post_data).then(res => {
+                    console.log(res.data)
+                })
             }
         },
         mounted() {
