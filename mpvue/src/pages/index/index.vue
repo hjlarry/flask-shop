@@ -26,12 +26,14 @@
 
 <script>
 import card from '@/components/card'
+import { mapMutations } from 'vuex'
 
 export default {
   data () {
     return {
       motto: 'Hello World',
-      userInfo: {}
+      userInfo: {},
+      token: ''
     }
   },
 
@@ -58,6 +60,13 @@ export default {
     },
     clickHandle (msg, ev) {
       console.log('clickHandle:', msg, ev)
+    },
+    ...mapMutations({
+      setTokenVuex: 'SET_TOKEN'
+    }),
+    commitMpvueInfo() {
+      let token = 'test token...'
+      this.setTokenVuex(token);
     }
   },
 

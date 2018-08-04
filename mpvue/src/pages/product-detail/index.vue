@@ -29,7 +29,7 @@
             </div>
 
         </div>
-        <div class="panel" :class="{ 'show': show_panel}">
+        <div class="panel" v-show="show_panel">
             <div class="weui-panel weui-panel_access">
                 <div class="weui-panel__bd">
                     <div class="weui-cell weui-cell_input">
