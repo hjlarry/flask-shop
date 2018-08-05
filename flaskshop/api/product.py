@@ -1,5 +1,6 @@
 from flask_restplus import Namespace, Resource, fields
 from flask import request
+from flask_login import login_required
 
 from flaskshop.product.models import Product
 
@@ -34,6 +35,7 @@ product_detail = api.model('ProductDetail', {
 @api.route('/')
 class ProductList(Resource):
     @api.doc('list_products')
+    @login_required  # for simple test
     @api.marshal_list_with(product_list)
     def get(self):
         """List all products"""
