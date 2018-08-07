@@ -35,6 +35,8 @@ class User(SurrogatePK, Model, UserMixin):
         "Product", secondary=user_favorite_product, backref="liked_users", lazy='dynamic'
     )
     orders = relationship('Order', backref="user", lazy='dynamic')
+    open_id = Column(db.String(80), index=True)
+    session_key = Column(db.String(80), index=True)
 
     def __init__(self, username, email, password=None, **kwargs):
         super().__init__(username=username, email=email, password=password, **kwargs)

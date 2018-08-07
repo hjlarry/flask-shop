@@ -3,6 +3,7 @@ from flask_restplus import Api
 from flaskshop.extensions import csrf_protect
 
 from .product import api as product_api
+from .auth import api as auth_api
 from .auth import CustomSessionInterface
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
@@ -19,3 +20,4 @@ def default_error_handler(error):
 
 
 api.add_namespace(product_api)
+api.add_namespace(auth_api)
