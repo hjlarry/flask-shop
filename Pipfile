@@ -44,6 +44,7 @@ pillow = "*"
 libgravatar = "*"
 bootstrap-flask = "*"
 flask-restplus = "*"
+requests = "*"
 
 [dev-packages]
 
