@@ -2,6 +2,13 @@
 """Application configuration."""
 from pathlib import Path
 
+try:
+    from .local_config import WECHAT_APP_ID, WECHAT_APP_SECRET
+except ImportError:
+    WECHAT_APP_ID, WECHAT_APP_SECRET = '', ''
+
+WECHAT_LOGIN_URL = 'https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code'
+
 
 class Config(object):
     """Base configuration."""
