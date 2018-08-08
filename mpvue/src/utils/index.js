@@ -1,14 +1,14 @@
 import Fly from 'flyio/dist/npm/wx';
+import store from '../store'
 
 var fly = new Fly();
 fly.config.timeout = 10000;
 fly.config.baseURL = "http://127.0.0.1:5000/api/v1/"
 
-// fly.interceptors.request.use((request) => {
-//     request.headers["X-Tag"] = "flyio";
-//     console.log(request.body)
-//     return request;
-// })
+fly.interceptors.request.use((request) => {
+    request.headers["Authorization"] = store.getters.token;
+    return request;
+})
 
 
 function formatNumber(n) {

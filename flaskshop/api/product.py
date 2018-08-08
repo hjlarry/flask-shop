@@ -35,7 +35,6 @@ product_detail = api.model('ProductDetail', {
 @api.route('/')
 class ProductList(Resource):
     @api.doc('list_products')
-    # @login_required  # for simple test
     @api.marshal_list_with(product_list)
     def get(self):
         """List all products"""

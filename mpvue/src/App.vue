@@ -1,6 +1,4 @@
 <script>
-    import fly from '@/utils/index'
-    import {mapMutations} from 'vuex'
 
     export default {
         created() {
@@ -8,15 +6,7 @@
             const logs = wx.getStorageSync("logs") || [];
             logs.unshift(Date.now());
             wx.setStorageSync("logs", logs);
-
             console.log("app created and cache logs by setStorageSync");
-
-        },
-        methods: {
-
-            setToken(token) {
-                this.setTokenVuex(token)
-            }
         }
     };
 </script>

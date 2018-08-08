@@ -32,9 +32,6 @@
                 contentList: []
             }
         },
-        mounted() {
-            console.log(this.mpvueInfo);
-        },
         methods: {
             getProductData: function () {
                 wx.showLoading({
@@ -47,14 +44,8 @@
                 })
             }
         },
-        computed: {
-            ...mapGetters([
-                'mpvueInfo'
-            ])
-        },
-        created() {
+        mounted() {
             this.getProductData()
-            console.log(this.$store.state)
         }
     }
 </script>
