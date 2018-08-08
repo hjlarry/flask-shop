@@ -24,28 +24,39 @@
 
 <script>
     import fly from '@/utils/index'
-    import {mapGetters, mapMutations} from 'vuex';
 
     export default {
         data() {
             return {
-                contentList: []
+                contentList: [],
+                page: 1
             }
         },
         methods: {
-            getProductData: function () {
+            getProductData(page) {
                 wx.showLoading({
                     title: 'Loading Data',
                     mask: true
                 })
-                fly.get('products/').then(res => {
+                fly.get('products/', {page: page}).then(res => {
                     wx.hideLoading()
-                    this.contentList = res.data;
+                    this.contentList = this.contentList.concat(res.data);
                 })
             }
         },
+        onReachBottom() {
+            console.log('searchScrollLower')
+            this.page += 1
+            this.getProductData(this.page)
+        },
+        onPullDownRefresh() {
+            this.page = 1
+            this.contentList = []
+            this.getProductData(this.page)
+            console.log('PullDownRefresh');
+        },
         mounted() {
-            this.getProductData()
+            this.getProductData(this.page)
         }
     }
 </script>
