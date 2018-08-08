@@ -24,12 +24,16 @@
 
 <script>
     import fly from '@/utils/index'
+    import {mapGetters, mapMutations} from 'vuex';
 
     export default {
         data() {
             return {
                 contentList: []
             }
+        },
+        mounted() {
+            console.log(this.mpvueInfo);
         },
         methods: {
             getProductData: function () {
@@ -43,8 +47,14 @@
                 })
             }
         },
+        computed: {
+            ...mapGetters([
+                'mpvueInfo'
+            ])
+        },
         created() {
             this.getProductData()
+            console.log(this.$store.state)
         }
     }
 </script>

@@ -1,5 +1,6 @@
 <script>
     import fly from '@/utils/index'
+    import {mapMutations} from 'vuex'
 
     export default {
         created() {
@@ -9,17 +10,13 @@
             wx.setStorageSync("logs", logs);
 
             console.log("app created and cache logs by setStorageSync");
-            wx.login({
-                success: function (res) {
-                    if (res.code) {
-                        fly.post('user/login', {code: res.code}).then(res => {
-                            console.log(res.data)
-                        })
-                    } else {
-                        console.log("登录失败！" + res.errMsg);
-                    }
-                }
-            });
+
+        },
+        methods: {
+
+            setToken(token) {
+                this.setTokenVuex(token)
+            }
         }
     };
 </script>

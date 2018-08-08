@@ -1,1 +1,4 @@
-export const mpvueInfo = state => state.mpvueInfo;
+const getters = {
+    token: state => state.user.token
+}
+export default getters

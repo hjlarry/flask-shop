@@ -11,11 +11,7 @@
             </div>
         </div>
 
-        <div class="usermotto">
-            <div class="user-motto">
-                <card :text="motto"></card>
-            </div>
-        </div>
+        <button @click="test">test</button>
 
         <form class="form-container">
             <input type="text" class="form-control" v-model="motto" placeholder="v-model"/>
@@ -27,7 +23,7 @@
 
 <script>
     import card from '@/components/card'
-    import {mapMutations} from 'vuex'
+    import fly from '@/utils/index'
 
     export default {
         data() {
@@ -44,9 +40,6 @@
         },
 
         methods: {
-            // ...mapMutations({
-            //     setTokenVuex: 'SET_TOKEN'
-            // }),
             bindViewTap() {
                 const url = '../logs/main'
                 wx.navigateTo({url})
@@ -66,20 +59,35 @@
                     }
                 })
             },
+
             clickHandle(msg, ev) {
                 console.log('clickHandle:', msg, ev)
             },
             bindGetUserInfo: function (e) {
                 console.log(e.detail.userInfo)
             },
-            commitMpvueInfo() {
-                let token = 'test token...'
-                this.setTokenVuex(token);
+            login() {
+                wx.login({
+                    success: (res) => {
+                        if (res.code) {
+                            this.post_login(res.code)
+                        } else {
+                            console.log("登录失败！" + res.errMsg);
+                        }
+                    }
+                });
+                console.log(this.token)
+            },
+            post_login(resCode) {
+                fly.post('user/login', {code: resCode}).then(res => {
+                    this.$store.dispatch('SetToken', res.data.token)
+                    console.log(res.data)
+                })
             }
         },
         created() {
             // 调用应用实例的方法获取全局数据
-            // this.getUserInfo()
+            this.login()
         }
     }
 </script>
