@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="page" :class="{ 'page_opacity': show_panel}">
-            <div class="page__bd page__bd_spacing">
+            <div class="page__bd page__bd_spacing" @click="hideCartPanel">
                 <swiper :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"
                         :circular="circular" @change="swiperChange" @animationfinish="animationfinish">
                     <div v-for="(item,index) in product_content.images" :key="index">
@@ -105,6 +105,9 @@
             showCartPanel() {
                 this.show_panel = true
             },
+            hideCartPanel() {
+                this.show_panel = false
+            },
             chooseVariant(index) {
                 for (let i = 0; i < this.variant.length; ++i) {
                     let item = this.variant[i]
@@ -149,11 +152,6 @@
         overflow: hidden;
         position: fixed;
         bottom: 0;
-        display: none;
-    }
-
-    .show {
-        display: block;
     }
 
 
