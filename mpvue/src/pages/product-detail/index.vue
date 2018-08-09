@@ -44,7 +44,6 @@
             </div>
 
             <div class="weui-panel weui-panel_access" v-if="variant.length > 1">
-                <div class="weui-panel__hd">Choose Type <span class="right">${{variant_price}}</span></div>
                 <div class="weui-panel__bd">
                     <div class="weui-cell weui-cell_input">
                         <div class="weui-cell__bd">
@@ -56,8 +55,9 @@
                     </div>
                 </div>
             </div>
-            <div class="weui-panel weui-panel_access" v-else>
+            <div class="weui-panel weui-panel_access">
                 <div class="weui-panel__hd">Price <span class="right">${{variant_price}}</span></div>
+                <div class="weui-panel__hd">Stock <span class="right">{{stock}}</span></div>
             </div>
 
             <button class="weui-btn" type="primary" @click="postProductData">Add to Cart</button>
@@ -80,6 +80,7 @@
                 circular: true,
                 show_panel: false,
                 variant_price: 0,
+                stock: 0,
                 product_content: {},
                 variant: [],
                 post_data: {
@@ -123,6 +124,7 @@
                     }
                 }
                 this.variant_price = this.variant[index].price
+                this.stock = this.variant[index].stock
                 this.post_data.variant_id = this.variant[index].id
             },
             postProductData: function () {

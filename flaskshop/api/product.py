@@ -10,20 +10,21 @@ parser.add_argument('variant_id', type=int, required=True, help='The variant')
 parser.add_argument('quantity', type=int, required=True, help='The quantity')
 
 product_list = api.model('ProductList', {
-    'id': fields.String(required=True, description='The product identifier'),
+    'id': fields.Integer(required=True, description='The product identifier'),
     'title': fields.String(required=True, description='The product name'),
     'description': fields.String(description='The product description'),
     'price': fields.String(description='The product price'),
     'first_img': fields.String(description='The product first img', attribute='get_first_img'),
 })
 variant = api.model('Variant', {
-    'id': fields.String(required=True, description='The variant identifier'),
+    'id': fields.Integer(required=True, description='The variant identifier'),
     'sku': fields.String(required=True, description='The variant sku'),
     'title': fields.String(required=True, description='The variant name'),
     'price': fields.String(required=True, description='The variant price'),
+    'stock': fields.String(required=True, description='The variant stock', attribute='quantity'),
 })
 product_detail = api.model('ProductDetail', {
-    'id': fields.String(required=True, description='The product identifier'),
+    'id': fields.Integer(required=True, description='The product identifier'),
     'title': fields.String(required=True, description='The product name'),
     'description': fields.String(description='The product description'),
     'price': fields.String(description='The product price'),
