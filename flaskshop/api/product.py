@@ -1,12 +1,12 @@
 from flask_restplus import Namespace, Resource, fields
 from flask import request
-from flask_login import login_required
 
 from flaskshop.product.models import Product
+from flaskshop.product.utils import add_to_currentuser_cart
 
 api = Namespace('products', description='Products related operations')
 parser = api.parser()
-parser.add_argument('sku', type=str, required=True, help='The sku')
+parser.add_argument('variant_id', type=int, required=True, help='The variant')
 parser.add_argument('quantity', type=int, required=True, help='The quantity')
 
 product_list = api.model('ProductList', {
@@ -60,4 +60,5 @@ class ProductDetail(Resource):
     def post(self, id):
         '''post product to current user cart'''
         args = parser.parse_args()
+        add_to_currentuser_cart(args['quantity'], args['variant_id'])
         return args

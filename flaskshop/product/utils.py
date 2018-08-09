@@ -1,3 +1,6 @@
+from flask_login import current_user
+from flaskshop.checkout.models import Cart, CartLine
+
 def get_product_attributes_data(product):
     """Returns attributes associated with the product,
     as dict of ProductAttribute: AttributeChoiceValue values.
@@ -68,3 +71,17 @@ def get_product_list_context(request, products):
         'now_sorted_by': arg_sort_by or 'name',
         'attr_filter': attr_filter
     }
+
+
+def add_to_currentuser_cart(quantity, variant_id):
+    if current_user.cart:
+        cart = current_user.cart
+        cart.quantity += quantity
+    else:
+        cart = Cart.create(user=current_user, quantity=quantity)
+    line = CartLine.query.filter_by(cart=cart, variant_id=variant_id).first()
+    if line:
+        quantity += line.quantity
+        line.update(quantity=quantity)
+    else:
+        CartLine.create(variant_id=variant_id, quantity=quantity, cart=cart)

@@ -37,7 +37,7 @@
                             <div class="weui-label">Quantity</div>
                         </div>
                         <div class="weui-cell__bd">
-                            <input class="weui-input" :value="post_data.quantity"/>
+                            <input class="weui-input" v-model="post_data.quantity"/>
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 variant: [],
                 post_data: {
                     quantity: 1,
-                    sku: ''
+                    variant_id: 0
                 }
             }
         },
@@ -120,7 +120,7 @@
                     }
                 }
                 this.variant_price = this.variant[index].price
-                this.post_data.sku = this.variant[index].sku
+                this.post_data.variant_id = this.variant[index].id
             },
             postProductData: function () {
                 wx.showLoading({
@@ -129,6 +129,14 @@
                 })
                 fly.post('products/' + this.$root.$mp.query.id, this.post_data).then(res => {
                     console.log(res.data)
+                    this.hideCartPanel()
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: 'Add Success',
+                        icon: 'success',
+                        duration: 1000,
+                        mask: true
+                    });
                 })
             }
         },

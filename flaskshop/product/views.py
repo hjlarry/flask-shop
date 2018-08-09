@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 """Product views."""
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user, login_required
-from sqlalchemy import or_
 from werkzeug.wrappers import Response
 
 from .models import Product, Category
 from .forms import AddCartForm
-from .utils import get_product_attributes_data, get_product_list_context
+from .utils import get_product_attributes_data, get_product_list_context, add_to_currentuser_cart
 from flaskshop.extensions import db
-from flaskshop.checkout.models import Cart, CartLine
+
 
 blueprint = Blueprint("product", __name__, url_prefix="/products")
 
@@ -29,17 +28,7 @@ def show(id):
 def product_add_to_cart(id):
     quantity = int(request.form.get('quantity'))
     variant_id = int(request.form.get('variant', 0))
-    if current_user.cart:
-        cart = current_user.cart
-        cart.quantity += quantity
-    else:
-        cart = Cart.create(user=current_user, quantity=quantity)
-    line = CartLine.query.filter_by(cart=cart, variant_id=variant_id).first()
-    if line:
-        quantity += line.quantity
-        line.update(quantity=quantity)
-    else:
-        CartLine.create(variant_id=variant_id, quantity=quantity, cart=cart)
+    add_to_currentuser_cart(quantity, variant_id)
     return redirect(url_for('product.show', id=id))
 
 
