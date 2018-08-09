@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <div class="weui-panel weui-panel_access">
+            <div class="weui-panel weui-panel_access" v-if="variant.length > 1">
                 <div class="weui-panel__hd">Choose Type <span class="right">${{variant_price}}</span></div>
                 <div class="weui-panel__bd">
                     <div class="weui-cell weui-cell_input">
@@ -55,6 +55,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="weui-panel weui-panel_access" v-else>
+                <div class="weui-panel__hd">Price <span class="right">${{variant_price}}</span></div>
             </div>
 
             <button class="weui-btn" type="primary" @click="postProductData">Add to Cart</button>

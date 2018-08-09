@@ -58,7 +58,7 @@ class ProductDetail(Resource):
 
     @api.doc(parser=parser)
     def post(self, id):
-        '''post product to current user cart'''
+        """post product to current user cart"""
         args = parser.parse_args()
         add_to_currentuser_cart(args['quantity'], args['variant_id'])
-        return args
+        return '', 201
