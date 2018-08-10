@@ -10,7 +10,9 @@
                             <image class="weui-media-box__thumb" :src="item.first_img"/>
                         </div>
                         <div class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                            <div class="weui-media-box__title">{{item.title}}<div class="right">x{{item.quantity}}</div></div>
+                            <div class="weui-media-box__title">{{item.title}}
+                                <div class="right">x{{item.quantity}}</div>
+                            </div>
                             <div class="weui-media-box__desc" v-if="item.variant">{{item.variant}}</div>
                             <div class="weui-media-box__desc">${{item.price}}</div>
 
@@ -18,7 +20,7 @@
                     </navigator>
                 </div>
                 <div class="page__operation">
-                    <button class="weui-btn" type="primary" @click="">Checkout</button>
+                    <button class="weui-btn" type="primary" @click="">Checkout ${{totalAmount}}</button>
                 </div>
 
             </div>
@@ -33,6 +35,15 @@
         data() {
             return {
                 contentList: []
+            }
+        },
+        computed: {
+            totalAmount: function () {
+                let sum = 0
+                for (let x of this.contentList) {
+                    sum += x.price * x.quantity
+                }
+                return sum
             }
         },
         methods: {

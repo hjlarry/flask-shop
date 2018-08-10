@@ -102,8 +102,7 @@
     .userinfo-avatar {
         width: 128 rpx;
         height: 128 rpx;
-        margin: 20 rpx;
-        border-radius: 50%;
+        clip-path: circle( 40% at center) ;
     }
 
     .userinfo-nickname {
