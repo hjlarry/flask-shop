@@ -6,7 +6,6 @@
 # Packages
 *.egg
 *.egg-info
-build
 eggs
 parts
 bin
