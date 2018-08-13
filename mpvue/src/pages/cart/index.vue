@@ -19,12 +19,13 @@
                         </div>
                     </navigator>
                 </div>
-                <div class="page__operation">
-                    <button class="weui-btn" type="primary" @click="">Checkout ${{totalAmount}}</button>
-                </div>
+
 
             </div>
         </div>
+        <div class="page__operation">
+                    <button class="weui-btn" type="primary" @click="">Checkout ${{totalAmount}}</button>
+                </div>
     </div>
 </template>
 

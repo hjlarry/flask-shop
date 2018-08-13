@@ -3,6 +3,7 @@ import App from './App'
 import store from './store'
 import './css/app.css'
 import '../static/weui.css'
+import 'animate.css'
 
 Vue.config.productionTip = false
 App.mpType = 'app'

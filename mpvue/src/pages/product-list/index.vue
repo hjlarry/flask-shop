@@ -34,18 +34,15 @@
         },
         methods: {
             getProductData(page) {
-                wx.showLoading({
-                    title: 'Loading Data',
-                    mask: true
-                })
+                wx.showNavigationBarLoading()
                 fly.get('products/', {page: page}).then(res => {
-                    wx.hideLoading()
+                    wx.hideNavigationBarLoading()
+                    wx.stopPullDownRefresh()
                     this.contentList = this.contentList.concat(res.data);
                 })
             }
         },
         onReachBottom() {
-            console.log('searchScrollLower')
             this.page += 1
             this.getProductData(this.page)
         },
@@ -53,7 +50,6 @@
             this.page = 1
             this.contentList = []
             this.getProductData(this.page)
-            console.log('PullDownRefresh');
         },
         mounted() {
             this.getProductData(this.page)
