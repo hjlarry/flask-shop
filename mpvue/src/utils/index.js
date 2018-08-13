@@ -31,4 +31,13 @@ export function formatTime(date) {
     return `${t1} ${t2}`
 }
 
+export function setTabBarBadge() {
+    if (store.getters.cart_num > 0) {
+        wx.setTabBarBadge({
+            index: 2,
+            text: store.getters.cart_num.toString()
+        })
+    }
+}
+
 export default fly

@@ -23,7 +23,7 @@
 
 <script>
     import card from '@/components/card'
-    import fly from '@/utils/index'
+    import fly, {setTabBarBadge} from '@/utils/index'
 
     export default {
         data() {
@@ -80,8 +80,10 @@
             },
             post_login(resCode) {
                 fly.post('user/login', {code: resCode}).then(res => {
-                    this.$store.dispatch('SetToken', res.data.token)
                     console.log(res.data)
+                    this.$store.dispatch('SetToken', res.data.token)
+                    this.$store.dispatch('SetCartNum', res.data.cart_lines)
+                    setTabBarBadge()
                 })
             }
         },
@@ -102,7 +104,7 @@
     .userinfo-avatar {
         width: 128 rpx;
         height: 128 rpx;
-        clip-path: circle( 40% at center) ;
+        clip-path: circle(40% at center);
     }
 
     .userinfo-nickname {

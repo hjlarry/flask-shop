@@ -66,6 +66,7 @@ class UserLogin(Resource):
             user = User.create(username=open_id, email=open_id, password=open_id, open_id=open_id,
                                session_key=session_key)
         data = {
-            'token': generate_token(user.id).decode()
+            'token': generate_token(user.id).decode(),
+            'cart_lines': len(user.cart.lines)
         }
         return data

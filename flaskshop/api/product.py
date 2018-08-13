@@ -1,4 +1,5 @@
 from flask_restplus import Namespace, Resource, fields
+from flask_login import current_user
 from flask import request
 
 from flaskshop.product.models import Product
@@ -62,4 +63,7 @@ class ProductDetail(Resource):
         """post product to current user cart"""
         args = parser.parse_args()
         add_to_currentuser_cart(args['quantity'], args['variant_id'])
-        return '', 201
+        res = {
+            'cart_lines': len(current_user.cart.lines)
+        }
+        return res, 201

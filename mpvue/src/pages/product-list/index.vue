@@ -23,7 +23,8 @@
 </template>
 
 <script>
-    import fly from '@/utils/index'
+    import fly, {setTabBarBadge} from '@/utils/index'
+
 
     export default {
         data() {
@@ -53,6 +54,9 @@
         },
         mounted() {
             this.getProductData(this.page)
+        },
+        onShow() {
+            setTabBarBadge()
         }
     }
 </script>
