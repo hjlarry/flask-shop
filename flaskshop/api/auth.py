@@ -34,7 +34,7 @@ class CustomSessionInterface(SecureCookieSessionInterface):
     def save_session(self, *args, **kwargs):
         if g.get("login_via_header"):
             return
-        return super(CustomSessionInterface, self).save_session(*args, **kwargs)
+        return super().save_session(*args, **kwargs)
 
 
 @user_loaded_from_header.connect
