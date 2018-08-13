@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: 'My Account'
+    navigationBarTitleText: 'Me'
   }
 }
