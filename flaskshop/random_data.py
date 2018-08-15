@@ -20,8 +20,10 @@ from flaskshop.product.utils import get_name_from_attributes
 from flaskshop.account.models import User, UserAddress
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.order.models import Order, OrderLine, OrderPayment
+from flaskshop.discount.models import Voucher, Sale
 from flaskshop.settings import Config
-from flaskshop.constant import PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED
+from flaskshop.constant import PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED, TYPE_PERCENT, \
+    TYPE_FIXED
 
 fake = Factory.create()
 
@@ -559,14 +561,15 @@ def create_fake_order(discounts, taxes):
     create_payment(order)
     return order
 
-# def create_fake_sale():
-#     sale = Sale.objects.create(
-#         name='Happy %s day!' % fake.word(),
-#         type=DiscountValueType.PERCENTAGE,
-#         value=random.choice([10, 20, 30, 40, 50]))
-#     for product in Product.objects.all().order_by('?')[:4]:
-#         sale.products.add(product)
-#     return sale
+
+def create_fake_sale():
+    sale = Sale.create(
+        title=f'Happy {fake.word()} day!',
+        type=TYPE_PERCENT,
+        value=random.choice([10, 20, 30, 40, 50]))
+    for product in Product.query.order_by(func.random()).all()[:4]:
+        sale.products.append(product)
+    return sale
 
 
 def create_orders(how_many=10):
@@ -578,10 +581,10 @@ def create_orders(how_many=10):
         yield 'Order: %s' % (order,)
 
 
-# def create_product_sales(how_many=5):
-#     for dummy in range(how_many):
-#         sale = create_fake_sale()
-#         yield 'Sale: %s' % (sale,)
+def create_product_sales(how_many=5):
+    for dummy in range(how_many):
+        sale = create_fake_sale()
+        yield 'Sale: %s' % (sale,)
 #
 #
 

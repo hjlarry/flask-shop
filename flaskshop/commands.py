@@ -17,7 +17,8 @@ from flaskshop.random_data import (
     create_page,
     create_collections_by_schema,
     create_admin,
-    create_orders
+    create_orders,
+    create_product_sales
 )
 
 HERE = Path(__file__).resolve()
@@ -157,7 +158,8 @@ def seed(type):
             "menu": create_menus,
             "address": create_addresses,
             "ship": create_shipping_methods,
-            "order": create_orders
+            "order": create_orders,
+            "sale": create_product_sales
         }
         fn = create_dict[type]
         for msg in fn():
