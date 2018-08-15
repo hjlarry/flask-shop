@@ -150,7 +150,8 @@ def seed(type):
             placeholder_dir=place_holder, how_many=10, create_images=True
         )
         create_generator = chain(create_collections_by_schema(place_holder), create_users(), create_addresses(),
-                                 create_page(), create_menus(), create_shipping_methods(), create_admin())
+                                 create_page(), create_menus(), create_shipping_methods(), create_orders(),
+                                 create_product_sales(), create_vouchers(), create_admin())
         for msg in create_generator:
             click.echo(msg)
     else:
