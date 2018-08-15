@@ -33,7 +33,7 @@ def index():
 def show(id):
     """Show an order."""
     order = Order.query.filter_by(id=id).first()
-    return render_template("orders/show.html", order=order)
+    return render_template("orders/details.html", order=order)
 
 
 # @blueprint.route("/", methods=["POST"])

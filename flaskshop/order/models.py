@@ -1,3 +1,4 @@
+from flask import url_for
 from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
 
 
@@ -15,6 +16,24 @@ class Order(SurrogatePK, Model):
     status = Column(db.String(100))
     shipping_method_name = Column(db.String(100))
     shipping_method_id = reference_col('checkout_shippingmethod')
+
+    def __str__(self):
+        return f"#{self.id}"
+
+    def get_absolute_url(self):
+        return url_for('order.show', id=self.id)
+
+    def is_fully_paid(self):
+        # TODO
+        return False
+
+    def is_pre_authorized(self):
+        # TODO
+        return False
+
+    def is_open(self):
+        statuses = {OrderStatus.UNFULFILLED, OrderStatus.PARTIALLY_FULFILLED}
+        return self.status in statuses
 
 
 class OrderLine(SurrogatePK, Model):
@@ -36,6 +55,7 @@ class OrderLine(SurrogatePK, Model):
 class OrderNote(SurrogatePK, Model):
     __tablename__ = 'order_ordernote'
     order_id = reference_col('order_order')
+    order = relationship('Order', backref='notes')
     user_id = reference_col('users')
     content = Column(db.Text())
     is_public = Column(db.Boolean(), default=True)
