@@ -143,7 +143,13 @@ class ProductVariant(SurrogatePK, Model):
     _attributes = Column("attributes", db.String(255))
 
     def __str__(self):
-        return self.title if self.title else self.product.title
+        return self.title or self.sku
+
+    def display_product(self):
+        return f'{self.product} ({str(self)})'
+
+    def is_shipping_required(self):
+        return self.product.product_type.is_shipping_required
 
     @hybrid_property
     def attributes(self):
@@ -166,7 +172,21 @@ class ProductVariant(SurrogatePK, Model):
 
     @property
     def price(self):
-        return self.price_override if self.price_override else self.product.price
+        return self.price_override or self.product.price
+
+    @property
+    def base_price(self):
+        return self.price_override or self.product.price
+
+    def get_price(self, discounts=None, taxes=None):
+        # price = calculate_discounted_price(
+        #     self.product, self.base_price, discounts)
+        # if not self.product.charge_taxes:
+        #     taxes = None
+        # tax_rate = (
+        #         self.product.tax_rate or self.product.product_type.tax_rate)
+        # return apply_tax_to_price(taxes, tax_rate, price)
+        return self.base_price
 
 
 class ProductAttribute(SurrogatePK, Model):

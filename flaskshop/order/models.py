@@ -5,6 +5,7 @@ class Order(SurrogatePK, Model):
     __tablename__ = 'order_order'
     token = Column(db.String(100))
     shipping_address_id = reference_col('users_address')
+    shipping_address = relationship('UserAddress')
     user_id = reference_col('users')
     total_net = Column(db.DECIMAL(10, 2))
     discount_amount = Column(db.DECIMAL(10, 2))
@@ -24,7 +25,12 @@ class OrderLine(SurrogatePK, Model):
     unit_price_net = Column(db.DECIMAL(10, 2))
     is_shipping_required = Column(db.Boolean(), default=True)
     order_id = reference_col('order_order')
-    variant_id = reference_col('order_order')
+    order = relationship('Order', backref='lines')
+    variant_id = reference_col('product_variant')
+    variant = relationship('ProductVariant')
+
+    def get_total(self):
+        return self.unit_price_net * self.quantity
 
 
 class OrderNote(SurrogatePK, Model):
@@ -38,6 +44,7 @@ class OrderNote(SurrogatePK, Model):
 class OrderPayment(SurrogatePK, Model):
     __tablename__ = 'order_payment'
     order_id = reference_col('order_order')
+    order = relationship('Order', backref=db.backref("payment", uselist=False))
     status = Column(db.String(100))
     total = Column(db.DECIMAL(10, 2))
     delivery = Column(db.DECIMAL(10, 2))
