@@ -23,7 +23,7 @@ from flaskshop.order.models import Order, OrderLine, OrderPayment
 from flaskshop.discount.models import Voucher, Sale
 from flaskshop.settings import Config
 from flaskshop.constant import PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED, TYPE_PERCENT, \
-    TYPE_FIXED
+    TYPE_FIXED, VOUCHER_TYPE_SHIPPING, VOUCHER_TYPE_VALUE
 
 fake = Factory.create()
 
@@ -585,35 +585,34 @@ def create_product_sales(how_many=5):
     for dummy in range(how_many):
         sale = create_fake_sale()
         yield 'Sale: %s' % (sale,)
-#
-#
 
-#
-#
-# def create_vouchers():
-#     voucher, created = Voucher.objects.get_or_create(
-#         code='FREESHIPPING', defaults={
-#             'type': VoucherType.SHIPPING,
-#             'name': 'Free shipping',
-#             'discount_value_type': DiscountValueType.PERCENTAGE,
-#             'discount_value': 100})
-#     if created:
-#         yield 'Voucher #%d' % voucher.id
-#     else:
-#         yield 'Shipping voucher already exists'
-#
-#     voucher, created = Voucher.objects.get_or_create(
-#         code='DISCOUNT', defaults={
-#             'type': VoucherType.VALUE,
-#             'name': 'Big order discount',
-#             'discount_value_type': DiscountValueType.FIXED,
-#             'discount_value': 25,
-#             'limit': 200})
-#     if created:
-#         yield 'Voucher #%d' % voucher.id
-#     else:
-#         yield 'Value voucher already exists'
 
+def create_vouchers():
+    defaults = {
+        'type': VOUCHER_TYPE_SHIPPING,
+        'title': 'Free shipping',
+        'discount_value_type': TYPE_PERCENT,
+        'discount_value': 100}
+    voucher, created = Voucher.get_or_create(
+        code='FREESHIPPING', **defaults)
+    if created:
+        yield 'Voucher #%d' % voucher.id
+    else:
+        yield 'Shipping voucher already exists'
+
+    defaults = {
+        'type': VOUCHER_TYPE_VALUE,
+        'title': 'Big order discount',
+        'discount_value_type': TYPE_FIXED,
+        'discount_value': 25,
+        'limit': 200}
+
+    voucher, created = Voucher.get_or_create(
+        code='DISCOUNT', **defaults)
+    if created:
+        yield 'Voucher #%d' % voucher.id
+    else:
+        yield 'Value voucher already exists'
 
 # def create_fake_group():
 #     group, _ = Group.objects.get_or_create(name='Products Manager')
