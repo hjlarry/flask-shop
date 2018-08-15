@@ -3,6 +3,7 @@ import random
 import unicodedata
 from faker import Factory
 from faker.providers import BaseProvider
+from sqlalchemy.sql.expression import func
 
 from flaskshop.product.models import (
     Category,
@@ -18,7 +19,9 @@ from flaskshop.public.models import Menu, Site, MenuItem, Page
 from flaskshop.product.utils import get_name_from_attributes
 from flaskshop.account.models import User, UserAddress
 from flaskshop.checkout.models import ShippingMethod
+from flaskshop.order.models import Order, OrderLine, OrderPayment
 from flaskshop.settings import Config
+from flaskshop.constant import PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED
 
 fake = Factory.create()
 
@@ -397,28 +400,6 @@ def create_fake_user():
     return user
 
 
-def create_order_line(order, discounts, taxes):
-    product = Product.objects.all().order_by("?")[0]
-    variant = product.variants.all()[0]
-    quantity = random.randrange(1, 5)
-    variant.quantity += quantity
-    variant.quantity_allocated += quantity
-    variant.save()
-    return order.lines.create(
-        product_name=variant.display_product(),
-        product_sku=variant.sku,
-        is_shipping_required=variant.is_shipping_required(),
-        quantity=quantity,
-        variant=variant,
-        unit_price=variant.get_price(discounts=discounts, taxes=taxes),
-    )
-
-
-def create_order_lines(order, discounts, taxes, how_many=10):
-    for dummy in range(how_many):
-        yield create_order_line(order, discounts, taxes)
-
-
 def get_variant_combinations(product):
     # Returns all possible variant combinations
     # For example: product type has two variant attributes: Size, Color
@@ -508,32 +489,17 @@ def create_admin():
     user.save()
     yield f'Admin {user.username} created'
 
-# def create_payment(order):
-#     status = random.choice(
-#         [
-#             PaymentStatus.WAITING,
-#             PaymentStatus.PREAUTH,
-#             PaymentStatus.CONFIRMED])
-#     payment = Payment.objects.create(
-#         order=order,
-#         status=status,
-#         variant='default',
-#         transaction_id=str(fake.random_int(1, 100000)),
-#         currency=settings.DEFAULT_CURRENCY,
-#         total=order.total.gross.amount,
-#         tax=order.total.tax.amount,
-#         delivery=order.shipping_price.net.amount,
-#         customer_ip_address=fake.ipv4(),
-#         billing_first_name=order.billing_address.first_name,
-#         billing_last_name=order.billing_address.last_name,
-#         billing_address_1=order.billing_address.street_address_1,
-#         billing_city=order.billing_address.city,
-#         billing_postcode=order.billing_address.postal_code,
-#         billing_country_code=order.billing_address.country)
-#     if status == PaymentStatus.CONFIRMED:
-#         payment.captured_amount = payment.total
-#         payment.save()
-#     return payment
+
+def create_payment(order):
+    status = random.choice([PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED])
+    payment = OrderPayment.create(
+        order=order,
+        status=status,
+        total=order.total_net,
+        delivery=order.shipping_price_net,
+        customer_ip_address=fake.ipv4())
+    return payment
+
 
 # def create_fulfillments(order):
 #     for line in order:
@@ -545,44 +511,53 @@ def create_admin():
 #             line.save(update_fields=['quantity_fulfilled'])
 #
 #     update_order_status(order)
+def create_order_line(order, discounts, taxes):
+    product = Product.query.order_by(func.random()).first()
+    variant = product.variant[0]
+    quantity = random.randrange(1, 5)
+    variant.quantity += quantity
+    variant.save()
+    return OrderLine.create(
+        order=order,
+        product_name=variant.display_product(),
+        product_sku=variant.sku,
+        is_shipping_required=variant.is_shipping_required(),
+        quantity=quantity,
+        variant=variant,
+        unit_price_net=variant.get_price(discounts=discounts, taxes=taxes),
+    )
 
 
-# def create_fake_order(discounts, taxes):
-#     user = random.choice([None, User.objects.filter(
-#         is_superuser=False).order_by('?').first()])
-#     if user:
-#         order_data = {
-#             'user': user,
-#             'billing_address': user.default_billing_address,
-#             'shipping_address': user.default_shipping_address}
-#     else:
-#         address = create_address()
-#         order_data = {
-#             'billing_address': address,
-#             'shipping_address': address,
-#             'user_email': get_email(
-#                 address.first_name, address.last_name)}
-#
-#     shipping_method = ShippingMethod.objects.order_by('?').first()
-#     shipping_price = shipping_method.price_per_country.first().price
-#     shipping_price = get_taxed_shipping_price(shipping_price, taxes)
-#     order_data.update({
-#         'shipping_method_name': shipping_method.name,
-#         'shipping_price': shipping_price})
-#
-#     order = Order.objects.create(**order_data)
-#
-#     lines = create_order_lines(order, discounts, taxes, random.randrange(1, 5))
-#
-#     order.total = sum(
-#         [line.get_total() for line in lines], order.shipping_price)
-#     order.save()
-#
-#     create_fulfillments(order)
-#
-#     create_payment(order)
-#     return order
+def create_order_lines(order, discounts, taxes, how_many=10):
+    for dummy in range(how_many):
+        yield create_order_line(order, discounts, taxes)
 
+
+def create_fake_order(discounts, taxes):
+    user = User.query.filter_by(is_admin=False).order_by(func.random()).first()
+
+    order_data = {
+        'user': user,
+        'shipping_address': create_fake_address()}
+
+    shipping_method = ShippingMethod.query.order_by(func.random()).first()
+
+    order_data.update({
+        'shipping_method_name': shipping_method.title,
+        'shipping_price_net': shipping_method.price})
+
+    order = Order.create(**order_data)
+
+    lines = create_order_lines(order, discounts, taxes, random.randrange(1, 5))
+
+    order.total_net = sum(
+        [line.get_total() for line in lines], order.shipping_price_net)
+    order.save()
+
+    # create_fulfillments(order)
+
+    create_payment(order)
+    return order
 
 # def create_fake_sale():
 #     sale = Sale.objects.create(
@@ -594,12 +569,13 @@ def create_admin():
 #     return sale
 
 
-# def create_orders(how_many=10):
-#     taxes = get_taxes_for_country(Country(settings.DEFAULT_COUNTRY))
-#     discounts = Sale.objects.prefetch_related('products', 'categories')
-#     for dummy in range(how_many):
-#         order = create_fake_order(discounts, taxes)
-#         yield 'Order: %s' % (order,)
+def create_orders(how_many=10):
+    taxes = None
+    # discounts = Sale.objects.prefetch_related('products', 'categories')
+    discounts = None
+    for dummy in range(how_many):
+        order = create_fake_order(discounts, taxes)
+        yield 'Order: %s' % (order,)
 
 
 # def create_product_sales(how_many=5):

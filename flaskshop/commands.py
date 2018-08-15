@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Click commands."""
-from pathlib import Path
 from subprocess import call
 import click
 from flask import current_app
@@ -18,6 +17,7 @@ from flaskshop.random_data import (
     create_page,
     create_collections_by_schema,
     create_admin,
+    create_orders
 )
 
 HERE = Path(__file__).resolve()
@@ -157,6 +157,7 @@ def seed(type):
             "menu": create_menus,
             "address": create_addresses,
             "ship": create_shipping_methods,
+            "order": create_orders
         }
         fn = create_dict[type]
         for msg in fn():

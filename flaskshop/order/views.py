@@ -6,7 +6,7 @@ import uuid
 import json
 import time
 
-from .models import Order, OrderItem
+from .models import Order, OrderLine, OrderNote, OrderPayment
 from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
 from flaskshop.account.models import UserAddress
@@ -36,55 +36,55 @@ def show(id):
     return render_template("orders/show.html", order=order)
 
 
-@blueprint.route("/", methods=["POST"])
-@login_required
-def store():
-    """From cart store an order."""
-    data = request.get_json()
-    address = UserAddress.query.filter_by(id=data["address_id"]).first()
-    total_amount = 0
-    items = []
-    coupon = None
-    if data["coupon_code"]:
-        coupon = CouponCode.query.filter_by(code=data["coupon_code"]).first()
-        try:
-            coupon.check_available(order_total_amount=total_amount)
-        except Exception as e:
-            return Response(e.args, status=422)
-    for item in data["items"]:
-        cart_item = Cart.query.filter_by(id=item["item_id"]).first()
-        amount = int(item["amount"])
-        try:
-            cart_item.product_sku.decrement_stock(amount)
-        except Exception as e:
-            return Response(e.args, status=422)
-        order_item = OrderItem(
-            product_sku=cart_item.product_sku,
-            product=cart_item.product_sku.product,
-            amount=amount,
-            price=cart_item.product_sku.price,
-        )
-        total_amount = total_amount + order_item.amount * order_item.price
-        cart_item.release(amount)
-        items.append(order_item)
-
-    if not items:
-        return Response("Need choose an item first", status=422)
-    if coupon:
-        total_amount = coupon.get_adjusted_price(order_total_amount=total_amount)
-        coupon.used += 1
-
-    order = Order.create(
-        user=current_user,
-        no=str(uuid.uuid1()),
-        address=address.full_address + address.contact_name + address.contact_phone,
-        remark=data["remark"],
-        total_amount=total_amount,
-        coupon_code=coupon,
-        items=items,
-    )
-    res = {"id": order.id}
-    return Response(json.dumps(res), status=200, mimetype="application/json")
+# @blueprint.route("/", methods=["POST"])
+# @login_required
+# def store():
+#     """From cart store an order."""
+#     data = request.get_json()
+#     address = UserAddress.query.filter_by(id=data["address_id"]).first()
+#     total_amount = 0
+#     items = []
+#     coupon = None
+#     if data["coupon_code"]:
+#         coupon = CouponCode.query.filter_by(code=data["coupon_code"]).first()
+#         try:
+#             coupon.check_available(order_total_amount=total_amount)
+#         except Exception as e:
+#             return Response(e.args, status=422)
+#     for item in data["items"]:
+#         cart_item = Cart.query.filter_by(id=item["item_id"]).first()
+#         amount = int(item["amount"])
+#         try:
+#             cart_item.product_sku.decrement_stock(amount)
+#         except Exception as e:
+#             return Response(e.args, status=422)
+#         # order_item = OrderItem(
+#         #     product_sku=cart_item.product_sku,
+#         #     product=cart_item.product_sku.product,
+#         #     amount=amount,
+#         #     price=cart_item.product_sku.price,
+#         # )
+#         total_amount = total_amount + order_item.amount * order_item.price
+#         cart_item.release(amount)
+#         items.append(order_item)
+#
+#     if not items:
+#         return Response("Need choose an item first", status=422)
+#     if coupon:
+#         total_amount = coupon.get_adjusted_price(order_total_amount=total_amount)
+#         coupon.used += 1
+#
+#     order = Order.create(
+#         user=current_user,
+#         no=str(uuid.uuid1()),
+#         address=address.full_address + address.contact_name + address.contact_phone,
+#         remark=data["remark"],
+#         total_amount=total_amount,
+#         coupon_code=coupon,
+#         items=items,
+#     )
+#     res = {"id": order.id}
+#     return Response(json.dumps(res), status=200, mimetype="application/json")
 
 
 @blueprint.route("/pay/<id>/alipay")
