@@ -11,4 +11,4 @@ class ShippingMethodForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         """Create instance."""
         super().__init__(*args, **kwargs)
-        self.shipping_method.choices = [(vari.id, vari) for vari in ShippingMethod.query.all()]
+        self.shipping_method.choices = [(str(vari.id), vari) for vari in ShippingMethod.query.all()]

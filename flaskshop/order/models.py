@@ -19,6 +19,7 @@ class Order(SurrogatePK, Model):
     status = Column(db.String(100))
     shipping_method_name = Column(db.String(100))
     shipping_method_id = reference_col('checkout_shippingmethod')
+    shipping_method = relationship('ShippingMethod')
 
     def __str__(self):
         return f"#{self.id}"
@@ -70,6 +71,7 @@ class OrderNote(SurrogatePK, Model):
     order_id = reference_col('order_order')
     order = relationship('Order', backref='notes')
     user_id = reference_col('users')
+    user = relationship('User')
     content = Column(db.Text())
     is_public = Column(db.Boolean(), default=True)
 

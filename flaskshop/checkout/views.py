@@ -7,6 +7,8 @@ from .models import CouponCode
 from .forms import ShippingMethodForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
+from flaskshop.order.models import Order, OrderLine, OrderNote
+from flaskshop.constant import ORDER_STATUS_UNFULFILLED
 
 blueprint = Blueprint('checkout', __name__, url_prefix='/checkout')
 
@@ -66,7 +68,33 @@ def checkout_shipping_address():
     return redirect(url_for('checkout.checkout_shipping_method'))
 
 
-@blueprint.route('/shipping_method')
+@blueprint.route('/shipping_method', methods=['GET', 'POST'])
 def checkout_shipping_method():
     form = ShippingMethodForm(request.form)
+    if form.validate_on_submit():
+        order = Order.create(
+            user=current_user,
+            shipping_method_id=form.shipping_method.data,
+            shipping_address=current_user.cart.address,
+            status=ORDER_STATUS_UNFULFILLED
+        )
+        OrderNote.create(order=order, user=current_user, content=form.note.data)
+        total = 0
+        for line in current_user.cart.lines:
+            order_line = OrderLine.create(
+                order=order,
+                variant=line.variant,
+                quantity=line.quantity,
+                product_name=line.product.title,
+                product_sku=line.variant.sku,
+                unit_price_net=line.variant.price,
+                is_shipping_required=line.variant.is_shipping_required()
+            )
+            total += order_line.get_total()
+            line.delete()
+        total += order.shipping_method.price
+        order.update(total_net=total, shipping_method_name=order.shipping_method.title,
+                     shipping_price_net=order.shipping_method.price)
+        current_user.cart.delete()
+        return redirect(url_for('order.show', id=order.id))
     return render_template('checkout/shipping_method.html', form=form)
