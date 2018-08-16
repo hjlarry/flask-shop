@@ -1,4 +1,5 @@
 from flask import url_for
+from flask_login import current_user
 
 from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
 from flaskshop.constant import ORDER_STATUS_UNFULFILLED, ORDER_STATUS_PARTIALLY_FULFILLED
@@ -43,6 +44,9 @@ class Order(SurrogatePK, Model):
     def get_subtotal(self):
         subtotal_iterator = (line.get_total() for line in self.lines)
         return sum(subtotal_iterator)
+
+    def is_self_order(self):
+        return self in current_user.orders
 
 
 class OrderLine(SurrogatePK, Model):

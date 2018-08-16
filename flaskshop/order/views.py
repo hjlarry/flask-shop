@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, current_app, url_for
+from flask import Blueprint, render_template, request, redirect, current_app, url_for, abort
 from flask_login import login_required, current_user
 from werkzeug.wrappers import Response
 from sqlalchemy import desc
@@ -33,6 +33,8 @@ def index():
 def show(id):
     """Show an order."""
     order = Order.query.filter_by(id=id).first()
+    if not order.is_self_order():
+        return abort(403)
     return render_template("orders/details.html", order=order)
 
 
