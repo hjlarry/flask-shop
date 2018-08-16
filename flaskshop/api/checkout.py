@@ -11,7 +11,7 @@ cart = api.model('CartLine', {
     'variant': fields.String(description='The cart item variant', attribute='variant.title'),
     'product_id': fields.Integer(description='The cart item product', attribute='variant.product.id'),
     'price': fields.Float(description='The cart item price', attribute='variant.price'),
-    'first_img': fields.String(description='The cart item image', attribute='variant.product.get_first_img'),
+    'first_img': fields.String(description='The cart item image', attribute='variant.product.first_img'),
 })
 
 

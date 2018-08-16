@@ -58,6 +58,10 @@ class Product(SurrogatePK, Model):
             return self.images[0]
         return ""
 
+    @property
+    def first_img(self):
+        return self.get_first_img()
+
 
 class Category(SurrogatePK, Model):
     __tablename__ = "product_category"

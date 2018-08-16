@@ -10,7 +10,7 @@ from .auth import CustomSessionInterface
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
 csrf_protect.exempt(blueprint)
 blueprint.session_interface = CustomSessionInterface()
-ALLOWED_PATHS = frozenset(['/api/v1/user/login', '/api/v1/', '/api/v1/swagger.json'])
+ALLOWED_PATHS = frozenset(['/api/v1/user/login', '/api/v1/', '/api/v1/swagger.json', '/api/v1/products/'])
 
 
 @blueprint.after_request

@@ -15,7 +15,7 @@ product_list = api.model('ProductList', {
     'title': fields.String(required=True, description='The product name'),
     'description': fields.String(description='The product description'),
     'price': fields.String(description='The product price'),
-    'first_img': fields.String(description='The product first img', attribute='get_first_img'),
+    'first_img': fields.String(description='The product first img'),
 })
 variant = api.model('Variant', {
     'id': fields.Integer(required=True, description='The variant identifier'),
