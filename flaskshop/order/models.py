@@ -24,6 +24,7 @@ class Order(SurrogatePK, Model):
     def __str__(self):
         return f"#{self.id}"
 
+    @property
     def get_absolute_url(self):
         return url_for('order.show', id=self.id)
 
@@ -48,6 +49,7 @@ class Order(SurrogatePK, Model):
 
     def is_self_order(self):
         return self in current_user.orders
+
 
 
 class OrderLine(SurrogatePK, Model):

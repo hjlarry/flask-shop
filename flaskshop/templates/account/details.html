@@ -39,7 +39,7 @@
     <div class="tab-content col-lg-10 m-auto">
       <div class="tab-pane active fade show" id="orders" role="tabpanel">
         <div id="accordion" role="tablist" aria-multiselectable="true">
-          {% if orders|length %}
+          {% if current_user.orders %}
             <div class="table__header">
               <div class="row">
                 <div class="col-md-2 col-3">
@@ -48,7 +48,7 @@
                 <div class="col-md-3 d-none d-md-block">
                   <small>Date</small>
                 </div>
-                <div class="col-md-2 col-4 text-right">
+                <div class="col-md-2 col-4 ">
                   <small>Summary</small>
                 </div>
                 <div class="col-md-4 d-none d-md-block">
@@ -57,19 +57,19 @@
                 <div class="col-md-1 col-5"></div>
               </div>
             </div>
-            {% for order in orders %}
+            {% for order in current_user.orders %}
               <div class="table__row">
                 <div class="row">
                   <div class="col-md-2 col-3">
                     {{ order }}
                   </div>
                   <div class="col-md-3 d-none d-md-block">
-                    {{ order.created }}
+                    {{ order.created_at }}
                   </div>
                   <div class="col-md-2 col-4">
-                    <span class="float-right">
-                      {{ order.total.gross }}
-                    </span>
+
+                      ${{ order.total_net }}
+
                   </div>
                   <div class="col-md-4 d-none d-md-block">
                     {{ order.status }}
