@@ -61,7 +61,6 @@
                 {% endif %}
                 {% if order.is_open %}
                     <form method="post" class="form-group">
-                        {% csrf_token %}
                         <input type="submit" value="Submit" class="btn primary"/>
                     </form>
                 {% endif %}

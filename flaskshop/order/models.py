@@ -1,5 +1,7 @@
 from flask import url_for
+
 from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
+from flaskshop.constant import ORDER_STATUS_UNFULFILLED, ORDER_STATUS_PARTIALLY_FULFILLED
 
 
 class Order(SurrogatePK, Model):
@@ -32,8 +34,15 @@ class Order(SurrogatePK, Model):
         return False
 
     def is_open(self):
-        statuses = {OrderStatus.UNFULFILLED, OrderStatus.PARTIALLY_FULFILLED}
+        statuses = {ORDER_STATUS_UNFULFILLED, ORDER_STATUS_PARTIALLY_FULFILLED}
         return self.status in statuses
+
+    def is_shipping_required(self):
+        return any(line.is_shipping_required for line in self.lines)
+
+    def get_subtotal(self):
+        subtotal_iterator = (line.get_total() for line in self.lines)
+        return sum(subtotal_iterator)
 
 
 class OrderLine(SurrogatePK, Model):
