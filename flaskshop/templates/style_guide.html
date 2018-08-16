@@ -648,7 +648,7 @@
               {% for category in categories %}
 
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ category.get_absolute_url }}" contenteditable="true">
+                  <a class="nav-link" href="{{ category.get_absolute_url() }}" contenteditable="true">
                     {{ category }}
                   </a>
                 </li>

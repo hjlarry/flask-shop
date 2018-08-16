@@ -18,7 +18,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ order.get_absolute_url }}">
+            <a href="{{ order.get_absolute_url() }}">
                 Order {{ order }}
             </a>
         </li>
@@ -59,11 +59,7 @@
                         <p>{{ note.content }}</p>
                     {% endfor %}
                 {% endif %}
-                {% if order.is_open %}
-                    <form method="post" class="form-group">
-                        <input type="submit" value="Submit" class="btn primary"/>
-                    </form>
-                {% endif %}
+
             </div>
         </div>
     </div>

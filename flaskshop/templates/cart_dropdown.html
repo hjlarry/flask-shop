@@ -5,10 +5,10 @@
       {% for line in current_user.cart.lines %}
         <div class="row item">
           <div class="col-md-10">
-            <a class="link--clean" href="{{ line.product.get_absolute_url }}">
+            <a class="link--clean" href="{{ line.product.get_absolute_url() }}">
               <img class="cart-dropdown__image lazyload lazypreload"
                    alt=""
-                   src="{{ line.product.get_first_img }}">
+                   src="{{ line.product.get_first_img() }}">
               <h3>
                 {{ line.product }}
                 <span>x{{ line.quantity }}</span>

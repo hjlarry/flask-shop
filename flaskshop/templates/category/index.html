@@ -5,7 +5,7 @@
   <li>
     <a href="{{ url_for('public.home') }}">Home</a>
   </li>
-  <li><a href='{{ object.get_absolute_url }}'>{{ object.title }}</a></li>
+  <li><a href='{{ object.get_absolute_url() }}'>{{ object.title }}</a></li>
 {% endblock %}
 
 {% block filters %}

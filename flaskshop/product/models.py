@@ -50,11 +50,9 @@ class Product(SurrogatePK, Model):
         else:
             raise Exception("Must set a dict for product attribute")
 
-    @property
     def get_absolute_url(self):
         return url_for("product.show", id=self.id)
 
-    @property
     def get_first_img(self):
         if self.images:
             return self.images[0]
@@ -71,7 +69,6 @@ class Category(SurrogatePK, Model):
     def __str__(self):
         return self.title
 
-    @property
     def get_absolute_url(self):
         return url_for("product.show_category", id=self.id)
 
@@ -188,6 +185,9 @@ class ProductVariant(SurrogatePK, Model):
         # return apply_tax_to_price(taxes, tax_rate, price)
         return self.base_price
 
+    def get_absolute_url(self):
+        return url_for("product.show", id=self.product.id)
+
 
 class ProductAttribute(SurrogatePK, Model):
     __tablename__ = "product_productattribute"
@@ -242,6 +242,5 @@ class Collection(SurrogatePK, Model):
     def __str__(self):
         return self.title
 
-    @property
     def get_absolute_url(self):
         return url_for("product.show_collection", id=self.id)

@@ -33,7 +33,7 @@ def index():
 def show(id):
     """Show an order."""
     order = Order.query.filter_by(id=id).first()
-    if not order.is_self_order():
+    if not order.is_self_order:
         return abort(403)
     return render_template("orders/details.html", order=order)
 

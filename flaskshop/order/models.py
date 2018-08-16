@@ -24,22 +24,25 @@ class Order(SurrogatePK, Model):
     def __str__(self):
         return f"#{self.id}"
 
-    @property
     def get_absolute_url(self):
         return url_for('order.show', id=self.id)
 
+    @property
     def is_fully_paid(self):
         # TODO
         return False
 
+    @property
     def is_pre_authorized(self):
         # TODO
         return False
 
+    @property
     def is_open(self):
         statuses = {ORDER_STATUS_UNFULFILLED, ORDER_STATUS_PARTIALLY_FULFILLED}
         return self.status in statuses
 
+    @property
     def is_shipping_required(self):
         return any(line.is_shipping_required for line in self.lines)
 
@@ -47,6 +50,7 @@ class Order(SurrogatePK, Model):
         subtotal_iterator = (line.get_total() for line in self.lines)
         return sum(subtotal_iterator)
 
+    @property
     def is_self_order(self):
         return self in current_user.orders
 

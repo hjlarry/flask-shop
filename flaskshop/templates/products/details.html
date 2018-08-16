@@ -15,11 +15,11 @@
     </li>
     {% if product.category %}
       <li>
-        <a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a>
+        <a href="{{ product.category.get_absolute_url() }}">{{ product.category }}</a>
       </li>
     {% endif %}
     <li>
-      <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+      <a href="{{ product.get_absolute_url() }}">{{ product }}</a>
     </li>
   </ul>
 {% endblock breadcrumb %}

@@ -51,7 +51,7 @@ class MenuItem(SurrogatePK, Model):
     @property
     def get_url(self):
         linked_object = self.linked_object
-        return linked_object.get_absolute_url if linked_object else self.url
+        return linked_object.get_absolute_url() if linked_object else self.url
 
 
 MenuItem.parent = relationship("MenuItem", backref="children", remote_side=MenuItem.id)
