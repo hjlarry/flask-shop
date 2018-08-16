@@ -37,7 +37,7 @@
             <div class="col-md-8">
                 <a class="link--clean" href="{% if line.variant %}{{ line.variant.get_absolute_url }}{% endif %}">
                     <img class="float-left lazyload lazypreload"
-                         src="{{ line.variant.product.get_first_img }}">
+                         src="{{ line.variant.product.get_first_img }}" width="60">
                     <span class="order-details__product__description">{{ line.product_name }}</span>
                 </a>
             </div>
@@ -84,7 +84,7 @@
             </div>
             <div class="col-4">
                 <p class="float-right">
-                    ${{ order.get_subtotal() }}
+                    ${{ order.shipping_price_net }}
                 </p>
             </div>
         </div>
@@ -117,7 +117,7 @@
         </div>
         <div class="col-4">
             <p class="float-right">
-                {{ order.total_net  }}
+                ${{ order.total_net  }}
             </p>
         </div>
     </div>
