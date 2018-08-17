@@ -56,6 +56,11 @@ def ali_notify():
     return Response(status=200)
 
 
+@blueprint.route("/payment_success")
+@login_required
+def payment_success():
+    return render_template("orders/checkout_success.html")
+
 @blueprint.route("/<id>/refund", methods=["POST"])
 @login_required
 def request_refund(id):

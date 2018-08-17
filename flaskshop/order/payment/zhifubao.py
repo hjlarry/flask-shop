@@ -35,7 +35,7 @@ def send_order(no, payment_no, total_amount):
         out_trade_no=payment_no,
         total_amount=str(total_amount),
         subject=subject,
-        return_url="http://127.0.0.1:5000/orders/",
+        return_url="http://127.0.0.1:5000/orders/payment_success",
         notify_url="http://a5d267a6.ngrok.io/orders/alipay/notify",
     )
     return order_string

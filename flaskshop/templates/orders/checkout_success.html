@@ -1,0 +1,30 @@
+{% extends 'checkout/details.html' %}
+
+
+{% block title %} Thank you {% endblock %}
+
+
+{% block content %}
+    <div class="row checkout__thankyoupage">
+        <div class="col-xl-10 m-auto">
+            <img class="checkout__thankyoupage__parrot lazyload lazypreload"
+                 data-src="{{ url_for('static', filename='img/confirm-order-bg.png') }}"
+                 srcset="{{ url_for('static', filename='img/confirm-order-bg.png') }} 1x, {{ url_for('static', filename='img/confirm-order-bg2x.png') }} %} 2x">
+            <h1>
+                Thank you for your <a href="{{ url_for('account.index') }}">order</a>!
+            </h1>
+
+            <p>
+                We've sent a confirmation email with details to <span>{{ current_user.email }}</span>.<br>
+                In case of any problems or questions please contact us.
+            </p>
+        </div>
+        <div class="m-auto">
+            <img class="checkout-pirate lazyload lazypreload" data-src="{{ url_for('static', filename='img/checkout-bg.png') }}"
+                 srcset="">
+            <p><a href="{{ url_for('public.home') }}" class="btn secondary">
+                Continue shopping
+            </a></p>
+        </div>
+    </div>
+{% endblock %}
