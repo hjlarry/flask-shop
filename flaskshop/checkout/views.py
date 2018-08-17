@@ -97,5 +97,5 @@ def checkout_shipping_method():
         order.update(total_net=total, shipping_method_name=order.shipping_method.title,
                      shipping_price_net=order.shipping_method.price)
         current_user.cart.delete()
-        return redirect(url_for('order.show', id=order.id))
+        return redirect(order.get_absolute_url())
     return render_template('checkout/shipping_method.html', form=form)

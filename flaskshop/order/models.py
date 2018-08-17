@@ -1,5 +1,6 @@
 from flask import url_for
 from flask_login import current_user
+from uuid import uuid4
 
 from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
 from flaskshop.constant import ORDER_STATUS_UNFULFILLED, ORDER_STATUS_PARTIALLY_FULFILLED
@@ -7,7 +8,7 @@ from flaskshop.constant import ORDER_STATUS_UNFULFILLED, ORDER_STATUS_PARTIALLY_
 
 class Order(SurrogatePK, Model):
     __tablename__ = 'order_order'
-    token = Column(db.String(100))
+    token = Column(db.String(100), unique=True)
     shipping_address_id = reference_col('users_address')
     shipping_address = relationship('UserAddress')
     user_id = reference_col('users')
@@ -24,8 +25,17 @@ class Order(SurrogatePK, Model):
     def __str__(self):
         return f"#{self.id}"
 
+    def save(self, commit=True):
+        if not self.token:
+            self.token = str(uuid4())
+        return super().save(commit=commit)
+
     def get_absolute_url(self):
-        return url_for('order.show', id=self.id)
+        return url_for('order.show', token=self.token)
+
+    def get_subtotal(self):
+        subtotal_iterator = (line.get_total() for line in self.lines)
+        return sum(subtotal_iterator)
 
     @property
     def is_fully_paid(self):
@@ -46,14 +56,9 @@ class Order(SurrogatePK, Model):
     def is_shipping_required(self):
         return any(line.is_shipping_required for line in self.lines)
 
-    def get_subtotal(self):
-        subtotal_iterator = (line.get_total() for line in self.lines)
-        return sum(subtotal_iterator)
-
     @property
     def is_self_order(self):
         return self in current_user.orders
-
 
 
 class OrderLine(SurrogatePK, Model):

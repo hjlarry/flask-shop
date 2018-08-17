@@ -28,11 +28,11 @@ def index():
     return render_template("orders/index.html", orders=orders, pagination=pagination)
 
 
-@blueprint.route("/<id>")
+@blueprint.route("/<token>")
 @login_required
-def show(id):
+def show(token):
     """Show an order."""
-    order = Order.query.filter_by(id=id).first()
+    order = Order.query.filter_by(token=token).first()
     if not order.is_self_order:
         return abort(403)
     return render_template("orders/details.html", order=order)
