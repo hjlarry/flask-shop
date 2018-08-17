@@ -7,6 +7,7 @@ from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
 from pathlib import Path
 from itertools import chain
+from flask_whooshalchemyplus import index_all
 
 from flaskshop.random_data import (
     create_users,
@@ -167,3 +168,9 @@ def seed(type):
         fn = create_dict[type]
         for msg in fn():
             click.echo(msg)
+
+
+@click.command()
+@with_appcontext
+def search_index():
+    index_all(current_app)
