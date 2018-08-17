@@ -78,7 +78,8 @@ def checkout_shipping_method():
             shipping_address=current_user.cart.address,
             status=ORDER_STATUS_UNFULFILLED
         )
-        OrderNote.create(order=order, user=current_user, content=form.note.data)
+        if form.note.data:
+            OrderNote.create(order=order, user=current_user, content=form.note.data)
         total = 0
         for line in current_user.cart.lines:
             order_line = OrderLine.create(
