@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
+import flask_whooshalchemyplus
 
 from flaskshop import commands, public, account, product, order, checkout, admin, api, discount
 from flaskshop.extensions import (
@@ -47,6 +48,7 @@ def register_extensions(app):
     webpack.init_app(app)
     admin_manager.init_app(app)
     bootstrap.init_app(app)
+    flask_whooshalchemyplus.init_app(app)
     return None
 
 
@@ -106,7 +108,7 @@ def register_shellcontext(app):
 
     def shell_context():
         """Shell context objects."""
-        return {"db": db, "User": account.models.User, "Product": product.models.Product, "Order":order.models.Order}
+        return {"db": db, "User": account.models.User, "Product": product.models.Product, "Order": order.models.Order}
 
     app.shell_context_processor(shell_context)
 

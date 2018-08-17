@@ -14,6 +14,7 @@ from flaskshop.database import (
 
 class Product(SurrogatePK, Model):
     __tablename__ = "product_product"
+    __searchable__ = ['title', 'description']
     title = Column(db.String(255), nullable=False)
     description = Column(db.Text())
     on_sale = Column(db.Boolean(), default=True)

@@ -23,6 +23,7 @@ class Config(object):
     DEBUG_TB_PROFILER_ENABLED = True
     CACHE_TYPE = "simple"  # Can be "memcached", "redis", etc.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    WHOOSH_BASE = APP_DIR / 'whoosh'
     WEBPACK_MANIFEST_PATH = "webpack/manifest.json"
 
 

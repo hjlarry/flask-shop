@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Search results{% endblock %}
+
+
+{% block content %}
+  <div class="row home__featured">
+    <div class="col-12">
+      {% if query and products %}
+        <div class="row">
+          {% include "products/_items.html" %}
+        </div>
+      {% else %}
+        <div class="row no-results">
+          <div class="col-12">
+            <h2>Search:<strong>{{ query }}</strong></h2>
+              <svg data-src="{{ url_for('static', filename='img/no-results-bg.svg') }}" width="360" height="360"></svg>
+            <p>Sorry, no matches found for your request.</p>
+            <p>Try again or shop new arrivals.</p>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}

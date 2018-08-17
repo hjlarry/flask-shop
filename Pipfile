@@ -45,6 +45,7 @@ libgravatar = "*"
 bootstrap-flask = "*"
 flask-restplus = "*"
 requests = "*"
+flask-whooshalchemyplus = "*"
 
 [dev-packages]
 

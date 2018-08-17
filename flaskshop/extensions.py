@@ -12,6 +12,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_admin import Admin, AdminIndexView
 from flask_bootstrap import Bootstrap
 
+
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
 login_manager = LoginManager()
