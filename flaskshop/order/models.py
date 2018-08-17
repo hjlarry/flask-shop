@@ -99,3 +99,4 @@ class OrderPayment(SurrogatePK, Model):
     token = Column(db.String(100))
     payment_method = Column(db.String(255))
     payment_no = Column(db.String(255), unique=True)
+    paid_at = Column(db.DateTime())
