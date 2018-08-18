@@ -14,7 +14,7 @@ from flaskshop.database import (
 
 class Product(SurrogatePK, Model):
     __tablename__ = "product_product"
-    __searchable__ = ['title', 'description']
+    __searchable__ = ["title", "description"]
     title = Column(db.String(255), nullable=False)
     description = Column(db.Text())
     on_sale = Column(db.Boolean(), default=True)
@@ -62,6 +62,13 @@ class Product(SurrogatePK, Model):
     @property
     def first_img(self):
         return self.get_first_img()
+
+    def __iter__(self):
+        return iter(self.variants)
+
+    @property
+    def is_in_stock(self):
+        return any(variant.is_in_stock for variant in self)
 
 
 class Category(SurrogatePK, Model):
@@ -140,6 +147,7 @@ class ProductVariant(SurrogatePK, Model):
     title = Column(db.String(255))
     price_override = Column(db.DECIMAL(10, 2))
     quantity = Column(db.Integer())
+    quantity_allocated = Column(db.Integer(), default=0)
     product_id = reference_col("product_product")
     product = relationship("Product", backref="variant")
     _attributes = Column("attributes", db.String(255))
@@ -148,7 +156,7 @@ class ProductVariant(SurrogatePK, Model):
         return self.title or self.sku
 
     def display_product(self):
-        return f'{self.product} ({str(self)})'
+        return f"{self.product} ({str(self)})"
 
     @property
     def is_shipping_required(self):
@@ -172,6 +180,14 @@ class ProductVariant(SurrogatePK, Model):
                 self._attributes = json.dumps(value)
         else:
             raise Exception("Must set a dict for product attribute")
+
+    @property
+    def quantity_available(self):
+        return max(self.quantity - self.quantity_allocated, 0)
+
+    @property
+    def is_in_stock(self):
+        return self.quantity_available > 0
 
     @property
     def price(self):
@@ -234,7 +250,10 @@ product_collection = db.Table(
         primary_key=True,
     ),
     Column(
-        "collection_id", db.Integer(), db.ForeignKey("product_collection.id"), primary_key=True
+        "collection_id",
+        db.Integer(),
+        db.ForeignKey("product_collection.id"),
+        primary_key=True,
     ),
 )
 
