@@ -370,7 +370,7 @@ def create_menus():
     site = Site.query.first()
     if not site:
         site = Site.create(
-            header_text="TEST SALEOR - A SAMPLE SHO", description="sth about this site"
+            header_text="TEST SALEOR - A SAMPLE SHOP", description="sth about this site"
         )
 
     site.top_menu = top_menu

@@ -16,7 +16,7 @@
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <image src="../../static/images/order.png"
-                                   style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+                                   style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" />
                         </div>
                         <div class="weui-cell__bd">My Order</div>
                         <div class="weui-cell__ft"> > </div>
@@ -24,7 +24,7 @@
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <image src="../../static/images/address.png"
-                                   style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+                                   style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" />
                         </div>
                         <div class="weui-cell__bd">My Address</div>
                         <div class="weui-cell__ft"> > </div>
