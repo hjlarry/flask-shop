@@ -150,6 +150,7 @@ class ProductVariant(SurrogatePK, Model):
     def display_product(self):
         return f'{self.product} ({str(self)})'
 
+    @property
     def is_shipping_required(self):
         return self.product.product_type.is_shipping_required
 

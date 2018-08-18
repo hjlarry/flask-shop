@@ -29,6 +29,19 @@ class Cart(SurrogatePK, Model):
         subtotal = (line.subtotal for line in self.lines)
         return sum(subtotal)
 
+    @property
+    def is_shipping_required(self):
+        return any(line.is_shipping_required for line in self)
+
+    def __repr__(self):
+        return f"Cart(quantity={self.quantity})"
+
+    def __iter__(self):
+        return iter(self.lines)
+
+    def __len__(self):
+        return len(self.lines)
+
 
 class CartLine(SurrogatePK, Model):
     __tablename__ = "checkout_cartline"
@@ -37,6 +50,13 @@ class CartLine(SurrogatePK, Model):
     quantity = Column(db.Integer())
     variant_id = reference_col("product_variant")
     variant = relationship("ProductVariant")
+
+    def __repr__(self):
+        return f"CartLine(variant={self.variant}, quantity={self.quantity})"
+
+    @property
+    def is_shipping_required(self):
+        return self.variant.is_shipping_required
 
     @property
     def product(self):
