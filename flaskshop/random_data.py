@@ -523,7 +523,7 @@ def create_order_line(order, discounts, taxes):
         order=order,
         product_name=variant.display_product(),
         product_sku=variant.sku,
-        is_shipping_required=variant.is_shipping_required(),
+        is_shipping_required=variant.is_shipping_required,
         quantity=quantity,
         variant=variant,
         unit_price_net=variant.get_price(discounts=discounts, taxes=taxes),

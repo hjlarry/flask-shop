@@ -52,6 +52,7 @@ class Voucher(SurrogatePK, Model):
     limit = Column(db.DECIMAL(10, 2))
     category_id = reference_col('product_category')
     product_id = reference_col('product_product')
+    product = relationship('Product', backref="discounts")
 
 
 class Sale(SurrogatePK, Model):
