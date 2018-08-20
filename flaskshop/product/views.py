@@ -9,27 +9,29 @@ from .forms import AddCartForm
 from .utils import get_product_attributes_data, get_product_list_context, add_to_currentuser_cart
 from flaskshop.extensions import db
 
-
 blueprint = Blueprint("product", __name__, url_prefix="/products")
 
 
 @blueprint.route("/<id>")
-def show(id):
+def show(id, form=None):
     """show a product."""
     product = Product.get_by_id(id)
-    form = AddCartForm(request.form, product=product)
+    if not form:
+        form = AddCartForm(request.form, product=product)
     product_attributes = get_product_attributes_data(product)
-    favored = False  # TODO
     return render_template("products/details.html", product=product, form=form, product_attributes=product_attributes)
 
 
 @blueprint.route("/<id>/add", methods=['POST'])
 @login_required
 def product_add_to_cart(id):
-    quantity = int(request.form.get('quantity'))
-    variant_id = int(request.form.get('variant', 0))
-    add_to_currentuser_cart(quantity, variant_id)
-    return redirect(url_for('product.show', id=id))
+    """ Method return use same form instance for display validater errors"""
+    product = Product.get_by_id(id)
+    form = AddCartForm(request.form, product=product)
+
+    if form.validate_on_submit():
+        add_to_currentuser_cart(form.quantity.data, form.variant.data)
+    return show(id, form=form)
 
 
 @blueprint.route("/category/<id>")

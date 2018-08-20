@@ -1,16 +1,25 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, RadioField
-from wtforms.validators import DataRequired
+from wtforms import StringField, RadioField, IntegerField
+from wtforms.validators import DataRequired, NumberRange
+from wtforms.widgets.core import Input
+
+
+class NumberInput(Input):
+    input_type = 'number'
+
+
+class MyIntegerField(IntegerField):
+    widget = NumberInput()
 
 
 class AddCartForm(FlaskForm):
     """add cart form."""
 
     variant = RadioField(
-        "variant",
+        "variant", validators=[DataRequired()], coerce=int,
     )
-    quantity = StringField(
-        "quantity", validators=[DataRequired()], default=1
+    quantity = MyIntegerField(
+        "quantity", validators=[DataRequired(), NumberRange(min=1)], default=1
     )
 
     def __init__(self, *args, product=None, **kwargs):
@@ -18,8 +27,3 @@ class AddCartForm(FlaskForm):
         super().__init__(*args, **kwargs)
         if product:
             self.variant.choices = [(vari.id, vari) for vari in product.variant]
-
-
-
-
-

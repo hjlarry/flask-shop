@@ -77,7 +77,7 @@
       {% if product.on_sale %}
         {% block orderform %}
           <form id="product-form" role="form" class="product-form1 clearfix" method="post"
-                action="{{ url_for('product.product_add_to_cart', id=product.id) }}" novalidate>
+                action="{{ url_for('product.product_add_to_cart', id=product.id) }}" >
             {{ form.csrf_token }}
           {% if form.variant.choices | length > 1 %}
             <div class="variant-picker">
