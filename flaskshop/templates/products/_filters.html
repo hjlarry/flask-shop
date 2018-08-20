@@ -34,7 +34,11 @@
                   {% for value in attr.values %}
                       <li>
                         <label for="{{ attr.title + loop.index|string }}">
-                          <input type="checkbox" name="{{ attr }}" value="{{ value.id }}" id="{{ attr.title + loop.index|string }}">
+                            {% if attr.title in default_attr and default_attr[attr.title] == value.id %}
+                          <input type="radio" name="{{ attr }}" value="{{ value.id }}" id="{{ attr.title + loop.index|string }}" checked>
+                            {% else %}
+                            <input type="radio" name="{{ attr }}" value="{{ value.id }}" id="{{ attr.title + loop.index|string }}">
+                            {% endif %}
                           {{ value }}
                         </label>
                       </li>

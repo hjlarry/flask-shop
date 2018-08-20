@@ -72,7 +72,7 @@ def get_product_list_context(request, products):
         'title': 'title',
         'price': 'price'
     }
-    arg_sort_by = request.args.get('sort_by')
+    arg_sort_by = request.args.get('sort_by', '')
     is_descending = False
     if arg_sort_by.startswith('-'):
         is_descending = True
@@ -80,12 +80,20 @@ def get_product_list_context(request, products):
     if arg_sort_by in sort_by_choices:
         products = products.order_by(desc(getattr(Product, arg_sort_by))) if is_descending else products.order_by(
             getattr(Product, arg_sort_by))
-    args_dict.update(sort_by_choices=sort_by_choices, arg_sort_by=arg_sort_by, is_descending=is_descending)
+    now_sorted_by = arg_sort_by or 'title'
+    args_dict.update(sort_by_choices=sort_by_choices, now_sorted_by=now_sorted_by, is_descending=is_descending)
 
+    args_dict.update(default_attr={})
     attr_filter = set()
     for product in products:
         for attr in product.product_type.product_attributes:
             attr_filter.add(attr)
+    for attr in attr_filter:
+        value = request.args.get(attr.title)
+        if value:
+            query_str = f'"{attr.id}": "{value}"'
+            products = products.filter(Product._attributes.contains(query_str))
+            args_dict['default_attr'].update({attr.title: int(value)})
 
     args_dict.update(attr_filter=attr_filter)
     return args_dict, products
