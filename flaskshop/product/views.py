@@ -36,8 +36,9 @@ def show_category(id):
     # TODO: filter query
     page = request.args.get("page", 1, type=int)
     category = Category.get_by_id(id)
-    pagination = category.products.paginate(page, per_page=16)
+    items = category.products
+    ctx, items = get_product_list_context(request, items)
+    pagination = items.paginate(page, per_page=16)
     products = pagination.items
-    ctx = get_product_list_context(request, products)
     ctx.update(object=category, pagination=pagination, products=products)
     return render_template("category/index.html", **ctx)

@@ -1,5 +1,9 @@
 from flask_login import current_user
+from sqlalchemy import desc
+
 from flaskshop.checkout.models import Cart, CartLine
+from .models import Product
+
 
 def get_product_attributes_data(product):
     """Returns attributes associated with the product,
@@ -54,23 +58,37 @@ def generate_name_from_values(attributes_dict):
 
 
 def get_product_list_context(request, products):
+    args_dict = {}
+
+    price_from = request.args.get('price_from', None, type=int)
+    price_to = request.args.get('price_to', None, type=int)
+    if price_from:
+        products = products.filter(Product.price > price_from)
+    if price_to:
+        products = products.filter(Product.price < price_to)
+    args_dict.update(price_from=price_from, price_to=price_to)
+
     sort_by_choices = {
-        'name': 'name',
+        'title': 'title',
         'price': 'price'
     }
+    arg_sort_by = request.args.get('sort_by')
+    is_descending = False
+    if arg_sort_by.startswith('-'):
+        is_descending = True
+        arg_sort_by = arg_sort_by[1:]
+    if arg_sort_by in sort_by_choices:
+        products = products.order_by(desc(getattr(Product, arg_sort_by))) if is_descending else products.order_by(
+            getattr(Product, arg_sort_by))
+    args_dict.update(sort_by_choices=sort_by_choices, arg_sort_by=arg_sort_by, is_descending=is_descending)
+
     attr_filter = set()
     for product in products:
         for attr in product.product_type.product_attributes:
             attr_filter.add(attr)
 
-    arg_sort_by = request.args.get('sort_by')
-    is_descending = arg_sort_by.startswith('-') if arg_sort_by else False
-    return {
-        'sort_by_choices': sort_by_choices,
-        'is_descending': is_descending,
-        'now_sorted_by': arg_sort_by or 'name',
-        'attr_filter': attr_filter
-    }
+    args_dict.update(attr_filter=attr_filter)
+    return args_dict, products
 
 
 def add_to_currentuser_cart(quantity, variant_id):
