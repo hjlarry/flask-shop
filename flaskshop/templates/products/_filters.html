@@ -9,11 +9,11 @@
 <div class="filters-menu__body d-none d-md-block">
   <h2>
     Filters
-    {#    {% if filter.is_bound_unsorted %}#}
-    {#      <a href="../">#}
-    {#        <span class="clear-filters float-right">Clear filters</span>#}
-    {#      </a>#}
-    {#    {% endif %}#}
+        {% if clear_filter %}
+          <a href="{{ object.get_absolute_url() }}">
+            <span class="clear-filters float-right">Clear filters</span>
+          </a>
+        {% endif %}
   </h2>
   <div class="product-filters">
     <div class="product-filters__attributes" data-icon-up="{{ url_for('static', filename='img/chevron-up.svg') }}"
