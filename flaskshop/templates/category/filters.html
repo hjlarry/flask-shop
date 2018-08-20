@@ -1,7 +1,7 @@
 {% extends "products/_filters.html" %}
 
 {% block title_tree %}
-  {% with children=category.get_children %}
+  {% with children=category.children %}
     {% if children %}
       <div class="product-filters__categories">
         <ul class="product-filters__categories__childs no-parent">
