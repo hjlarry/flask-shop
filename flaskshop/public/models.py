@@ -46,7 +46,7 @@ class MenuItem(SurrogatePK, Model):
 
     @property
     def linked_object(self):
-        return self.category or self.page  # //TODO collection
+        return self.category or self.page or self.collection
 
     @property
     def get_url(self):

@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, request
 from flask_login import login_required
 
-from .models import Product, Category
+from .models import Product, Category, Collection
 from .forms import AddCartForm
 from .utils import get_product_attributes_data, get_product_list_context, add_to_currentuser_cart
 
@@ -43,4 +43,16 @@ def show_category(id):
     pagination = items.paginate(page, per_page=16)
     products = pagination.items
     ctx.update(object=category, pagination=pagination, products=products)
+    return render_template("category/index.html", **ctx)
+
+
+@blueprint.route("/collection/<id>")
+def show_collection(id):
+    page = request.args.get("page", 1, type=int)
+    collection = Collection.get_by_id(id)
+    items = collection.products
+    ctx, items = get_product_list_context(request, items)
+    pagination = items.paginate(page, per_page=16)
+    products = pagination.items
+    ctx.update(object=collection, pagination=pagination, products=products)
     return render_template("category/index.html", **ctx)
