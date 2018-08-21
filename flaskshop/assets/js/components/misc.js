@@ -5,7 +5,7 @@ export const getAjaxError = (response) => {
     let ajaxError = $.parseJSON(response.responseText).error.quantity;
     return ajaxError;
 };
-export const csrftoken = $.cookie('csrftoken');
+export const csrftoken = $('meta[name=csrf-token]').attr('content');
 
 export default $(document).ready((e) => {
     function csrfSafeMethod(method) {
