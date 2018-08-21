@@ -61,7 +61,7 @@ export default $(document).ready((e) => {
     // Cart quantity form
 
     let $cartLine = $('.cart__line');
-    let $total = $('.cart-subtotal');
+    let $total = $('.cart-total span');
     let $cartBadge = $('.navbar__brand__cart .badge');
     let $closeMsg = $('.close-msg');
     $closeMsg.on('click', (e) => {
@@ -91,9 +91,9 @@ export default $(document).ready((e) => {
                     } else {
                         $subtotal.html(response.subtotal);
                     }
+                    $total.html(response.total);
                     $cartBadge.html(response.cart.numItems);
                     $qunatityError.html('');
-                    // $cartDropdown.load(summaryLink);
                 },
                 error: (response) => {
                     $qunatityError.html(getAjaxError(response));
@@ -110,13 +110,11 @@ export default $(document).ready((e) => {
                         $(this).fadeOut();
                         $total.html(response.total);
                         $cartBadge.html(response.cart.numItems);
-                        $cartDropdown.load(summaryLink);
                         $removeProductSuccess.removeClass('d-none');
                     } else {
                         $.cookie('alert', 'true', {path: '/cart'});
                         location.reload();
                     }
-                    deliveryAjax();
                 }
             });
         });

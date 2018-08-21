@@ -34,17 +34,20 @@ def update_cartline(id):
     line = CartLine.query.filter_by(id=id).first()
     response = {
         'variantId': line.variant_id,
-        'subtotal': '$ ' + str(line.subtotal),
+        'subtotal': 0,
         'total': 0,
         'cart': {
             'numItems': 0,
-            'numLines': len(current_user.cart)}}
+            'numLines': 0}}
     if request.form['quantity'] == '0':
         line.delete()
     else:
         line.quantity = int(request.form['quantity'])
         line.save()
-        response['cart']['numItems'] = current_user.cart.update_quantity()
+    response['cart']['numItems'] = current_user.cart.update_quantity()
+    response['cart']['numLines'] = len(current_user.cart)
+    response['subtotal'] = '$' + str(line.subtotal)
+    response['total'] = '$' + str(current_user.cart.total)
     return Response(json.dumps(response), mimetype='application/json')
 
 
