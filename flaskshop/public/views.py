@@ -18,16 +18,16 @@ def load_user(user_id):
 @blueprint.route("/")
 def home():
     products = Product.query.filter_by(is_featured=True).limit(8)
-    return render_template("home.html", products=products)
+    return render_template("public/home.html", products=products)
 
 
 @blueprint.route("/style")
 def style():
-    return render_template("style_guide.html")
+    return render_template("public/style_guide.html")
 
 
 @blueprint.route("/search")
 def search():
     query = request.args.get('q', None)
     products = Product.query.whoosh_search(query).all()
-    return render_template("search_result.html", products=products, query=query)
+    return render_template("public/search_result.html", products=products, query=query)
