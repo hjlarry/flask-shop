@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
 import json
 
-from .models import CouponCode
+from .models import CartLine
 from .forms import ShippingMethodForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
@@ -26,23 +26,42 @@ def cart_index():
         cart_lines = current_user.cart.lines
     else:
         cart_lines = None
-    return render_template('checkout/index.html', cart_lines=cart_lines, shipping_required=None)
+    return render_template('checkout/cart.html', cart_lines=cart_lines)
 
 
-@blueprint.route('/coupon/<code>', methods=['POST'])
-def verify(code):
-    """check a coupon code"""
-    coupon = CouponCode.query.filter_by(code=code).first()
-    if not coupon:
-        return Response('It`s not a correct code!', status=422)
-    try:
-        coupon.check_available()
-    except Exception as e:
-        return Response(e.args, status=422)
-    res = {
-        'description': coupon.description,
-    }
-    return Response(json.dumps(res), status=200)
+@blueprint.route('/update_cart/<id>', methods=['POST'])
+def update_cartline(id):
+    line = CartLine.query.filter_by(id=id).first()
+    response = {
+        'variantId': line.variant_id,
+        'subtotal': '$ ' + str(line.subtotal),
+        'total': 0,
+        'cart': {
+            'numItems': 0,
+            'numLines': len(current_user.cart)}}
+    if request.form['quantity'] == '0':
+        line.delete()
+    else:
+        line.quantity = int(request.form['quantity'])
+        line.save()
+        response['cart']['numItems'] = current_user.cart.update_quantity()
+    return Response(json.dumps(response), mimetype='application/json')
+
+
+# @blueprint.route('/coupon/<code>', methods=['POST'])
+# def verify(code):
+#     """check a coupon code"""
+#     coupon = CouponCode.query.filter_by(code=code).first()
+#     if not coupon:
+#         return Response('It`s not a correct code!', status=422)
+#     try:
+#         coupon.check_available()
+#     except Exception as e:
+#         return Response(e.args, status=422)
+#     res = {
+#         'description': coupon.description,
+#     }
+#     return Response(json.dumps(res), status=200)
 
 
 @blueprint.route('/shipping_address', methods=['GET', 'POST'])

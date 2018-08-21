@@ -42,6 +42,11 @@ class Cart(SurrogatePK, Model):
     def __len__(self):
         return len(self.lines)
 
+    def update_quantity(self):
+        self.quantity = sum(line.quantity for line in self)
+        self.save()
+        return self.quantity
+
 
 class CartLine(SurrogatePK, Model):
     __tablename__ = "checkout_cartline"
