@@ -21,8 +21,9 @@ class Config(object):
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEBUG_TB_PROFILER_ENABLED = True
-    CACHE_TYPE = "simple"  # Can be "memcached", "redis", etc.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DATABASE_QUERY_TIMEOUT = 0.001  # log the slow database query, and unit is second
+    SQLALCHEMY_RECORD_QUERIES = True
     WHOOSH_BASE = APP_DIR / 'whoosh'
     WEBPACK_MANIFEST_PATH = "webpack/manifest.json"
 

@@ -17,6 +17,7 @@ from flaskshop.extensions import (
     bootstrap
 )
 from flaskshop.settings import ProdConfig
+from flaskshop.utils import log_slow_queries
 
 
 def create_app(config_object=ProdConfig):
@@ -32,6 +33,7 @@ def create_app(config_object=ProdConfig):
     register_errorhandlers(app)
     register_shellcontext(app)
     register_commands(app)
+    log_slow_queries(app)
 
     return app
 

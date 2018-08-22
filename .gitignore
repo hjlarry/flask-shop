@@ -57,3 +57,4 @@ node_modules
 
 /flaskshop/local_config.py
 /flaskshop/whoosh
+slow_queries.log
