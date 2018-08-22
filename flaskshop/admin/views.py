@@ -18,8 +18,7 @@ from flaskshop.extensions import admin_manager, db, csrf_protect
 from flaskshop.constant import *
 from flaskshop.settings import Config
 from flaskshop.product.models import Product
-from flaskshop.order.models import Order
-# from flaskshop.order.models_bak import Order, OrderItem
+from flaskshop.order.models import Order, OrderLine, OrderPayment
 from flaskshop.account.models import User
 from flaskshop.checkout.models import CouponCode
 from .utils import MultipleImageUploadField, CKTextAreaField
@@ -53,7 +52,7 @@ class ProductView(CustomView):
     column_list = (
         "id",
         "title",
-        "image",
+        "first_img",
         "on_sale",
         "rating",
         "sold_count",
@@ -125,8 +124,8 @@ class ProductView(CustomView):
 
 class OrderView(CustomView):
     can_create = False
-    column_list = ("id", "no", "user", "total_amount", "paid_at")
-    # inline_models = (OrderItem,)
+    column_list = ("id", "no", "user", "total_net", "status")
+    inline_models = (OrderLine,)
     form_excluded_columns = ("user",)
     form_extra_fields = {
         "refund_status": SelectField(

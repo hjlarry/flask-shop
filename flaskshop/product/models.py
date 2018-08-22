@@ -140,6 +140,9 @@ class ProductType(SurrogatePK, Model):
         lazy="dynamic",
     )
 
+    def __str__(self):
+        return self.title
+
 
 class ProductVariant(SurrogatePK, Model):
     __tablename__ = "product_variant"

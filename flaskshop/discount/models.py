@@ -64,3 +64,6 @@ class Sale(SurrogatePK, Model):
         "Product", secondary=sale_products, backref="sales", lazy='dynamic'
     )
 
+    def __str__(self):
+        return self.title
+
