@@ -11,6 +11,7 @@ from flask_webpack import Webpack
 from flask_wtf.csrf import CSRFProtect
 from flask_admin import Admin, AdminIndexView
 from flask_bootstrap import Bootstrap
+import flask_whooshalchemyplus
 
 
 bcrypt = Bcrypt()

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
-import flask_whooshalchemyplus
 
 from flaskshop import commands, public, account, product, order, checkout, admin, api, discount
 from flaskshop.extensions import (
@@ -14,10 +13,11 @@ from flaskshop.extensions import (
     migrate,
     webpack,
     admin_manager,
-    bootstrap
+    bootstrap,
+    flask_whooshalchemyplus
 )
 from flaskshop.settings import ProdConfig
-from flaskshop.utils import log_slow_queries
+from flaskshop.utils import log_slow_queries, jinja_global_varibles
 
 
 def create_app(config_object=ProdConfig):
@@ -29,10 +29,10 @@ def create_app(config_object=ProdConfig):
     app.config.from_object(config_object)
     register_extensions(app)
     register_blueprints(app)
-    register_global_varibles(app)
     register_errorhandlers(app)
     register_shellcontext(app)
     register_commands(app)
+    jinja_global_varibles(app)
     log_slow_queries(app)
 
     return app
@@ -64,30 +64,6 @@ def register_blueprints(app):
     app.register_blueprint(admin.views.blueprint)
     app.register_blueprint(discount.views.blueprint)
     app.register_blueprint(api.api.blueprint)
-    return None
-
-
-def register_global_varibles(app):
-    """Register global varibles for jinja2"""
-    from flaskshop.public.models import Site
-    from flask import request
-    from urllib.parse import urlencode
-
-    @app.context_processor
-    def inject_param():
-        site = Site.query.first()
-        return dict(site=site)
-
-    def get_sort_by_url(field, descending=False):
-        request_get = request.args.copy()
-        if descending:
-            request_get['sort_by'] = '-' + field
-        else:
-            request_get['sort_by'] = field
-        return f'{request.path}?{urlencode(request_get)}'
-
-    app.add_template_global(get_sort_by_url, 'get_sort_by_url')
-
     return None
 
 
