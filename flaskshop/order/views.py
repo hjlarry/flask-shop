@@ -61,10 +61,11 @@ def ali_notify():
 def payment_success():
     return render_template("orders/checkout_success.html")
 
+
 @blueprint.route("/<id>/refund", methods=["POST"])
 @login_required
 def request_refund(id):
-    order = Order.query.filter_by(id=id).first()
+    order = Order.get_by_id(id)
     try:
         order.can_refund()
     except Exception as e:
@@ -79,7 +80,7 @@ def request_refund(id):
 @blueprint.route("/<id>/received", methods=["POST"])
 @login_required
 def received(id):
-    order = Order.query.filter_by(id=id).first()
+    order = Order.get_by_id(id)
     try:
         order.can_review()
     except Exception as e:

@@ -31,7 +31,7 @@ def cart_index():
 
 @blueprint.route('/update_cart/<id>', methods=['POST'])
 def update_cartline(id):
-    line = CartLine.query.filter_by(id=id).first()
+    line = CartLine.get_by_id(id)
     response = {
         'variantId': line.variant_id,
         'subtotal': 0,

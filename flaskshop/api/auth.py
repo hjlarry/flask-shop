@@ -47,7 +47,7 @@ def load_user_from_request(request):
     token = request.headers.get("Authorization")
     try:
         user_id = verify_token(token)
-        user = User.query.filter_by(id=user_id).first()
+        user = User.get_by_id(user_id)
         if user:
             return user
     except:

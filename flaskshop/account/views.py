@@ -81,7 +81,7 @@ def edit_address():
     """Create and edit an address."""
     form = AddressForm(request.form)
     edit = request.args.get('id', None)
-    user_address = UserAddress.query.filter_by(id=edit).first() if edit else None
+    user_address = UserAddress.get_by_id(edit) if edit else None
     province_city = user_address.province + '/' + user_address.city + '/' + user_address.district if user_address else None
     if form.validate_on_submit():
         province, city, district = form.province_city.data.split('/')
@@ -115,7 +115,7 @@ def edit_address():
 
 @blueprint.route("/address/<id>", methods=["DELETE"])
 def delete_address(id):
-    user_address = UserAddress.query.filter_by(id=id).first()
+    user_address = UserAddress.get_by_id(id)
     if user_address in current_user.addresses:
         UserAddress.delete(user_address)
     return ''
