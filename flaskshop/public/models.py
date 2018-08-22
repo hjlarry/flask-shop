@@ -1,3 +1,5 @@
+from flask import url_for
+
 from flaskshop.database import (
     Column,
     Model,
@@ -64,5 +66,4 @@ class Page(SurrogatePK, Model):
     is_visible = Column(db.Boolean(), default=True)
 
     def get_absolute_url(self):
-        return 1
-        # return reverse('page:details', kwargs={'slug': self.slug})
+        return url_for('public.show_page', id=self.id)
