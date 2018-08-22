@@ -82,7 +82,7 @@ def register_global_varibles(app):
             request_get['sort_by'] = '-' + field
         else:
             request_get['sort_by'] = field
-        return '%s?%s' % (request.path, urlencode(request_get))
+        return f'{request.path}?{urlencode(request_get)}'
 
     app.add_template_global(get_sort_by_url, 'get_sort_by_url')
 
@@ -96,7 +96,7 @@ def register_errorhandlers(app):
         """Render error template."""
         # If a HTTPException, pull the `code` attribute; default to 500
         error_code = getattr(error, "code", 500)
-        return render_template("errors/{0}.html".format(error_code)), error_code
+        return render_template(f"errors/{error_code}.html"), error_code
 
     for errcode in [401, 404, 500]:
         app.errorhandler(errcode)(render_error)

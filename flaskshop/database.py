@@ -95,7 +95,7 @@ def reference_col(tablename, nullable=True, pk_name="id", **kwargs):
     """
     return Column(
         db.ForeignKey(
-            "{0}.{1}".format(tablename, pk_name),
+            f"{tablename}.{pk_name}",
             ondelete="SET NULL",
             onupdate="CASCADE",
         ),

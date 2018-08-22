@@ -58,7 +58,7 @@ def lint(fix_imports):
     def execute_tool(description, *args):
         """Execute a checking tool with its arguments."""
         command_line = list(args) + files_and_directories
-        click.echo("{}: {}".format(description, " ".join(command_line)))
+        click.echo(f"{description}: {' '.join(command_line)}")
         rv = call(command_line)
         if rv != 0:
             exit(rv)
@@ -75,7 +75,7 @@ def clean():
     Borrowed from Flask-Script, converted to use Click.
     """
     for file in chain(Path(PROJECT_ROOT).glob("**/*.pyc"), Path(PROJECT_ROOT).glob("**/*.pyo")):
-        click.echo("Removing {}".format(file))
+        click.echo(f"Removing {file}")
         file.unlink()
 
 
@@ -91,7 +91,6 @@ def urls(url, order):
     Borrowed from Flask-Script, converted to use Click.
     """
     rows = []
-    column_length = 0
     column_headers = ("Rule", "Endpoint", "Arguments")
 
     if url:
@@ -102,7 +101,7 @@ def urls(url, order):
             rows.append((rule.rule, rule.endpoint, arguments))
             column_length = 3
         except (NotFound, MethodNotAllowed) as e:
-            rows.append(("<{}>".format(e), None, None))
+            rows.append((f"<{e}>", None, None))
             column_length = 1
     else:
         rules = sorted(

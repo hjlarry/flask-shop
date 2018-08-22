@@ -197,18 +197,18 @@ def create_products_by_type(
 
         for i, variant_price in enumerate(variants_with_prices, start=1337):
             attr_combination, price = variant_price
-            sku = "%s-%s" % (product.id, i)
+            sku = f"{product.id}-{i}"
             create_variant(
                 product, attributes=attr_combination, sku=sku, price_override=price
             )
 
         if not variant_combinations:
             # Create min one variant for products without variant level attrs
-            sku = "%s-%s" % (product.id, fake.random_int(1000, 100000))
+            sku = f"{product.id}-{fake.random_int(1000, 100000)}"
             create_variant(product, sku=sku)
         if stdout is not None:
             stdout.write(
-                "Product: %s (%s), %s variant(s)" % (product, product_type.name, 1)
+                f"Product: {product} ({product_type.name}), {1} variant(s)"
             )
 
 
@@ -316,7 +316,7 @@ def create_page():
     """
     page_data = {"content": content, "title": "About", "is_visible": True}
     page, _ = Page.get_or_create(**page_data)
-    yield "Page %s created" % page.title
+    yield f"Page {page.title} created"
 
 
 def generate_menu_items(menu: Menu, category: Category, parent_menu_item):
@@ -328,11 +328,11 @@ def generate_menu_items(menu: Menu, category: Category, parent_menu_item):
         menu.save()
 
     if created:
-        yield "Created menu item for category %s" % category
+        yield f"Created menu item for category {category}"
 
     for child in category.children:
         for msg in generate_menu_items(menu, child, menu_item):
-            yield "\t%s" % msg
+            yield f"\t{msg}"
 
 
 def generate_menu_tree(menu):
@@ -381,16 +381,13 @@ def create_menus():
 def get_email(first_name, last_name):
     _first = unicodedata.normalize("NFD", first_name).encode("ascii", "ignore")
     _last = unicodedata.normalize("NFD", last_name).encode("ascii", "ignore")
-    return "%s.%s@example.com" % (
-        _first.lower().decode("utf-8"),
-        _last.lower().decode("utf-8"),
-    )
+    return f"{_first.lower().decode('utf-8')}.{_last.lower().decode('utf-8')}@example.com"
 
 
 def create_users(how_many=10):
     for dummy in range(how_many):
         user = create_fake_user()
-        yield "User: %s" % (user.email,)
+        yield f"User: {user.email}"
 
 
 def create_fake_user():
@@ -448,14 +445,14 @@ def create_fake_address():
 def create_addresses(how_many=10):
     for dummy in range(how_many):
         address = create_fake_address()
-        yield "Address: %s" % (address.contact_name,)
+        yield f"Address: {address.contact_name}"
 
 
 def create_shipping_methods():
     shipping_method = ShippingMethod.create(title="UPC", price=fake.money())
-    yield "Shipping method #%d" % shipping_method.id
+    yield f"Shipping method #{shipping_method.id}"
     shipping_method = ShippingMethod.create(title="DHL", price=fake.money())
-    yield "Shipping method #%d" % shipping_method.id
+    yield f"Shipping method #{shipping_method.id}"
 
 
 def get_or_create_collection(title, placeholder_dir, image_name):
@@ -479,7 +476,7 @@ def create_fake_collection(placeholder_dir, collection_data):
 def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
     for collection_data in schema:
         collection = create_fake_collection(placeholder_dir, collection_data)
-        yield "Collection: %s" % (collection,)
+        yield f"Collection: {collection}"
 
 
 def create_admin():
@@ -578,13 +575,13 @@ def create_orders(how_many=10):
     discounts = None
     for dummy in range(how_many):
         order = create_fake_order(discounts, taxes)
-        yield 'Order: %s' % (order,)
+        yield f'Order: {order}'
 
 
 def create_product_sales(how_many=5):
     for dummy in range(how_many):
         sale = create_fake_sale()
-        yield 'Sale: %s' % (sale,)
+        yield f'Sale: {sale}'
 
 
 def create_vouchers():
@@ -596,7 +593,7 @@ def create_vouchers():
     voucher, created = Voucher.get_or_create(
         code='FREESHIPPING', **defaults)
     if created:
-        yield 'Voucher #%d' % voucher.id
+        yield f'Voucher #{voucher.id}'
     else:
         yield 'Shipping voucher already exists'
 
@@ -610,7 +607,7 @@ def create_vouchers():
     voucher, created = Voucher.get_or_create(
         code='DISCOUNT', **defaults)
     if created:
-        yield 'Voucher #%d' % voucher.id
+        yield f'Voucher #{voucher.id}'
     else:
         yield 'Value voucher already exists'
 
