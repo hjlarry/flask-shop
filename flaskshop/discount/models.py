@@ -1,6 +1,5 @@
 from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
 
-
 sale_categories = db.Table(
     "discount_sale_categories",
     Column("id", db.Integer(), primary_key=True, autoincrement=True),
@@ -36,7 +35,6 @@ sale_products = db.Table(
 )
 
 
-
 class Voucher(SurrogatePK, Model):
     __tablename__ = 'discount_voucher'
     type = Column(db.String(20))
@@ -54,6 +52,9 @@ class Voucher(SurrogatePK, Model):
     product_id = reference_col('product_product')
     product = relationship('Product', backref="discounts")
 
+    def __str__(self):
+        return self.title
+
 
 class Sale(SurrogatePK, Model):
     __tablename__ = 'discount_sale'
@@ -66,4 +67,3 @@ class Sale(SurrogatePK, Model):
 
     def __str__(self):
         return self.title
-

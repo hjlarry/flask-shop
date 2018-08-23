@@ -5,23 +5,18 @@ from flask_admin import form, actions
 from flask_login import current_user
 from jinja2 import Markup
 from wtforms.fields import (
-    IntegerField,
-    BooleanField,
-    DecimalField,
     PasswordField,
-    TextField,
     SelectField,
 )
 from wtforms.validators import Email, DataRequired
 
 from flaskshop.extensions import admin_manager, db, csrf_protect
 from flaskshop.constant import *
-from flaskshop.settings import Config
-from flaskshop.product.models import Product
+from flaskshop.product.models import Product, ProductImage, ProductVariant
 from flaskshop.order.models import Order, OrderLine, OrderPayment
 from flaskshop.account.models import User
 from flaskshop.checkout.models import CouponCode
-from .utils import MultipleImageUploadField, CKTextAreaField
+from .utils import CKTextAreaField
 
 blueprint = Blueprint("admin_pannel", __name__, url_prefix="/admin")
 
@@ -67,25 +62,17 @@ class ProductView(CustomView):
         "review_count",
         "price",
     )
+    product_image_options = {
+        "form_excluded_columns": ("created_at",),
+    }
+    product_variant_options = {
+        "form_excluded_columns": ("created_at", "quantity_allocated"),
+    }
+    inline_models = [(ProductImage, product_image_options), (ProductVariant, product_variant_options)]
     column_editable_list = ('title', 'rating')
     column_filters = ('id', 'title')
-    product_sku_options = {
-        "form_excluded_columns": ("created_at",),
-        "form_overrides": dict(description=TextField),
-    }
-    # inline_models = [(ProductSku, product_sku_options)]
-    extra_js = ["//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"]
-    form_excluded_columns = ("liked_users",)
-    form_extra_fields = {
-        "image": MultipleImageUploadField('Image', base_path=Config.STATIC_DIR, thumbnail_size=(200, 100, True),
-                                          relative_path='images/'),
-        "on_sale": BooleanField(),
-        "sold_count": IntegerField(),
-        "review_count": IntegerField(),
-        "rating": DecimalField(),
-        "price": DecimalField(),
 
-    }
+    extra_js = ["//cdn.ckeditor.com/4.6.0/standard/ckeditor.js"]
     form_overrides = {"description": CKTextAreaField}
 
     def __init__(self):

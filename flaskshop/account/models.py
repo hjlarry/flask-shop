@@ -31,9 +31,9 @@ class User(SurrogatePK, Model, UserMixin):
     nick_name = Column(db.String(255))
     active = Column(db.Boolean(), default=False)
     is_admin = Column(db.Boolean(), default=False)
-    favor_products = relationship(
-        "Product", secondary=user_favorite_product, backref="liked_users", lazy='dynamic'
-    )
+    # favor_products = relationship(
+    #     "Product", secondary=user_favorite_product, backref="liked_users", lazy='dynamic'
+    # )
     orders = relationship('Order', backref="user", lazy='dynamic')
     open_id = Column(db.String(80), index=True)
     session_key = Column(db.String(80), index=True)

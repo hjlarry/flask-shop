@@ -56,3 +56,10 @@
     display: inline-flex;
     flex-direction: row-reverse;
 }
+
+.inline-field {
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    padding: .375rem .75rem;
+    margin: .375rem 0;
+}
