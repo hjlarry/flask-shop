@@ -6,6 +6,31 @@ from wtforms.fields import TextAreaField
 from flask_admin.helpers import get_url
 from flask_admin.form.upload import ImageUploadField
 from flask_admin._compat import string_types, urljoin
+from flask_admin.contrib.sqla import ModelView
+from flask_login import current_user
+from flask import flash, redirect, url_for, request
+
+
+class CustomView(ModelView):
+    list_template = "admin/list.html"
+    create_template = "admin/create.html"
+    edit_template = "admin/edit.html"
+    can_delete = True
+    can_export = True
+    can_set_page_size = True
+
+    form_widget_args = {"created_at": {"disabled": True}}
+
+    def is_accessible(self):
+        if current_user.is_authenticated and not current_user.is_admin:
+            flash('This is not an administrator', 'warning')
+            return False
+        if current_user.is_admin:
+            return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('public.login', next=request.url))
 
 
 class MultipleImageUploadInput(object):

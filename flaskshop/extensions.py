@@ -13,7 +13,6 @@ from flask_admin import Admin, AdminIndexView
 from flask_bootstrap import Bootstrap
 import flask_whooshalchemyplus
 
-
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
 login_manager = LoginManager()
@@ -45,5 +44,11 @@ class CustomAdminIndexView(AdminIndexView):
 admin_manager = Admin(
     index_view=CustomAdminIndexView(),
     base_template='admin/layout.html',
-    template_mode='bootstrap3'
+    template_mode='bootstrap3',
+    category_icon_classes={
+        'product': 'fa fa-home nav-icon',
+        'order': 'fa fa-home nav-icon',
+        'user': 'fa fa-home nav-icon',
+        'site': 'fa fa-home nav-icon',
+    }
 )
