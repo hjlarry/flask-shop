@@ -46,9 +46,10 @@ admin_manager = Admin(
     base_template='admin/layout.html',
     template_mode='bootstrap3',
     category_icon_classes={
-        'product': 'fa fa-home nav-icon',
-        'order': 'fa fa-home nav-icon',
-        'user': 'fa fa-home nav-icon',
-        'site': 'fa fa-home nav-icon',
+        'product': 'fa fa-bandcamp nav-icon',
+        'order': 'fa fa-cart-arrow-down nav-icon',
+        'user': 'fa fa-user nav-icon',
+        'promotion': 'fa fa-gratipay nav-icon',
+        'config': 'fa fa-cog nav-icon',
     }
 )

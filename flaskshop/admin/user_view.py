@@ -1,7 +1,7 @@
 from wtforms.fields import PasswordField
 from wtforms.validators import Email, DataRequired
 
-from flaskshop.account.models import User
+from flaskshop.account.models import User, UserAddress
 from flaskshop.extensions import db
 from .utils import CustomView
 
@@ -22,10 +22,23 @@ class UserView(CustomView):
         super().__init__(
             User,
             db.session,
+            name="User List",
+            category="user",
             endpoint="user_admin",
-            menu_icon_value="fa-user nav-icon",
+            menu_icon_value="nav-icon",
         )
 
     def on_model_change(self, form, User, is_created):
         if form.this_password.data:
             User.set_password(form.this_password.data)
+
+
+class UserAddressView(CustomView):
+    def __init__(self):
+        super().__init__(
+            UserAddress,
+            db.session,
+            category="user",
+            endpoint="user_address_admin",
+            menu_icon_value="nav-icon",
+        )

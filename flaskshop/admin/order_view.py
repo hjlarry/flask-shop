@@ -1,7 +1,7 @@
 from wtforms.fields import SelectField
 from jinja2 import Markup
 
-from flaskshop.order.models import Order, OrderLine
+from flaskshop.order.models import Order, OrderLine, OrderPayment
 from flaskshop.constant import *
 from flaskshop.extensions import db
 from .utils import CustomView
@@ -35,11 +35,35 @@ class OrderView(CustomView):
         super().__init__(
             Order,
             db.session,
+            name="Order List",
+            category="order",
             endpoint="order_admin",
-            menu_icon_value="fa-cart-arrow-down nav-icon",
+            menu_icon_value="nav-icon",
         )
 
     def _format_price(view, context, model, name):
         return Markup("￥{}".format(model.total_amount))
 
     column_formatters = {"total_amount": _format_price}
+
+
+class OrderLineView(CustomView):
+    def __init__(self):
+        super().__init__(
+            OrderLine,
+            db.session,
+            category="order",
+            endpoint="order_line_admin",
+            menu_icon_value="nav-icon",
+        )
+
+
+class OrderPaymentView(CustomView):
+    def __init__(self):
+        super().__init__(
+            OrderPayment,
+            db.session,
+            category="order",
+            endpoint="order_payment_admin",
+            menu_icon_value="nav-icon",
+        )

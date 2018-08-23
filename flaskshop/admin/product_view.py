@@ -4,7 +4,7 @@ from jinja2 import Markup
 from flask_admin import form, actions
 
 from flaskshop.extensions import db
-from flaskshop.product.models import Product, ProductImage, ProductVariant
+from flaskshop.product.models import Product, ProductImage, ProductVariant, Category, Collection
 from .utils import CustomView, CKTextAreaField
 
 
@@ -40,9 +40,10 @@ class ProductView(CustomView):
         super().__init__(
             Product,
             db.session,
+            name="Product List",
             category="product",
             endpoint="product_admin",
-            menu_icon_value="fa-bandcamp nav-icon",
+            menu_icon_value="nav-icon",
         )
 
     def _format_price(view, context, model, name):
@@ -78,5 +79,38 @@ class ProductImageView(CustomView):
             db.session,
             category="product",
             endpoint="product_image_admin",
-            menu_icon_value="fa-bandcamp nav-icon",
+            menu_icon_value="nav-icon",
+        )
+
+
+class ProductVariantView(CustomView):
+    def __init__(self):
+        super().__init__(
+            ProductVariant,
+            db.session,
+            category="product",
+            endpoint="product_variant_admin",
+            menu_icon_value="nav-icon",
+        )
+
+
+class ProductCategoryView(CustomView):
+    def __init__(self):
+        super().__init__(
+            Category,
+            db.session,
+            category="product",
+            endpoint="product_category_admin",
+            menu_icon_value="nav-icon",
+        )
+
+
+class ProductCollectionView(CustomView):
+    def __init__(self):
+        super().__init__(
+            Collection,
+            db.session,
+            category="product",
+            endpoint="product_collection_admin",
+            menu_icon_value="nav-icon",
         )
