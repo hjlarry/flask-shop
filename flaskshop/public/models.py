@@ -24,6 +24,9 @@ class Menu(SurrogatePK, Model):
     __tablename__ = "menu_menu"
     title = Column(db.String(255), nullable=False)
 
+    def __str__(self):
+        return self.title
+
 
 class MenuItem(SurrogatePK, Model):
     __tablename__ = "menu_menuitem"
@@ -67,3 +70,6 @@ class Page(SurrogatePK, Model):
 
     def get_absolute_url(self):
         return url_for('public.show_page', id=self.id)
+
+    def __str__(self):
+        return self.title

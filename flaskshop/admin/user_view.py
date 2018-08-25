@@ -10,10 +10,10 @@ class UserView(CustomView):
     column_list = ("id", "username", "email", "active", "is_admin")
     form_excluded_columns = (
         "orders",
-        "favor_products",
         "addresses",
-        "cart_items",
-        "password",
+        "cart",
+        "open_id",
+        "session_key"
     )
     form_args = dict(email=dict(validators=[Email(), DataRequired()]))
     form_extra_fields = {"this_password": PasswordField("Password")}
