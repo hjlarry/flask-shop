@@ -38,7 +38,7 @@ class CustomAdminIndexView(AdminIndexView):
         return False
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('public.login', next=request.url))
+        return redirect(url_for('account.login', next=request.url))
 
 
 admin_manager = Admin(
