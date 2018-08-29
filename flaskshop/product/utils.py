@@ -91,10 +91,7 @@ def get_product_list_context(request, products):
     for attr in attr_filter:
         value = request.args.get(attr.title)
         if value:
-            # the query_str is like: "3": "10"
-            # the Product._attributes is like: {"3": "10", "4": "20"}
-            query_str = f'"{attr.id}": "{value}"'
-            products = products.filter(Product._attributes.contains(query_str))
+            products = products.filter(Product.attributes.__getitem__(str(attr.id)) == value)
             args_dict['default_attr'].update({attr.title: int(value)})
     args_dict.update(attr_filter=attr_filter)
 
