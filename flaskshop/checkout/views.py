@@ -1,7 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from flask_login import current_user, login_required
-from werkzeug.wrappers import Response
-import json
 
 from .models import CartLine
 from .forms import ShippingMethodForm
@@ -48,7 +46,7 @@ def update_cartline(id):
     response['cart']['numLines'] = len(current_user.cart)
     response['subtotal'] = '$' + str(line.subtotal)
     response['total'] = '$' + str(current_user.cart.total)
-    return Response(json.dumps(response), mimetype='application/json')
+    return jsonify(response)
 
 
 # @blueprint.route('/coupon/<code>', methods=['POST'])

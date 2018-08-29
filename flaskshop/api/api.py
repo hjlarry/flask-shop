@@ -1,4 +1,4 @@
-from flask import Blueprint, request, Response
+from flask import Blueprint, request
 from flask_restplus import Api
 from flaskshop.extensions import csrf_protect
 
@@ -22,7 +22,7 @@ def verify_user(response):
         data = verify_token(request.headers['Authorization'])
         if data:
             return response
-    return Response(status=401)
+    return '', 401
 
 
 api = Api(blueprint, version="1.0", title="Saleor API", description="A simple API")
