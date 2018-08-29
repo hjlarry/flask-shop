@@ -75,3 +75,6 @@ class UserAddress(SurrogatePK, Model):
     @property
     def full_address(self):
         return f"{self.province}{self.city}{self.district}{self.address}"
+
+    def __str__(self):
+        return self.full_address
