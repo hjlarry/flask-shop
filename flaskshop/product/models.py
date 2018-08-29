@@ -1,6 +1,4 @@
-import json
 from flask import url_for
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.mutable import MutableDict
 
 from flaskshop.database import (

@@ -32,7 +32,7 @@ def get_attributes_display_map(obj, attributes):
     """
     display_map = {}
     for attribute in attributes:
-        value = obj.attributes.get(attribute.id)
+        value = obj.attributes.get(str(attribute.id))
         if value:
             choices = {a.id: a for a in attribute.values}
             choice_obj = choices.get(int(value))
