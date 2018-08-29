@@ -1,6 +1,7 @@
 import json
 from flask import url_for
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.ext.mutable import MutableDict
 
 from flaskshop.database import (
     Column,
@@ -27,29 +28,10 @@ class Product(SurrogatePK, Model):
     is_featured = Column(db.Boolean(), default=False)
     product_type_id = reference_col("product_producttype")
     product_type = relationship("ProductType", backref="products")
-    _attributes = Column("attributes", db.Text())
+    attributes = Column(MutableDict.as_mutable(db.JSON()))
 
     def __str__(self):
         return self.title
-
-    @hybrid_property
-    def attributes(self):
-        if self._attributes:
-            return {int(k): v for k, v in json.loads(self._attributes).items()}
-        else:
-            return dict()
-
-    @attributes.setter
-    def attributes(self, value):
-        if isinstance(value, dict):
-            if self._attributes:
-                old_attr = json.loads(self._attributes)
-                old_attr.update(value)
-                self._attributes = json.dumps(old_attr)
-            else:
-                self._attributes = json.dumps(value)
-        else:
-            raise Exception("Must set a dict for product attribute")
 
     def get_absolute_url(self):
         return url_for("product.show", id=self.id)
@@ -153,7 +135,7 @@ class ProductVariant(SurrogatePK, Model):
     quantity_allocated = Column(db.Integer(), default=0)
     product_id = reference_col("product_product")
     product = relationship("Product", backref="variant")
-    _attributes = Column("attributes", db.String(255))
+    attributes = Column(MutableDict.as_mutable(db.JSON()))
 
     def __str__(self):
         return self.title or self.sku
@@ -164,25 +146,6 @@ class ProductVariant(SurrogatePK, Model):
     @property
     def is_shipping_required(self):
         return self.product.product_type.is_shipping_required
-
-    @hybrid_property
-    def attributes(self):
-        if self._attributes:
-            return {int(k): v for k, v in json.loads(self._attributes).items()}
-        else:
-            return dict()
-
-    @attributes.setter
-    def attributes(self, value):
-        if isinstance(value, dict):
-            if self._attributes:
-                old_attr = json.loads(self._attributes)
-                old_attr.update(value)
-                self._attributes = json.dumps(old_attr)
-            else:
-                self._attributes = json.dumps(value)
-        else:
-            raise Exception("Must set a dict for product attribute")
 
     @property
     def quantity_available(self):
