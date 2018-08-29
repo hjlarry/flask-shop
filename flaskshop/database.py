@@ -51,7 +51,7 @@ class SurrogatePK(object):
     __table_args__ = {"extend_existing": True}
 
     id = Column(db.Integer(), primary_key=True)
-    created_at = Column(db.DateTime(), default=datetime.datetime.utcnow)
+    created_at = Column(db.DateTime(), default=datetime.datetime.utcnow, index=True)
 
     def __init__(self, **kwargs):
         db.Model.__init__(self, **kwargs)
