@@ -27,7 +27,7 @@ def cart_index():
     return render_template('checkout/cart.html', cart_lines=cart_lines)
 
 
-@blueprint.route('/update_cart/<id>', methods=['POST'])
+@blueprint.route('/update_cart/<int:id>', methods=['POST'])
 def update_cartline(id):
     line = CartLine.get_by_id(id)
     response = {

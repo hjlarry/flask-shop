@@ -18,7 +18,7 @@ def index():
     return redirect(url_for('account.index'))
 
 
-@blueprint.route("/<token>")
+@blueprint.route("/<string:token>")
 @login_required
 def show(token):
     """Show an order."""
@@ -28,7 +28,7 @@ def show(token):
     return render_template("orders/details.html", order=order)
 
 
-@blueprint.route("/pay/<token>/alipay")
+@blueprint.route("/pay/<string:token>/alipay")
 @login_required
 def ali_pay(token):
     order = Order.query.filter_by(token=token).first()
@@ -58,7 +58,7 @@ def payment_success():
     return render_template("orders/checkout_success.html")
 
 
-@blueprint.route("/<id>/refund", methods=["POST"])
+@blueprint.route("/<int:id>/refund", methods=["POST"])
 @login_required
 def request_refund(id):
     order = Order.get_by_id(id)
@@ -73,7 +73,7 @@ def request_refund(id):
     return '', 200
 
 
-@blueprint.route("/<id>/received", methods=["POST"])
+@blueprint.route("/<int:id>/received", methods=["POST"])
 @login_required
 def received(id):
     order = Order.get_by_id(id)

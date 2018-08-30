@@ -34,7 +34,7 @@ def search():
     return render_template("public/search_result.html", products=products, query=query)
 
 
-@blueprint.route("/page/<id>")
+@blueprint.route("/page/<int:id>")
 def show_page(id):
     page = Page.get_by_id(id)
     return render_template("public/page.html", page=page)

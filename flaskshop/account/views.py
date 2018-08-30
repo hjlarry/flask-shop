@@ -113,7 +113,7 @@ def edit_address():
     return render_template("users/address_edit.html", form=form, user_address=user_address, province_city=province_city)
 
 
-@blueprint.route("/address/<id>", methods=["DELETE"])
+@blueprint.route("/address/<int:id>", methods=["DELETE"])
 def delete_address(id):
     user_address = UserAddress.get_by_id(id)
     if user_address in current_user.addresses:
