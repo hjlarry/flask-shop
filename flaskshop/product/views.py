@@ -10,7 +10,7 @@ from .utils import get_product_attributes_data, get_product_list_context, add_to
 blueprint = Blueprint("product", __name__, url_prefix="/products")
 
 
-@blueprint.route("/<id>")
+@blueprint.route("/<int:id>")
 def show(id, form=None):
     product = Product.get_by_id(id)
     if not form:
@@ -19,7 +19,7 @@ def show(id, form=None):
     return render_template("products/details.html", product=product, form=form, product_attributes=product_attributes)
 
 
-@blueprint.route("/<id>/add", methods=['POST'])
+@blueprint.route("/<int:id>/add", methods=['POST'])
 @login_required
 def product_add_to_cart(id):
     """ this method return to the show method and use a form instance for display validater errors"""
@@ -31,7 +31,7 @@ def product_add_to_cart(id):
     return show(id, form=form)
 
 
-@blueprint.route("/category/<id>")
+@blueprint.route("/category/<int:id>")
 def show_category(id):
     page = request.args.get("page", 1, type=int)
     category = Category.get_by_id(id)
@@ -46,7 +46,7 @@ def show_category(id):
     return render_template("category/index.html", **ctx)
 
 
-@blueprint.route("/collection/<id>")
+@blueprint.route("/collection/<int:id>")
 def show_collection(id):
     page = request.args.get("page", 1, type=int)
     collection = Collection.get_by_id(id)

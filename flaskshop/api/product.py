@@ -45,7 +45,7 @@ class ProductList(Resource):
         return products
 
 
-@api.route('/<id>')
+@api.route('/<int:id>')
 @api.param('id', 'The product identifier')
 @api.response(404, 'Product not found')
 class ProductDetail(Resource):

@@ -1,9 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, current_app, url_for, abort
 from flask_login import login_required, current_user
-from werkzeug.wrappers import Response
-from sqlalchemy import desc
-import uuid
-import json
 import time
 
 from .models import Order, OrderLine, OrderNote, OrderPayment
@@ -22,7 +18,7 @@ def index():
     return redirect(url_for('account.index'))
 
 
-@blueprint.route("/<token>")
+@blueprint.route("/<string:token>")
 @login_required
 def show(token):
     """Show an order."""
@@ -32,7 +28,7 @@ def show(token):
     return render_template("orders/details.html", order=order)
 
 
-@blueprint.route("/pay/<token>/alipay")
+@blueprint.route("/pay/<string:token>/alipay")
 @login_required
 def ali_pay(token):
     order = Order.query.filter_by(token=token).first()
@@ -53,7 +49,7 @@ def ali_notify():
     if success:
         order_payment = OrderPayment.query.filter_by(payment_no=data["out_trade_no"]).first()
         order_payment.update(paid_at=data["gmt_payment"], status=PAYMENT_STATUS_CONFIRMED)
-    return Response(status=200)
+    return '', 200
 
 
 @blueprint.route("/payment_success")
@@ -62,28 +58,28 @@ def payment_success():
     return render_template("orders/checkout_success.html")
 
 
-@blueprint.route("/<id>/refund", methods=["POST"])
+@blueprint.route("/<int:id>/refund", methods=["POST"])
 @login_required
 def request_refund(id):
     order = Order.get_by_id(id)
     try:
         order.can_refund()
     except Exception as e:
-        return Response(e.args, status=422)
+        return e.args, 422
     reason = request.get_json()["reason"]
     extra = order.extra if order.extra else dict()
     extra["refund_reason"] = reason
     order.update(refund_status=REFUND_STATUS_APPLIED, extra=extra)
-    return Response(status=200)
+    return '', 200
 
 
-@blueprint.route("/<id>/received", methods=["POST"])
+@blueprint.route("/<int:id>/received", methods=["POST"])
 @login_required
 def received(id):
     order = Order.get_by_id(id)
     try:
         order.can_review()
     except Exception as e:
-        return Response(e.args, status=422)
+        return e.args, 422
     order.update(ship_status=SHIP_STATUS_RECEIVED)
-    return Response(status=200)
+    return '', 200
