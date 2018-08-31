@@ -56,7 +56,7 @@ class Category(SurrogatePK, Model):
     title = Column(db.String(255), nullable=False)
     parent_id = reference_col("product_category")
     background_img = Column(db.String(255))
-    products = relationship("Product", lazy="dynamic")
+    products = relationship("Product")
 
     def __str__(self):
         return self.title
@@ -111,13 +111,11 @@ class ProductType(SurrogatePK, Model):
         "ProductAttribute",
         secondary=product_type_product_attrbuites,
         backref="product_types",
-        lazy="dynamic",
     )
     variant_attributes = relationship(
         "ProductAttribute",
         secondary=product_type_variant_attrbuites,
         backref="variant_types",
-        lazy="dynamic",
     )
 
     def __str__(self):
@@ -226,7 +224,7 @@ class Collection(SurrogatePK, Model):
     __tablename__ = "product_collection"
     title = Column(db.String(255), nullable=False)
     background_img = Column(db.String(255))
-    products = relationship("Product", secondary=product_collection, lazy="dynamic")
+    products = relationship("Product", secondary=product_collection)
 
     def __str__(self):
         return self.title

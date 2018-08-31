@@ -35,10 +35,10 @@ def product_add_to_cart(id):
 def show_category(id):
     page = request.args.get("page", 1, type=int)
     category = Category.get_by_id(id)
-    items = category.products
+    items = Product.query.with_parent(category)
     if category.children:
-        for child in category.children:
-            items.extend(child.products)
+        sub_queries = [Product.query.with_parent(child) for child in category.children]
+        items = sub_queries[0].union(*sub_queries[1:])
     ctx, items = get_product_list_context(request, items)
     pagination = items.paginate(page, per_page=16)
     products = pagination.items
@@ -50,7 +50,7 @@ def show_category(id):
 def show_collection(id):
     page = request.args.get("page", 1, type=int)
     collection = Collection.get_by_id(id)
-    items = collection.products
+    items = Product.query.with_parent(collection)
     ctx, items = get_product_list_context(request, items)
     pagination = items.paginate(page, per_page=16)
     products = pagination.items

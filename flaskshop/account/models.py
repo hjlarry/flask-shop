@@ -34,7 +34,7 @@ class User(SurrogatePK, Model, UserMixin):
     # favor_products = relationship(
     #     "Product", secondary=user_favorite_product, backref="liked_users", lazy='dynamic'
     # )
-    orders = relationship('Order', backref="user", lazy='dynamic')
+    orders = relationship('Order', backref="user")
     open_id = Column(db.String(80), index=True)
     session_key = Column(db.String(80), index=True)
 

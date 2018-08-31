@@ -62,7 +62,7 @@ class Sale(SurrogatePK, Model):
     title = Column(db.String(255))
     value = Column(db.DECIMAL(10, 2))
     products = relationship(
-        "Product", secondary=sale_products, backref="sales", lazy='dynamic'
+        "Product", secondary=sale_products, backref="sales",
     )
 
     def __str__(self):
