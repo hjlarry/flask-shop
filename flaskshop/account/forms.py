@@ -12,7 +12,15 @@ class RegisterForm(FlaskForm):
     """Register form."""
 
     username = StringField(
-        "Username", validators=[DataRequired(), Length(min=3, max=25)]
+        "Username",
+        validators=[
+            DataRequired(),
+            Length(min=3, max=25),
+            Regexp(
+                "^[a-zA-Z0-9]*$",
+                message="The username should contain only a-z, A-Z and 0-9.",
+            ),
+        ],
     )
     email = StringField(
         "Email", validators=[DataRequired(), Email(), Length(min=6, max=40)]
@@ -63,7 +71,7 @@ class LoginForm(FlaskForm):
         if not initial_validation:
             return False
 
-        if '@' in self.username.data:
+        if "@" in self.username.data:
             self.user = User.query.filter_by(email=self.username.data).first()
         else:
             self.user = User.query.filter_by(username=self.username.data).first()
@@ -84,8 +92,13 @@ class LoginForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     old_password = PasswordField("Old Password", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
-    confirm = PasswordField("Verify password",
-                            validators=[DataRequired(), EqualTo("password", message="Passwords must match")])
+    confirm = PasswordField(
+        "Verify password",
+        validators=[
+            DataRequired(),
+            EqualTo("password", message="Passwords must match"),
+        ],
+    )
 
     def __init__(self, *args, **kwargs):
         """Create instance."""
@@ -113,7 +126,9 @@ class AddressForm(FlaskForm):
     district = StringField("District", validators=[DataRequired()])
     address = StringField("Address", validators=[DataRequired()])
     contact_name = StringField("Contact name", validators=[DataRequired()])
-    contact_phone = StringField("Contact Phone", validators=[DataRequired(), Length(min=11, max=11)])
+    contact_phone = StringField(
+        "Contact Phone", validators=[DataRequired(), Length(min=11, max=11)]
+    )
 
     def __init__(self, *args, **kwargs):
         """Create instance."""
