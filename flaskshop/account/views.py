@@ -40,7 +40,7 @@ def signup():
     if form.validate_on_submit():
         user = User.create(
             username=form.username.data,
-            email=form.email.data,
+            email=form.email.data.lower(),
             password=form.password.data,
             active=True,
         )
