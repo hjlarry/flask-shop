@@ -49,7 +49,7 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     """Login form."""
 
-    username = StringField("Username", validators=[DataRequired()])
+    username = StringField("Username Or Email", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
@@ -63,7 +63,10 @@ class LoginForm(FlaskForm):
         if not initial_validation:
             return False
 
-        self.user = User.query.filter_by(username=self.username.data).first()
+        if '@' in self.username.data:
+            self.user = User.query.filter_by(email=self.username.data).first()
+        else:
+            self.user = User.query.filter_by(username=self.username.data).first()
         if not self.user:
             self.username.errors.append("Unknown username")
             return False
