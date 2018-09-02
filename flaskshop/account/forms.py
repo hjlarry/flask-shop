@@ -3,7 +3,7 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
 from wtforms import PasswordField, StringField
-from wtforms.validators import DataRequired, Email, EqualTo, Length
+from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp
 
 from .models import User
 
