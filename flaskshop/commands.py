@@ -20,21 +20,18 @@ from flaskshop.random_data import (
     create_admin,
     create_orders,
     create_product_sales,
-    create_vouchers
+    create_vouchers,
 )
 
 HERE = Path(__file__).resolve()
 PROJECT_ROOT = HERE.parent
-TEST_PATH = PROJECT_ROOT / "tests"
+TEST_PATH =  "tests"
 
 
 @click.command()
 def test():
     """Run the tests."""
-    import pytest
-
-    rv = pytest.main([TEST_PATH, "--verbose"])
-    exit(rv)
+    print(call(f"pytest {TEST_PATH}", shell=True))
 
 
 @click.command()
@@ -49,7 +46,9 @@ def lint(fix_imports):
     """Lint and check code style with flake8 and isort."""
     skip = ["node_modules", "requirements"]
     root_files = Path(PROJECT_ROOT).glob("*.py")
-    root_directories = (file for file in Path(PROJECT_ROOT).iterdir() if not file.name.startswith("."))
+    root_directories = (
+        file for file in Path(PROJECT_ROOT).iterdir() if not file.name.startswith(".")
+    )
 
     files_and_directories = [
         arg.name for arg in chain(root_files, root_directories) if arg.name not in skip
@@ -74,7 +73,9 @@ def clean():
 
     Borrowed from Flask-Script, converted to use Click.
     """
-    for file in chain(Path(PROJECT_ROOT).glob("**/*.pyc"), Path(PROJECT_ROOT).glob("**/*.pyo")):
+    for file in chain(
+        Path(PROJECT_ROOT).glob("**/*.pyc"), Path(PROJECT_ROOT).glob("**/*.pyo")
+    ):
         click.echo(f"Removing {file}")
         file.unlink()
 
@@ -149,9 +150,18 @@ def seed(type):
         create_products_by_schema(
             placeholder_dir=place_holder, how_many=10, create_images=True
         )
-        create_generator = chain(create_collections_by_schema(place_holder), create_users(), create_addresses(),
-                                 create_page(), create_menus(), create_shipping_methods(), create_orders(),
-                                 create_product_sales(), create_vouchers(), create_admin())
+        create_generator = chain(
+            create_collections_by_schema(place_holder),
+            create_users(),
+            create_addresses(),
+            create_page(),
+            create_menus(),
+            create_shipping_methods(),
+            create_orders(),
+            create_product_sales(),
+            create_vouchers(),
+            create_admin(),
+        )
         for msg in create_generator:
             click.echo(msg)
     else:
@@ -162,7 +172,7 @@ def seed(type):
             "ship": create_shipping_methods,
             "order": create_orders,
             "sale": create_product_sales,
-            "voucher": create_vouchers
+            "voucher": create_vouchers,
         }
         fn = create_dict[type]
         for msg in fn():
