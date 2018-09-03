@@ -8,7 +8,7 @@ import pytest
 
 from flaskshop.account.models import User
 from flaskshop.account.utils import validate_possible_number, ValidationError
-from .factories import UserFactory
+from tests.factories import UserFactory
 
 
 class TestLoggingIn:

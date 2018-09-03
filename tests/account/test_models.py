@@ -6,7 +6,7 @@ import pytest
 
 from flaskshop.account.models import User
 
-from .factories import UserFactory
+from tests.factories import UserFactory
 
 
 @pytest.mark.usefixtures('db')
