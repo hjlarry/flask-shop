@@ -4,9 +4,10 @@
 See: http://webtest.readthedocs.org/
 """
 from flask import url_for
+import pytest
 
 from flaskshop.account.models import User
-
+from flaskshop.account.utils import validate_possible_number, ValidationError
 from .factories import UserFactory
 
 
@@ -19,7 +20,6 @@ class TestLoggingIn:
 
         res = testapp.get(url_for('account.login'))
         # Fills out login form in navbar
-        print(res.forms)
         form = res.forms['loginForm']
 
         form['username'] = user.username
@@ -36,7 +36,7 @@ class TestLoggingIn:
         form['username'] = user.username
         form['password'] = 'myprecious'
         # Submits
-        res = form.submit().follow()
+        form.submit().follow()
         res = testapp.get(url_for('account.logout')).follow()
         # sees alert
         assert 'You are logged out.' in res
@@ -119,3 +119,18 @@ class TestRegistering:
         res = form.submit()
         # sees error
         assert 'Username already registered' in res
+
+
+@pytest.mark.parametrize("input,exception", [
+    ('123', ValidationError),
+    ('+48123456789', None),
+    ('+12025550169', None),
+    ('+481234567890', ValidationError),
+    ('testext', ValidationError),
+])
+def test_validate_possible_number(input, exception):
+    if exception is not None:
+        with pytest.raises(exception):
+            validate_possible_number(input)
+    else:
+        validate_possible_number(input)

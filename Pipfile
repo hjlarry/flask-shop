@@ -1,17 +1,12 @@
 [[source]]
-
 url = "http://pypi.douban.com/simple"
 verify_ssl = false
 name = "pypi"
 
-
 [global]
-
 trusted-host = "files.pythonhosted.org"
 
-
 [packages]
-
 flask = "==1.0.2"
 "jinja2" = "==2.10"
 itsdangerous = "==0.24"
@@ -52,12 +47,10 @@ flask-restplus = "*"
 requests = "*"
 flask-whooshalchemyplus = "*"
 python-dotenv = "*"
-
+phonenumbers = "*"
+phonenumberslite = "*"
 
 [dev-packages]
 
-
-
 [requires]
-
 python_version = "3.6"
