@@ -134,3 +134,15 @@ def test_validate_possible_number(input, exception):
             validate_possible_number(input)
     else:
         validate_possible_number(input)
+
+
+@pytest.mark.usefixtures('db')
+def test_order_with_lines_pagination(testapp):
+    data = {'page': '1'}
+    response = testapp.get(url_for('account.index', **data))
+    assert response.status_code == 200
+
+    data = {'page': '2'}
+    response = testapp.get(url_for('account.index', **data))
+    print(url_for('account.index', **data))
+    assert response.status_code == 200
