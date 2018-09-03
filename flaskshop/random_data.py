@@ -365,7 +365,8 @@ def create_menus():
             )
 
         page = Page.query.first()
-        MenuItem.get_or_create(title=page.title, page=page, menu=bottom_menu)
+        if page:
+            MenuItem.get_or_create(title=page.title, page=page, menu=bottom_menu)
         yield "Created footer menu"
     site = Site.query.first()
     if not site:

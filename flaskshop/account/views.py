@@ -24,7 +24,7 @@ def login():
     return render_template("account/login.html", form=form)
 
 
-@blueprint.route("/logout/")
+@blueprint.route("/logout")
 @login_required
 def logout():
     """Logout."""
@@ -33,7 +33,7 @@ def logout():
     return redirect(url_for("public.home"))
 
 
-@blueprint.route("/signup/", methods=["GET", "POST"])
+@blueprint.route("/signup", methods=["GET", "POST"])
 def signup():
     """Register new user."""
     form = RegisterForm(request.form)

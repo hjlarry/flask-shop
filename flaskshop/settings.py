@@ -58,3 +58,4 @@ class TestConfig(Config):
         4
     )  # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
     WTF_CSRF_ENABLED = False  # Allows form testing
+    PRESERVE_CONTEXT_ON_EXCEPTION = False

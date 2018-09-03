@@ -7,6 +7,8 @@ from webtest import TestApp
 from flaskshop.app import create_app
 from flaskshop.database import db as _db
 from flaskshop.settings import TestConfig
+from flaskshop.random_data import create_menus
+from flaskshop.utils import jinja_global_varibles
 
 from .factories import UserFactory
 
@@ -15,6 +17,7 @@ from .factories import UserFactory
 def app():
     """An application for the tests."""
     _app = create_app(TestConfig)
+    jinja_global_varibles(_app)
     ctx = _app.test_request_context()
     ctx.push()
 
@@ -35,6 +38,8 @@ def db(app):
     _db.app = app
     with app.app_context():
         _db.create_all()
+        for msg in create_menus():
+            print(msg)
 
     yield _db
 

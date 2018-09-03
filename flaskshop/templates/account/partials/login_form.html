@@ -1,5 +1,5 @@
 {% from 'bootstrap/form.html' import render_field %}
-<form method="post" action="" novalidate>
+<form method="post" action="" id="loginForm" novalidate>
   <fieldset>
     {{ form.csrf_token }}
     {{ render_field(form.username) }}
