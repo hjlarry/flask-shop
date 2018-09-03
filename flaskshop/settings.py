@@ -26,6 +26,7 @@ class Config(object):
     SQLALCHEMY_RECORD_QUERIES = True
     WHOOSH_BASE = APP_DIR / 'whoosh'
     WEBPACK_MANIFEST_PATH = "webpack/manifest.json"
+    CACHE_TYPE = "simple"
 
 
 class ProdConfig(Config):
@@ -42,10 +43,9 @@ class DevConfig(Config):
 
     ENV = "dev"
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/test"
+    SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/flaskshop"
     PURCHASE_URI = "https://openapi.alipaydev.com/gateway.do?"
     DEBUG_TB_ENABLED = True
-    CACHE_TYPE = "simple"  # Can be "memcached", "redis", etc.
 
 
 class TestConfig(Config):
@@ -53,7 +53,7 @@ class TestConfig(Config):
 
     TESTING = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
+    SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/test"
     BCRYPT_LOG_ROUNDS = (
         4
     )  # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
