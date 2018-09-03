@@ -15,7 +15,7 @@ class TestUser:
 
     def test_get_by_id(self):
         """Get user by ID."""
-        user = User('foo', 'foo@bar.com')
+        user = User('foo', 'foo@bar.com', '123')
         user.save()
 
         retrieved = User.get_by_id(user.id)
@@ -23,16 +23,10 @@ class TestUser:
 
     def test_created_at_defaults_to_datetime(self):
         """Test creation date."""
-        user = User(username='foo', email='foo@bar.com')
+        user = User(username='foo', email='foo@bar.com', password='123')
         user.save()
         assert bool(user.created_at)
         assert isinstance(user.created_at, dt.datetime)
-
-    def test_password_is_nullable(self):
-        """Test null password."""
-        user = User(username='foo', email='foo@bar.com')
-        user.save()
-        assert user.password is None
 
     def test_factory(self, db):
         """Test user factory."""
@@ -51,9 +45,3 @@ class TestUser:
                            password='foobarbaz123')
         assert user.check_password('foobarbaz123') is True
         assert user.check_password('barfoobaz') is False
-
-    def test_full_name(self):
-        """User full name."""
-        user = UserFactory(first_name='Foo', last_name='Bar')
-        assert user.full_name == 'Foo Bar'
-

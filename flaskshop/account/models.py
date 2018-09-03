@@ -38,7 +38,7 @@ class User(SurrogatePK, Model, UserMixin):
     open_id = Column(db.String(80), index=True)
     session_key = Column(db.String(80), index=True)
 
-    def __init__(self, username, email, password=None, **kwargs):
+    def __init__(self, username, email, password, **kwargs):
         super().__init__(username=username, email=email, password=password, **kwargs)
 
     def __str__(self):
