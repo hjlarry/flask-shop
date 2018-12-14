@@ -24,7 +24,7 @@ user_favorite_product = db.Table(
 
 class User(SurrogatePK, Model, UserMixin):
     __tablename__ = "users"
-    username = Column(db.String(80), unique=True, nullable=False)
+    username = Column(db.String(80), unique=True, nullable=False, comment='use`s name')
     email = Column(db.String(80), unique=True, nullable=False)
     #: The hashed password
     _password = Column('password', db.String(128))
@@ -37,6 +37,7 @@ class User(SurrogatePK, Model, UserMixin):
     orders = relationship('Order', backref="user")
     open_id = Column(db.String(80), index=True)
     session_key = Column(db.String(80), index=True)
+    test = Column(db.String(80), comment='haha')
 
     def __init__(self, username, email, password, **kwargs):
         super().__init__(username=username, email=email, password=password, **kwargs)

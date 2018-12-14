@@ -11,6 +11,7 @@ from flaskshop.database import (
     reference_col,
     relationship,
 )
+from sqlalchemy.dialects.mysql import BOOLEAN
 
 
 class Cart(SurrogatePK, Model):
@@ -92,7 +93,7 @@ class CouponCode(SurrogatePK, Model):
     min_amount = Column(db.DECIMAL(10, 2))
     not_before = Column(db.DateTime())
     not_after = Column(db.DateTime())
-    enabled = Column(db.Boolean(), default=True)
+    enabled = Column(BOOLEAN(), default=True)
 
     @property
     def description(self):

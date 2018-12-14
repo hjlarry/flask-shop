@@ -51,6 +51,8 @@ phonenumbers = "*"
 phonenumberslite = "*"
 
 [dev-packages]
+coverage = "*"
+flask-shell-ipython = "*"
 
 [requires]
 python_version = "3.6"

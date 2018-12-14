@@ -7,7 +7,6 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp
 
 from .models import User
 
-
 class RegisterForm(FlaskForm):
     """Register form."""
 

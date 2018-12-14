@@ -9,7 +9,7 @@ def get_product_attributes_data(product):
     """Returns attributes associated with the product,
     as dict of ProductAttribute: AttributeChoiceValue values.
     """
-    attributes = product.product_type.product_attributes.all()
+    attributes = product.product_type.product_attributes
     attributes_map = {attribute.id: attribute for attribute in attributes}
     values_map = get_attributes_display_map(product, attributes)
     return {attributes_map.get(attr_pk): value_obj
