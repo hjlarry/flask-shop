@@ -17,25 +17,18 @@ class Site(SurrogatePK, Model):
     top_menu_id = Column(db.Integer())
     bottom_menu_id = Column(db.Integer())
 
-    @property
-    def top_menu(self):
-        return Menu.get_by_id(self.top_menu_id)
+    def get_menu_items(self, menu_id):
+        return MenuItem.query.filter(MenuItem.site_id == menu_id).order_by(
+            MenuItem.order
+        )
 
     @property
-    def bottom_menu(self):
-        return Menu.get_by_id(self.bottom_menu_id)
-
-
-class Menu(SurrogatePK, Model):
-    __tablename__ = "menu_menu"
-    title = Column(db.String(255), nullable=False)
-
-    def __str__(self):
-        return self.title
+    def top_menu_items(self):
+        return self.get_menu_items(self.top_menu_id)
 
     @property
-    def items(self):
-        return MenuItem.query.filter(MenuItem.menu_id == self.id)
+    def bottom_menu_items(self):
+        return self.get_menu_items(self.bottom_menu_id)
 
 
 class MenuItem(SurrogatePK, Model):
@@ -43,23 +36,14 @@ class MenuItem(SurrogatePK, Model):
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
     url = Column(db.String(255))
-    lft = Column(db.Integer())
-    rght = Column(db.Integer())
-    level = Column(db.Integer(), default=0)
-    category_id = reference_col("product_category")
-    category = relationship("Category")
-    collection_id = reference_col("product_collection")
-    collection = relationship("Collection")
-    menu_id = Column(db.Integer())
+    category_id = Column(db.Integer())
+    collection_id = Column(db.Integer())
+    site_id = Column(db.Integer())  # item在site中的位置
     page_id = Column(db.Integer())
     parent_id = Column(db.Integer())
 
     def __str__(self):
         return self.title
-
-    @property
-    def menu(self):
-        return Menu.get_by_id(self.menu_id)
 
     @property
     def parent(self):
@@ -70,17 +54,17 @@ class MenuItem(SurrogatePK, Model):
         return MenuItem.query.filter(MenuItem.parent_id == self.id)
 
     @property
-    def page(self):
-        return Page.get_by_id(self.page_id)
-
-    @property
-    def linked_object(self):
-        return self.category or self.page or self.collection
+    def linked_object_url(self):
+        if self.page_id:
+            return url_for("public.show_page", id=self.page_id)
+        elif self.category_id:
+            return url_for("product.show_category", id=self.category_id)
+        elif self.collection_id:
+            return url_for("product.show_collection", id=self.collection_id)
 
     @property
     def get_url(self):
-        linked_object = self.linked_object
-        return linked_object.get_absolute_url() if linked_object else self.url
+        return self.url if self.url else self.linked_object_url
 
 
 class Page(SurrogatePK, Model):

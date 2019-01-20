@@ -15,7 +15,7 @@ from flaskshop.product.models import (
     AttributeChoiceValue,
     Collection
 )
-from flaskshop.public.models import Menu, Site, MenuItem, Page
+from flaskshop.public.models import Site, MenuItem, Page
 from flaskshop.product.utils import get_name_from_attributes
 from flaskshop.account.models import User, UserAddress
 from flaskshop.checkout.models import ShippingMethod
@@ -319,65 +319,49 @@ def create_page():
     yield f"Page {page.title} created"
 
 
-def generate_menu_items(menu: Menu, category: Category, parent_menu_item):
+def generate_menu_items(category: Category, menu_id=None,parent_id=None):
     menu_item, created = MenuItem.get_or_create(
-        title=category.title, category=category, parent=parent_menu_item
+        title=category.title, category_id=category.id, site_id=menu_id, parent_id=parent_id
     )
-    if not parent_menu_item:
-        menu.items.append(menu_item)
-        menu.save()
 
     if created:
         yield f"Created menu item for category {category}"
 
     for child in category.children:
-        for msg in generate_menu_items(menu, child, menu_item):
+        for msg in generate_menu_items(child, parent_id=menu_item.id):
             yield f"\t{msg}"
 
 
-def generate_menu_tree(menu):
-    categories = Category.query.all()
-    for category in categories:
-        if not category.parent_id:
-            for msg in generate_menu_items(menu, category, None):
-                yield msg
-
-
 def create_menus():
-    # Create navbar menu with category links
-    top_menu, _ = Menu.get_or_create(title="top_menu")
-    if not top_menu.items:
-        yield "Created navbar menu"
-        for msg in generate_menu_tree(top_menu):
-            yield msg
-
-    # Create footer menu with collections and pages
-    bottom_menu, _ = Menu.get_or_create(title="bottom_menu")
-    if not bottom_menu.items:
-        collection = Collection.query.first()
-        item, _ = MenuItem.get_or_create(
-            title="Collections", collection=collection, menu=bottom_menu
-        )
-
-        for collection in Collection.query.all():
-            MenuItem.get_or_create(
-                title=collection.title, collection=collection, parent=item
-            )
-
-        page = Page.query.first()
-        if page:
-            MenuItem.get_or_create(title=page.title, page=page, menu=bottom_menu)
-        yield "Created footer menu"
     site = Site.query.first()
     if not site:
         site = Site.create(
-            header_text="TEST SALEOR - A SAMPLE SHOP", description="sth about this site"
+            header_text="TEST SALEOR - A SAMPLE SHOP", description="sth about this site",
+            top_menu_id=1, bottom_menu_id=2
         )
-
-    site.top_menu = top_menu
-    site.bottom_menu = bottom_menu
     site.save()
 
+    yield "Created navbar menu"
+    categories = Category.query.all()
+    for category in categories:
+        if not category.parent_id:
+            for msg in generate_menu_items(category, menu_id):
+                yield msg
+
+    yield "Created footer menu"
+    collection = Collection.query.first()
+    item, _ = MenuItem.get_or_create(
+        title="Collections", collection_id=collection.id, site_id=2
+    )
+    for collection in Collection.query.all():
+        MenuItem.get_or_create(
+            title=collection.title, collection_id=collection.id, parent_id=item.id
+        )
+
+    page = Page.query.first()
+    if page:
+        MenuItem.get_or_create(title=page.title, page_id=page.id, site_id=2)
+        
 
 def get_email(first_name, last_name):
     _first = unicodedata.normalize("NFD", first_name).encode("ascii", "ignore")
@@ -392,7 +376,6 @@ def create_users(how_many=10):
 
 
 def create_fake_user():
-    # address = create_address()
     email = get_email(fake.first_name(), fake.last_name())
     user, _ = User.get_or_create(
         username=fake.first_name() + fake.last_name(), email=email, password="password", active=True
@@ -612,14 +595,3 @@ def create_vouchers():
     else:
         yield 'Value voucher already exists'
 
-# def create_fake_group():
-#     group, _ = Group.objects.get_or_create(name='Products Manager')
-#     group.permissions.add(Permission.objects.get(codename='edit_product'))
-#     group.permissions.add(Permission.objects.get(codename='view_product'))
-#     group.save()
-#     return group
-
-
-# def create_groups():
-#     group = create_fake_group()
-#     return 'Group: %s' % (group.name,)

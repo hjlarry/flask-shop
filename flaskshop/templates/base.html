@@ -1,9 +1,10 @@
 {% import '_macros.html' as macros %}
 <!DOCTYPE html>
 <html class="no-js">
-<head>
-  <title>{% block title %}flask store{% endblock %}</title>
-  {% block meta %}
+
+  <head>
+    <title>{% block title %}flask store{% endblock %}</title>
+    {% block meta %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="Saleor">
@@ -13,39 +14,33 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="og:type" content="website">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-  {% endblock meta %}
+    {% endblock meta %}
 
-  {{ stylesheet_tag('storefront') | safe }}
-  {#    {{ bootstrap.load_css() }}#}
+    {{ stylesheet_tag('storefront') | safe }}
 
-  {% block stylesheet %}{% endblock stylesheet %}
+    {% block stylesheet %}{% endblock stylesheet %}
 
+  </head>
 
-  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-  <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-</head>
-
-<body>
-{% block header %}
-  <header class="navbar" role="navigation">
-    <div class="navbar__login container-fluid">
-      <div class=" d-none d-md-block container">
-        <div class="row">
-          <div class="col-6">
-            <p class="text-left">{{ site.header_text }}</p>
-          </div>
-          <div class="col-6">
-            <ul class="float-right">
-              {% if current_user.is_authenticated %}
+  <body>
+    {% block header %}
+    <header class="navbar" role="navigation">
+      <div class="navbar__login container-fluid">
+        <div class=" d-none d-md-block container">
+          <div class="row">
+            <div class="col-6">
+              <p class="text-left">{{ site.header_text }}</p>
+            </div>
+            <div class="col-6">
+              <ul class="float-right">
+                {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
 
-                  <li>
-                    <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
-                      Dashboard
-                    </a>
-                  </li>
+                <li>
+                  <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
+                    Dashboard
+                  </a>
+                </li>
                 {% endif %}
                 <li>
                   <a href="{{ url_for('account.index') }}">
@@ -57,7 +52,7 @@
                     Log Out</a>
                 </li>
 
-              {% else %}
+                {% else %}
                 <li>
                   <a rel="nofollow" href="{{ url_for('account.signup') }}">
                     Register
@@ -68,123 +63,115 @@
                     Log in
                   </a>
                 </li>
-              {% endif %}
-            </ul>
+                {% endif %}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="navbar__brand container-fluid d-block">
-      <div class="container">
-        <div class="row no-gutters">
-          <div class="col-8 col-md-4 navbar__logo">
-            <div class="menu-icon-mobile d-md-none navbar__brand__menu-toggle closed open">
-              <svg data-src="{{ url_for('static', filename='img/mobile-menu.svg') }}" width="28px"
-                   height="20px"></svg>
-              <span>menu</span>
+      <div class="navbar__brand container-fluid d-block">
+        <div class="container">
+          <div class="row no-gutters">
+            <div class="col-8 col-md-4 navbar__logo">
+              <div class="menu-icon-mobile d-md-none navbar__brand__menu-toggle closed open">
+                <svg data-src="{{ url_for('static', filename='img/mobile-menu.svg') }}" width="28px" height="20px"></svg>
+                <span>menu</span>
+              </div>
+              <a href="{{ url_for('public.home') }}">
+                <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px" width="176px"></svg>
+              </a>
             </div>
-            <a href="{{ url_for('public.home') }}">
-              <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px"
-                   width="176px"></svg>
+            <div class="col-2 col-md-4 navbar__search static">
+
+              <div class="d-md-none mobile-search-icon">
+                <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="30" height="30"></svg>
+              </div>
+              <form class="form-inline search-form" action="/search">
+                <div class="mobile-close-search d-md-none">
+                  <svg data-src="{{ url_for('static', filename='img/close.svg') }}" width="30" height="30"></svg>
+                </div>
+                <input class="form-control" type="text" name="q" value="" placeholder="Search for product" required>
+                <button class="btn btn-link" type="submit">
+                  <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="30" height="30"></svg>
+                </button>
+              </form>
+
+            </div>
+            <div class="col-2 col-md-4">
+              <div class="navbar__brand__cart float-right">
+                <a rel="nofollow" class="cart__icon" href="{{ url_for('checkout.cart_index') }}">
+                  <span class="cart-label d-none d-md-inline-block">
+                    Your Cart
+                  </span>
+                  <div class="navbar__brand__cart__icon">
+                    <svg data-src="{{ url_for('static', filename='img/cart.svg') }}" width="35" height="30"></svg>
+                  </div>
+                  {% if current_user.is_authenticated and current_user.cart.quantity %}
+                  <span class="badge ">
+                    {{ current_user.cart.quantity }}
+                  </span>
+                  {% else %}
+                  <span class="badge empty">
+                    0
+                  </span>
+                  {% endif %}
+                </a>
+                <div class="cart-dropdown ">
+                  {% include "public/cart_dropdown.html" %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="navbar__menu container d-block">
+        <nav class="navigation">
+          {{ macros.menu(site.top_menu_items) }}
+        </nav>
+      </div>
+    </header>
+    {% endblock %}
+    <div class="container maincontent">
+      {% block topcontent %}{% endblock topcontent %}
+
+      {% for message in get_flashed_messages(with_categories=True) %}
+      <div class="alert alert-{{ message[0] }}">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message[1] }}
+      </div>
+      {% endfor %}
+
+      {% block breadcrumb %}
+      {% endblock breadcrumb %}
+      {% block content %}
+      {% endblock content %}
+    </div>
+    {% block footer %}
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <a href="{{ url_for('public.home') }}" class="footer__logo">
+              <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px" width="176px"></svg>
             </a>
           </div>
-          <div class="col-2 col-md-4 navbar__search static">
-
-            <div class="d-md-none mobile-search-icon">
-              <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="30" height="30"></svg>
-            </div>
-            <form class="form-inline search-form" action="/search">
-              <div class="mobile-close-search d-md-none">
-                <svg data-src="{{ url_for('static', filename='img/close.svg') }}" width="30"
-                     height="30"></svg>
-              </div>
-              <input class="form-control" type="text" name="q"
-                     value=""
-                     placeholder="Search for product"
-                     required>
-              <button class="btn btn-link" type="submit">
-                <svg data-src="{{ url_for('static', filename='img/search.svg') }}"
-                     width="30" height="30"></svg>
-              </button>
-            </form>
-
+          <div class="col-md-3 col-sm-6">
+            {{ macros.menu(site.bottom_menu_items, false) }}
           </div>
-          <div class="col-2 col-md-4">
-            <div class="navbar__brand__cart float-right">
-              <a rel="nofollow" class="cart__icon" href="{{ url_for('checkout.cart_index') }}">
-                <span class="cart-label d-none d-md-inline-block">
+          <div class="col-md-3 col-sm-6">
+            <ul>
+              <li>
+                <a rel="nofollow" href="{{ url_for('checkout.cart_index') }}">
                   Your Cart
-                </span>
-                <div class="navbar__brand__cart__icon">
-                  <svg data-src="{{ url_for('static', filename='img/cart.svg') }}"
-                       width="35" height="30"></svg>
-                </div>
-                {% if current_user.is_authenticated and current_user.cart.quantity %}
-                  <span class="badge ">
-                      {{ current_user.cart.quantity }}
-                </span>
-                {% else %}
-                  <span class="badge empty">
-                      0
-                </span>
-                {% endif %}
-              </a>
-              <div class="cart-dropdown ">
-                {% include "public/cart_dropdown.html" %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="navbar__menu container d-block">
-      <nav class="navigation">
-        {{ macros.menu(site.top_menu.items) }}
-      </nav>
-    </div>
-  </header>
-{% endblock %}
-<div class="container maincontent">
-  {% block topcontent %}{% endblock topcontent %}
-
-  {% for message in get_flashed_messages(with_categories=True) %}
-    <div class="alert alert-{{ message[0] }}">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      {{ message[1] }}
-    </div>
-  {% endfor %}
-
-  {% block breadcrumb %}
-  {% endblock breadcrumb %}
-  {% block content %}
-  {% endblock content %}
-</div>
-{% block footer %}
-  <footer class="footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <a href="{{ url_for('public.home') }}" class="footer__logo">
-            <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px" width="176px"></svg>
-          </a>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          {{ macros.menu(site.bottom_menu.items, false) }}
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <ul>
-            <li>
-              <a rel="nofollow" href="{{ url_for('checkout.cart_index') }}">
-                Your Cart
-              </a>
-            </li>
-            {% if current_user.is_authenticated %}
+                </a>
+              </li>
+              {% if current_user.is_authenticated %}
               {% if current_user.is_admin %}
-                <li>
-                  <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
-                    Dashboard
-                  </a>
-                </li>
+              <li>
+                <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
+                  Dashboard
+                </a>
+              </li>
               {% endif %}
               <li>
                 <a href="{{ url_for('public.style') }}" target="_blank">
@@ -193,7 +180,7 @@
               </li>
 
               <li>
-                <a href="{{ url_for('order.index') }}">
+                <a href="{{ url_for('account.index') }}">
                   Your account
                 </a>
               </li>
@@ -203,7 +190,7 @@
                   Log out</a>
               </li>
 
-            {% else %}
+              {% else %}
               <li>
                 <a rel="nofollow" href="{{ url_for('account.signup') }}">
                   Register
@@ -214,55 +201,44 @@
                   Log in
                 </a>
               </li>
-            {% endif %}
-          </ul>
-        </div>
-        <div class="col-md-3 col-sm-12">
-          <a target="_blank" rel="noopener" class="social-footer"
-             href="https://www.facebook.com/mirumeelabs/">
-            <svg data-src="{{ url_for('static', filename='img/facebook-logo.svg') }}"
-                 width="45px" height="45px"></svg>
-          </a>
-          <a target="_blank" rel="noopener" class="social-footer" href="https://github.com/mirumee/saleor">
-            <svg data-src="{{ url_for('static', filename='img/github-logo.svg') }}"
-                 width="45px" height="45px"></svg>
-          </a>
-          <a target="_blank" rel="noopener" class="social-footer" href="https://twitter.com/getsaleor">
-            <svg data-src="{{ url_for('static', filename='img/twitter-logo.svg') }}"
-                 width="45px" height="45px"></svg>
-          </a>
-          <a target="_blank" rel="noopener" class="social-footer" href="https://plus.google.com/+Mirumee">
-            <svg data-src="{{ url_for('static', filename='img/google-logo.svg') }}"
-                 width="45px" height="45px"></svg>
-          </a>
-          <a target="_blank" rel="noopener" class="social-footer"
-             href="https://www.meetup.com/Mirumee-Talks/">
-            <svg data-src="{{ url_for('static', filename='img/meetup-logo.svg') }}"
-                 width="45px" height="45px"></svg>
-          </a>
-          <a target="_blank" rel="noopener" class="social-footer"
-             href="https://linkedin.com/company/mirumee-software">
-            <svg data-src="{{ url_for('static', filename='img/linkedin-logo.svg') }}"
-                 width="45px" height="45px"></svg>
-          </a>
-          <a target="_blank" rel="noopener" class="social-footer" href="https://dribbble.com/mirumee">
-            <svg data-src="{{ url_for('static', filename='img/dribbble-logo.svg') }}"
-                 width="45px" height="45px"></svg>
-          </a>
-          <a target="_blank" rel="noopener" class="social-footer"
-             href="https://www.instagram.com/explore/tags/mirumee/">
-            <svg data-src="{{ url_for('static', filename='img/instagram-logo.svg') }}"
-                 width="45px" height="45px"></svg>
-          </a>
+              {% endif %}
+            </ul>
+          </div>
+          <div class="col-md-3 col-sm-12">
+            <a target="_blank" rel="noopener" class="social-footer" href="https://www.facebook.com/mirumeelabs/">
+              <svg data-src="{{ url_for('static', filename='img/facebook-logo.svg') }}" width="45px" height="45px"></svg>
+            </a>
+            <a target="_blank" rel="noopener" class="social-footer" href="https://github.com/mirumee/saleor">
+              <svg data-src="{{ url_for('static', filename='img/github-logo.svg') }}" width="45px" height="45px"></svg>
+            </a>
+            <a target="_blank" rel="noopener" class="social-footer" href="https://twitter.com/getsaleor">
+              <svg data-src="{{ url_for('static', filename='img/twitter-logo.svg') }}" width="45px" height="45px"></svg>
+            </a>
+            <a target="_blank" rel="noopener" class="social-footer" href="https://plus.google.com/+Mirumee">
+              <svg data-src="{{ url_for('static', filename='img/google-logo.svg') }}" width="45px" height="45px"></svg>
+            </a>
+            <a target="_blank" rel="noopener" class="social-footer" href="https://www.meetup.com/Mirumee-Talks/">
+              <svg data-src="{{ url_for('static', filename='img/meetup-logo.svg') }}" width="45px" height="45px"></svg>
+            </a>
+            <a target="_blank" rel="noopener" class="social-footer" href="https://linkedin.com/company/mirumee-software">
+              <svg data-src="{{ url_for('static', filename='img/linkedin-logo.svg') }}" width="45px" height="45px"></svg>
+            </a>
+            <a target="_blank" rel="noopener" class="social-footer" href="https://dribbble.com/mirumee">
+              <svg data-src="{{ url_for('static', filename='img/dribbble-logo.svg') }}" width="45px" height="45px"></svg>
+            </a>
+            <a target="_blank" rel="noopener" class="social-footer" href="https://www.instagram.com/explore/tags/mirumee/">
+              <svg data-src="{{ url_for('static', filename='img/instagram-logo.svg') }}" width="45px" height="45px"></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
-{% endblock %}
-{% block footer_scripts %}
-  {#    {{ bootstrap.load_js() }}#}
-  {{ javascript_tag('storefront') | safe }}
+    </footer>
+    {% endblock %}
+    {% block footer_scripts %}
+    {# {{ bootstrap.load_js() }}#}
+    {{ javascript_tag('storefront') | safe }}
 
-{% endblock footer_scripts %}
-</body>
+    {% endblock footer_scripts %}
+  </body>
+
 </html>
