@@ -14,10 +14,16 @@ class Site(SurrogatePK, Model):
     __tablename__ = "site_setting"
     header_text = Column(db.String(255), nullable=False)
     description = Column(db.Text())
-    top_menu_id = reference_col("menu_menu")
-    top_menu = relationship("Menu", foreign_keys=[top_menu_id])
-    bottom_menu_id = reference_col("menu_menu")
-    bottom_menu = relationship("Menu", foreign_keys=[bottom_menu_id])
+    top_menu_id = Column(db.Integer())
+    bottom_menu_id = Column(db.Integer())
+
+    @property
+    def top_menu(self):
+        return Menu.get_by_id(self.top_menu_id)
+
+    @property
+    def bottom_menu(self):
+        return Menu.get_by_id(self.bottom_menu_id)
 
 
 class Menu(SurrogatePK, Model):
@@ -26,6 +32,10 @@ class Menu(SurrogatePK, Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def items(self):
+        return MenuItem.query.filter(MenuItem.menu_id == self.id)
 
 
 class MenuItem(SurrogatePK, Model):
@@ -40,14 +50,28 @@ class MenuItem(SurrogatePK, Model):
     category = relationship("Category")
     collection_id = reference_col("product_collection")
     collection = relationship("Collection")
-    menu_id = reference_col("menu_menu")
-    menu = relationship("Menu", backref="items")
-    page_id = reference_col("page_page")
-    page = relationship("Page")
-    parent_id = reference_col("menu_menuitem")
+    menu_id = Column(db.Integer())
+    page_id = Column(db.Integer())
+    parent_id = Column(db.Integer())
 
     def __str__(self):
         return self.title
+
+    @property
+    def menu(self):
+        return Menu.get_by_id(self.menu_id)
+
+    @property
+    def parent(self):
+        return MenuItem.get_by_id(self.parent_id)
+
+    @property
+    def children(self):
+        return MenuItem.query.filter(MenuItem.parent_id == self.id)
+
+    @property
+    def page(self):
+        return Page.get_by_id(self.page_id)
 
     @property
     def linked_object(self):
@@ -59,9 +83,6 @@ class MenuItem(SurrogatePK, Model):
         return linked_object.get_absolute_url() if linked_object else self.url
 
 
-MenuItem.parent = relationship("MenuItem", backref="children", remote_side=MenuItem.id)
-
-
 class Page(SurrogatePK, Model):
     __tablename__ = "page_page"
     title = Column(db.String(255), nullable=False)
@@ -69,7 +90,7 @@ class Page(SurrogatePK, Model):
     is_visible = Column(db.Boolean(), default=True)
 
     def get_absolute_url(self):
-        return url_for('public.show_page', id=self.id)
+        return url_for("public.show_page", id=self.id)
 
     def __str__(self):
         return self.title

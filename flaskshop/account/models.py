@@ -42,7 +42,6 @@ class User(SurrogatePK, Model, UserMixin):
     orders = relationship("Order", backref="user")
     open_id = Column(db.String(80), index=True)
     session_key = Column(db.String(80), index=True)
-    test = Column(db.String(80), comment="haha")
 
     def __init__(self, username, email, password, **kwargs):
         super().__init__(username=username, email=email, password=password, **kwargs)

@@ -130,7 +130,17 @@
                   </a>
                 </li>
               </ul>
-              {% include "account/address_delete.html" %}
+              <div class="address-delete none">
+                <form method="post" novalidate action="{{url_for('account.delete_address', id=address.id)}}">
+                  {{form.csrf_token}}
+                  <button type="submit" class="btn danger narrow float-right">
+                    Remove Address
+                  </button>
+                  <a class="btn btn-link cancel float-md-right">
+                    Cancel
+                  </a>
+                </form>
+              </div>
             </div>
           </div>
           {% endfor %}
