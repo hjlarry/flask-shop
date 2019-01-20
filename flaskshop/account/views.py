@@ -107,9 +107,9 @@ def edit_address():
     )
 
 
-@blueprint.route("/address/<int:id>", methods=["DELETE"])
+@blueprint.route("/address/<int:id>/delete", methods=["POST"])
 def delete_address(id):
     user_address = UserAddress.get_by_id(id)
     if user_address in current_user.addresses:
         UserAddress.delete(user_address)
-    return ""
+    return redirect(url_for("account.index") + "#addresses")

@@ -1,11 +1,11 @@
 <div class="address-delete none">
-    <form method="post" novalidate action="">
-
+    <form method="post" novalidate action="{{url_for('account.delete_address', id=address.id)}}">
+        {{form.csrf_token}}
         <button type="submit" class="btn danger narrow float-right">
-            "Remove Address"
+            Remove Address
         </button>
         <a class="btn btn-link cancel float-md-right">
-            "Cancel"
+            Cancel
         </a>
     </form>
 </div>
