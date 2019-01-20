@@ -73,44 +73,38 @@ def set_password():
 def addresses():
     """List addresses."""
     addresses = current_user.addresses
-    return render_template("users/addresses.html", addresses=addresses)
+    return render_template("account/addresses.html", addresses=addresses)
 
 
 @blueprint.route("/address/edit", methods=["GET", "POST"])
 def edit_address():
     """Create and edit an address."""
     form = AddressForm(request.form)
-    edit = request.args.get('id', None)
-    user_address = UserAddress.get_by_id(edit) if edit else None
-    province_city = user_address.province + '/' + user_address.city + '/' + user_address.district if user_address else None
-    if form.validate_on_submit():
-        province, city, district = form.province_city.data.split('/')
-        if edit:
-            UserAddress.update(
-                user_address,
-                province=province,
-                city=city,
-                district=district,
-                address=form.address.data,
-                contact_name=form.contact_name.data,
-                contact_phone=form.contact_phone.data,
-            )
+    address_id = request.args.get("id", None, type=int)
+    if address_id:
+        user_address = UserAddress.get_by_id(address_id)
+        form = AddressForm(request.form, obj=user_address)
+    if request.method == "POST" and form.validate_on_submit():
+        address_data = {
+            "province": form.province.data,
+            "city": form.city.data,
+            "district": form.district.data,
+            "address": form.address.data,
+            "contact_name": form.contact_name.data,
+            "contact_phone": form.contact_phone.data,
+        }
+        if address_id:
+            UserAddress.update(user_address, **address_data)
             flash("Success edit address.", "success")
         else:
-            UserAddress.create(
-                province=province,
-                city=city,
-                district=district,
-                address=form.address.data,
-                contact_name=form.contact_name.data,
-                contact_phone=form.contact_phone.data,
-                user=current_user
-            )
+            UserAddress.create(**address_data)
             flash("Success add address.", "success")
-        return redirect(url_for("user.addresses"))
+        return redirect(url_for("account.index") + "#addresses")
     else:
         flash_errors(form)
-    return render_template("users/address_edit.html", form=form, user_address=user_address, province_city=province_city)
+    return render_template(
+        "account/address_edit.html", form=form, address_id=address_id
+    )
 
 
 @blueprint.route("/address/<int:id>", methods=["DELETE"])
@@ -118,4 +112,4 @@ def delete_address(id):
     user_address = UserAddress.get_by_id(id)
     if user_address in current_user.addresses:
         UserAddress.delete(user_address)
-    return ''
+    return ""
