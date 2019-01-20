@@ -1,6 +1,7 @@
 from wtforms.fields import PasswordField
 from wtforms.validators import Email, DataRequired
-from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from flask_admin.contrib.sqla.fields import QuerySelectField
+from sqlalchemy import orm
 
 from flaskshop.account.models import User, UserAddress
 from flaskshop.extensions import db
@@ -34,11 +35,8 @@ class UserView(CustomView):
             User.set_password(form.this_password.data)
 
 
-from flask_admin.contrib.sqla.ajax import QueryAjaxModelLoader
-
-
 def user_query():
-    return User.query.all()
+    return User.query.options(orm.load_only("id", "username"))
 
 
 class UserAddressView(CustomView):
@@ -51,7 +49,9 @@ class UserAddressView(CustomView):
             menu_icon_value="nav-icon",
         )
 
-    # form_extra_fields = {
-    #     "user_id": QuerySelectField(label="User", query_factory=user_query)
-    # }
+    form_extra_fields = {
+        "user_id": QuerySelectField(
+            label="User", query_factory=user_query, get_label="username"
+        )
+    }
 
