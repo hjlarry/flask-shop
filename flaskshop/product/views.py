@@ -3,9 +3,13 @@
 from flask import Blueprint, render_template, request
 from flask_login import login_required
 
-from .models import Product, Category, Collection
+from .models import Product, Category, ProductCollection
 from .forms import AddCartForm
-from .utils import get_product_attributes_data, get_product_list_context, add_to_currentuser_cart
+from .utils import (
+    get_product_attributes_data,
+    get_product_list_context,
+    add_to_currentuser_cart,
+)
 
 blueprint = Blueprint("product", __name__, url_prefix="/products")
 
@@ -16,10 +20,15 @@ def show(id, form=None):
     if not form:
         form = AddCartForm(request.form, product=product)
     product_attributes = get_product_attributes_data(product)
-    return render_template("products/details.html", product=product, form=form, product_attributes=product_attributes)
+    return render_template(
+        "products/details.html",
+        product=product,
+        form=form,
+        product_attributes=product_attributes,
+    )
 
 
-@blueprint.route("/<int:id>/add", methods=['POST'])
+@blueprint.route("/<int:id>/add", methods=["POST"])
 @login_required
 def product_add_to_cart(id):
     """ this method return to the show method and use a form instance for display validater errors"""
@@ -37,9 +46,11 @@ def show_category(id):
     category = Category.get_by_id(id)
     items = Product.query.with_parent(category)
     if category.children:
-        sub_queries = [Product.query.with_parent(child) for child in category.children]
+        sub_queries = [
+            Product.query.with_parent(child) for child in category.children
+        ]
         items = sub_queries[0].union(*sub_queries[1:])
-    ctx, items = get_product_list_context(request, items)
+    ctx, items = get_product_list_context(items)
     pagination = items.paginate(page, per_page=16)
     products = pagination.items
     ctx.update(object=category, pagination=pagination, products=products)
@@ -49,10 +60,5 @@ def show_category(id):
 @blueprint.route("/collection/<int:id>")
 def show_collection(id):
     page = request.args.get("page", 1, type=int)
-    collection = Collection.get_by_id(id)
-    items = Product.query.with_parent(collection)
-    ctx, items = get_product_list_context(request, items)
-    pagination = items.paginate(page, per_page=16)
-    products = pagination.items
-    ctx.update(object=collection, pagination=pagination, products=products)
+    ctx = ProductCollection.get_product_by_collection(id, page)
     return render_template("category/index.html", **ctx)

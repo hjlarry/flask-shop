@@ -1,4 +1,4 @@
-from flask import url_for
+from flask import url_for, request
 from sqlalchemy.ext.mutable import MutableDict
 
 from flaskshop.database import (
@@ -9,6 +9,7 @@ from flaskshop.database import (
     reference_col,
     relationship,
 )
+from .utils import get_product_list_context
 
 
 class Product(SurrogatePK, Model):
@@ -65,7 +66,8 @@ class Category(SurrogatePK, Model):
         return url_for("product.show_category", id=self.id)
 
 
-Category.parent = relationship("Category", backref="children", remote_side=Category.id)
+Category.parent = relationship(
+    "Category", backref="children", remote_side=Category.id)
 
 product_type_product_attrbuites = db.Table(
     "product_producttype_product_attributes",
@@ -202,32 +204,32 @@ class ProductImage(SurrogatePK, Model):
         return url_for("static", filename=self.image, _external=True)
 
 
-product_collection = db.Table(
-    "product_collection_products",
-    Column("id", db.Integer(), primary_key=True, autoincrement=True),
-    Column(
-        "product_id",
-        db.Integer(),
-        db.ForeignKey("product_product.id"),
-        primary_key=True,
-    ),
-    Column(
-        "collection_id",
-        db.Integer(),
-        db.ForeignKey("product_collection.id"),
-        primary_key=True,
-    ),
-)
-
-
 class Collection(SurrogatePK, Model):
     __tablename__ = "product_collection"
     title = Column(db.String(255), nullable=False)
     background_img = Column(db.String(255))
-    products = relationship("Product", secondary=product_collection)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return url_for("product.show_collection", id=self.id)
+
+
+class ProductCollection(SurrogatePK, Model):
+    __tablename__ = "product_collection_products"
+    product_id = Column(db.Integer())
+    collection_id = Column(db.Integer())
+
+    @classmethod
+    def get_product_by_collection(cls, collection_id, page=1):
+        collection = Collection.get_by_id(collection_id)
+        at_ids = (ProductCollection.query.with_entities(
+            ProductCollection.product_id).filter(
+                ProductCollection.collection_id == collection.id).all())
+        query = Product.query.filter(Product.id.in_(id for id in at_ids))
+        ctx, query = get_product_list_context(query)
+        pagination = query.paginate(page, per_page=16)
+        products = pagination.items
+        ctx.update(object=collection, pagination=pagination)
+        return ctx

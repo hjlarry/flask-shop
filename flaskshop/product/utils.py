@@ -1,8 +1,8 @@
+from flask import request
 from flask_login import current_user
 from sqlalchemy import desc
 
 from flaskshop.checkout.models import Cart, CartLine
-from .models import Product
 
 
 def get_product_attributes_data(product):
@@ -12,8 +12,10 @@ def get_product_attributes_data(product):
     attributes = product.product_type.product_attributes
     attributes_map = {attribute.id: attribute for attribute in attributes}
     values_map = get_attributes_display_map(product, attributes)
-    return {attributes_map.get(attr_pk): value_obj
-            for (attr_pk, value_obj) in values_map.items()}
+    return {
+        attributes_map.get(attr_pk): value_obj
+        for (attr_pk, value_obj) in values_map.items()
+    }
 
 
 def get_name_from_attributes(variant):
@@ -50,38 +52,40 @@ def generate_name_from_values(attributes_dict):
     Args:
         attributes_dict: dict of attribute_pk: AttributeChoiceValue values
     """
-    return ' / '.join(
-        attributechoice_value
-        for attribute_pk, attributechoice_value in sorted(
-            attributes_dict.items(),
-            key=lambda x: x[0]))
+    return " / ".join(attributechoice_value
+                      for attribute_pk, attributechoice_value in sorted(
+                          attributes_dict.items(), key=lambda x: x[0]))
 
 
-def get_product_list_context(request, products):
+def get_product_list_context(products):
+    from .models import Product
+
     args_dict = {}
 
-    price_from = request.args.get('price_from', None, type=int)
-    price_to = request.args.get('price_to', None, type=int)
+    price_from = request.args.get("price_from", None, type=int)
+    price_to = request.args.get("price_to", None, type=int)
     if price_from:
         products = products.filter(Product.price > price_from)
     if price_to:
         products = products.filter(Product.price < price_to)
     args_dict.update(price_from=price_from, price_to=price_to)
 
-    sort_by_choices = {
-        'title': 'title',
-        'price': 'price'
-    }
-    arg_sort_by = request.args.get('sort_by', '')
+    sort_by_choices = {"title": "title", "price": "price"}
+    arg_sort_by = request.args.get("sort_by", "")
     is_descending = False
-    if arg_sort_by.startswith('-'):
+    if arg_sort_by.startswith("-"):
         is_descending = True
         arg_sort_by = arg_sort_by[1:]
     if arg_sort_by in sort_by_choices:
-        products = products.order_by(desc(getattr(Product, arg_sort_by))) if is_descending else products.order_by(
-            getattr(Product, arg_sort_by))
-    now_sorted_by = arg_sort_by or 'title'
-    args_dict.update(sort_by_choices=sort_by_choices, now_sorted_by=now_sorted_by, is_descending=is_descending)
+        products = (products.order_by(desc(getattr(Product, arg_sort_by)))
+                    if is_descending else products.order_by(
+                        getattr(Product, arg_sort_by)))
+    now_sorted_by = arg_sort_by or "title"
+    args_dict.update(
+        sort_by_choices=sort_by_choices,
+        now_sorted_by=now_sorted_by,
+        is_descending=is_descending,
+    )
 
     args_dict.update(default_attr={})
     attr_filter = set()
@@ -91,8 +95,9 @@ def get_product_list_context(request, products):
     for attr in attr_filter:
         value = request.args.get(attr.title)
         if value:
-            products = products.filter(Product.attributes.__getitem__(str(attr.id)) == value)
-            args_dict['default_attr'].update({attr.title: int(value)})
+            products = products.filter(
+                Product.attributes.__getitem__(str(attr.id)) == value)
+            args_dict["default_attr"].update({attr.title: int(value)})
     args_dict.update(attr_filter=attr_filter)
 
     if request.args:
