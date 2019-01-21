@@ -1,62 +1,57 @@
 <div class="container">
   {% if current_user.is_authenticated and current_user.cart and current_user.cart.quantity > 0 %}
-    <div id="cart-dropdown-list"
-         class="cart-dropdown__list{% if current_user.cart.lines|length <= 2 %} overflow{% endif %}">
-      {% for line in current_user.cart.lines %}
-        <div class="row item">
-          <div class="col-md-10">
-            <a class="link--clean" href="{{ line.product.get_absolute_url() }}">
-              <img class="cart-dropdown__image lazyload lazypreload"
-                   alt=""
-                   src="{{ line.product.get_first_img() }}">
-              <h3>
-                {{ line.product }}
-                <span>x{{ line.quantity }}</span>
-                <p>{{ line.variant }}</p>
-              </h3>
-            </a>
-          </div>
-          <div class="col-md-2">
-            <div class="float-right">
-              <h3>
-                ${{ line.variant.price }}
-              </h3>
-            </div>
-          </div>
+  <div id="cart-dropdown-list" class="cart-dropdown__list{% if current_user.cart.lines|length <= 2 %} overflow{% endif %}">
+    {% for line in current_user.cart.lines %}
+    <div class="row item">
+      <div class="col-md-10">
+        <a class="link--clean" href="{{ line.product.get_absolute_url() }}">
+          <img class="cart-dropdown__image lazyload lazypreload" alt="" src="{{ line.product.get_first_img() }}">
+          <h3>
+            {{ line.product }}
+            <span>x{{ line.quantity }}</span>
+            <p>{{ line.variant }}</p>
+          </h3>
+        </a>
+      </div>
+      <div class="col-md-2">
+        <div class="float-right">
+          <h3>
+            ${{ line.variant.price }}
+          </h3>
         </div>
-      {% endfor %}
-    </div>
-    <div class="row cart-dropdown__total" data-quantity="{{ quantity }}">
-      <div class="col-md-8">
-        <h3>
-          Subtotal<br>
-          <span>Shipment and taxes calculated at checkout</span>
-        </h3>
-      </div>
-      <div class="col-md-4">
-        <h3 class="float-md-right price {% if current_user.cart.lines|length <= 2 %}single{% endif %}"
-            data-quantity="{{ quantity }}">
-          <p>
-            ${{ current_user.cart.total }}
-          </p>
-        </h3>
       </div>
     </div>
-    <div class="row cart-dropdown__actions">
-      <div class="col-md-1"></div>
-      <div class="col-md-5">
-        <a href="{{ url_for('checkout.cart_index') }}" class="btn secondary narrow float-md-right">Go to cart</a>
-      </div>
-      <div class="col-md-5">
-        <a href="{{ url_for('checkout.checkout_shipping_address') }}" class="btn primary narrow float-md-right">Checkout</a>
-      </div>
+    {% endfor %}
+  </div>
+  <div class="row cart-dropdown__total" data-quantity="{{ quantity }}">
+    <div class="col-md-8">
+      <h3>
+        Subtotal<br>
+        <span>Shipment and taxes calculated at checkout</span>
+      </h3>
     </div>
+    <div class="col-md-4">
+      <h3 class="float-md-right price {% if current_user.cart.lines|length <= 2 %}single{% endif %}" data-quantity="{{ quantity }}">
+        <p>
+          ${{ current_user.cart.total }}
+        </p>
+      </h3>
+    </div>
+  </div>
+  <div class="row cart-dropdown__actions">
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+      <a href="{{ url_for('checkout.cart_index') }}" class="btn secondary narrow float-md-right">Go to cart</a>
+    </div>
+    <div class="col-md-5">
+      <a href="{{ url_for('checkout.checkout_shipping_address') }}" class="btn primary narrow float-md-right">Checkout</a>
+    </div>
+  </div>
   {% else %}
-    <div class="text-md-center cart-dropdown__empty">
-      <h3>There are no products in your shopping cart.</h3>
-      <img src="{{ url_for('static', filename='img/empty-cart-bg.png') }}"
-           class="lazyload lazypreload">
-      <a href="" class="btn primary">Check out our sales</a>
-    </div>
+  <div class="text-md-center cart-dropdown__empty">
+    <h3>There are no products in your shopping cart.</h3>
+    <img src="{{ url_for('static', filename='img/empty-cart-bg.png') }}" class="lazyload lazypreload">
+    <a href="" class="btn btn-primary">Check out our sales</a>
+  </div>
   {% endif %}
 </div>

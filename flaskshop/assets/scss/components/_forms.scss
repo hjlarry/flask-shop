@@ -27,6 +27,18 @@ input {
       background-color: $turquoise;
     }
   }
+  &[type="radio"] {
+    -webkit-appearance: none;
+    border-color: $turquoise;
+    border-radius: 2px;
+    cursor: pointer;
+    height: 8px;
+    transition-duration: 300ms;
+    width: 8px;
+    &:checked {
+      background-color: $turquoise;
+    }
+  }
 }
 
 .form-group {
