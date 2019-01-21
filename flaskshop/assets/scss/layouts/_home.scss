@@ -12,20 +12,20 @@
     margin-top: $global-margin;
   }
   &--content-wrapper {
-    display: table;
-    width: 100%;
-    height: 100%;
+     display: table;
+     width: 100%;
+     height: 100%;
   }
   &--content-inner {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-    color: white;
-    padding-left: $global-padding;
-    padding-right: $global-padding;
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+      color: white;
+      padding-left: $global-padding;
+      padding-right: $global-padding;
   }
   &--content {
-    position: absolute;
+    position:  absolute;
     top: 0;
     left: 0;
     bottom: 0;

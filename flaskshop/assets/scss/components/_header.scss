@@ -25,7 +25,6 @@
         font-size: 1.5rem;
         &:hover {
           color: rgba($body-color, 0.6);
-
         }
       }
 
@@ -54,11 +53,6 @@
           background-color: $white;
           text-align: left;
 
-          .container {
-            padding: $global-padding;
-            max-height: 28rem;
-          }
-
           a {
             padding: 0;
             font-size: initial;
@@ -66,16 +60,23 @@
             text-decoration: none;
           }
 
-          ul {
-            min-width: 120px;
-            width: 360px;
+          .container {
+            padding: $global-padding;
+            max-height: 28rem;
 
-            li {
-              display: inline-block;
-              max-width: 110px;
+            > ul {
+              min-width: 120px;
+              width: 360px;
+              display: flex;
+              flex-wrap: wrap;
 
-              &:not(:last-child) {
-                margin-right: $global-padding * 2;
+              li {
+                display: inline-block;
+                max-width: 110px;
+
+                &:not(:last-child) {
+                  margin-right: $global-padding * 2;
+                }
               }
             }
           }
@@ -174,6 +175,10 @@
     padding: $global-padding * 2 0;
     display: flex;
     align-items: center;
+    svg {
+      height: 38px;
+      width: 100%;
+    }
     .menu-icon-mobile {
       position: relative;
       display: inline-block;
@@ -192,19 +197,19 @@
         top: 0;
       }
     }
-    svg path {
-      fill: $body-color;
-    }
   }
   &__search {
     padding: $global-padding * 2 0;
     position: relative;
     form {
       svg {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 18px;
+        height: 18px;
+        margin-left: 10px;
         vertical-align: middle;
-        padding: 0.1rem;
+      }
+      .btn {
+        padding: $global-padding;
       }
     }
     .mobile-search-icon {
@@ -275,7 +280,7 @@
           position: absolute;
           right: 20px;
           top: 20px;
-          background-color: $blue;
+          background-color: $light-turquoise;
           border-radius: 100px;
           color: $white;
           width: 30px;

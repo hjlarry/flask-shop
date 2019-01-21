@@ -25,7 +25,7 @@ from flaskshop.random_data import (
 
 HERE = Path(__file__).resolve()
 PROJECT_ROOT = HERE.parent
-TEST_PATH =  "tests"
+TEST_PATH = "tests"
 
 
 @click.command()

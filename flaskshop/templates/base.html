@@ -75,14 +75,12 @@
             <div class="col-8 col-md-4 navbar__logo">
               <div class="menu-icon-mobile d-md-none navbar__brand__menu-toggle closed open">
                 <svg data-src="{{ url_for('static', filename='img/mobile-menu.svg') }}" width="28px" height="20px"></svg>
-                <span>menu</span>
               </div>
               <a href="{{ url_for('public.home') }}">
-                <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px" width="176px"></svg>
+                <svg data-src="{{ url_for('static', filename='img/logo-document.svg') }}" width="176px" height="38px"></svg>
               </a>
             </div>
-            <div class="col-2 col-md-4 navbar__search static">
-
+            <div class="col-2 col-md-5 navbar__search static">
               <div class="d-md-none mobile-search-icon">
                 <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="30" height="30"></svg>
               </div>
@@ -91,20 +89,20 @@
                   <svg data-src="{{ url_for('static', filename='img/close.svg') }}" width="30" height="30"></svg>
                 </div>
                 <input class="form-control" type="text" name="q" value="" placeholder="Search for product" required>
-                <button class="btn btn-link" type="submit">
-                  <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="30" height="30"></svg>
+                <button class="btn btn-primary" type="submit">
+                  <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="18" height="18"></svg>
                 </button>
               </form>
 
             </div>
-            <div class="col-2 col-md-4">
+            <div class="col-2 col-md-3">
               <div class="navbar__brand__cart float-right">
                 <a rel="nofollow" class="cart__icon" href="{{ url_for('checkout.cart_index') }}">
                   <span class="cart-label d-none d-md-inline-block">
                     Your Cart
                   </span>
                   <div class="navbar__brand__cart__icon">
-                    <svg data-src="{{ url_for('static', filename='img/cart.svg') }}" width="35" height="30"></svg>
+                    <svg data-src="{{ url_for('static', filename='img/cart.svg') }}" width="24" height="24"></svg>
                   </div>
                   {% if current_user.is_authenticated and current_user.cart.quantity %}
                   <span class="badge ">
@@ -116,7 +114,7 @@
                   </span>
                   {% endif %}
                 </a>
-                <div class="cart-dropdown ">
+                <div class="cart-dropdown d-none">
                   {% include "public/cart_dropdown.html" %}
                 </div>
               </div>
@@ -136,7 +134,7 @@
 
       {% for message in get_flashed_messages(with_categories=True) %}
       <div class="alert alert-{{ message[0] }}">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         {{ message[1] }}
       </div>
       {% endfor %}
@@ -148,96 +146,111 @@
     </div>
     {% block footer %}
     <footer class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3">
-            <a href="{{ url_for('public.home') }}" class="footer__logo">
-              <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px" width="176px"></svg>
-            </a>
-          </div>
-          <div class="col-md-3 col-sm-6">
-            {{ macros.menu(site.bottom_menu_items, false) }}
-          </div>
-          <div class="col-md-3 col-sm-6">
-            <ul>
-              <li>
-                <a rel="nofollow" href="{{ url_for('checkout.cart_index') }}">
-                  Your Cart
-                </a>
-              </li>
-              {% if current_user.is_authenticated %}
-              {% if current_user.is_admin %}
-              <li>
-                <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
-                  Dashboard
-                </a>
-              </li>
-              {% endif %}
-              <li>
-                <a href="{{ url_for('public.style') }}" target="_blank">
-                  Style guide
-                </a>
-              </li>
+      <div class="footer__menus">
+        <div class="container">
+          <div class="row">
+            {{ macros.footer_menu(site.bottom_menu_items) }}
+            <div class="col-md-2 col-6">
+              <ul class="menu">
+                <li class="nav-item__dropdown menu__item">
+                  <a>
+                    <strong>
+                      Account
+                    </strong>
+                  </a>
+                  <hr />
+                <li>
+                  <a rel="nofollow" href="{{ url_for('checkout.cart_index') }}">
+                    Your Cart
+                  </a>
+                </li>
+                {% if current_user.is_authenticated %}
+                {% if current_user.is_admin %}
+                <li>
+                  <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
+                    Dashboard
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url_for('public.style') }}" target="_blank">
+                    Style guide
+                  </a>
+                </li>
+                {% endif %}
+                <li>
+                  <a href="{{ url_for('account.index') }}">
+                    Your account
+                  </a>
+                </li>
 
-              <li>
-                <a href="{{ url_for('account.index') }}">
-                  Your account
-                </a>
-              </li>
+                <li>
+                  <a href="{{ url_for('account.logout') }}">
+                    Log out</a>
+                </li>
 
-              <li>
-                <a href="{{ url_for('account.logout') }}">
-                  Log out</a>
-              </li>
-
-              {% else %}
-              <li>
-                <a rel="nofollow" href="{{ url_for('account.signup') }}">
-                  Register
-                </a>
-              </li>
-              <li>
-                <a rel="nofollow" href="{{ url_for('account.login') }}">
-                  Log in
-                </a>
-              </li>
-              {% endif %}
-            </ul>
+                {% else %}
+                <li>
+                  <a rel="nofollow" href="{{ url_for('account.signup') }}">
+                    Register
+                  </a>
+                </li>
+                <li>
+                  <a rel="nofollow" href="{{ url_for('account.login') }}">
+                    Log in
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+            <div class="offset-md-2 col-md-4 col-12">
+              <div class="footer__menus__social-container">
+                <div class="footer__menus__social">
+                  <a target="_blank" rel="noopener" class="social-footer" href="https://www.facebook.com/mirumeelabs/">
+                    <svg data-src="{{ url_for('static', filename='img/facebook-logo.svg') }}" width="45px" height="45px" />
+                  </a>
+                  <a target="_blank" rel="noopener" class="social-footer" href="https://github.com/mirumee/saleor">
+                    <svg data-src="{{ url_for('static', filename='img/github-logo.svg') }}" width="45px" height="45px" />
+                  </a>
+                  <a target="_blank" rel="noopener" class="social-footer" href="https://twitter.com/getsaleor">
+                    <svg data-src="{{ url_for('static', filename='img/twitter-logo.svg') }}" width="45px" height="45px" />
+                  </a>
+                  <a target="_blank" rel="noopener" class="social-footer" href="https://plus.google.com/+Mirumee">
+                    <svg data-src="{{ url_for('static', filename='img/google-logo.svg') }}" width="45px" height="45px" />
+                  </a>
+                  <a target="_blank" rel="noopener" class="social-footer" href="https://www.meetup.com/Mirumee-Talks/">
+                    <svg data-src="{{ url_for('static', filename='img/meetup-logo.svg') }}" width="45px" height="45px" />
+                  </a>
+                  <a target="_blank" rel="noopener" class="social-footer" href="https://linkedin.com/company/mirumee-software">
+                    <svg data-src="{{ url_for('static', filename='img/linkedin-logo.svg') }}" width="45px" height="45px" />
+                  </a>
+                  <a target="_blank" rel="noopener" class="social-footer" href="https://dribbble.com/mirumee">
+                    <svg data-src="{{ url_for('static', filename='img/dribbble-logo.svg') }}" width="45px" height="45px" />
+                  </a>
+                  <a target="_blank" rel="noopener" class="social-footer" href="https://www.instagram.com/explore/tags/mirumee/">
+                    <svg data-src="{{ url_for('static', filename='img/instagram-logo.svg') }}" width="45px" height="45px" />
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-md-3 col-sm-12">
-            <a target="_blank" rel="noopener" class="social-footer" href="https://www.facebook.com/mirumeelabs/">
-              <svg data-src="{{ url_for('static', filename='img/facebook-logo.svg') }}" width="45px" height="45px"></svg>
-            </a>
-            <a target="_blank" rel="noopener" class="social-footer" href="https://github.com/mirumee/saleor">
-              <svg data-src="{{ url_for('static', filename='img/github-logo.svg') }}" width="45px" height="45px"></svg>
-            </a>
-            <a target="_blank" rel="noopener" class="social-footer" href="https://twitter.com/getsaleor">
-              <svg data-src="{{ url_for('static', filename='img/twitter-logo.svg') }}" width="45px" height="45px"></svg>
-            </a>
-            <a target="_blank" rel="noopener" class="social-footer" href="https://plus.google.com/+Mirumee">
-              <svg data-src="{{ url_for('static', filename='img/google-logo.svg') }}" width="45px" height="45px"></svg>
-            </a>
-            <a target="_blank" rel="noopener" class="social-footer" href="https://www.meetup.com/Mirumee-Talks/">
-              <svg data-src="{{ url_for('static', filename='img/meetup-logo.svg') }}" width="45px" height="45px"></svg>
-            </a>
-            <a target="_blank" rel="noopener" class="social-footer" href="https://linkedin.com/company/mirumee-software">
-              <svg data-src="{{ url_for('static', filename='img/linkedin-logo.svg') }}" width="45px" height="45px"></svg>
-            </a>
-            <a target="_blank" rel="noopener" class="social-footer" href="https://dribbble.com/mirumee">
-              <svg data-src="{{ url_for('static', filename='img/dribbble-logo.svg') }}" width="45px" height="45px"></svg>
-            </a>
-            <a target="_blank" rel="noopener" class="social-footer" href="https://www.instagram.com/explore/tags/mirumee/">
-              <svg data-src="{{ url_for('static', filename='img/instagram-logo.svg') }}" width="45px" height="45px"></svg>
-            </a>
+        </div>
+      </div>
+      <div class="footer__copy">
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <a href="{{ url_for('public.home') }}" class="footer__logo float-md-left">
+                <svg data-src="{{ url_for('static', filename='img/logo-document.svg') }}" />
+              </a>
+            </div>
+            <div class="col-8 footer__copy-text">COPYRIGHT © 2009–2019 MIRUMEE SOFTWARE</div>
           </div>
         </div>
       </div>
     </footer>
     {% endblock %}
     {% block footer_scripts %}
-    {# {{ bootstrap.load_js() }}#}
     {{ javascript_tag('storefront') | safe }}
-
     {% endblock footer_scripts %}
   </body>
 

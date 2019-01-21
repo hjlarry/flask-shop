@@ -13,7 +13,7 @@ from flaskshop.product.models import (
     ProductImage,
     ProductAttribute,
     AttributeChoiceValue,
-    Collection
+    Collection,
 )
 from flaskshop.public.models import Site, MenuItem, Page
 from flaskshop.product.utils import get_name_from_attributes
@@ -22,8 +22,15 @@ from flaskshop.checkout.models import ShippingMethod
 from flaskshop.order.models import Order, OrderLine, OrderPayment
 from flaskshop.discount.models import Voucher, Sale
 from flaskshop.settings import Config
-from flaskshop.constant import PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED, TYPE_PERCENT, \
-    TYPE_FIXED, VOUCHER_TYPE_SHIPPING, VOUCHER_TYPE_VALUE
+from flaskshop.constant import (
+    PAYMENT_STATUS_WAITING,
+    PAYMENT_STATUS_PREAUTH,
+    PAYMENT_STATUS_CONFIRMED,
+    TYPE_PERCENT,
+    TYPE_FIXED,
+    VOUCHER_TYPE_SHIPPING,
+    VOUCHER_TYPE_VALUE,
+)
 
 fake = Factory.create()
 
@@ -180,7 +187,7 @@ def set_product_attributes(product, product_type):
 
 
 def create_products_by_type(
-        product_type, schema, placeholder_dir, how_many=10, create_images=True, stdout=None
+    product_type, schema, placeholder_dir, how_many=10, create_images=True, stdout=None
 ):
     category = get_or_create_category(schema["category"], placeholder_dir)
 
@@ -207,13 +214,11 @@ def create_products_by_type(
             sku = f"{product.id}-{fake.random_int(1000, 100000)}"
             create_variant(product, sku=sku)
         if stdout is not None:
-            stdout.write(
-                f"Product: {product} ({product_type.name}), {1} variant(s)"
-            )
+            stdout.write(f"Product: {product} ({product_type.name}), {1} variant(s)")
 
 
 def create_products_by_schema(
-        placeholder_dir, how_many, create_images, stdout=None, schema=DEFAULT_SCHEMA
+    placeholder_dir, how_many, create_images, stdout=None, schema=DEFAULT_SCHEMA
 ):
     for product_type, type_schema in create_product_types_by_schema(schema):
         create_products_by_type(
@@ -248,7 +253,7 @@ def create_product(**kwargs):
         "title": fake.company(),
         "price": fake.pydecimal(2, 2, positive=True),
         "description": "\n\n".join(description),
-        "is_featured": random.choice([0, 1])
+        "is_featured": random.choice([0, 1]),
     }
     defaults.update(kwargs)
     return Product.create(**defaults)
@@ -319,9 +324,12 @@ def create_page():
     yield f"Page {page.title} created"
 
 
-def generate_menu_items(category: Category, menu_id=None,parent_id=None):
+def generate_menu_items(category: Category, menu_id=None, parent_id=None):
     menu_item, created = MenuItem.get_or_create(
-        title=category.title, category_id=category.id, site_id=menu_id, parent_id=parent_id
+        title=category.title,
+        category_id=category.id,
+        site_id=menu_id,
+        parent_id=parent_id,
     )
 
     if created:
@@ -336,8 +344,10 @@ def create_menus():
     site = Site.query.first()
     if not site:
         site = Site.create(
-            header_text="TEST SALEOR - A SAMPLE SHOP", description="sth about this site",
-            top_menu_id=1, bottom_menu_id=2
+            header_text="TEST SALEOR - A SAMPLE SHOP",
+            description="sth about this site",
+            top_menu_id=1,
+            bottom_menu_id=2,
         )
     site.save()
 
@@ -345,7 +355,7 @@ def create_menus():
     categories = Category.query.all()
     for category in categories:
         if not category.parent_id:
-            for msg in generate_menu_items(category, menu_id):
+            for msg in generate_menu_items(category, menu_id=1):
                 yield msg
 
     yield "Created footer menu"
@@ -361,12 +371,14 @@ def create_menus():
     page = Page.query.first()
     if page:
         MenuItem.get_or_create(title=page.title, page_id=page.id, site_id=2)
-        
+
 
 def get_email(first_name, last_name):
     _first = unicodedata.normalize("NFD", first_name).encode("ascii", "ignore")
     _last = unicodedata.normalize("NFD", last_name).encode("ascii", "ignore")
-    return f"{_first.lower().decode('utf-8')}.{_last.lower().decode('utf-8')}@example.com"
+    return (
+        f"{_first.lower().decode('utf-8')}.{_last.lower().decode('utf-8')}@example.com"
+    )
 
 
 def create_users(how_many=10):
@@ -378,7 +390,10 @@ def create_users(how_many=10):
 def create_fake_user():
     email = get_email(fake.first_name(), fake.last_name())
     user, _ = User.get_or_create(
-        username=fake.first_name() + fake.last_name(), email=email, password="password", active=True
+        username=fake.first_name() + fake.last_name(),
+        email=email,
+        password="password",
+        active=True,
     )
     return user
 
@@ -414,7 +429,7 @@ def get_price_override(schema, combinations_num, current_price):
     return prices
 
 
-def create_fake_address():
+def create_fake_address(user_id=None):
     address = UserAddress.create(
         contact_name=fake.name(),
         province=fake.state(),
@@ -422,6 +437,7 @@ def create_fake_address():
         district=fake.city_suffix(),
         address=fake.street_address(),
         contact_phone=fake.phone_number(),
+        user_id=user_id,
     )
     return address
 
@@ -464,23 +480,30 @@ def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
 
 
 def create_admin():
-    address1 = create_fake_address()
-    address2 = create_fake_address()
-    address3 = create_fake_address()
-    user = User.create(username='hjlarry', email='hjlarry@163.com', password='123', active=True, is_admin=True)
-    user.addresses = [address1, address2, address3]
-    user.save()
-    yield f'Admin {user.username} created'
+    user = User.create(
+        username="hjlarry",
+        email="hjlarry@163.com",
+        password="123",
+        active=True,
+        is_admin=True,
+    )
+    address1 = create_fake_address(user.id)
+    address2 = create_fake_address(user.id)
+    address3 = create_fake_address(user.id)
+    yield f"Admin {user.username} created"
 
 
 def create_payment(order):
-    status = random.choice([PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED])
+    status = random.choice(
+        [PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED]
+    )
     payment = OrderPayment.create(
         order=order,
         status=status,
         total=order.total_net,
         delivery=order.shipping_price_net,
-        customer_ip_address=fake.ipv4())
+        customer_ip_address=fake.ipv4(),
+    )
     return payment
 
 
@@ -519,22 +542,24 @@ def create_order_lines(order, discounts, taxes, how_many=10):
 def create_fake_order(discounts, taxes):
     user = User.query.filter_by(is_admin=False).order_by(func.random()).first()
 
-    order_data = {
-        'user': user,
-        'shipping_address': create_fake_address()}
+    order_data = {"user": user, "shipping_address": create_fake_address()}
 
     shipping_method = ShippingMethod.query.order_by(func.random()).first()
 
-    order_data.update({
-        'shipping_method_name': shipping_method.title,
-        'shipping_price_net': shipping_method.price})
+    order_data.update(
+        {
+            "shipping_method_name": shipping_method.title,
+            "shipping_price_net": shipping_method.price,
+        }
+    )
 
     order = Order.create(**order_data)
 
     lines = create_order_lines(order, discounts, taxes, random.randrange(1, 5))
 
     order.total_net = sum(
-        [line.get_total() for line in lines], order.shipping_price_net)
+        [line.get_total() for line in lines], order.shipping_price_net
+    )
     order.save()
 
     # create_fulfillments(order)
@@ -545,9 +570,10 @@ def create_fake_order(discounts, taxes):
 
 def create_fake_sale():
     sale = Sale.create(
-        title=f'Happy {fake.word()} day!',
+        title=f"Happy {fake.word()} day!",
         type=TYPE_PERCENT,
-        value=random.choice([10, 20, 30, 40, 50]))
+        value=random.choice([10, 20, 30, 40, 50]),
+    )
     for product in Product.query.order_by(func.random()).all()[:4]:
         sale.products.append(product)
     return sale
@@ -559,39 +585,39 @@ def create_orders(how_many=10):
     discounts = None
     for dummy in range(how_many):
         order = create_fake_order(discounts, taxes)
-        yield f'Order: {order}'
+        yield f"Order: {order}"
 
 
 def create_product_sales(how_many=5):
     for dummy in range(how_many):
         sale = create_fake_sale()
-        yield f'Sale: {sale}'
+        yield f"Sale: {sale}"
 
 
 def create_vouchers():
     defaults = {
-        'type': VOUCHER_TYPE_SHIPPING,
-        'title': 'Free shipping',
-        'discount_value_type': TYPE_PERCENT,
-        'discount_value': 100}
-    voucher, created = Voucher.get_or_create(
-        code='FREESHIPPING', **defaults)
+        "type": VOUCHER_TYPE_SHIPPING,
+        "title": "Free shipping",
+        "discount_value_type": TYPE_PERCENT,
+        "discount_value": 100,
+    }
+    voucher, created = Voucher.get_or_create(code="FREESHIPPING", **defaults)
     if created:
-        yield f'Voucher #{voucher.id}'
+        yield f"Voucher #{voucher.id}"
     else:
-        yield 'Shipping voucher already exists'
+        yield "Shipping voucher already exists"
 
     defaults = {
-        'type': VOUCHER_TYPE_VALUE,
-        'title': 'Big order discount',
-        'discount_value_type': TYPE_FIXED,
-        'discount_value': 25,
-        'limit': 200}
+        "type": VOUCHER_TYPE_VALUE,
+        "title": "Big order discount",
+        "discount_value_type": TYPE_FIXED,
+        "discount_value": 25,
+        "limit": 200,
+    }
 
-    voucher, created = Voucher.get_or_create(
-        code='DISCOUNT', **defaults)
+    voucher, created = Voucher.get_or_create(code="DISCOUNT", **defaults)
     if created:
-        yield f'Voucher #{voucher.id}'
+        yield f"Voucher #{voucher.id}"
     else:
-        yield 'Value voucher already exists'
+        yield "Value voucher already exists"
 
