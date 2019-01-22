@@ -9,7 +9,6 @@ from flaskshop.database import (
     reference_col,
     relationship,
 )
-from .utils import get_product_list_context
 
 
 class Product(SurrogatePK, Model):
@@ -65,11 +64,21 @@ class Category(SurrogatePK, Model):
 
     @property
     def products(self):
-        return Product.query.filter(Product.category_id == self.id).all()
+        all_category_ids = [child.id for child in self.children] + [self.id]
+        return Product.query.filter(
+            Product.category_id.in_(all_category_ids)).all()
 
     @property
     def children(self):
         return Category.query.filter(Category.parent_id == self.id).all()
+
+    @property
+    def attr_filter(self):
+        attr_filter = set()
+        for product in self.products:
+            for attr in product.product_type.product_attributes:
+                attr_filter.add(attr)
+        return attr_filter
 
     @classmethod
     def get_product_by_category(cls, category_id, page):
@@ -77,7 +86,7 @@ class Category(SurrogatePK, Model):
         all_category_ids = [child.id
                             for child in category.children] + [category.id]
         query = Product.query.filter(Product.category_id.in_(all_category_ids))
-        ctx, query = get_product_list_context(query)
+        ctx, query = get_product_list_context(query, category)
         pagination = query.paginate(page, per_page=16)
         ctx.update(
             object=category, pagination=pagination, products=pagination.items)
@@ -230,6 +239,22 @@ class Collection(SurrogatePK, Model):
     def get_absolute_url(self):
         return url_for("product.show_collection", id=self.id)
 
+    @property
+    def products(self):
+        at_ids = (ProductCollection.query.with_entities(
+            ProductCollection.product_id).filter(
+                ProductCollection.collection_id == self.id).all())
+        return Product.query.filter(Product.id.in_(id for id in at_ids)).all()
+
+    @property
+    def attr_filter(self):
+        # TODO cache
+        attr_filter = set()
+        for product in self.products:
+            for attr in product.product_type.product_attributes:
+                attr_filter.add(attr)
+        return attr_filter
+
 
 class ProductCollection(SurrogatePK, Model):
     __tablename__ = "product_collection_products"
@@ -243,10 +268,57 @@ class ProductCollection(SurrogatePK, Model):
             ProductCollection.product_id).filter(
                 ProductCollection.collection_id == collection.id).all())
         query = Product.query.filter(Product.id.in_(id for id in at_ids))
-        ctx, query = get_product_list_context(query)
+        ctx, query = get_product_list_context(query, collection)
         pagination = query.paginate(page, per_page=16)
         ctx.update(
             object=collection,
             pagination=pagination,
             products=pagination.items)
         return ctx
+
+
+def get_product_list_context(query, obj):
+    """
+    obj: collection or category, to get it`s attr_filter.
+    """
+    args_dict = {}
+
+    price_from = request.args.get("price_from", None, type=int)
+    price_to = request.args.get("price_to", None, type=int)
+    if price_from:
+        query = query.filter(Product.price > price_from)
+    if price_to:
+        query = query.filter(Product.price < price_to)
+    args_dict.update(price_from=price_from, price_to=price_to)
+
+    sort_by_choices = {"title": "title", "price": "price"}
+    arg_sort_by = request.args.get("sort_by", "")
+    is_descending = False
+    if arg_sort_by.startswith("-"):
+        is_descending = True
+        arg_sort_by = arg_sort_by[1:]
+    if arg_sort_by in sort_by_choices:
+        query = (query.order_by(desc(getattr(Product, arg_sort_by)))
+                 if is_descending else query.order_by(
+                     getattr(Product, arg_sort_by)))
+    now_sorted_by = arg_sort_by or "title"
+    args_dict.update(
+        sort_by_choices=sort_by_choices,
+        now_sorted_by=now_sorted_by,
+        is_descending=is_descending,
+    )
+
+    args_dict.update(default_attr={})
+    attr_filter = getattr(obj, 'attr_filter')
+    for attr in attr_filter:
+        value = request.args.get(attr.title)
+        if value:
+            products = products.filter(
+                Product.attributes.__getitem__(str(attr.id)) == value)
+            args_dict["default_attr"].update({attr.title: int(value)})
+    args_dict.update(attr_filter=attr_filter)
+
+    if request.args:
+        args_dict.update(clear_filter=True)
+
+    return args_dict, query

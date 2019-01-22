@@ -57,55 +57,6 @@ def generate_name_from_values(attributes_dict):
                           attributes_dict.items(), key=lambda x: x[0]))
 
 
-def get_product_list_context(products):
-    from .models import Product
-
-    args_dict = {}
-
-    price_from = request.args.get("price_from", None, type=int)
-    price_to = request.args.get("price_to", None, type=int)
-    if price_from:
-        products = products.filter(Product.price > price_from)
-    if price_to:
-        products = products.filter(Product.price < price_to)
-    args_dict.update(price_from=price_from, price_to=price_to)
-
-    sort_by_choices = {"title": "title", "price": "price"}
-    arg_sort_by = request.args.get("sort_by", "")
-    is_descending = False
-    if arg_sort_by.startswith("-"):
-        is_descending = True
-        arg_sort_by = arg_sort_by[1:]
-    if arg_sort_by in sort_by_choices:
-        products = (products.order_by(desc(getattr(Product, arg_sort_by)))
-                    if is_descending else products.order_by(
-                        getattr(Product, arg_sort_by)))
-    now_sorted_by = arg_sort_by or "title"
-    args_dict.update(
-        sort_by_choices=sort_by_choices,
-        now_sorted_by=now_sorted_by,
-        is_descending=is_descending,
-    )
-
-    args_dict.update(default_attr={})
-    attr_filter = set()
-    for product in products:
-        for attr in product.product_type.product_attributes:
-            attr_filter.add(attr)
-    for attr in attr_filter:
-        value = request.args.get(attr.title)
-        if value:
-            products = products.filter(
-                Product.attributes.__getitem__(str(attr.id)) == value)
-            args_dict["default_attr"].update({attr.title: int(value)})
-    args_dict.update(attr_filter=attr_filter)
-
-    if request.args:
-        args_dict.update(clear_filter=True)
-
-    return args_dict, products
-
-
 def add_to_currentuser_cart(quantity, variant_id):
     if current_user.cart:
         cart = current_user.cart

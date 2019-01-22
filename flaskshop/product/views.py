@@ -7,7 +7,6 @@ from .models import Product, Category, ProductCollection
 from .forms import AddCartForm
 from .utils import (
     get_product_attributes_data,
-    get_product_list_context,
     add_to_currentuser_cart,
 )
 
