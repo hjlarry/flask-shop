@@ -29,7 +29,7 @@ class ProductView(CustomView):
     product_variant_options = {
         "form_excluded_columns": ("created_at", "quantity_allocated"),
     }
-    inline_models = [(ProductVariant, product_variant_options)]
+    # inline_models = [(ProductVariant, product_variant_options)]
     column_editable_list = ('title', 'rating')
     column_filters = ('id', 'title')
 

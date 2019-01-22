@@ -58,6 +58,19 @@ class Product(SurrogatePK, Model):
         return ProductImage.query.filter(
             ProductImage.product_id == self.id).all()
 
+    @property
+    def variant(self):
+        return ProductVariant.query.filter(
+            ProductVariant.product_id == self.id).all()
+
+    @property
+    def attribute_map(self):
+        items = {
+            ProductAttribute.get_by_id(k): AttributeChoiceValue.get_by_id(v)
+            for k, v in self.attributes.items()
+        }
+        return items
+
 
 class Category(SurrogatePK, Model):
     __tablename__ = "product_category"
@@ -119,23 +132,6 @@ product_type_product_attrbuites = db.Table(
     ),
 )
 
-product_type_variant_attrbuites = db.Table(
-    "product_producttype_variant_attributes",
-    Column("id", db.Integer(), primary_key=True, autoincrement=True),
-    Column(
-        "producttype_id",
-        db.Integer(),
-        db.ForeignKey("product_producttype.id"),
-        primary_key=True,
-    ),
-    Column(
-        "productattribute_id",
-        db.Integer(),
-        db.ForeignKey("product_productattribute.id"),
-        primary_key=True,
-    ),
-)
-
 
 class ProductType(SurrogatePK, Model):
     __tablename__ = "product_producttype"
@@ -146,11 +142,6 @@ class ProductType(SurrogatePK, Model):
         "ProductAttribute",
         secondary=product_type_product_attrbuites,
         backref="product_types",
-    )
-    variant_attributes = relationship(
-        "ProductAttribute",
-        secondary=product_type_variant_attrbuites,
-        backref="variant_types",
     )
 
     def __str__(self):
@@ -164,8 +155,7 @@ class ProductVariant(SurrogatePK, Model):
     price_override = Column(db.DECIMAL(10, 2))
     quantity = Column(db.Integer())
     quantity_allocated = Column(db.Integer(), default=0)
-    product_id = reference_col("product_product")
-    product = relationship("Product", backref="variant")
+    product_id = Column(db.Integer())
     attributes = Column(MutableDict.as_mutable(db.JSON()))
 
     def __str__(self):
@@ -191,18 +181,8 @@ class ProductVariant(SurrogatePK, Model):
         return self.price_override or self.product.price
 
     @property
-    def base_price(self):
-        return self.price_override or self.product.price
-
-    def get_price(self, discounts=None, taxes=None):
-        # price = calculate_discounted_price(
-        #     self.product, self.base_price, discounts)
-        # if not self.product.charge_taxes:
-        #     taxes = None
-        # tax_rate = (
-        #         self.product.tax_rate or self.product.product_type.tax_rate)
-        # return apply_tax_to_price(taxes, tax_rate, price)
-        return self.base_price
+    def product(self):
+        return Product.get_by_id(self.product_id)
 
     def get_absolute_url(self):
         return url_for("product.show", id=self.product.id)
@@ -317,11 +297,11 @@ def get_product_list_context(query, obj):
     )
 
     args_dict.update(default_attr={})
-    attr_filter = getattr(obj, 'attr_filter')
+    attr_filter = obj.attr_filter
     for attr in attr_filter:
         value = request.args.get(attr.title)
         if value:
-            products = products.filter(
+            query = query.filter(
                 Product.attributes.__getitem__(str(attr.id)) == value)
             args_dict["default_attr"].update({attr.title: int(value)})
     args_dict.update(attr_filter=attr_filter)

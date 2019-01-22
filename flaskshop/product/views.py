@@ -5,10 +5,7 @@ from flask_login import login_required
 
 from .models import Product, Category, ProductCollection
 from .forms import AddCartForm
-from .utils import (
-    get_product_attributes_data,
-    add_to_currentuser_cart,
-)
+from .utils import add_to_currentuser_cart
 
 blueprint = Blueprint("product", __name__, url_prefix="/products")
 
@@ -18,13 +15,7 @@ def show(id, form=None):
     product = Product.get_by_id(id)
     if not form:
         form = AddCartForm(request.form, product=product)
-    product_attributes = get_product_attributes_data(product)
-    return render_template(
-        "products/details.html",
-        product=product,
-        form=form,
-        product_attributes=product_attributes,
-    )
+    return render_template("products/details.html", product=product, form=form)
 
 
 @blueprint.route("/<int:id>/add", methods=["POST"])
@@ -43,17 +34,6 @@ def product_add_to_cart(id):
 def show_category(id):
     page = request.args.get("page", 1, type=int)
     ctx = Category.get_product_by_category(id, page)
-    # category = Category.get_by_id(id)
-    # items = Product.query.with_parent(category)
-    # if category.children:
-    #     sub_queries = [
-    #         Product.query.with_parent(child) for child in category.children
-    #     ]
-    #     items = sub_queries[0].union(*sub_queries[1:])
-    # ctx, items = get_product_list_context(items)
-    # pagination = items.paginate(page, per_page=16)
-    # products = pagination.items
-    # ctx.update(object=category, pagination=pagination, products=products)
     return render_template("category/index.html", **ctx)
 
 
