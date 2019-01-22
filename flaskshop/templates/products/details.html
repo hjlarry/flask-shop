@@ -131,7 +131,7 @@
     </div>
     <hr>
     <table>
-      {% for attribute, value in product_attributes.items() %}
+      {% for attribute, value in product.attribute_map.items() %}
       <tr>
         <td>{{ attribute }}:</td>
         <td><strong>{{ value }}</strong></td>

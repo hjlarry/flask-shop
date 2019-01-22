@@ -19,8 +19,7 @@ class Site(SurrogatePK, Model):
 
     def get_menu_items(self, menu_id):
         return MenuItem.query.filter(MenuItem.site_id == menu_id).order_by(
-            MenuItem.order
-        )
+            MenuItem.order)
 
     @property
     def top_menu_items(self):
@@ -35,7 +34,7 @@ class MenuItem(SurrogatePK, Model):
     __tablename__ = "menu_menuitem"
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
-    url = Column(db.String(255))
+    _url = Column('url', db.String(255))
     category_id = Column(db.Integer())
     collection_id = Column(db.Integer())
     site_id = Column(db.Integer())  # item在site中的位置
@@ -51,7 +50,7 @@ class MenuItem(SurrogatePK, Model):
 
     @property
     def children(self):
-        return MenuItem.query.filter(MenuItem.parent_id == self.id)
+        return MenuItem.query.filter(MenuItem.parent_id == self.id).all()
 
     @property
     def linked_object_url(self):
@@ -63,8 +62,8 @@ class MenuItem(SurrogatePK, Model):
             return url_for("product.show_collection", id=self.collection_id)
 
     @property
-    def get_url(self):
-        return self.url if self.url else self.linked_object_url
+    def url(self):
+        return self._url if self._url else self.linked_object_url
 
 
 class Page(SurrogatePK, Model):
