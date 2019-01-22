@@ -455,21 +455,17 @@ def create_shipping_methods():
     yield f"Shipping method #{shipping_method.id}"
 
 
-def get_or_create_collection(title, placeholder_dir, image_name):
-    background_img = get_image(placeholder_dir, image_name)
-    return Collection.get_or_create(title=title, background_img=background_img)[0]
-
-
 def create_fake_collection(placeholder_dir, collection_data):
     image_dir = get_product_list_images_dir(placeholder_dir)
-    collection = get_or_create_collection(
+    background_img = get_image(image_dir, collection_data["image_name"])
+    collection = Collection.get_or_create(
         title=collection_data["name"],
-        placeholder_dir=image_dir,
-        image_name=collection_data["image_name"],
-    )
+        background_img=background_img,
+    )[0]
     products = Product.query.limit(4)
-    collection.products.extend(products)
-    collection.save()
+    for product in products:
+        product.collection_id = collection.id
+        product.save()
     return collection
 
 

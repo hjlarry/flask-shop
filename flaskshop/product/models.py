@@ -22,8 +22,7 @@ class Product(SurrogatePK, Model):
     sold_count = Column(db.Integer(), default=0)
     review_count = Column(db.Integer(), default=0)
     price = Column(db.DECIMAL(10, 2))
-    category_id = reference_col("product_category")
-    category = relationship("Category")
+    category_id = Column(db.Integer())
     is_featured = Column(db.Boolean(), default=False)
     product_type_id = reference_col("product_producttype")
     product_type = relationship("ProductType", backref="products")
@@ -55,9 +54,8 @@ class Product(SurrogatePK, Model):
 class Category(SurrogatePK, Model):
     __tablename__ = "product_category"
     title = Column(db.String(255), nullable=False)
-    parent_id = reference_col("product_category")
+    parent_id = Column(db.Integer())
     background_img = Column(db.String(255))
-    products = relationship("Product")
 
     def __str__(self):
         return self.title
@@ -65,9 +63,26 @@ class Category(SurrogatePK, Model):
     def get_absolute_url(self):
         return url_for("product.show_category", id=self.id)
 
+    @property
+    def products(self):
+        return Product.query.filter(Product.category_id == self.id).all()
 
-Category.parent = relationship(
-    "Category", backref="children", remote_side=Category.id)
+    @property
+    def children(self):
+        return Category.query.filter(Category.parent_id == self.id).all()
+
+    @classmethod
+    def get_product_by_category(cls, category_id, page):
+        category = Category.get_by_id(category_id)
+        all_category_ids = [child.id
+                            for child in category.children] + [category.id]
+        query = Product.query.filter(Product.category_id.in_(all_category_ids))
+        ctx, query = get_product_list_context(query)
+        pagination = query.paginate(page, per_page=16)
+        ctx.update(
+            object=category, pagination=pagination, products=pagination.items)
+        return ctx
+
 
 product_type_product_attrbuites = db.Table(
     "product_producttype_product_attributes",
@@ -222,7 +237,7 @@ class ProductCollection(SurrogatePK, Model):
     collection_id = Column(db.Integer())
 
     @classmethod
-    def get_product_by_collection(cls, collection_id, page=1):
+    def get_product_by_collection(cls, collection_id, page):
         collection = Collection.get_by_id(collection_id)
         at_ids = (ProductCollection.query.with_entities(
             ProductCollection.product_id).filter(
@@ -230,6 +245,8 @@ class ProductCollection(SurrogatePK, Model):
         query = Product.query.filter(Product.id.in_(id for id in at_ids))
         ctx, query = get_product_list_context(query)
         pagination = query.paginate(page, per_page=16)
-        products = pagination.items
-        ctx.update(object=collection, pagination=pagination)
+        ctx.update(
+            object=collection,
+            pagination=pagination,
+            products=pagination.items)
         return ctx
