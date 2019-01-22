@@ -12,7 +12,9 @@ from .utils import CustomView
 blueprint = Blueprint("admin_pannel", __name__, url_prefix="/admin")
 
 csrf_protect.exempt(CustomView.ajax_update)
-admin_manager.add_views(UserView(), UserAddressView(), ProductView(), ProductCategoryView(),
-                        ProductCollectionView(), ProductImageView(), ProductVariantView(), OrderView(), OrderLineView(),
-                        OrderPaymentView(), SaleView(), VoucherView(), SiteView(), MenuItemView(), PageView(),
+admin_manager.add_views(UserView(), UserAddressView(), ProductView(),
+                        ProductCategoryView(), ProductCollectionView(),
+                        ProductImageView(), ProductVariantView(), OrderView(),
+                        OrderLineView(), OrderPaymentView(), SaleView(),
+                        VoucherView(), SiteView(), MenuItemView(), PageView(),
                         ProductTypeView(), ProductAttributeView())

@@ -1,14 +1,7 @@
 from flask import url_for, request
 from sqlalchemy.ext.mutable import MutableDict
 
-from flaskshop.database import (
-    Column,
-    Model,
-    SurrogatePK,
-    db,
-    reference_col,
-    relationship,
-)
+from flaskshop.database import Column, Model, SurrogatePK, db
 
 
 class Product(SurrogatePK, Model):
@@ -23,8 +16,7 @@ class Product(SurrogatePK, Model):
     price = Column(db.DECIMAL(10, 2))
     category_id = Column(db.Integer())
     is_featured = Column(db.Boolean(), default=False)
-    product_type_id = reference_col("product_producttype")
-    product_type = relationship("ProductType", backref="products")
+    product_type_id = Column(db.Integer())
     attributes = Column(MutableDict.as_mutable(db.JSON()))
 
     def __str__(self):
@@ -32,6 +24,11 @@ class Product(SurrogatePK, Model):
 
     def get_absolute_url(self):
         return url_for("product.show", id=self.id)
+
+    @property
+    def images(self):
+        return ProductImage.query.filter(
+            ProductImage.product_id == self.id).all()
 
     def get_first_img(self):
         if self.images:
@@ -54,9 +51,8 @@ class Product(SurrogatePK, Model):
         return Category.get_by_id(self.category_id)
 
     @property
-    def images(self):
-        return ProductImage.query.filter(
-            ProductImage.product_id == self.id).all()
+    def product_type(self):
+        return ProductType.get_by_id(self.product_type_id)
 
     @property
     def variant(self):
@@ -115,22 +111,10 @@ class Category(SurrogatePK, Model):
         return ctx
 
 
-product_type_product_attrbuites = db.Table(
-    "product_producttype_product_attributes",
-    Column("id", db.Integer(), primary_key=True, autoincrement=True),
-    Column(
-        "producttype_id",
-        db.Integer(),
-        db.ForeignKey("product_producttype.id"),
-        primary_key=True,
-    ),
-    Column(
-        "productattribute_id",
-        db.Integer(),
-        db.ForeignKey("product_productattribute.id"),
-        primary_key=True,
-    ),
-)
+class ProductTypeAttributes(SurrogatePK, Model):
+    __tablename__ = "product_producttype_product_attributes"
+    product_type_id = Column(db.Integer())
+    product_attribute_id = Column(db.Integer())
 
 
 class ProductType(SurrogatePK, Model):
@@ -138,14 +122,17 @@ class ProductType(SurrogatePK, Model):
     title = Column(db.String(255), nullable=False)
     has_variants = Column(db.Boolean(), default=True)
     is_shipping_required = Column(db.Boolean(), default=False)
-    product_attributes = relationship(
-        "ProductAttribute",
-        secondary=product_type_product_attrbuites,
-        backref="product_types",
-    )
 
     def __str__(self):
         return self.title
+
+    @property
+    def product_attributes(self):
+        at_ids = (ProductTypeAttributes.query.with_entities(
+            ProductTypeAttributes.product_attribute_id).filter(
+                ProductTypeAttributes.product_type_id == self.id).all())
+        return ProductAttribute.query.filter(
+            ProductAttribute.id.in_(id for id in at_ids)).all()
 
 
 class ProductVariant(SurrogatePK, Model):
@@ -195,12 +182,16 @@ class ProductAttribute(SurrogatePK, Model):
     def __str__(self):
         return self.title
 
+    @property
+    def values(self):
+        return AttributeChoiceValue.query.filter(
+            AttributeChoiceValue.attribute_id == self.id).all()
+
 
 class AttributeChoiceValue(SurrogatePK, Model):
     __tablename__ = "product_attributechoicevalue"
     title = Column(db.String(255), nullable=False)
-    attribute_id = reference_col("product_productattribute")
-    attribute = relationship("ProductAttribute", backref="values")
+    attribute_id = Column(db.Integer())
 
     def __str__(self):
         return self.title
