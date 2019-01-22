@@ -49,6 +49,15 @@ class Product(SurrogatePK, Model):
     def is_in_stock(self):
         return any(variant.is_in_stock for variant in self)
 
+    @property
+    def category(self):
+        return Category.get_by_id(self.category_id)
+
+    @property
+    def images(self):
+        return ProductImage.query.filter(
+            ProductImage.product_id == self.id).all()
+
 
 class Category(SurrogatePK, Model):
     __tablename__ = "product_category"
@@ -221,8 +230,7 @@ class ProductImage(SurrogatePK, Model):
     __tablename__ = "product_productimage"
     image = Column(db.String(255))
     order = Column(db.Integer())
-    product_id = reference_col("product_product")
-    product = relationship("Product", backref="images")
+    product_id = Column(db.Integer())
 
     def __str__(self):
         return url_for("static", filename=self.image, _external=True)

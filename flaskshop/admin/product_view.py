@@ -24,12 +24,12 @@ class ProductView(CustomView):
         "price",
     )
     product_image_options = {
-        "form_excluded_columns": ("created_at",),
+        "form_excluded_columns": ("created_at", ),
     }
     product_variant_options = {
         "form_excluded_columns": ("created_at", "quantity_allocated"),
     }
-    inline_models = [(ProductImage, product_image_options), (ProductVariant, product_variant_options)]
+    inline_models = [(ProductVariant, product_variant_options)]
     column_editable_list = ('title', 'rating')
     column_filters = ('id', 'title')
 
@@ -55,7 +55,10 @@ class ProductView(CustomView):
         elif model.image.startswith('http'):
             url = model.image
         else:
-            url = url_for('static', filename=form.thumbgen_filename(ast.literal_eval(model.image)[0]))
+            url = url_for(
+                'static',
+                filename=form.thumbgen_filename(
+                    ast.literal_eval(model.image)[0]))
         return Markup("<img src={} width=200 height=100/>".format(url))
 
     column_formatters = {"price": _format_price, "image": _list_thumbnail}
