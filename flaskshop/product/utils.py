@@ -7,25 +7,11 @@ from flaskshop.checkout.models import Cart, CartLine
 
 def get_name_from_attributes(variant):
     """Generates ProductVariant's name based on its attributes."""
-    # attributes = variant.product.product_type.variant_attributes
-    attributes = variant.product.product_type.product_attributes
-    # values = get_attributes_display_map(variant, attributes)
-    values = variant.attribute_map
-    return generate_name_from_values(values)
-
-
-def generate_name_from_values(attributes_dict):
-    """Generates name from AttributeChoiceValues. Attributes dict is sorted,
-    as attributes order should be kept within each save.
-
-    Args:
-        attributes_dict: dict of attribute_pk: AttributeChoiceValue values
-    """
-    print(attributes_dict)
-    return " / ".join(
+    values = [
         attributechoice_value.title
-        for attribute_pk, attributechoice_value in attributes_dict.items()
-    )
+        for attributechoice_value in variant.attribute_map.values()
+    ]
+    return " / ".join(values)
 
 
 def add_to_currentuser_cart(quantity, variant_id):

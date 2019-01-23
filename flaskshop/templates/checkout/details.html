@@ -3,94 +3,94 @@
 {% block title %}Checkout{% endblock %}
 
 {% block header %}
-  <div class="container-fluid navbar__login">
-    <div class="container">
-      <p>Easy and secure!</p>
-    </div>
+<div class="container-fluid navbar__login">
+  <div class="container">
+    <p>Easy and secure!</p>
   </div>
-  <header class="checkout__header">
-    <div class="container">
-      <a href="{{ url_for('public.home') }}">
-        <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px" width="176px" ></svg>
-      </a>
-      <h1>Checkout</h1>
-    </div>
-  </header>
+</div>
+<header class="checkout__header">
+  <div class="container">
+    <a href="{{ url_for('public.home') }}">
+      <svg data-src="{{ url_for('static', filename='img/logo-document.svg') }}" height="48px" width="176px"></svg>
+    </a>
+    <h1>Checkout</h1>
+  </div>
+</header>
 {% endblock %}
 
 {% block footer %}
 {% endblock %}
 
 {% block content %}
-  <div class="row checkout">
-    <div class="col-md-7">
-      {% block forms %}{% endblock %}
-    </div>
-    <div class="col-md-5">
-      <div class="checkout__review">
-        <h3 class="checkout__review__tittle">Order review</h3>
-        {% for line in current_user.cart.lines %}
-          <div class="row">
-            <div class="col-8">
-              <p><strong>{{ line.variant.product }}</strong> x {{ line.quantity }}<br>
-                <span class="checkout__review__variant">{{ line.variant }}</span></p>
-            </div>
-            <div class="col-4">
-              <p class="float-right">
-                ${{ line.subtotal }}
-              </p>
-            </div>
-          </div>
-        {% endfor %}
-        <div class="row checkout__review__section">
-          <div class="col-8">
-            <p>Subtotal</p>
-          </div>
-          <div class="col-4">
-            <p class="float-right">
-              ${{ current_user.cart.total }}
-            </p>
-          </div>
+<div class="row checkout">
+  <div class="col-md-7">
+    {% block forms %}{% endblock %}
+  </div>
+  <div class="col-md-5">
+    <div class="checkout__review">
+      <h3 class="checkout__review__tittle">Order review</h3>
+      {% for line in current_user.cart.lines %}
+      <div class="row">
+        <div class="col-8">
+          <p><strong>{{ line.variant.product }}</strong> x {{ line.quantity }}<br>
+            <span class="checkout__review__variant">{{ line.variant }}</span></p>
         </div>
-        <div class="row checkout__review__section">
-          <div class="col-8">
-            <p>Shipment</p>
-          </div>
-          <div class="col-4">
-            <p class="float-right">
-              {% if current_user.cart.shipping_method %}
-              {#  TODO #}
-              {% else %}
-                &mdash;
-              {% endif %}
-            </p>
-          </div>
+        <div class="col-4">
+          <p class="float-right">
+            ${{ line.subtotal }}
+          </p>
         </div>
-        {% if cart_are_taxes_handled %}
-          <div class="row checkout__review__section">
-            <div class="col-8">
-                <p>Taxes</p>
-            </div>
-            <div class="col-4">
-              <p class="float-right">tax_fee</p>
-            </div>
-          </div>
-        {% endif %}
-{#         <div class="row checkout__review__section">#}
-{#          <div class="col-12">#}
-{#            TODO <h3>Promo code</h3>#}
-{#            {% include "checkout/snippets/voucher_form.html" %}#}
-{#          </div>#}
-{#        </div>#}
-        <div class="row checkout__review__section">
-          <div class="col-8">
-            <h3>Total</h3>
-          </div>
-          <div class="col-4">
-            <h3 class="float-right">${{ current_user.cart.total }}</h3>
-          </div>
+      </div>
+      {% endfor %}
+      <div class="row checkout__review__section">
+        <div class="col-8">
+          <p>Subtotal</p>
+        </div>
+        <div class="col-4">
+          <p class="float-right">
+            ${{ current_user.cart.total }}
+          </p>
+        </div>
+      </div>
+      <div class="row checkout__review__section">
+        <div class="col-8">
+          <p>Shipment</p>
+        </div>
+        <div class="col-4">
+          <p class="float-right">
+            {% if current_user.cart.shipping_method %}
+            {# TODO #}
+            {% else %}
+            &mdash;
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      {% if cart_are_taxes_handled %}
+      <div class="row checkout__review__section">
+        <div class="col-8">
+          <p>Taxes</p>
+        </div>
+        <div class="col-4">
+          <p class="float-right">tax_fee</p>
+        </div>
+      </div>
+      {% endif %}
+      {# <div class="row checkout__review__section">#}
+        {# <div class="col-12">#}
+          {# TODO <h3>Promo code</h3>#}
+          {# {% include "checkout/snippets/voucher_form.html" %}#}
+          {# </div>#}
+        {# </div>#}
+      <div class="row checkout__review__section">
+        <div class="col-8">
+          <h3>Total</h3>
+        </div>
+        <div class="col-4">
+          <h3 class="float-right">${{ current_user.cart.total }}</h3>
         </div>
       </div>
     </div>
   </div>
+</div>
 {% endblock content %}

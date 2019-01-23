@@ -3,88 +3,83 @@
 {% block title %}Your cart{% endblock %}
 
 {% block breadcrumb %}
-    <ul class="breadcrumbs list-unstyled">
-        <li><a href="">Home</a></li>
-        <li><a rel="nofollow" href="">Cart</a></li>
-    </ul>
+<ul class="breadcrumbs list-unstyled">
+    <li><a href="{{ url_for('public.home') }}">Home</a></li>
+    <li><a rel="nofollow" href="">Cart</a></li>
+</ul>
 {% endblock breadcrumb %}
 
 
 {% block content %}
-    <div class="alert alert-success remove-product-alert d-none">
-        Product has been removed from cart
-        <button type="button" class="close close-msg" aria-hidden="true">&times;</button>
+<div class="alert alert-success remove-product-alert d-none">
+    Product has been removed from cart
+    <button type="button" class="close close-msg" aria-hidden="true">&times;</button>
+</div>
+<div class="cart">
+    {% if cart_lines %}
+    <div class="table__header d-none d-md-block">
+        <div class="row">
+            <div class="col-md-7">
+                <small>Product</small>
+            </div>
+            <div class="col-md-3">
+                <small>Quantity</small>
+            </div>
+            <div class="col-md-2 text-right">
+                <small>Price</small>
+            </div>
+        </div>
     </div>
-    <div class="cart">
-        {% if cart_lines %}
-            <div class="table__header d-none d-md-block">
+    {% for line in cart_lines %}
+    <div class="cart__line{% if loop.last %} last{% endif %} table__row">
+        <div class="row">
+            <div class="col-7 cart__line__product">
+                <a class="link--clean" href="{{ line.product.get_absolute_url() }}">
+                    <img class="lazyload lazypreload" data-src="{{ line.product.get_first_img() }}" width="60" />
+                    <p>{{ line.product }}<br>
+                        <small>{{ line.variant }}</small>
+                    </p>
+                </a>
+            </div>
+            <div class="col-5">
                 <div class="row">
-                    <div class="col-md-7">
-                        <small>Product</small>
-                    </div>
-                    <div class="col-md-3">
-                        <small>Quantity</small>
-                    </div>
-                    <div class="col-md-2 text-right">
-                        <small>Price</small>
-                    </div>
-                </div>
-            </div>
-            {% for line in cart_lines %}
-                <div class="cart__line{% if loop.last %} last{% endif %} table__row">
-                    <div class="row">
-                        <div class="col-7 cart__line__product">
-                            <a class="link--clean" href="{{ line.product.get_absolute_url() }}">
-                                <img class="lazyload lazypreload" data-src="{{ line.product.get_first_img() }}"
-                                     width="60"/>
-                                <p>{{ line.product }}<br>
-                                    <small>{{ line.variant }}</small>
-                                </p>
-                            </a>
-                        </div>
-                        <div class="col-5">
-                            <div class="row">
-                                <div class="cart__line__quantity col-md-7 col-12">
-                                    <form action="{{ url_for('checkout.update_cartline', id=line.id) }}"
-                                          class="form-cart">
-                                        <div class="" tabindex="-1">
-                                            <input type="number" value="{{ line.quantity }}" min="1" max="50"
-                                                   id="id_quantity">
-                                        </div>
-                                    </form>
-                                    <span class="cart-item-delete">
-                    <svg data-src="{{ url_for('static', filename='img/delete.svg') }}" height="20px" width="20px"></svg>
-                  </span>
-                                    <small class="cart__line__quantity-error text-danger"></small>
-                                </div>
-                                <div class="cart-item-price col-md-5 col-12" data-product-id="{{ line.variant.id }}">
-                                    <p class="text-right">
-                                        $ {{ line.subtotal }}
-                                    </p>
-                                </div>
+                    <div class="cart__line__quantity col-md-7 col-12">
+                        <form action="{{ url_for('checkout.update_cartline', id=line.id) }}" class="form-cart">
+                            <div class="" tabindex="-1">
+                                <input type="number" value="{{ line.quantity }}" min="1" max="50" id="id_quantity">
                             </div>
-                        </div>
+                        </form>
+                        <span class="cart-item-delete">
+                            <svg data-src="{{ url_for('static', filename='img/delete.svg') }}" height="20px" width="20px"></svg>
+                        </span>
+                        <small class="cart__line__quantity-error text-danger"></small>
+                    </div>
+                    <div class="cart-item-price col-md-5 col-12" data-product-id="{{ line.variant.id }}">
+                        <p class="text-right">
+                            $ {{ line.subtotal }}
+                        </p>
                     </div>
                 </div>
-            {% endfor %}
-            <div class="cart__subtotal">
-                {% include 'checkout/_subtotal_table.html' %}
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="{{ url_for('checkout.checkout_shipping_address') }}"
-                       class="btn primary float-right cart__submit">
-                        Checkout
-                    </a>
-                </div>
-            </div>
-        {% else %}
-            <div class="cart__empty">
-                <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/empty-cart-bg.png') }}">
-                <h2>There are no products in your shopping cart.</h2>
-                <a href="" class="btn primary">Check out our sales</a>
-            </div>
-        {% endif %}
+        </div>
     </div>
+    {% endfor %}
+    <div class="cart__subtotal">
+        {% include 'checkout/_subtotal_table.html' %}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ url_for('checkout.checkout_shipping_address') }}" class="btn btn-primary float-right cart__submit">
+                Checkout
+            </a>
+        </div>
+    </div>
+    {% else %}
+    <div class="cart__empty">
+        <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/empty-cart-bg.png') }}">
+        <h2>There are no products in your shopping cart.</h2>
+        <a href="{{ url_for('public.home') }}" class="btn btn-primary">Check out our sales</a>
+    </div>
+    {% endif %}
+</div>
 {% endblock content %}
-
