@@ -13,6 +13,8 @@ from flaskshop.product.models import (
     ProductImage,
     ProductAttribute,
     AttributeChoiceValue,
+    ProductTypeAttributes,
+    ProductTypeVariantAttributes,
     Collection,
 )
 from flaskshop.public.models import Site, MenuItem, Page
@@ -121,47 +123,34 @@ COLLECTIONS_SCHEMA = [
 ]
 
 
-def create_attribute(**kwargs):
-    # defaults = {"title": fake.word().title()}
-    # defaults.update(kwargs)
-    attribute, _ = ProductAttribute.get_or_create(**kwargs)
-    return attribute
-
-
-def create_attribute_value(attribute, **kwargs):
-    defaults = {"attribute": attribute}
-    defaults.update(kwargs)
-    attribute_value, _ = AttributeChoiceValue.get_or_create(**defaults)
-    return attribute_value
-
-
 def create_attributes_and_values(attribute_data):
     attributes = []
     for attribute_name, attribute_values in attribute_data.items():
-        attribute = create_attribute(title=attribute_name)
+        attribute, _ = ProductAttribute.get_or_create(title=attribute_name)
         for value in attribute_values:
-            create_attribute_value(attribute, title=value)
+            defaults = {"attribute_id": attribute.id, "title": value}
+            AttributeChoiceValue.get_or_create(**defaults)
         attributes.append(attribute)
     return attributes
-
-
-def get_or_create_product_type(title, **kwargs):
-    return ProductType.get_or_create(title=title, **kwargs)[0]
 
 
 def create_product_type_with_attributes(name, schema):
     product_attributes_schema = schema.get("product_attributes", {})
     variant_attributes_schema = schema.get("variant_attributes", {})
     is_shipping_required = schema.get("is_shipping_required", True)
-    product_type = get_or_create_product_type(
+    product_type = ProductType.get_or_create(
         title=name, is_shipping_required=is_shipping_required
-    )
+    )[0]
     product_attributes = create_attributes_and_values(product_attributes_schema)
     variant_attributes = create_attributes_and_values(variant_attributes_schema)
-
-    product_type.product_attributes.extend(product_attributes)
-    product_type.variant_attributes.extend(variant_attributes)
-    product_type.save()
+    for attr in product_attributes:
+        ProductTypeAttributes.get_or_create(
+            product_type_id=product_type.id, product_attribute_id=attr.id
+        )
+    for attr in variant_attributes:
+        ProductTypeVariantAttributes.get_or_create(
+            product_type_id=product_type.id, product_attribute_id=attr.id
+        )
     return product_type
 
 
@@ -171,9 +160,6 @@ def create_product_types_by_schema(root_schema):
         product_type = create_product_type_with_attributes(product_type_name, schema)
         results.append((product_type, schema))
     return results
-
-
-# above complete
 
 
 def set_product_attributes(product, product_type):
@@ -192,7 +178,9 @@ def create_products_by_type(
     category = get_or_create_category(schema["category"], placeholder_dir)
 
     for dummy in range(how_many):
-        product = create_product(product_type=product_type, category=category)
+        product = create_product(
+            product_type_id=product_type.id, category_id=category.id
+        )
         set_product_attributes(product, product_type)
         if create_images:
             type_placeholders = placeholder_dir / schema["images_dir"]
@@ -213,12 +201,10 @@ def create_products_by_type(
             # Create min one variant for products without variant level attrs
             sku = f"{product.id}-{fake.random_int(1000, 100000)}"
             create_variant(product, sku=sku)
-        if stdout is not None:
-            stdout.write(f"Product: {product} ({product_type.name}), {1} variant(s)")
 
 
 def create_products_by_schema(
-    placeholder_dir, how_many, create_images, stdout=None, schema=DEFAULT_SCHEMA
+    placeholder_dir, how_many, create_images, schema=DEFAULT_SCHEMA
 ):
     for product_type, type_schema in create_product_types_by_schema(schema):
         create_products_by_type(
@@ -227,7 +213,6 @@ def create_products_by_schema(
             placeholder_dir,
             how_many=how_many,
             create_images=create_images,
-            stdout=stdout,
         )
 
 
@@ -241,10 +226,11 @@ def get_or_create_category(category_schema, placeholder_dir):
     category_name = category_schema["name"]
     image_name = category_schema["image_name"]
     image_dir = get_product_list_images_dir(placeholder_dir)
-    defaults = {"background_img": get_image(image_dir, image_name)}
-    return Category.get_or_create(title=category_name, parent_id=parent_id, **defaults)[
-        0
-    ]
+    defaults = {"background_img": image_dir / image_name}
+    category, _ = Category.get_or_create(
+        title=category_name, parent_id=parent_id, **defaults
+    )
+    return category
 
 
 def create_product(**kwargs):
@@ -260,12 +246,7 @@ def create_product(**kwargs):
 
 
 def create_variant(product, **kwargs):
-    defaults = {
-        "product": product,
-        "quantity": fake.random_int(1, 50),
-        # "cost_price": fake.pydecimal(2, 2, positive=True),
-        # "quantity_allocated": fake.random_int(1, 50),
-    }
+    defaults = {"product_id": product.id, "quantity": fake.random_int(1, 50)}
     defaults.update(kwargs)
     attributes = defaults.pop("attributes")
     variant = ProductVariant(**defaults)
@@ -277,19 +258,12 @@ def create_variant(product, **kwargs):
     return variant
 
 
-def create_product_image(product, placeholder_dir):
-    placeholder_root = Config.STATIC_DIR / placeholder_dir
-    image_name = random.choice(list(placeholder_root.iterdir()))
-    image = image_name.relative_to(Config.STATIC_DIR)
-    product_image = ProductImage(product=product, image=image)
-    product_image.save()
-    # create_product_thumbnails.delay(product_image.pk)
-    return product_image
-
-
 def create_product_images(product, how_many, placeholder_dir):
+    placeholder_root = Config.STATIC_DIR / placeholder_dir
     for dummy in range(how_many):
-        create_product_image(product, placeholder_dir)
+        image_name = random.choice(list(placeholder_root.iterdir()))
+        image = image_name.relative_to(Config.STATIC_DIR)
+        ProductImage.get_or_create(image=image, product_id=product.id)
 
 
 def set_featured_products(how_many=8):
@@ -301,12 +275,6 @@ def set_featured_products(how_many=8):
 def get_product_list_images_dir(placeholder_dir):
     product_list_images_dir = placeholder_dir / "products-list"
     return product_list_images_dir
-
-
-def get_image(image_dir, image_name):
-    img_path = image_dir / image_name
-    # return File(open(img_path, "rb"))
-    return img_path
 
 
 def create_page():
@@ -360,17 +328,16 @@ def create_menus():
 
     yield "Created footer menu"
     collection = Collection.query.first()
-    item, _ = MenuItem.get_or_create(
-        title="Collections", collection_id=collection.id, site_id=2
-    )
+    item, _ = MenuItem.get_or_create(title="Collections", site_id=2)
     for collection in Collection.query.all():
         MenuItem.get_or_create(
             title=collection.title, collection_id=collection.id, parent_id=item.id
         )
 
+    item, _ = MenuItem.get_or_create(title="Saleor", site_id=2)
     page = Page.query.first()
     if page:
-        MenuItem.get_or_create(title=page.title, page_id=page.id, site_id=2)
+        MenuItem.get_or_create(title=page.title, page_id=page.id, parent_id=item.id)
 
 
 def get_email(first_name, last_name):
@@ -457,10 +424,9 @@ def create_shipping_methods():
 
 def create_fake_collection(placeholder_dir, collection_data):
     image_dir = get_product_list_images_dir(placeholder_dir)
-    background_img = get_image(image_dir, collection_data["image_name"])
+    background_img = image_dir / collection_data["image_name"]
     collection = Collection.get_or_create(
-        title=collection_data["name"],
-        background_img=background_img,
+        title=collection_data["name"], background_img=background_img
     )[0]
     products = Product.query.limit(4)
     for product in products:
@@ -503,16 +469,6 @@ def create_payment(order):
     return payment
 
 
-# def create_fulfillments(order):
-#     for line in order:
-#         if random.choice([False, True]):
-#             fulfillment, _ = Fulfillment.objects.get_or_create(order=order)
-#             quantity = random.randrange(0, line.quantity) + 1
-#             fulfillment.lines.create(order_line=line, quantity=quantity)
-#             line.quantity_fulfilled = quantity
-#             line.save(update_fields=['quantity_fulfilled'])
-#
-#     update_order_status(order)
 def create_order_line(order, discounts, taxes):
     product = Product.query.order_by(func.random()).first()
     variant = product.variant[0]
@@ -526,7 +482,7 @@ def create_order_line(order, discounts, taxes):
         is_shipping_required=variant.is_shipping_required,
         quantity=quantity,
         variant=variant,
-        unit_price_net=variant.get_price(discounts=discounts, taxes=taxes),
+        unit_price_net=variant.price,
     )
 
 

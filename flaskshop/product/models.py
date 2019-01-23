@@ -27,8 +27,7 @@ class Product(SurrogatePK, Model):
 
     @property
     def images(self):
-        return ProductImage.query.filter(
-            ProductImage.product_id == self.id).all()
+        return ProductImage.query.filter(ProductImage.product_id == self.id).all()
 
     def get_first_img(self):
         if self.images:
@@ -56,8 +55,7 @@ class Product(SurrogatePK, Model):
 
     @property
     def variant(self):
-        return ProductVariant.query.filter(
-            ProductVariant.product_id == self.id).all()
+        return ProductVariant.query.filter(ProductVariant.product_id == self.id).all()
 
     @property
     def attribute_map(self):
@@ -83,8 +81,7 @@ class Category(SurrogatePK, Model):
     @property
     def products(self):
         all_category_ids = [child.id for child in self.children] + [self.id]
-        return Product.query.filter(
-            Product.category_id.in_(all_category_ids)).all()
+        return Product.query.filter(Product.category_id.in_(all_category_ids)).all()
 
     @property
     def children(self):
@@ -101,18 +98,26 @@ class Category(SurrogatePK, Model):
     @classmethod
     def get_product_by_category(cls, category_id, page):
         category = Category.get_by_id(category_id)
-        all_category_ids = [child.id
-                            for child in category.children] + [category.id]
+        all_category_ids = [child.id for child in category.children] + [category.id]
         query = Product.query.filter(Product.category_id.in_(all_category_ids))
         ctx, query = get_product_list_context(query, category)
         pagination = query.paginate(page, per_page=16)
-        ctx.update(
-            object=category, pagination=pagination, products=pagination.items)
+        ctx.update(object=category, pagination=pagination, products=pagination.items)
         return ctx
 
 
 class ProductTypeAttributes(SurrogatePK, Model):
+    """存储的产品的属性是包括用户可选和不可选"""
+
     __tablename__ = "product_producttype_product_attributes"
+    product_type_id = Column(db.Integer())
+    product_attribute_id = Column(db.Integer())
+
+
+class ProductTypeVariantAttributes(SurrogatePK, Model):
+    """存储的产品SKU的属性是可以给用户去选择的"""
+
+    __tablename__ = "product_producttype_variant_attributes"
     product_type_id = Column(db.Integer())
     product_attribute_id = Column(db.Integer())
 
@@ -128,11 +133,29 @@ class ProductType(SurrogatePK, Model):
 
     @property
     def product_attributes(self):
-        at_ids = (ProductTypeAttributes.query.with_entities(
-            ProductTypeAttributes.product_attribute_id).filter(
-                ProductTypeAttributes.product_type_id == self.id).all())
+        at_ids = (
+            ProductTypeAttributes.query.with_entities(
+                ProductTypeAttributes.product_attribute_id
+            )
+            .filter(ProductTypeAttributes.product_type_id == self.id)
+            .all()
+        )
         return ProductAttribute.query.filter(
-            ProductAttribute.id.in_(id for id in at_ids)).all()
+            ProductAttribute.id.in_(id for id in at_ids)
+        ).all()
+
+    @property
+    def variant_attributes(self):
+        at_ids = (
+            ProductTypeVariantAttributes.query.with_entities(
+                ProductTypeVariantAttributes.product_attribute_id
+            )
+            .filter(ProductTypeVariantAttributes.product_type_id == self.id)
+            .all()
+        )
+        return ProductAttribute.query.filter(
+            ProductAttribute.id.in_(id for id in at_ids)
+        ).all()
 
 
 class ProductVariant(SurrogatePK, Model):
@@ -174,6 +197,14 @@ class ProductVariant(SurrogatePK, Model):
     def get_absolute_url(self):
         return url_for("product.show", id=self.product.id)
 
+    @property
+    def attribute_map(self):
+        items = {
+            ProductAttribute.get_by_id(k): AttributeChoiceValue.get_by_id(v)
+            for k, v in self.attributes.items()
+        }
+        return items
+
 
 class ProductAttribute(SurrogatePK, Model):
     __tablename__ = "product_productattribute"
@@ -185,7 +216,8 @@ class ProductAttribute(SurrogatePK, Model):
     @property
     def values(self):
         return AttributeChoiceValue.query.filter(
-            AttributeChoiceValue.attribute_id == self.id).all()
+            AttributeChoiceValue.attribute_id == self.id
+        ).all()
 
 
 class AttributeChoiceValue(SurrogatePK, Model):
@@ -195,6 +227,10 @@ class AttributeChoiceValue(SurrogatePK, Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def attribute(self):
+        return ProductAttribute.get_by_id(self.attribute_id)
 
 
 class ProductImage(SurrogatePK, Model):
@@ -220,9 +256,11 @@ class Collection(SurrogatePK, Model):
 
     @property
     def products(self):
-        at_ids = (ProductCollection.query.with_entities(
-            ProductCollection.product_id).filter(
-                ProductCollection.collection_id == self.id).all())
+        at_ids = (
+            ProductCollection.query.with_entities(ProductCollection.product_id)
+            .filter(ProductCollection.collection_id == self.id)
+            .all()
+        )
         return Product.query.filter(Product.id.in_(id for id in at_ids)).all()
 
     @property
@@ -243,16 +281,15 @@ class ProductCollection(SurrogatePK, Model):
     @classmethod
     def get_product_by_collection(cls, collection_id, page):
         collection = Collection.get_by_id(collection_id)
-        at_ids = (ProductCollection.query.with_entities(
-            ProductCollection.product_id).filter(
-                ProductCollection.collection_id == collection.id).all())
+        at_ids = (
+            ProductCollection.query.with_entities(ProductCollection.product_id)
+            .filter(ProductCollection.collection_id == collection.id)
+            .all()
+        )
         query = Product.query.filter(Product.id.in_(id for id in at_ids))
         ctx, query = get_product_list_context(query, collection)
         pagination = query.paginate(page, per_page=16)
-        ctx.update(
-            object=collection,
-            pagination=pagination,
-            products=pagination.items)
+        ctx.update(object=collection, pagination=pagination, products=pagination.items)
         return ctx
 
 
@@ -277,9 +314,11 @@ def get_product_list_context(query, obj):
         is_descending = True
         arg_sort_by = arg_sort_by[1:]
     if arg_sort_by in sort_by_choices:
-        query = (query.order_by(desc(getattr(Product, arg_sort_by)))
-                 if is_descending else query.order_by(
-                     getattr(Product, arg_sort_by)))
+        query = (
+            query.order_by(desc(getattr(Product, arg_sort_by)))
+            if is_descending
+            else query.order_by(getattr(Product, arg_sort_by))
+        )
     now_sorted_by = arg_sort_by or "title"
     args_dict.update(
         sort_by_choices=sort_by_choices,
@@ -292,8 +331,7 @@ def get_product_list_context(query, obj):
     for attr in attr_filter:
         value = request.args.get(attr.title)
         if value:
-            query = query.filter(
-                Product.attributes.__getitem__(str(attr.id)) == value)
+            query = query.filter(Product.attributes.__getitem__(str(attr.id)) == value)
             args_dict["default_attr"].update({attr.title: int(value)})
     args_dict.update(attr_filter=attr_filter)
 
