@@ -15,11 +15,12 @@ def get_name_from_attributes(variant):
 
 
 def add_to_currentuser_cart(quantity, variant_id):
-    if current_user.cart:
-        cart = current_user.cart
+    cart = Cart.get_by_user_id(current_user.id)
+    if cart:
         cart.quantity += quantity
+        cart.save()
     else:
-        cart = Cart.create(user=current_user, quantity=quantity)
+        cart = Cart.create(user_id=current_user.id, quantity=quantity)
     line = CartLine.query.filter_by(cart=cart, variant_id=variant_id).first()
     if line:
         quantity += line.quantity

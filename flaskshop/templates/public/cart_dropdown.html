@@ -1,7 +1,7 @@
 <div class="container">
-  {% if current_user.is_authenticated and current_user.cart and current_user.cart.quantity > 0 %}
-  <div id="cart-dropdown-list" class="cart-dropdown__list{% if current_user.cart.lines|length <= 2 %} overflow{% endif %}">
-    {% for line in current_user.cart.lines %}
+  {% if current_user.is_authenticated and current_user_cart and current_user_cart.quantity > 0 %}
+  <div id="cart-dropdown-list" class="cart-dropdown__list{% if current_user_cart.lines|length <= 2 %} overflow{% endif %}">
+    {% for line in current_user_cart.lines %}
     <div class="row item">
       <div class="col-md-10">
         <a class="link--clean" href="{{ line.product.get_absolute_url() }}">
@@ -31,9 +31,9 @@
       </h3>
     </div>
     <div class="col-md-4">
-      <h3 class="float-md-right price {% if current_user.cart.lines|length <= 2 %}single{% endif %}" data-quantity="{{ quantity }}">
+      <h3 class="float-md-right price {% if current_user_cart.lines|length <= 2 %}single{% endif %}" data-quantity="{{ quantity }}">
         <p>
-          ${{ current_user.cart.total }}
+          ${{ current_user_cart.total }}
         </p>
       </h3>
     </div>

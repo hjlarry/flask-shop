@@ -104,9 +104,9 @@
                   <div class="navbar__brand__cart__icon">
                     <svg data-src="{{ url_for('static', filename='img/cart.svg') }}" width="24" height="24"></svg>
                   </div>
-                  {% if current_user.is_authenticated and current_user.cart.quantity %}
+                  {% if current_user.is_authenticated and current_user_cart.quantity %}
                   <span class="badge ">
-                    {{ current_user.cart.quantity }}
+                    {{ current_user_cart.quantity }}
                   </span>
                   {% else %}
                   <span class="badge empty">

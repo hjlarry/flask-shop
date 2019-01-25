@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from flask_login import current_user, login_required
 
-from .models import CartLine
+from .models import CartLine, Cart
 from .forms import ShippingMethodForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
@@ -20,11 +20,7 @@ def before_request():
 
 @blueprint.route("/cart")
 def cart_index():
-    if current_user.is_authenticated and current_user.cart:
-        cart_lines = current_user.cart.lines
-    else:
-        cart_lines = None
-    return render_template("checkout/cart.html", cart_lines=cart_lines)
+    return render_template("checkout/cart.html")
 
 
 @blueprint.route("/update_cart/<int:id>", methods=["POST"])
@@ -41,10 +37,11 @@ def update_cartline(id):
     else:
         line.quantity = int(request.form["quantity"])
         line.save()
-    response["cart"]["numItems"] = current_user.cart.update_quantity()
-    response["cart"]["numLines"] = len(current_user.cart)
+    cart = Cart.query.filter(Cart.user_id == current_user.id).first()
+    response["cart"]["numItems"] = cart.update_quantity()
+    response["cart"]["numLines"] = len(cart)
     response["subtotal"] = "$" + str(line.subtotal)
-    response["total"] = "$" + str(current_user.cart.total)
+    response["total"] = "$" + str(cart.total)
     return jsonify(response)
 
 

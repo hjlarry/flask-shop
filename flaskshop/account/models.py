@@ -14,18 +14,6 @@ from flaskshop.database import (
 )
 from flaskshop.extensions import bcrypt
 
-user_favorite_product = db.Table(
-    "user_favorite_products",
-    Column("id", db.Integer(), primary_key=True),
-    Column("user_id", db.Integer(), db.ForeignKey("users.id"), primary_key=True),
-    Column(
-        "product_id",
-        db.Integer(),
-        db.ForeignKey("product_product.id"),
-        primary_key=True,
-    ),
-)
-
 
 class User(SurrogatePK, Model, UserMixin):
     __tablename__ = "users"
@@ -36,9 +24,6 @@ class User(SurrogatePK, Model, UserMixin):
     nick_name = Column(db.String(255))
     active = Column(db.Boolean(), default=False)
     is_admin = Column(db.Boolean(), default=False)
-    # favor_products = relationship(
-    #     "Product", secondary=user_favorite_product, backref="liked_users", lazy='dynamic'
-    # )
     orders = relationship("Order", backref="user")
     open_id = Column(db.String(80), index=True)
     session_key = Column(db.String(80), index=True)
