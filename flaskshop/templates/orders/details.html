@@ -2,65 +2,53 @@
 
 
 {% block title %}
-    Order {{ order }}
+Order {{ order }}
 {% endblock %}
 
 {% block breadcrumb %}
-    <ul class="breadcrumbs list-unstyled">
-        <li>
-            <a href="{{ url_for('public.home') }}">
-                Home
-            </a>
-        </li>
-        <li>
-            <a href="{{ url_for('account.index') }}">
-                Your account
-            </a>
-        </li>
-        <li>
-            <a href="{{ order.get_absolute_url() }}">
-                Order {{ order }}
-            </a>
-        </li>
-    </ul>
+<ul class="breadcrumbs list-unstyled">
+    <li>
+        <a href="{{ url_for('public.home') }}">
+            Home
+        </a>
+    </li>
+    <li>
+        <a href="{{ url_for('account.index') }}">
+            Your account
+        </a>
+    </li>
+    <li>
+        <a href="{{ order.get_absolute_url() }}">
+            Order {{ order }}
+        </a>
+    </li>
+</ul>
 {% endblock breadcrumb %}
 
 
 
 {% block content %}
-    {# This view is available by just knowing url,          #}
-    {# so we don't show all details (like shipping address) #}
-    {# unless current user is owner of the order.           #}
 
-    <div class="row order-details">
-        <div class="col-lg-10 m-auto">
-            <h2 class="order-details__header">
-                Order {{ order }}: {{ order.status }}
-            </h2>
-            {% if not order.is_fully_paid %}
-                {% if order.is_pre_authorized %}
-                    <a href="" class="btn btn-link">
-                        Payment details
-                    </a>
-                {% else %}
-                    <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn primary">
-                        Pay for order
-                    </a>
-                {% endif %}
+<div class="row order-details">
+    <div class="col-lg-10 m-auto">
+        <h2 class="order-details__header">
+            Order {{ order }}: {{ order.status }}
+        </h2>
+        {% if not order.is_fully_paid %}
+        <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary">
+            Pay for order
+        </a>
+        {% endif %}
+        {% include "orders/_ordered_items_table.html" %}
+        <div class="order-notes">
+            {% if order.notes %}
+            <h2 class="order-notes__header">Your note</h2>
+            {% for note in order.notes %}
+            <p>{{ note.content }}</p>
+            {% endfor %}
             {% endif %}
-            {% include "orders/_ordered_items_table.html" %}
-            <div class="order-notes">
-                {% if order.notes %}
-                    <h2 class="order-notes__header">Notes</h2>
-                    {% for note in order.notes %}
-                        <small>
-                            {#           TODO#}
-                        </small>
-                        <p>{{ note.content }}</p>
-                    {% endfor %}
-                {% endif %}
 
-            </div>
         </div>
     </div>
+</div>
 {% endblock content %}

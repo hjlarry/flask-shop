@@ -2,19 +2,19 @@
 {% from 'bootstrap/form.html' import render_field %}
 
 {% block forms %}
-  <h3>Shipping address</h3>
-  {{ macros.format_address(current_user.cart.address) }}
-  <p><a href="{{ url_for('checkout.checkout_shipping_address') }}">Select other address</a></p>
+<h3>Shipping address</h3>
+{{ macros.format_address(current_user.cart.address) }}
+<p><a href="{{ url_for('checkout.checkout_shipping_address') }}">Select other address</a></p>
+<hr>
+<form method="post" novalidate>
+  {{ form.csrf_token }}
+  {{ render_field(form.shipping_method) }}
   <hr>
-  <form method="post" novalidate>
-    {{ form.csrf_token }}
-    {{ render_field(form.shipping_method) }}
-    <hr>
-    {{ render_field(form.note) }}
-    <p class="text-md-right">
-      <button type="submit" class="btn primary">
-        ORDER & PAY
-      </button>
-    </p>
-  </form>
+  {{ render_field(form.note) }}
+  <p class="text-md-right">
+    <button type="submit" class="btn btn-primary">
+      ORDER & PAY
+    </button>
+  </p>
+</form>
 {% endblock %}

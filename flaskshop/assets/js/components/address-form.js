@@ -29,9 +29,9 @@ export default $(document).ready((e) => {
     $addressHide.click((e) => {
         $addressForm.slideUp('slow');
     });
-    if ($initialValue) {
-        $addressForm.slideDown(0);
-    } else {
-        $addressForm.slideUp(0);
-    }
+    // if ($initialValue) {
+    //     $addressForm.slideDown(0);
+    // } else {
+    //     $addressForm.slideUp(0);
+    // }
 });
