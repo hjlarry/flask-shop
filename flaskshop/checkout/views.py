@@ -91,18 +91,20 @@ def checkout_shipping_method():
     if form.validate_on_submit():
         cart = Cart.get_current_user_cart()
         order = Order.create(
-            user=current_user,
+            user_id=current_user.id,
             shipping_method_id=form.shipping_method.data,
-            shipping_address=cart.address,
+            shipping_address_id=cart.address.id,
             status=ORDER_STATUS_UNFULFILLED,
         )
         if form.note.data:
-            OrderNote.create(order=order, user=current_user, content=form.note.data)
+            OrderNote.create(
+                order_id=order.id, user_id=current_user.id, content=form.note.data
+            )
         total = 0
         for line in cart.lines:
             order_line = OrderLine.create(
-                order=order,
-                variant=line.variant,
+                order_id=order.id,
+                variant_id=line.variant.id,
                 quantity=line.quantity,
                 product_name=line.product.title,
                 product_sku=line.variant.sku,

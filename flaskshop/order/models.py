@@ -16,6 +16,7 @@ from flaskshop.constant import (
 )
 from flaskshop.account.models import User, UserAddress
 from flaskshop.checkout.models import ShippingMethod
+from flaskshop.product.models import ProductVariant
 
 
 class Order(SurrogatePK, Model):
@@ -86,6 +87,14 @@ class Order(SurrogatePK, Model):
     def is_self_order(self):
         return self.user_id == current_user.id
 
+    @property
+    def lines(self):
+        return OrderLine.query.filter(OrderLine.order_id == self.id).all()
+
+    @property
+    def notes(self):
+        return OrderNote.query.filter(OrderNote.order_id == self.id).all()
+
 
 class OrderLine(SurrogatePK, Model):
     __tablename__ = "order_orderline"
@@ -94,10 +103,12 @@ class OrderLine(SurrogatePK, Model):
     quantity = Column(db.Integer())
     unit_price_net = Column(db.DECIMAL(10, 2))
     is_shipping_required = Column(db.Boolean(), default=True)
-    order_id = reference_col("order_order")
-    order = relationship("Order", backref="lines")
-    variant_id = reference_col("product_variant")
-    variant = relationship("ProductVariant")
+    order_id = Column(db.Integer())
+    variant_id = Column(db.Integer())
+
+    @property
+    def variant(self):
+        return ProductVariant.get_by_id(self.variant_id)
 
     def get_total(self):
         return self.unit_price_net * self.quantity
@@ -105,18 +116,15 @@ class OrderLine(SurrogatePK, Model):
 
 class OrderNote(SurrogatePK, Model):
     __tablename__ = "order_ordernote"
-    order_id = reference_col("order_order")
-    order = relationship("Order", backref="notes")
-    user_id = reference_col("users")
-    user = relationship("User")
+    order_id = Column(db.Integer())
+    user_id = Column(db.Integer())
     content = Column(db.Text())
     is_public = Column(db.Boolean(), default=True)
 
 
 class OrderPayment(SurrogatePK, Model):
     __tablename__ = "order_payment"
-    order_id = reference_col("order_order")
-    order = relationship("Order", backref=db.backref("payment", uselist=False))
+    order_id = Column(db.Integer())
     status = Column(db.String(100))
     total = Column(db.DECIMAL(10, 2))
     delivery = Column(db.DECIMAL(10, 2))
