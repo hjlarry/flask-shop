@@ -6,6 +6,7 @@ from flask_login import login_required, current_user, login_user, logout_user
 from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm
 from .models import UserAddress, User
 from flaskshop.utils import flash_errors
+from flaskshop.order.models import Order
 
 blueprint = Blueprint("account", __name__, url_prefix="/account")
 
@@ -55,7 +56,8 @@ def signup():
 @blueprint.route("/")
 def index():
     form = ChangePasswordForm(request.form)
-    return render_template("account/details.html", form=form)
+    orders = Order.get_current_user_orders()
+    return render_template("account/details.html", form=form, orders=orders)
 
 
 @blueprint.route("/setpwd", methods=["POST"])

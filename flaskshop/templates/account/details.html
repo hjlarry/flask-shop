@@ -40,7 +40,7 @@
   <div class="tab-content col-lg-10 m-auto">
     <div class="tab-pane active fade show" id="orders" role="tabpanel">
       <div id="accordion" role="tablist" aria-multiselectable="true">
-        {% if current_user.orders %}
+        {% if orders %}
         <div class="table__header">
           <div class="row">
             <div class="col-md-2 col-3">
@@ -58,7 +58,7 @@
             <div class="col-md-1 col-5"></div>
           </div>
         </div>
-        {% for order in current_user.orders %}
+        {% for order in orders %}
         <div class="table__row">
           <div class="row">
             <div class="col-md-2 col-3">

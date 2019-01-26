@@ -5,14 +5,7 @@ from sqlalchemy.dialects.mysql import BOOLEAN
 from flask_login import current_user
 
 from flaskshop.constant import TYPE_FIXED
-from flaskshop.database import (
-    Column,
-    Model,
-    SurrogatePK,
-    db,
-    reference_col,
-    relationship,
-)
+from flaskshop.database import Column, Model, SurrogatePK, db
 from flaskshop.account.models import UserAddress
 from flaskshop.product.models import ProductVariant
 

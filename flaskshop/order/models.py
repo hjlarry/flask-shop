@@ -2,25 +2,35 @@ from flask import url_for
 from flask_login import current_user
 from uuid import uuid4
 
-from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
-from flaskshop.constant import ORDER_STATUS_UNFULFILLED, ORDER_STATUS_PARTIALLY_FULFILLED
+from flaskshop.database import (
+    Column,
+    Model,
+    SurrogatePK,
+    db,
+    reference_col,
+    relationship,
+)
+from flaskshop.constant import (
+    ORDER_STATUS_UNFULFILLED,
+    ORDER_STATUS_PARTIALLY_FULFILLED,
+)
+from flaskshop.account.models import User, UserAddress
+from flaskshop.checkout.models import ShippingMethod
 
 
 class Order(SurrogatePK, Model):
-    __tablename__ = 'order_order'
+    __tablename__ = "order_order"
     token = Column(db.String(100), unique=True)
-    shipping_address_id = reference_col('users_address')
-    shipping_address = relationship('UserAddress')
-    user_id = reference_col('users')
+    shipping_address_id = Column(db.Integer())
+    user_id = Column(db.Integer())
     total_net = Column(db.DECIMAL(10, 2))
     discount_amount = Column(db.DECIMAL(10, 2))
     discount_name = Column(db.String(100))
-    voucher_id = reference_col('discount_voucher')
+    voucher_id = reference_col("discount_voucher")
     shipping_price_net = Column(db.DECIMAL(10, 2))
     status = Column(db.String(100))
     shipping_method_name = Column(db.String(100))
-    shipping_method_id = reference_col('checkout_shippingmethod')
-    shipping_method = relationship('ShippingMethod')
+    shipping_method_id = Column(db.Integer())
 
     def __str__(self):
         return f"#{self.id}"
@@ -31,11 +41,27 @@ class Order(SurrogatePK, Model):
         return super().save(commit=commit)
 
     def get_absolute_url(self):
-        return url_for('order.show', token=self.token)
+        return url_for("order.show", token=self.token)
 
     def get_subtotal(self):
         subtotal_iterator = (line.get_total() for line in self.lines)
         return sum(subtotal_iterator)
+
+    @property
+    def shipping_address(self):
+        return UserAddress.get_by_id(self.shipping_address_id)
+
+    @property
+    def shipping_method(self):
+        return ShippingMethod.get_by_id(self.shipping_method_id)
+
+    @classmethod
+    def get_current_user_orders(cls):
+        if current_user.is_authenticated:
+            orders = cls.query.filter_by(user_id=current_user.id).all()
+        else:
+            orders = []
+        return orders
 
     @property
     def is_fully_paid(self):
@@ -58,39 +84,39 @@ class Order(SurrogatePK, Model):
 
     @property
     def is_self_order(self):
-        return self in current_user.orders
+        return self.user_id == current_user.id
 
 
 class OrderLine(SurrogatePK, Model):
-    __tablename__ = 'order_orderline'
+    __tablename__ = "order_orderline"
     product_name = Column(db.String(255))
     product_sku = Column(db.String(100))
     quantity = Column(db.Integer())
     unit_price_net = Column(db.DECIMAL(10, 2))
     is_shipping_required = Column(db.Boolean(), default=True)
-    order_id = reference_col('order_order')
-    order = relationship('Order', backref='lines')
-    variant_id = reference_col('product_variant')
-    variant = relationship('ProductVariant')
+    order_id = reference_col("order_order")
+    order = relationship("Order", backref="lines")
+    variant_id = reference_col("product_variant")
+    variant = relationship("ProductVariant")
 
     def get_total(self):
         return self.unit_price_net * self.quantity
 
 
 class OrderNote(SurrogatePK, Model):
-    __tablename__ = 'order_ordernote'
-    order_id = reference_col('order_order')
-    order = relationship('Order', backref='notes')
-    user_id = reference_col('users')
-    user = relationship('User')
+    __tablename__ = "order_ordernote"
+    order_id = reference_col("order_order")
+    order = relationship("Order", backref="notes")
+    user_id = reference_col("users")
+    user = relationship("User")
     content = Column(db.Text())
     is_public = Column(db.Boolean(), default=True)
 
 
 class OrderPayment(SurrogatePK, Model):
-    __tablename__ = 'order_payment'
-    order_id = reference_col('order_order')
-    order = relationship('Order', backref=db.backref("payment", uselist=False))
+    __tablename__ = "order_payment"
+    order_id = reference_col("order_order")
+    order = relationship("Order", backref=db.backref("payment", uselist=False))
     status = Column(db.String(100))
     total = Column(db.DECIMAL(10, 2))
     delivery = Column(db.DECIMAL(10, 2))

@@ -24,7 +24,6 @@ class User(SurrogatePK, Model, UserMixin):
     nick_name = Column(db.String(255))
     active = Column(db.Boolean(), default=False)
     is_admin = Column(db.Boolean(), default=False)
-    orders = relationship("Order", backref="user")
     open_id = Column(db.String(80), index=True)
     session_key = Column(db.String(80), index=True)
 
