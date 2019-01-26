@@ -76,7 +76,7 @@ def checkout_shipping_address():
             address=form.address.data,
             contact_name=form.contact_name.data,
             contact_phone=form.contact_phone.data,
-            user=current_user,
+            user_id=current_user.id,
         )
     else:
         user_address = UserAddress.get_by_id(request.form["address_sel"])

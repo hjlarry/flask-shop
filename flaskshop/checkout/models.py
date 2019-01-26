@@ -14,6 +14,7 @@ from flaskshop.database import (
     relationship,
 )
 from flaskshop.account.models import UserAddress
+from flaskshop.product.models import ProductVariant
 
 
 class Cart(SurrogatePK, Model):
@@ -33,6 +34,10 @@ class Cart(SurrogatePK, Model):
     @property
     def address(self):
         return UserAddress.get_by_id(self.shipping_address_id)
+
+    @property
+    def lines(self):
+        return CartLine.query.filter(CartLine.cart_id == self.id).all()
 
     @classmethod
     def get_current_user_cart(cls):
@@ -63,11 +68,9 @@ class Cart(SurrogatePK, Model):
 
 class CartLine(SurrogatePK, Model):
     __tablename__ = "checkout_cartline"
-    cart_id = reference_col("checkout_cart")
-    cart = relationship("Cart", backref="lines")
+    cart_id = Column(db.Integer())
     quantity = Column(db.Integer())
-    variant_id = reference_col("product_variant")
-    variant = relationship("ProductVariant")
+    variant_id = Column(db.Integer())
 
     def __repr__(self):
         return f"CartLine(variant={self.variant}, quantity={self.quantity})"
@@ -75,6 +78,10 @@ class CartLine(SurrogatePK, Model):
     @property
     def is_shipping_required(self):
         return self.variant.is_shipping_required
+
+    @property
+    def variant(self):
+        return ProductVariant.get_by_id(self.variant_id)
 
     @property
     def product(self):

@@ -21,9 +21,9 @@ def add_to_currentuser_cart(quantity, variant_id):
         cart.save()
     else:
         cart = Cart.create(user_id=current_user.id, quantity=quantity)
-    line = CartLine.query.filter_by(cart=cart, variant_id=variant_id).first()
+    line = CartLine.query.filter_by(cart_id=cart.id, variant_id=variant_id).first()
     if line:
         quantity += line.quantity
         line.update(quantity=quantity)
     else:
-        CartLine.create(variant_id=variant_id, quantity=quantity, cart=cart)
+        CartLine.create(variant_id=variant_id, quantity=quantity, cart_id=cart.id)
