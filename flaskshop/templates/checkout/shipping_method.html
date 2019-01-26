@@ -3,7 +3,7 @@
 
 {% block forms %}
 <h3>Shipping address</h3>
-{{ macros.format_address(current_user.cart.address) }}
+{{ macros.format_address(current_user_cart.address) }}
 <p><a href="{{ url_for('checkout.checkout_shipping_address') }}">Select other address</a></p>
 <hr>
 <form method="post" novalidate>

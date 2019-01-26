@@ -15,7 +15,7 @@ def get_name_from_attributes(variant):
 
 
 def add_to_currentuser_cart(quantity, variant_id):
-    cart = Cart.get_by_user_id(current_user.id)
+    cart = Cart.get_current_user_cart()
     if cart:
         cart.quantity += quantity
         cart.save()

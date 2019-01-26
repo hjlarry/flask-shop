@@ -80,7 +80,8 @@ def checkout_shipping_address():
         )
     else:
         user_address = UserAddress.get_by_id(request.form["address_sel"])
-    current_user.cart.update(address=user_address)
+    cart = Cart.get_current_user_cart()
+    cart.update(shipping_address_id=user_address.id)
     return redirect(url_for("checkout.checkout_shipping_method"))
 
 
@@ -88,16 +89,17 @@ def checkout_shipping_address():
 def checkout_shipping_method():
     form = ShippingMethodForm(request.form)
     if form.validate_on_submit():
+        cart = Cart.get_current_user_cart()
         order = Order.create(
             user=current_user,
             shipping_method_id=form.shipping_method.data,
-            shipping_address=current_user.cart.address,
+            shipping_address=cart.address,
             status=ORDER_STATUS_UNFULFILLED,
         )
         if form.note.data:
             OrderNote.create(order=order, user=current_user, content=form.note.data)
         total = 0
-        for line in current_user.cart.lines:
+        for line in cart.lines:
             order_line = OrderLine.create(
                 order=order,
                 variant=line.variant,
@@ -115,6 +117,6 @@ def checkout_shipping_method():
             shipping_method_name=order.shipping_method.title,
             shipping_price_net=order.shipping_method.price,
         )
-        current_user.cart.delete()
+        cart.delete()
         return redirect(order.get_absolute_url())
     return render_template("checkout/shipping_method.html", form=form)

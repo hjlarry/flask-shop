@@ -29,7 +29,7 @@
   <div class="col-md-5">
     <div class="checkout__review">
       <h3 class="checkout__review__tittle">Order review</h3>
-      {% for line in current_user.cart.lines %}
+      {% for line in current_user_cart.lines %}
       <div class="row">
         <div class="col-8">
           <p><strong>{{ line.variant.product }}</strong> x {{ line.quantity }}<br>
@@ -48,7 +48,7 @@
         </div>
         <div class="col-4">
           <p class="float-right">
-            ${{ current_user.cart.total }}
+            ${{ current_user_cart.total }}
           </p>
         </div>
       </div>
@@ -58,7 +58,7 @@
         </div>
         <div class="col-4">
           <p class="float-right">
-            {% if current_user.cart.shipping_method %}
+            {% if current_user_cart.shipping_method %}
             {# TODO #}
             {% else %}
             &mdash;
@@ -87,7 +87,7 @@
           <h3>Total</h3>
         </div>
         <div class="col-4">
-          <h3 class="float-right">${{ current_user.cart.total }}</h3>
+          <h3 class="float-right">${{ current_user_cart.total }}</h3>
         </div>
       </div>
     </div>

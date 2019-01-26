@@ -13,6 +13,7 @@ from flaskshop.database import (
     reference_col,
     relationship,
 )
+from flaskshop.account.models import UserAddress
 
 
 class Cart(SurrogatePK, Model):
@@ -21,14 +22,17 @@ class Cart(SurrogatePK, Model):
     token = Column(db.String(255))
     voucher_code = Column(db.String(255))
     quantity = Column(db.Integer())
-    shipping_address_id = reference_col("users_address")
-    address = relationship("UserAddress")
+    shipping_address_id = Column(db.Integer())
 
     @property
     def total(self):
         # TODO discount and tax
         subtotal = (line.subtotal for line in self.lines)
         return sum(subtotal)
+
+    @property
+    def address(self):
+        return UserAddress.get_by_id(self.shipping_address_id)
 
     @classmethod
     def get_current_user_cart(cls):
