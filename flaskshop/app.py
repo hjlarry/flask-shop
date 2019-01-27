@@ -2,7 +2,18 @@
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
 
-from flaskshop import commands, public, account, product, order, checkout, admin, api, discount
+from flaskshop import (
+    commands,
+    public,
+    account,
+    product,
+    order,
+    checkout,
+    admin,
+    api,
+    discount,
+    dashboard,
+)
 from flaskshop.extensions import (
     bcrypt,
     cache,
@@ -14,7 +25,7 @@ from flaskshop.extensions import (
     webpack,
     admin_manager,
     bootstrap,
-    flask_whooshalchemyplus
+    flask_whooshalchemyplus,
 )
 from flaskshop.settings import ProdConfig
 from flaskshop.utils import log_slow_queries, jinja_global_varibles
@@ -64,6 +75,7 @@ def register_blueprints(app):
     app.register_blueprint(admin.views.blueprint)
     app.register_blueprint(discount.views.blueprint)
     app.register_blueprint(api.api.blueprint)
+    app.register_blueprint(dashboard.views.blueprint)
     return None
 
 
@@ -86,7 +98,12 @@ def register_shellcontext(app):
 
     def shell_context():
         """Shell context objects."""
-        return {"db": db, "User": account.models.User, "Product": product.models.Product, "Order": order.models.Order}
+        return {
+            "db": db,
+            "User": account.models.User,
+            "Product": product.models.Product,
+            "Order": order.models.Order,
+        }
 
     app.shell_context_processor(shell_context)
 
