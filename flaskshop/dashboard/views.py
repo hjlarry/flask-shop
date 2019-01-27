@@ -2,6 +2,8 @@ from functools import wraps
 from flask import Blueprint, render_template, abort
 from flask_login import login_required, current_user
 
+from flaskshop.account.models import User, UserAddress
+
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
 
@@ -27,3 +29,14 @@ def before_request():
 def index():
     return render_template("dashboard/index.html")
 
+
+@blueprint.route("/list")
+def list():
+    return render_template("dashboard/list.html")
+
+
+@blueprint.route("/users")
+def users():
+    users = User.query.all()
+    menu = ("id", "username", "email", "active", "is_admin")
+    return render_template("dashboard/list.html")
