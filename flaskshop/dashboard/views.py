@@ -38,5 +38,11 @@ def list():
 @blueprint.route("/users")
 def users():
     users = User.query.all()
-    menu = ("id", "username", "email", "active", "is_admin")
-    return render_template("dashboard/list.html")
+    props = {
+        "id": "ID",
+        "username": "Username",
+        "email": "Email",
+        "active": "Is Active",
+        "is_admin": "Is Admin",
+    }
+    return render_template("dashboard/list.html", props=props, items=users)
