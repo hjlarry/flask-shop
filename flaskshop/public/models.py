@@ -1,13 +1,6 @@
 from flask import url_for
 
-from flaskshop.database import (
-    Column,
-    Model,
-    SurrogatePK,
-    db,
-    reference_col,
-    relationship,
-)
+from flaskshop.database import Column, Model, SurrogatePK, db
 
 
 class Site(SurrogatePK, Model):
@@ -19,7 +12,8 @@ class Site(SurrogatePK, Model):
 
     def get_menu_items(self, menu_id):
         return MenuItem.query.filter(MenuItem.site_id == menu_id).order_by(
-            MenuItem.order)
+            MenuItem.order
+        )
 
     @property
     def top_menu_items(self):
@@ -34,7 +28,7 @@ class MenuItem(SurrogatePK, Model):
     __tablename__ = "menu_menuitem"
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
-    _url = Column('url', db.String(255))
+    _url = Column("url", db.String(255))
     category_id = Column(db.Integer())
     collection_id = Column(db.Integer())
     site_id = Column(db.Integer())  # item在site中的位置

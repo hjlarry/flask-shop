@@ -9,11 +9,12 @@ class PhoneNumber(phonenumbers.PhoneNumber):
     some neat and more pythonic, easy to access methods. This makes using a
     PhoneNumber instance much easier, especially in templates and such.
     """
+
     format_map = {
-        'E164': phonenumbers.PhoneNumberFormat.E164,
-        'INTERNATIONAL': phonenumbers.PhoneNumberFormat.INTERNATIONAL,
-        'NATIONAL': phonenumbers.PhoneNumberFormat.NATIONAL,
-        'RFC3966': phonenumbers.PhoneNumberFormat.RFC3966,
+        "E164": phonenumbers.PhoneNumberFormat.E164,
+        "INTERNATIONAL": phonenumbers.PhoneNumberFormat.INTERNATIONAL,
+        "NATIONAL": phonenumbers.PhoneNumberFormat.NATIONAL,
+        "RFC3966": phonenumbers.PhoneNumberFormat.RFC3966,
     }
 
     @classmethod
@@ -21,12 +22,16 @@ class PhoneNumber(phonenumbers.PhoneNumber):
         phone_number_obj = cls()
         if region is None:
             region = None
-        phonenumbers.parse(number=phone_number, region=region,
-                           keep_raw_input=True, numobj=phone_number_obj)
+        phonenumbers.parse(
+            number=phone_number,
+            region=region,
+            keep_raw_input=True,
+            numobj=phone_number_obj,
+        )
         return phone_number_obj
 
     def __unicode__(self):
-        format_string = 'E164'
+        format_string = "E164"
         fmt = self.format_map[format_string]
         return self.format_as(fmt)
 
@@ -63,18 +68,19 @@ class PhoneNumber(phonenumbers.PhoneNumber):
         Override parent equality because we store only string representation
         of phone number, so we must compare only this string representation
         """
-        if (isinstance(other, PhoneNumber) or
-                isinstance(other, phonenumbers.PhoneNumber) or
-                isinstance(other, str)):
-            format_string = 'E164'
+        if (
+            isinstance(other, PhoneNumber)
+            or isinstance(other, phonenumbers.PhoneNumber)
+            or isinstance(other, str)
+        ):
+            format_string = "E164"
             default_region = None
             fmt = self.format_map[format_string]
             if isinstance(other, str):
                 # convert string to phonenumbers.PhoneNumber
                 # instance
                 try:
-                    other = phonenumbers.parse(
-                        other, region=default_region)
+                    other = phonenumbers.parse(other, region=default_region)
                 except phonenumbers.NumberParseException:
                     # Conversion is not possible, thus not equal
                     return False
@@ -88,7 +94,7 @@ class PhoneNumber(phonenumbers.PhoneNumber):
 
 
 def to_python(value):
-    if value in (None, ''):  # None or ''
+    if value in (None, ""):  # None or ''
         phone_number = value
     elif value and isinstance(value, str):
         try:
@@ -96,8 +102,9 @@ def to_python(value):
         except phonenumbers.NumberParseException:
             # the string provided is not a valid PhoneNumber.
             phone_number = PhoneNumber(raw_input=value)
-    elif (isinstance(value, phonenumbers.PhoneNumber) and
-          not isinstance(value, PhoneNumber)):
+    elif isinstance(value, phonenumbers.PhoneNumber) and not isinstance(
+        value, PhoneNumber
+    ):
         phone_number = PhoneNumber()
         phone_number.merge_from(value)
     elif isinstance(value, PhoneNumber):
@@ -113,6 +120,11 @@ def to_python(value):
 def validate_possible_number(value):
     phone_number = to_python(value)
     if phone_number and not is_possible_number(phone_number):
-        raise ValidationError(
-            'The phone number entered is not valid.',
-            )
+        raise ValidationError("The phone number entered is not valid.")
+
+
+def flash_errors(form, category="warning"):
+    """Flash all errors for a form."""
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(f"{getattr(form, field).label.text} - {error}", category)

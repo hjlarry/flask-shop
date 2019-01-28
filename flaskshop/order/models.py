@@ -15,7 +15,7 @@ from flaskshop.constant import (
     ORDER_STATUS_PARTIALLY_FULFILLED,
 )
 from flaskshop.account.models import User, UserAddress
-from flaskshop.checkout.models import ShippingMethod
+
 from flaskshop.product.models import ProductVariant
 
 
@@ -54,6 +54,8 @@ class Order(SurrogatePK, Model):
 
     @property
     def shipping_method(self):
+        from flaskshop.checkout.models import ShippingMethod
+
         return ShippingMethod.get_by_id(self.shipping_method_id)
 
     @classmethod
