@@ -1,4 +1,4 @@
-from flask import url_for
+from flask import url_for, request
 
 from flaskshop.database import Column, Model, SurrogatePK, db
 
@@ -9,7 +9,7 @@ class DashboardMenu(SurrogatePK, Model):
     order = Column(db.Integer(), default=0)
     endpoint = Column(db.String(255))
     icon_cls = Column(db.String(255))
-    parent_id = Column(db.Integer())
+    parent_id = Column(db.Integer(), default=0)
 
     def __str__(self):
         return self.title
@@ -17,4 +17,17 @@ class DashboardMenu(SurrogatePK, Model):
     @property
     def children(self):
         return DashboardMenu.query.filter(DashboardMenu.parent_id == self.id).all()
+
+    def is_active(self):
+        if self.endpoint and request.path == url_for(self.endpoint):
+            return True
+        if any((child.is_active() for child in self.children)):
+            return True
+        return False
+
+    def get_url(self):
+        if self.children:
+            return "#"
+        if self.endpoint:
+            return url_for(self.endpoint)
 

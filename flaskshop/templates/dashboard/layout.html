@@ -80,64 +80,29 @@
                         <a href="#" class="d-block">{{current_user.username}}</a>
                     </div>
                 </div>
-
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        {%- for item in [] %}
-                        {%- if item.is_category() -%}
-                        {% set children = item.get_children() %}
-                        {%- if children %}
-                        {% set class_name = item.get_class_name() %}
-                        {%- if item.is_active(admin_view) %}
+                        {%- for item in menus %}
                         <li class="nav-item has-treeview menu-open">
-                            <a href="#" class="nav-link active">
-                                <i class="{{ item.class_name }}"></i>
-                                <p>{{ item.name }}<i class="right fa fa-angle-left"></i></p>
+                            <a href="{{item.get_url()}}" class="nav-link {%- if item.is_active() %} active{% endif %}">
+                                <i class="{{ item.icon_cls }}"></i>
+                                <p>{{ item.title }}
+                                    {%- if item.children %}<i class="right fa fa-angle-left"></i>{% endif %}
+                                </p>
                             </a>
-                            {% else %}
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="{{ item.class_name }}"></i>
-                                <p>{{ item.name }}<i class="right fa fa-angle-left"></i></p>
-                            </a>
-                            {% endif %}
+                            {%- if item.children %}
                             <ul class="nav nav-treeview">
-                                {%- for child in children -%}
-                                {% set class_name = child.get_class_name() %}
+                                {%- for child in item.children -%}
                                 <li class="nav-item">
-                                    {%- if child.is_active(admin_view) %}
-                                    <a href="{{ child.get_url() }}" class="nav-link active" {% if child.target %}
-                                        target="{{ child.target }}" {% endif %}>
-                                        {% else %}
-                                        <a href="{{ child.get_url() }}" class="nav-link" {% if child.target %} target="{{ child.target }}"
-                                            {% endif %}>
-                                            {%- endif %}
-                                            {{ macro.menu_icon(child) }}
-                                            <p>{{ child.name }}</p>
-                                        </a>
+                                    <a href="{{ child.get_url() }}" class="nav-link {%- if child.is_active() %} active{%- endif %}">
+                                        <p>{{ child.title }}</p>
+                                    </a>
                                 </li>
                                 {%- endfor %}
                             </ul>
+                            {% endif %}
                         </li>
-                        {% endif %}
-                        {%- else %}
-                        {%- if item.is_accessible() and item.is_visible() -%}
-                        {% set class_name = item.get_class_name() %}
-                        <li class="nav-item">
-                            {%- if item.is_active(admin_view) %}
-                            <a href="{{ item.get_url() }}" class="nav-link active" {% if item.target %} target="{{ item.target }}"
-                                {% endif %}>
-                                {% else %}
-                                <a href="{{ item.get_url() }}" class="nav-link" {% if item.target %} target="{{ item.target }}"
-                                    {% endif %}>
-                                    {%- endif %}
-                                    {{ macro.menu_icon(item) }}
-                                    <p>{{ item.name }}</p>
-                                </a>
-                        </li>
-                        {%- endif -%}
-                        {% endif -%}
                         {% endfor %}
                     </ul>
                 </nav>

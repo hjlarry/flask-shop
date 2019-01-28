@@ -10,6 +10,12 @@ from .models import DashboardMenu
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
 
+@blueprint.context_processor
+def inject_param():
+    menus = DashboardMenu.query.filter_by(parent_id=0).all()
+    return {"menus": menus}
+
+
 def admin_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
