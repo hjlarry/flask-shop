@@ -82,7 +82,14 @@ def dashboard_menus():
         "icon_cls": "Icon class",
         "parent_id": "Parent Id",
     }
-    return render_template("dashboard/list.html", props=props, items=dashboard_menus)
+    context = {
+        "title": "Dashboard Menus",
+        "create_endpoint": "dashboard.dashboard_menus_create",
+        "edit_endpoint": "dashboard.dashboard_menus_edit",
+        "items": dashboard_menus,
+        "props": props,
+    }
+    return render_template("dashboard/list.html", **context)
 
 
 @blueprint.route("/dashboard_menus/create", methods=["GET", "POST"])
