@@ -6,10 +6,12 @@
 {% set type = 'text' %}
 {% endif %}
 <div class="form-group">
-    <label for="{{label_id}}">{{ field.label.text }}</label>
-    <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}" value="{{ field.data }}">
+    <label for="{{label_id}}">{{ field.label.text }} </label>
+    <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}" value="{% if field.data %}{{ field.data }}{% elif field.default is not none %}{{field.default}}{% endif %}">
     {% if field.errors %}
-    <span class="control-label">{{ field.errors[0] }}</span>
+    <div class="invalid-feedback" style="display:block">
+        {{ field.errors[0] }}
+    </div>
     {% endif %}
 </div>
 {% endmacro %}

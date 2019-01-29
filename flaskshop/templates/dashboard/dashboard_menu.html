@@ -9,22 +9,24 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Create </h3>
+                        <h3 class="card-title">Create Dashboard Menu</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <div class="card-body">
-                        {{ form.hidden_tag() }}
-                        {{ macros.render_input_field(form.title) }}
-                        {{ macros.render_input_field(form.order) }}
-                        {{ macros.render_input_field(form.endpoint) }}
-                        {{ macros.render_input_field(form.icon_cls) }}
+                    <form method="POST" action="">
+                        <div class="card-body">
+                            {{ form.hidden_tag() }}
+                            {{ macros.render_input_field(form.title) }}
+                            {{ macros.render_input_field(form.order) }}
+                            {{ macros.render_input_field(form.endpoint) }}
+                            {{ macros.render_input_field(form.icon_cls) }}
 
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        {{ macros.render_submit(form.submit) }}
-                    </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            {{ macros.render_submit(form.submit) }}
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

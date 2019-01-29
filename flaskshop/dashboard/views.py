@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, redirect, url_for
 from flask_login import login_required, current_user
 
 from flaskshop.account.models import User, UserAddress
@@ -85,8 +85,23 @@ def dashboard_menus():
     return render_template("dashboard/list.html", props=props, items=dashboard_menus)
 
 
-@blueprint.route("/dashboard_menus/create")
+@blueprint.route("/dashboard_menus/create", methods=["GET", "POST"])
 def dashboard_menus_create():
     form = DashboardMenuForm()
+    if form.validate_on_submit():
+        menu = DashboardMenu()
+        form.populate_obj(menu)
+        menu.save()
+        return redirect(url_for("dashboard.dashboard_menus"))
     return render_template("dashboard/dashboard_menu.html", form=form)
 
+
+@blueprint.route("/dashboard_menus/<menu_id>/edit", methods=["GET", "POST"])
+def dashboard_menus_edit(menu_id):
+    menu = DashboardMenu.get_by_id(menu_id)
+    form = DashboardMenuForm(menu)
+    if form.validate_on_submit():
+        form.populate_obj(menu)
+        menu.save()
+        return redirect(url_for("dashboard.dashboard_menus"))
+    return render_template("dashboard/dashboard_menu.html", form=form)

@@ -27,12 +27,17 @@
                                 {% for th in props.values() %}
                                 <th>{{th}}</th>
                                 {% endfor %}
+                                <th>Operation</th>
                             </tr>
                             {% for item in items %}
                             <tr>
                                 {% for prop in props.keys() %}
                                 <td>{{ item | attr(prop) }}</td>
                                 {% endfor %}
+                                <td>
+                                    <a href="" class="btn btn-info btn-sm">Edit</a>
+                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </table>
