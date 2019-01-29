@@ -86,7 +86,7 @@
                         {%- for item in menus %}
                         <li class="nav-item has-treeview menu-open">
                             <a href="{{item.get_url()}}" class="nav-link {%- if item.is_active() %} active{% endif %}">
-                                <i class="{{ item.icon_cls }}"></i>
+                                <i class="fa nav-icon {{ item.icon_cls }}"></i>
                                 <p>{{ item.title }}
                                     {%- if item.children %}<i class="right fa fa-angle-left"></i>{% endif %}
                                 </p>
@@ -96,6 +96,7 @@
                                 {%- for child in item.children -%}
                                 <li class="nav-item">
                                     <a href="{{ child.get_url() }}" class="nav-link {%- if child.is_active() %} active{%- endif %}">
+                                        <i class="fa fa-circle-o nav-icon"></i>
                                         <p>{{ child.title }}</p>
                                     </a>
                                 </li>

@@ -6,6 +6,7 @@ from flaskshop.account.models import User, UserAddress
 from flaskshop.public.models import MenuItem
 
 from .models import DashboardMenu
+from .forms import DashboardMenuForm
 
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -68,3 +69,24 @@ def menus():
         "parent_id": "Parent Id",
     }
     return render_template("dashboard/list.html", props=props, items=menus)
+
+
+@blueprint.route("/dashboard_menus")
+def dashboard_menus():
+    dashboard_menus = DashboardMenu.query.all()
+    props = {
+        "id": "ID",
+        "title": "Title",
+        "order": "Order",
+        "endpoint": "Endpoint",
+        "icon_cls": "Icon class",
+        "parent_id": "Parent Id",
+    }
+    return render_template("dashboard/list.html", props=props, items=dashboard_menus)
+
+
+@blueprint.route("/dashboard_menus/create")
+def dashboard_menus_create():
+    form = DashboardMenuForm()
+    return render_template("dashboard/dashboard_menu.html", form=form)
+

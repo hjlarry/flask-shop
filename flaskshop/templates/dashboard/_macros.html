@@ -1,0 +1,21 @@
+{% macro render_input_field(field) %}
+{% set label_id = field.label.field_id %}
+{% if label_id in ('email', 'password') %}
+{% set type = label_id %}
+{% else %}
+{% set type = 'text' %}
+{% endif %}
+<div class="form-group">
+    <label for="{{label_id}}">{{ field.label.text }}</label>
+    <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}" value="{{ field.data }}">
+    {% if field.errors %}
+    <span class="control-label">{{ field.errors[0] }}</span>
+    {% endif %}
+</div>
+{% endmacro %}
+
+
+{% macro render_submit(field) %}
+<button type="submit" class="btn btn-primary">{{ field.label.text }}</button>
+<button type="" class="btn btn-default float-right">Cancel</button>
+{% endmacro %}
