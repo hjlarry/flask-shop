@@ -99,7 +99,7 @@ def dashboard_menus_create():
 @blueprint.route("/dashboard_menus/<menu_id>/edit", methods=["GET", "POST"])
 def dashboard_menus_edit(menu_id):
     menu = DashboardMenu.get_by_id(menu_id)
-    form = DashboardMenuForm(menu)
+    form = DashboardMenuForm(obj=menu)
     if form.validate_on_submit():
         form.populate_obj(menu)
         menu.save()
