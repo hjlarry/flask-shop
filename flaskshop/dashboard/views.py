@@ -13,7 +13,7 @@ blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
 @blueprint.context_processor
 def inject_param():
-    menus = DashboardMenu.query.filter_by(parent_id=0).all()
+    menus = DashboardMenu.first_level_items()
     return {"menus": menus}
 
 
@@ -68,7 +68,14 @@ def menus():
         "site_id": "Site Id",
         "parent_id": "Parent Id",
     }
-    return render_template("dashboard/list.html", props=props, items=menus)
+    context = {
+        "title": "Site Menus",
+        "create_endpoint": "dashboard.dashboard_menus_create",
+        "edit_endpoint": "dashboard.dashboard_menus_edit",
+        "items": menus,
+        "props": props,
+    }
+    return render_template("dashboard/list.html", **context)
 
 
 @blueprint.route("/dashboard_menus")

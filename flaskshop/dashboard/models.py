@@ -20,7 +20,7 @@ class DashboardMenu(SurrogatePK, Model):
 
     @classmethod
     def first_level_items(cls):
-        return cls.query.filter(cls.parent_id == 0).all()
+        return cls.query.filter(cls.parent_id == 0).order_by("order").all()
 
     def is_active(self):
         if self.endpoint and request.path == url_for(self.endpoint):
