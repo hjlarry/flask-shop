@@ -63,3 +63,7 @@
     padding: .375rem .75rem;
     margin: .375rem 0;
 }
+
+.select2-container, .selection{
+    height:38px;
+}

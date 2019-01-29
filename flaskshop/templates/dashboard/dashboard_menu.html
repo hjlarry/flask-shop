@@ -1,5 +1,9 @@
 {% import 'dashboard/_macros.html' as macros%}
 {% extends 'dashboard/layout.html' %}
+{% block head_tail %}
+<link href="{{ url_for('static', filename='admin/plugins/select2/select2.min.css') }}" rel="stylesheet">
+{{super()}}
+{% endblock %}
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -20,6 +24,7 @@
                             {{ macros.render_input_field(form.order) }}
                             {{ macros.render_input_field(form.endpoint) }}
                             {{ macros.render_input_field(form.icon_cls) }}
+                            {{ macros.render_select_field(form.parent_id) }}
 
                         </div>
                         <!-- /.card-body -->
@@ -32,4 +37,14 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block tail_js %}
+<script src="{{ url_for('static', filename='admin/plugins/select2/select2.min.js') }}"></script>
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+    })
+</script>
 {% endblock %}
