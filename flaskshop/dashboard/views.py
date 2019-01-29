@@ -93,7 +93,8 @@ def dashboard_menus_create():
         form.populate_obj(menu)
         menu.save()
         return redirect(url_for("dashboard.dashboard_menus"))
-    return render_template("dashboard/dashboard_menu.html", form=form)
+    parents = DashboardMenu.first_level_items()
+    return render_template("dashboard/dashboard_menu.html", form=form, parents=parents)
 
 
 @blueprint.route("/dashboard_menus/<menu_id>/edit", methods=["GET", "POST"])
@@ -104,4 +105,5 @@ def dashboard_menus_edit(menu_id):
         form.populate_obj(menu)
         menu.save()
         return redirect(url_for("dashboard.dashboard_menus"))
-    return render_template("dashboard/dashboard_menu.html", form=form)
+    parents = DashboardMenu.first_level_items()
+    return render_template("dashboard/dashboard_menu.html", form=form, parents=parents)

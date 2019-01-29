@@ -18,6 +18,10 @@ class DashboardMenu(SurrogatePK, Model):
     def children(self):
         return DashboardMenu.query.filter(DashboardMenu.parent_id == self.id).all()
 
+    @classmethod
+    def first_level_items(cls):
+        return cls.query.filter(cls.parent_id == 0).all()
+
     def is_active(self):
         if self.endpoint and request.path == url_for(self.endpoint):
             return True
