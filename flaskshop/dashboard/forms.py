@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm as _FlaskForm
 from wtforms import StringField, IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired
-from .models import DashboardMenu
 
 
 class FlaskForm(_FlaskForm):
