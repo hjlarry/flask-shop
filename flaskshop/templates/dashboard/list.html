@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                             <div class="input-group input-group-sm" style="width:auto;margin-left: 10px;">
-                                <a href="{{url_for(create_endpoint)}}" class="btn btn-success btn-sm">Create</a>
+                                <a href="{{url_for(manage_endpoint)}}" class="btn btn-success btn-sm">Create</a>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                 <td>{{ item | attr(prop) }}</td>
                                 {% endfor %}
                                 <td>
-                                    <a href="{{url_for(edit_endpoint, menu_id=item.id)}}" class="btn btn-info btn-sm">Edit</a>
+                                    <a href="{{url_for(manage_endpoint, menu_id=item.id)}}" class="btn btn-info btn-sm">Edit</a>
                                     <a href="#" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>

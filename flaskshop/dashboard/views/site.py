@@ -1,11 +1,11 @@
-from flask import render_template
+from flask import render_template, redirect, url_for
 
 from flaskshop.public.models import MenuItem
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.dashboard.forms import DashboardMenuForm
 
 
-def menus():
+def site_menus():
     menus = MenuItem.query.all()
     props = {
         "id": "ID",
@@ -16,8 +16,7 @@ def menus():
     }
     context = {
         "title": "Site Menus",
-        "create_endpoint": "dashboard.dashboard_menus_create",
-        "edit_endpoint": "dashboard.dashboard_menus_edit",
+        "manage_endpoint": "dashboard.dashboard_menus_edit",
         "items": menus,
         "props": props,
     }
@@ -36,27 +35,18 @@ def dashboard_menus():
     }
     context = {
         "title": "Dashboard Menus",
-        "create_endpoint": "dashboard.dashboard_menus_create",
-        "edit_endpoint": "dashboard.dashboard_menus_edit",
+        "manage_endpoint": "dashboard.dashboard_menus_manage",
         "items": dashboard_menus,
         "props": props,
     }
     return render_template("dashboard/list.html", **context)
 
 
-def dashboard_menus_create():
-    form = DashboardMenuForm()
-    if form.validate_on_submit():
+def dashboard_menus_manage(menu_id=None):
+    if menu_id:
+        menu = DashboardMenu.get_by_id(menu_id)
+    else:
         menu = DashboardMenu()
-        form.populate_obj(menu)
-        menu.save()
-        return redirect(url_for("dashboard.dashboard_menus"))
-    parents = DashboardMenu.first_level_items()
-    return render_template("dashboard/dashboard_menu.html", form=form, parents=parents)
-
-
-def dashboard_menus_edit(menu_id):
-    menu = DashboardMenu.get_by_id(menu_id)
     form = DashboardMenuForm(obj=menu)
     if form.validate_on_submit():
         form.populate_obj(menu)
