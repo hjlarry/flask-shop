@@ -1,0 +1,54 @@
+{% import 'dashboard/_macros.html' as macros%}
+{% extends 'dashboard/layout.html' %}
+{% block head_tail %}
+<link href="{{ url_for('static', filename='admin/plugins/select2/select2.min.css') }}" rel="stylesheet">
+{{super()}}
+{% endblock %}
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %} Site Menu</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form method="POST" action="">
+                        <div class="card-body">
+
+                            {{ form.hidden_tag() }}
+                            {{ macros.render_input_field(form.title) }}
+                            {{ macros.render_input_field(form.order) }}
+                            {{ macros.render_input_field(form.url_) }}
+                            {{ macros.render_radio_field(form.site_id) }}
+                            {{ macros.render_select_field(form.parent_id, parents) }}
+                            {{ macros.render_select_field(form.category_id, parents) }}
+                            {{ macros.render_select_field(form.collection_id, parents) }}
+                            {{ macros.render_select_field(form.page_id, parents) }}
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            {{ macros.render_submit(form.submit) }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block tail_js %}
+<script src="{{ url_for('static', filename='admin/plugins/select2/select2.min.js') }}"></script>
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+    })
+</script>
+{% endblock %}

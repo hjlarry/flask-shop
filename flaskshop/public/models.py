@@ -28,12 +28,12 @@ class MenuItem(SurrogatePK, Model):
     __tablename__ = "menu_menuitem"
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
-    _url = Column("url", db.String(255))
+    url_ = Column("url", db.String(255))
     category_id = Column(db.Integer())
     collection_id = Column(db.Integer())
     site_id = Column(db.Integer())  # item在site中的位置
     page_id = Column(db.Integer())
-    parent_id = Column(db.Integer())
+    parent_id = Column(db.Integer(), default=0)
 
     def __str__(self):
         return self.title
@@ -57,7 +57,11 @@ class MenuItem(SurrogatePK, Model):
 
     @property
     def url(self):
-        return self._url if self._url else self.linked_object_url
+        return self.url_ if self.url_ else self.linked_object_url
+
+    @classmethod
+    def first_level_items(cls):
+        return cls.query.filter(cls.parent_id == 0).order_by("order").all()
 
 
 class Page(SurrogatePK, Model):

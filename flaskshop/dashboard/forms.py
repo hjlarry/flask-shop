@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm as _FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, SelectField
+from wtforms import StringField, IntegerField, SubmitField, SelectField, RadioField
 from wtforms.validators import DataRequired
 
 
@@ -8,7 +8,7 @@ class FlaskForm(_FlaskForm):
         self._errors = None
         success = True
         for name, field in self._fields.items():
-            if field.type in ("SelectField", "SelectMultipleField"):
+            if field.type in ("SelectField", "SelectMultipleField", "RadioField"):
                 continue
             if extra_validators is not None and name in extra_validators:
                 extra = extra_validators[name]
@@ -26,3 +26,16 @@ class DashboardMenuForm(FlaskForm):
     icon_cls = StringField()
     parent_id = SelectField("Parent")
     submit = SubmitField()
+
+
+class SiteMenuForm(FlaskForm):
+    title = StringField(validators=[DataRequired()])
+    order = IntegerField(default=0)
+    url_ = StringField("Url")
+    parent_id = SelectField("Parent")
+    site_id = RadioField("Position", choices=[("top", 1), ("bottom", 2)])
+    category_id = SelectField("Category")
+    collection_id = SelectField("Collection")
+    page_id = SelectField("Page")
+    submit = SubmitField()
+

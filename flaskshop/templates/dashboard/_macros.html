@@ -6,7 +6,7 @@
 {% set type = 'text' %}
 {% endif %}
 <div class="form-group">
-    <label for="{{label_id}}">{{ field.label.text }} </label>
+    <label for="{{label_id}}">{{ field.label.text }}</label>
     <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}" value="{% if field.data %}{{ field.data }}{% elif field.default is not none %}{{field.default}}{% endif %}">
     {% if field.errors %}
     <div class="invalid-feedback" style="display:block">
@@ -19,7 +19,7 @@
 
 {% macro render_submit(field) %}
 <button type="submit" class="btn btn-primary">{{ field.label.text }}</button>
-<button type="" class="btn btn-default float-right">Cancel</button>
+<button onclick="window.history.go(-1); return false;" class="btn btn-default float-right">Cancel</button>
 {% endmacro %}
 
 {% macro render_select_field(field, items) %}
@@ -27,12 +27,26 @@
 <div class="form-group">
     <label>{{ field.label.text }}</label>
     <select class="form-control select2" style="width: 100%;" name="{{ label_id }}">
-        <option value="0">None</option>
+        <option value="">None</option>
         {% for item in items %}
         <option value="{{ item.id }}" {% if item.id==field.data|int %} selected {% endif %}>
             {{ item.title }}
         </option>
         {% endfor %}
     </select>
+</div>
+{% endmacro %}
+
+{% macro render_radio_field(field) %}
+{% set label_id = field.label.field_id %}
+<div class="form-group">
+    <label>{{ field.label.text }}</label>
+    {% for item in field.choices %}
+    <div class="form-check">
+        <input class="form-check-input" type="radio" value="{{item[1]}}" name="{{ label_id }}" {% if item[1]==field.data|int
+            or loop.first %} checked {% endif %}>
+        <label class="form-check-label">{{item[0]}}</label>
+    </div>
+    {% endfor %}
 </div>
 {% endmacro %}

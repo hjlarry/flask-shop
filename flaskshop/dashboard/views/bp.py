@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 
 from flaskshop.dashboard.models import DashboardMenu
 from .user import users
-from .site import site_menus, dashboard_menus, dashboard_menus_manage
+from .site import site_menus, site_menus_manage, dashboard_menus, dashboard_menus_manage
 
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -39,7 +39,13 @@ def index():
 
 
 blueprint.add_url_rule("/users", view_func=users)
-blueprint.add_url_rule("/menus", view_func=site_menus)
+blueprint.add_url_rule("/site_menus", view_func=site_menus)
+blueprint.add_url_rule(
+    "/site_menus/create", view_func=site_menus_manage, methods=["GET", "POST"]
+)
+blueprint.add_url_rule(
+    "/site_menus/<menu_id>/edit", view_func=site_menus_manage, methods=["GET", "POST"]
+)
 blueprint.add_url_rule("/dashboard_menus", view_func=dashboard_menus)
 blueprint.add_url_rule(
     "/dashboard_menus/create", view_func=dashboard_menus_manage, methods=["GET", "POST"]
