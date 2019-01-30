@@ -21,6 +21,13 @@
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
                 </li>
             </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+                        <i class="fa fa-th-large"></i>
+                    </a>
+                </li>
+            </ul>
         </nav>
         <!-- /.navbar -->
 
@@ -88,18 +95,16 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
     </div>
     <!-- ./wrapper -->
 
-    <!-- REQUIRED SCRIPTS -->
-
-    <!-- jQuery -->
     <script src="{{ url_for('static', filename='admin/js/jquery.min.js') }}"></script>
-    {#
-    <!-- Bootstrap 4 -->#}
     <script src="{{ url_for('static', filename='admin/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- AdminLTE App -->
     <script src="{{ url_for('static', filename='admin/js/adminlte.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='admin/js/customize.js') }}"></script>
 
     {% block tail_js %} {% endblock %}
 </body>
