@@ -1,4 +1,5 @@
 {% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
 {% extends 'dashboard/layout.html' %}
 {% block head_tail %}
 <link href="{{ url_for('static', filename='admin/plugins/select2/select2.min.css') }}" rel="stylesheet">
@@ -21,10 +22,10 @@
                         <div class="card-body">
 
                             {{ form.hidden_tag() }}
-                            {{ macros.render_input_field(form.title) }}
-                            {{ macros.render_input_field(form.order) }}
-                            {{ macros.render_input_field(form.url_) }}
-                            {{ macros.render_radio_field(form.site_id) }}
+                            {{ vendor.render_field(form.title) }}
+                            {{ vendor.render_field(form.order) }}
+                            {{ vendor.render_field(form.url_) }}
+                            {{ vendor.render_field(form.site_id) }}
                             {{ macros.render_select_field(form.parent_id, parents) }}
                             {{ macros.render_select_field(form.category_id, categories) }}
                             {{ macros.render_select_field(form.collection_id, collections) }}

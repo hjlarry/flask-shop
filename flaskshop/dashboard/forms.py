@@ -33,7 +33,7 @@ class SiteMenuForm(FlaskForm):
     order = IntegerField(default=0)
     url_ = StringField("Url")
     parent_id = SelectField("Parent")
-    site_id = RadioField("Position", choices=[("top", 1), ("bottom", 2)])
+    site_id = RadioField("Position", choices=[(1, "top"), (2, "bottom")])
     category_id = SelectField("Category")
     collection_id = SelectField("Collection")
     page_id = SelectField("Page")

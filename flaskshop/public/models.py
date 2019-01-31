@@ -46,7 +46,9 @@ class MenuItem(SurrogatePK, Model):
 
     @property
     def children(self):
-        return MenuItem.query.filter(MenuItem.parent_id == self.id).all()
+        return (
+            MenuItem.query.filter(MenuItem.parent_id == self.id).order_by("order").all()
+        )
 
     @property
     def linked_object_url(self):
