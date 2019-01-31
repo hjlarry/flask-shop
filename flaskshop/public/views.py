@@ -29,12 +29,12 @@ def style():
 
 @blueprint.route("/search")
 def search():
-    query = request.args.get('q', None)
+    query = request.args.get("q", None)
     products = Product.query.whoosh_search(query).all()
     return render_template("public/search_result.html", products=products, query=query)
 
 
-@blueprint.route("/page/<int:id>")
-def show_page(id):
-    page = Page.get_by_id(id)
+@blueprint.route("/page/<identity>")
+def show_page(identity):
+    page = Page.get_by_identity(identity)
     return render_template("public/page.html", page=page)

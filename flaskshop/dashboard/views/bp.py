@@ -4,7 +4,13 @@ from flask_login import login_required, current_user
 
 from flaskshop.dashboard.models import DashboardMenu
 from .user import users
-from .site import site_menus, site_menus_manage, dashboard_menus, dashboard_menus_manage
+from .site import (
+    site_menus,
+    site_menus_manage,
+    dashboard_menus,
+    dashboard_menus_manage,
+    site_pages,
+)
 
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -19,7 +25,7 @@ def admin_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
         if not current_user.is_admin:
-            abort(401)
+            abort(403)
         return func(*args, **kwargs)
 
     return decorated_view
@@ -55,4 +61,5 @@ blueprint.add_url_rule(
     view_func=dashboard_menus_manage,
     methods=["GET", "POST"],
 )
+blueprint.add_url_rule("/site_pages", view_func=site_pages)
 

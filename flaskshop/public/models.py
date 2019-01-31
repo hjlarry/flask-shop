@@ -53,7 +53,7 @@ class MenuItem(SurrogatePK, Model):
     @property
     def linked_object_url(self):
         if self.page_id:
-            return url_for("public.show_page", id=self.page_id)
+            return url_for("public.show_page", identity=self.page_id)
         elif self.category_id:
             return url_for("product.show_category", id=self.category_id)
         elif self.collection_id:
@@ -71,11 +71,25 @@ class MenuItem(SurrogatePK, Model):
 class Page(SurrogatePK, Model):
     __tablename__ = "page_page"
     title = Column(db.String(255), nullable=False)
+    slug = Column(db.String(255))
     content = Column(db.Text())
     is_visible = Column(db.Boolean(), default=True)
 
     def get_absolute_url(self):
-        return url_for("public.show_page", id=self.id)
+        identity = self.slug or self.id
+        return url_for("public.show_page", identity=identity)
+
+    @classmethod
+    def get_by_identity(cls, identity):
+        try:
+            int(identity)
+        except ValueError:
+            return Page.query.filter(Page.slug == identity).first()
+        return Page.get_by_id(identity)
+
+    @property
+    def url(self):
+        return self.get_absolute_url()
 
     def __str__(self):
         return self.title

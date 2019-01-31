@@ -81,3 +81,21 @@ def dashboard_menus_manage(menu_id=None):
         return redirect(url_for("dashboard.dashboard_menus"))
     parents = DashboardMenu.first_level_items()
     return render_template("dashboard/dashboard_menu.html", form=form, parents=parents)
+
+
+def site_pages():
+    pages = Page.query.all()
+    props = {
+        "id": "ID",
+        "title": "Title",
+        "slug": "Slug",
+        "url": "Url",
+        "is_visible": "Is Open",
+    }
+    context = {
+        "title": "Site Pages",
+        "manage_endpoint": "dashboard.dashboard_menus_manage",
+        "items": pages,
+        "props": props,
+    }
+    return render_template("dashboard/list.html", **context)
