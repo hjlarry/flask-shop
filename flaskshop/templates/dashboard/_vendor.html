@@ -145,6 +145,16 @@ one, but does not try too hard to get things pretty. #}
 {% endif %}
 {% endmacro %}
 
+{% macro _arg_url_for(endpoint, base) %}
+{# calls url_for() with a given endpoint and **base as the parameters,
+additionally passing on all keyword_arguments (may overwrite existing ones)
+#}
+{%- with kargs = base.copy() -%}
+{%- do kargs.update(kwargs) -%}
+{{ url_for(endpoint, **kargs) }}
+{%- endwith %}
+{%- endmacro %}
+
 {% macro render_pagination(pagination,
 endpoint=None,
 prev=('&laquo;')|safe,

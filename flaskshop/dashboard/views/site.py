@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 
 from flaskshop.public.models import MenuItem, Page
 from flaskshop.dashboard.models import DashboardMenu
@@ -7,7 +7,8 @@ from flaskshop.dashboard.forms import DashboardMenuForm, SiteMenuForm
 
 
 def site_menus():
-    menus = MenuItem.query.all()
+    page = request.args.get("page", type=int, default=1)
+    pagination = MenuItem.query.paginate(page, 10)
     props = {
         "id": "ID",
         "title": "Title",
@@ -18,8 +19,9 @@ def site_menus():
     context = {
         "title": "Site Menus",
         "manage_endpoint": "dashboard.site_menus_manage",
-        "items": menus,
+        "items": pagination.items,
         "props": props,
+        "pagination": pagination,
     }
     return render_template("dashboard/list.html", **context)
 
