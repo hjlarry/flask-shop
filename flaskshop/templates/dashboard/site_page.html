@@ -1,0 +1,48 @@
+{% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
+{% extends 'dashboard/layout.html' %}
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %} Page</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form method="POST" action="">
+                        <div class="card-body">
+
+                            {{ form.hidden_tag() }}
+                            {{ vendor.render_field(form.title) }}
+                            {{ vendor.render_field(form.slug) }}
+                            {{ vendor.render_field(form.is_visable) }}
+                            {{ vendor.render_field(form.content) }}
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            {{ macros.render_submit(form.submit) }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block tail_js %}
+<script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#content'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+{% endblock %}

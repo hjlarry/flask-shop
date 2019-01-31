@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, request
 from flaskshop.public.models import MenuItem, Page
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.product.models import Category, Collection
-from flaskshop.dashboard.forms import DashboardMenuForm, SiteMenuForm
+from flaskshop.dashboard.forms import DashboardMenuForm, SiteMenuForm, SitePageForm
 
 
 def site_menus():
@@ -26,9 +26,9 @@ def site_menus():
     return render_template("dashboard/list.html", **context)
 
 
-def site_menus_manage(menu_id=None):
-    if menu_id:
-        menu = MenuItem.get_by_id(menu_id)
+def site_menus_manage(id=None):
+    if id:
+        menu = MenuItem.get_by_id(id)
     else:
         menu = MenuItem()
     form = SiteMenuForm(obj=menu)
@@ -69,9 +69,9 @@ def dashboard_menus():
     return render_template("dashboard/list.html", **context)
 
 
-def dashboard_menus_manage(menu_id=None):
-    if menu_id:
-        menu = DashboardMenu.get_by_id(menu_id)
+def dashboard_menus_manage(id=None):
+    if id:
+        menu = DashboardMenu.get_by_id(id)
     else:
         menu = DashboardMenu()
     form = DashboardMenuForm(obj=menu)
@@ -90,12 +90,25 @@ def site_pages():
         "title": "Title",
         "slug": "Slug",
         "url": "Url",
-        "is_visible": "Is Open",
+        "is_visible": "Is Visiable",
     }
     context = {
         "title": "Site Pages",
-        "manage_endpoint": "dashboard.dashboard_menus_manage",
+        "manage_endpoint": "dashboard.site_pages_manage",
         "items": pages,
         "props": props,
     }
     return render_template("dashboard/list.html", **context)
+
+
+def site_pages_manage(id=None):
+    if id:
+        page = Page.get_by_id(id)
+    else:
+        page = Page()
+    form = SitePageForm(obj=page)
+    if form.validate_on_submit():
+        form.populate_obj(page)
+        page.save()
+        return redirect(url_for("dashboard.site_pages"))
+    return render_template("dashboard/site_page.html", form=form)

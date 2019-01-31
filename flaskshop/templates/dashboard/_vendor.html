@@ -145,6 +145,22 @@ one, but does not try too hard to get things pretty. #}
 {% endif %}
 {% endmacro %}
 
+{% macro _hz_form_wrap(horizontal_columns, form_type, add_group=False, required=False) %}
+{% if form_type == "horizontal" %}
+{% if add_group %}
+<div class="form-group row{% if required %} required{% endif %}">{% endif %}
+    <div class="offset-{{ horizontal_columns[0] }}-{{ horizontal_columns[1] }}
+              col-{{ horizontal_columns[0] }}-{{ horizontal_columns[2] }}
+             ">
+        {% endif %}
+        {{ caller() }}
+
+        {% if form_type == "horizontal" %}
+        {% if add_group %}</div>{% endif %}
+</div>
+{% endif %}
+{% endmacro %}
+
 {% macro _arg_url_for(endpoint, base) %}
 {# calls url_for() with a given endpoint and **base as the parameters,
 additionally passing on all keyword_arguments (may overwrite existing ones)

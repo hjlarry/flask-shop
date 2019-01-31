@@ -10,6 +10,7 @@ from .site import (
     dashboard_menus,
     dashboard_menus_manage,
     site_pages,
+    site_pages_manage,
 )
 
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
@@ -50,16 +51,21 @@ blueprint.add_url_rule(
     "/site_menus/create", view_func=site_menus_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/site_menus/<menu_id>/edit", view_func=site_menus_manage, methods=["GET", "POST"]
+    "/site_menus/<id>/edit", view_func=site_menus_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/dashboard_menus", view_func=dashboard_menus)
 blueprint.add_url_rule(
     "/dashboard_menus/create", view_func=dashboard_menus_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/dashboard_menus/<menu_id>/edit",
+    "/dashboard_menus/<id>/edit",
     view_func=dashboard_menus_manage,
     methods=["GET", "POST"],
 )
 blueprint.add_url_rule("/site_pages", view_func=site_pages)
-
+blueprint.add_url_rule(
+    "/site_pages/create", view_func=site_pages_manage, methods=["GET", "POST"]
+)
+blueprint.add_url_rule(
+    "/site_pages/<id>/edit", view_func=site_pages_manage, methods=["GET", "POST"]
+)

@@ -1,5 +1,13 @@
 from flask_wtf import FlaskForm as _FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, SelectField, RadioField
+from wtforms import (
+    StringField,
+    IntegerField,
+    SubmitField,
+    SelectField,
+    RadioField,
+    TextAreaField,
+    BooleanField,
+)
 from wtforms.validators import DataRequired
 
 
@@ -39,3 +47,10 @@ class SiteMenuForm(FlaskForm):
     page_id = SelectField("Page")
     submit = SubmitField()
 
+
+class SitePageForm(FlaskForm):
+    title = StringField(validators=[DataRequired()])
+    slug = StringField()
+    content = TextAreaField()
+    is_visable = BooleanField()
+    submit = SubmitField()
