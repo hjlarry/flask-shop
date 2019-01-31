@@ -11,8 +11,10 @@ class Site(SurrogatePK, Model):
     bottom_menu_id = Column(db.Integer())
 
     def get_menu_items(self, menu_id):
-        return MenuItem.query.filter(MenuItem.site_id == menu_id).order_by(
-            MenuItem.order
+        return (
+            MenuItem.query.filter(MenuItem.site_id == menu_id)
+            .filter(MenuItem.parent_id == 0)
+            .order_by(MenuItem.order)
         )
 
     @property
@@ -29,10 +31,10 @@ class MenuItem(SurrogatePK, Model):
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
     url_ = Column("url", db.String(255))
-    category_id = Column(db.Integer())
-    collection_id = Column(db.Integer())
-    site_id = Column(db.Integer())  # item在site中的位置
-    page_id = Column(db.Integer())
+    category_id = Column(db.Integer(), default=0)
+    collection_id = Column(db.Integer(), default=0)
+    site_id = Column(db.Integer(), default=0)  # item在site中的位置
+    page_id = Column(db.Integer(), default=0)
     parent_id = Column(db.Integer(), default=0)
 
     def __str__(self):

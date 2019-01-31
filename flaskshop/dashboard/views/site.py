@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for
 
-from flaskshop.public.models import MenuItem
+from flaskshop.public.models import MenuItem, Page
 from flaskshop.dashboard.models import DashboardMenu
+from flaskshop.product.models import Category, Collection
 from flaskshop.dashboard.forms import DashboardMenuForm, SiteMenuForm
 
 
@@ -30,21 +31,21 @@ def site_menus_manage(menu_id=None):
         menu = MenuItem()
     form = SiteMenuForm(obj=menu)
     if form.validate_on_submit():
-        if not form.category_id.data:
-            del form.category_id
-        if not form.collection_id.data:
-            del form.collection_id
-        if not form.page_id.data:
-            del form.page_id
-        if not form.parent_id.data:
-            del form.parent_id
-        else:
-            del form.site_id
         form.populate_obj(menu)
         menu.save()
         return redirect(url_for("dashboard.site_menus"))
     parents = MenuItem.first_level_items()
-    return render_template("dashboard/site_menu.html", form=form, parents=parents)
+    categories = Category.query.all()
+    collections = Collection.query.all()
+    pages = Page.query.all()
+    context = {
+        "form": form,
+        "parents": parents,
+        "categories": categories,
+        "collections": collections,
+        "pages": pages,
+    }
+    return render_template("dashboard/site_menu.html", **context)
 
 
 def dashboard_menus():

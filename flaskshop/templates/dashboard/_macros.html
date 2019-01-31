@@ -27,7 +27,7 @@
 <div class="form-group">
     <label>{{ field.label.text }}</label>
     <select class="form-control select2" style="width: 100%;" name="{{ label_id }}">
-        <option value="">None</option>
+        <option value="0">None</option>
         {% for item in items %}
         <option value="{{ item.id }}" {% if item.id==field.data|int %} selected {% endif %}>
             {{ item.title }}
