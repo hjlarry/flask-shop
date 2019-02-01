@@ -43,10 +43,14 @@
     <label>{{ field.label.text }}</label>
     {% for item in field.choices %}
     <div class="form-check">
-        <input class="form-check-input" type="radio" value="{{item[1]}}" name="{{ label_id }}" {% if item[1]==field.data|int
-            or loop.first %} checked {% endif %}>
-        <label class="form-check-label">{{item[0]}}</label>
+        <input class="form-check-input" type="radio" value="{{item[0]}}" name="{{ label_id }}" {% if item[0]==field.data
+            %} checked {% endif %}>
+        <label class="form-check-label">{{item[1]}} </label>
     </div>
     {% endfor %}
 </div>
+{% endmacro %}
+
+{% macro render_checkbox_field(field) %}
+<input type="checkbox" value="{{ field.data }}" {% if field.data==1 %} checked {% endif %}>
 {% endmacro %}

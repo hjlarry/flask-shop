@@ -52,5 +52,5 @@ class SitePageForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     slug = StringField()
     content = TextAreaField()
-    is_visable = BooleanField()
+    is_visible = BooleanField()
     submit = SubmitField()

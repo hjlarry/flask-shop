@@ -20,8 +20,19 @@
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
                             {{ vendor.render_field(form.slug) }}
-                            {{ vendor.render_field(form.is_visable) }}
+                            <div class="form-group">
+                                <label>{{ form.is_visible.label.text }}</label>
+                                <div class="form-check">
+                                    {{form.is_visible()}} Show
+                                </div>
+
+                            </div>
                             {{ vendor.render_field(form.content) }}
+                            <div id="text-editor">
+                                <p>
+                                    {{form.content.data | safe}}
+                                </p>
+                            </div>
 
                         </div>
                         <!-- /.card-body -->
@@ -37,12 +48,16 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
+<script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
 <script>
-    ClassicEditor
-        .create(document.querySelector('#content'))
-        .catch(error => {
-            console.error(error);
-        });
+    var E = window.wangEditor
+    var editor = new E('#text-editor')
+    var $text1 = $('#content')
+    $text1.hide()
+    editor.customConfig.onchange = function (html) {
+        $text1.val(html)
+    }
+    editor.create()
+    $text1.val(editor.txt.html())
 </script>
 {% endblock %}
