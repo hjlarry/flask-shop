@@ -47,7 +47,7 @@ def site_menus_manage(id=None):
         "collections": collections,
         "pages": pages,
     }
-    return render_template("dashboard/site_menu.html", **context)
+    return render_template("dashboard/site/site_menu.html", **context)
 
 
 def dashboard_menus():
@@ -80,7 +80,9 @@ def dashboard_menus_manage(id=None):
         menu.save()
         return redirect(url_for("dashboard.dashboard_menus"))
     parents = DashboardMenu.first_level_items()
-    return render_template("dashboard/dashboard_menu.html", form=form, parents=parents)
+    return render_template(
+        "dashboard/site/dashboard_menu.html", form=form, parents=parents
+    )
 
 
 def site_pages():
@@ -111,4 +113,4 @@ def site_pages_manage(id=None):
         form.populate_obj(page)
         page.save()
         return redirect(url_for("dashboard.site_pages"))
-    return render_template("dashboard/site_page.html", form=form)
+    return render_template("dashboard/site/site_page.html", form=form)

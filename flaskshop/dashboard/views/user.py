@@ -14,7 +14,7 @@ def users():
         "is_admin": "Is Admin",
     }
     return render_template(
-        "dashboard/user_list.html", props=props, items=users, title="User List"
+        "dashboard/user/user_list.html", props=props, items=users, title="User List"
     )
 
 
@@ -23,4 +23,4 @@ def user(user_id):
     addresses = user.addresses
     orders = Order.get_user_orders(user_id)
     context = {"user": user, "addresses": addresses, "orders": orders}
-    return render_template("dashboard/user_detail.html", **context)
+    return render_template("dashboard/user/user_detail.html", **context)

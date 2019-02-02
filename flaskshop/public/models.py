@@ -53,7 +53,7 @@ class MenuItem(SurrogatePK, Model):
     @property
     def linked_object_url(self):
         if self.page_id:
-            return url_for("public.show_page", identity=self.page_id)
+            return Page.get_by_id(self.page_id).url
         elif self.category_id:
             return url_for("product.show_category", id=self.category_id)
         elif self.collection_id:
