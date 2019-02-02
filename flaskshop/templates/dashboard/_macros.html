@@ -51,8 +51,15 @@
 </div>
 {% endmacro %}
 
-
-{% macro render_boolen(field) %}
+{% macro render_boolean_field(field, text='Yes') %}
+<div class="form-group">
+    <label>{{ field.label.text }}</label>
+    <div class="form-check">
+        {{field()}} {{text}}
+    </div>
+</div>
+{% endmacro %}
+{% macro render_boolean(field) %}
 {% if field %}
 <i class="fa fa-check" style="color:green"></i>
 {% else %}

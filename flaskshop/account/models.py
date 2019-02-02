@@ -22,7 +22,7 @@ class User(SurrogatePK, Model, UserMixin):
     #: The hashed password
     _password = Column("password", db.String(128))
     nick_name = Column(db.String(255))
-    active = Column(db.Boolean(), default=False)
+    is_active = Column(db.Boolean(), default=False)
     is_admin = Column(db.Boolean(), default=False)
     open_id = Column(db.String(80), index=True)
     session_key = Column(db.String(80), index=True)

@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, abort, redirect
 from flask_login import login_required, current_user
 
 from flaskshop.dashboard.models import DashboardMenu
-from .user import users, user
+from .user import users, user, user_edit
 from .site import (
     site_menus,
     site_menus_manage,
@@ -70,3 +70,6 @@ blueprint.add_url_rule(
 )
 blueprint.add_url_rule("/users", view_func=users)
 blueprint.add_url_rule("/users/<user_id>", view_func=user)
+blueprint.add_url_rule(
+    "/users/<user_id>/edit", view_func=user_edit, methods=["GET", "POST"]
+)

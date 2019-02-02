@@ -7,6 +7,7 @@ from wtforms import (
     RadioField,
     TextAreaField,
     BooleanField,
+    PasswordField,
 )
 from wtforms.validators import DataRequired
 
@@ -53,4 +54,13 @@ class SitePageForm(FlaskForm):
     slug = StringField()
     content = TextAreaField()
     is_visible = BooleanField()
+    submit = SubmitField()
+
+
+class UserForm(FlaskForm):
+    username = StringField(validators=[DataRequired()])
+    email = StringField(validators=[DataRequired()])
+    password = PasswordField()
+    is_active = BooleanField()
+    is_admin = BooleanField()
     submit = SubmitField()

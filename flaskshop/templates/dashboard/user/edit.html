@@ -10,23 +10,19 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %} Page</h3>
+                        <h3 class="card-title">Edit User</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form method="POST" action="">
                         <div class="card-body">
-
                             {{ form.hidden_tag() }}
-                            {{ vendor.render_field(form.title) }}
-                            {{ vendor.render_field(form.slug) }}
-                            {{ macros.render_boolean_field(form.is_visible, 'Show') }}
-                            {{ vendor.render_field(form.content) }}
-                            <div id="text-editor">
-                                <p>
-                                    {{form.content.data | safe}}
-                                </p>
-                            </div>
+                            {{ vendor.render_field(form.username) }}
+                            {{ vendor.render_field(form.email) }}
+                            {{ vendor.render_field(form.password) }}
+                            {{ macros.render_boolean_field(form.is_active) }}
+                            {{ macros.render_boolean_field(form.is_admin) }}
+
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -38,19 +34,4 @@
         </div>
     </div>
 </section>
-{% endblock %}
-
-{% block tail_js %}
-<script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
-<script>
-    var E = window.wangEditor
-    var editor = new E('#text-editor')
-    var $text1 = $('#content')
-    $text1.hide()
-    editor.customConfig.onchange = function (html) {
-        $text1.val(html)
-    }
-    editor.create()
-    $text1.val(editor.txt.html())
-</script>
 {% endblock %}
