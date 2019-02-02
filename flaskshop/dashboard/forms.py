@@ -64,3 +64,13 @@ class UserForm(FlaskForm):
     is_active = BooleanField()
     is_admin = BooleanField()
     submit = SubmitField()
+
+
+class UserAddressForm(FlaskForm):
+    province = StringField()
+    city = StringField()
+    district = StringField()
+    address = StringField()
+    contact_name = StringField()
+    contact_phone = StringField()
+    submit = SubmitField()

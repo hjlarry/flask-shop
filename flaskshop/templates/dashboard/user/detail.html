@@ -61,7 +61,8 @@
                                         <td>{{address.id}}</td>
                                         <td>{{address.contact_name}}</td>
                                         <td>{{address.contact_phone}}</td>
-                                        <td style="text-align:center"><a href="" class="btn btn-info btn-sm">Edit</a></td>
+                                        <td style="text-align:center"><a href="{{url_for('dashboard.address_edit', id=address.id)}}"
+                                                class="btn btn-primary btn-sm">Edit</a></td>
                                     </tr>
                                     {% endfor %}
                                 </table>

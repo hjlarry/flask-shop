@@ -360,7 +360,7 @@ def create_fake_user():
         username=fake.first_name() + fake.last_name(),
         email=email,
         password="password",
-        active=True,
+        is_active=True,
     )
     return user
 
@@ -446,7 +446,7 @@ def create_admin():
         username="hjlarry",
         email="hjlarry@163.com",
         password="123",
-        active=True,
+        is_active=True,
         is_admin=True,
     )
     address1 = create_fake_address(user.id)

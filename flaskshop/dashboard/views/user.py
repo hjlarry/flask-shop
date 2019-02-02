@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for
 
 from flaskshop.account.models import User, UserAddress
 from flaskshop.order.models import Order
-from flaskshop.dashboard.forms import UserForm
+from flaskshop.dashboard.forms import UserForm, UserAddressForm
 
 
 def users():
@@ -11,7 +11,7 @@ def users():
         "id": "ID",
         "username": "Username",
         "email": "Email",
-        "active": "Is Active",
+        "is_active": "Is Active",
         "is_admin": "Is Admin",
     }
     return render_template(
@@ -37,3 +37,13 @@ def user_edit(user_id):
         user.save()
         return redirect(url_for("dashboard.user", user_id=user_id))
     return render_template("dashboard/user/edit.html", form=form)
+
+
+def address_edit(id):
+    addr = UserAddress.get_by_id(id)
+    form = UserAddressForm(obj=addr)
+    if form.validate_on_submit():
+        form.populate_obj(addr)
+        addr.save()
+        return redirect(url_for("dashboard.user", user_id=addr.user_id))
+    return render_template("dashboard/user/edit_addr.html", form=form)
