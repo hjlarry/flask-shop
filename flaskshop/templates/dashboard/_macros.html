@@ -51,6 +51,11 @@
 </div>
 {% endmacro %}
 
-{% macro render_checkbox_field(field) %}
-<input type="checkbox" value="{{ field.data }}" {% if field.data==1 %} checked {% endif %}>
+
+{% macro render_boolen(field) %}
+{% if field %}
+<i class="fa fa-check" style="color:green"></i>
+{% else %}
+<i class="fa fa-times" style="color:red"></i>
+{% endif %}
 {% endmacro %}

@@ -1,6 +1,7 @@
 from flask import render_template
 
 from flaskshop.account.models import User, UserAddress
+from flaskshop.order.models import Order
 
 
 def users():
@@ -18,4 +19,8 @@ def users():
 
 
 def user(user_id):
-    return render_template("dashboard/user_detail.html")
+    user = User.get_by_id(user_id)
+    addresses = user.addresses
+    orders = Order.get_user_orders(user_id)
+    context = {"user": user, "addresses": addresses, "orders": orders}
+    return render_template("dashboard/user_detail.html", **context)

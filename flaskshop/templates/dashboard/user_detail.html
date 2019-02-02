@@ -1,4 +1,4 @@
-{% import 'dashboard/_vendor.html' as vendor %}
+{% import 'dashboard/_macros.html' as macros %}
 {% extends 'dashboard/layout.html' %}
 {% block body %}
 <section class="content">
@@ -10,22 +10,22 @@
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle" src="{{ current_user.avatar }}" alt="User profile picture">
+                            <img class="profile-user-img img-fluid img-circle" src="{{ user.avatar }}" alt="User profile picture">
                         </div>
 
-                        <h3 class="profile-username text-center">Nina Mcintire</h3>
+                        <h3 class="profile-username text-center">{{user.username}}</h3>
 
-                        <p class="text-muted text-center">Software Engineer</p>
+                        <p class="text-muted text-center">{{user.email}}</p>
 
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>Is Active</b> <a class="float-right"><i class="fa fa-times" style="color:red"></i></a>
+                                <b>Is Active</b> <a class="float-right">{{macros.render_boolen(user.is_active)}}</a>
                             </li>
                             <li class="list-group-item">
-                                <b>Is Admin</b> <a class="float-right"><i class="fa fa-check" style="color:green"></i></a>
+                                <b>Is Admin</b> <a class="float-right">{{macros.render_boolen(user.is_admin)}}</a>
                             </li>
                             <li class="list-group-item">
-                                <b>Registed</b> <a class="float-right">2019/12/16</a>
+                                <b>Registed</b> <a class="float-right">{{user.created_at.strftime('%Y-%m-%d')}}</a>
                             </li>
                         </ul>
 
@@ -48,67 +48,52 @@
                     <div class="card-body">
                         <div class="tab-content">
                             <div class="active tab-pane" id="address">
+                                {% if addresses|list|length > 0 %}
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th style="width: 10px">#</th>
+                                        <th style="width: 10px">ID</th>
                                         <th>Contact Name</th>
                                         <th>Contact Phone</th>
                                         <th style="width: 40px">Operation</th>
                                     </tr>
+                                    {% for address in addresses %}
                                     <tr>
-                                        <td>1.</td>
-                                        <td>Update software</td>
-                                        <td>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-danger">55%</span></td>
+                                        <td>{{address.id}}</td>
+                                        <td>{{address.contact_name}}</td>
+                                        <td>{{address.contact_phone}}</td>
+                                        <td style="text-align:center"><a href="" class="btn btn-info btn-sm">Edit</a></td>
                                     </tr>
-                                    <tr>
-                                        <td>2.</td>
-                                        <td>Clean database</td>
-                                        <td>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar bg-warning" style="width: 70%"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-warning">70%</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.</td>
-                                        <td>Cron job running</td>
-                                        <td>
-                                            <div class="progress progress-xs progress-striped active">
-                                                <div class="progress-bar bg-primary" style="width: 30%"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-primary">30%</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.</td>
-                                        <td>Fix and squish bugs</td>
-                                        <td>
-                                            <div class="progress progress-xs progress-striped active">
-                                                <div class="progress-bar bg-success" style="width: 90%"></div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-success">90%</span></td>
-                                    </tr>
+                                    {% endfor %}
                                 </table>
+                                {% else %}
+                                <h6 class="card-title">This user have not add address</h6>
+                                {% endif %}
                             </div>
                             <!-- /.tab-pane -->
                             <div class="tab-pane" id="order">
+                                {% if orders|list|length > 0 %}
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th style="width: 10px">#</th>
+                                        <th>ID</th>
                                         <th>Status</th>
                                         <th>Total</th>
                                         <th>Created At</th>
                                         <th style="width: 40px">Operation</th>
                                     </tr>
+                                    {% for order in orders %}
+                                    <tr>
+                                        <td>{{order.identity}}</td>
+                                        <td>{{order.status}}</td>
+                                        <td>{{order.total_net}}</td>
+                                        <td>{{order.created_at}}</td>
+                                        <td style="text-align:center"><a href="" class="btn btn-info btn-sm">View</a></td>
+                                    </tr>
+                                    {% endfor %}
 
                                 </table>
+                                {% else %}
+                                <h6 class="card-title">This user have not create orders</h6>
+                                {% endif %}
                             </div>
                             <!-- /.tab-pane -->
                         </div>

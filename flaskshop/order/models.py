@@ -22,7 +22,7 @@ from flaskshop.product.models import ProductVariant
 class Order(SurrogatePK, Model):
     __tablename__ = "order_order"
     token = Column(db.String(100), unique=True)
-    shipping_address_id = Column(db.Integer())
+    shipping_address_id = Column(db.Integer())  # TODO user address may edit
     user_id = Column(db.Integer())
     total_net = Column(db.DECIMAL(10, 2))
     discount_amount = Column(db.DECIMAL(10, 2))
@@ -58,6 +58,10 @@ class Order(SurrogatePK, Model):
 
         return ShippingMethod.get_by_id(self.shipping_method_id)
 
+    @property
+    def identity(self):
+        return self.token.split("-")[-1]
+
     @classmethod
     def get_current_user_orders(cls):
         if current_user.is_authenticated:
@@ -65,6 +69,10 @@ class Order(SurrogatePK, Model):
         else:
             orders = []
         return orders
+
+    @classmethod
+    def get_user_orders(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
 
     @property
     def is_fully_paid(self):
