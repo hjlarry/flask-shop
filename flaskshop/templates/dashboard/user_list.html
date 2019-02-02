@@ -1,0 +1,58 @@
+{% import 'dashboard/_vendor.html' as vendor %}
+{% extends 'dashboard/layout.html' %}
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{title}}</h3>
+
+                        <div class="card-tools" style="display: flex;">
+                            <div class="input-group input-group-sm">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <tr>
+                                {% for th in props.values() %}
+                                <th>{{th}}</th>
+                                {% endfor %}
+                                <th>Operation</th>
+                            </tr>
+                            {% for item in items %}
+                            <tr>
+                                {% for prop in props.keys() %}
+                                <td>{{ item | attr(prop) }}</td>
+                                {% endfor %}
+                                <td>
+                                    <a href="{{url_for('dashboard.user', user_id=item.id)}}" class="btn btn-info btn-sm">View</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    {% if pagination %}
+                    <div class="card-footer clearfix">
+                        {{vendor.render_pagination(pagination, size='sm', align='right')}}
+                    </div>
+                    {% endif %}
+                </div>
+                <!-- /.card -->
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock %}

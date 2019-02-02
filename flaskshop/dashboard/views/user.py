@@ -12,5 +12,10 @@ def users():
         "active": "Is Active",
         "is_admin": "Is Admin",
     }
-    context = {}
-    return render_template("dashboard/list.html", props=props, items=users)
+    return render_template(
+        "dashboard/user_list.html", props=props, items=users, title="User List"
+    )
+
+
+def user(user_id):
+    return render_template("dashboard/user_detail.html")

@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, abort, redirect
 from flask_login import login_required, current_user
 
 from flaskshop.dashboard.models import DashboardMenu
-from .user import users
+from .user import users, user
 from .site import (
     site_menus,
     site_menus_manage,
@@ -45,7 +45,6 @@ def index():
     return render_template("dashboard/index.html")
 
 
-blueprint.add_url_rule("/users", view_func=users)
 blueprint.add_url_rule("/site_menus", view_func=site_menus)
 blueprint.add_url_rule(
     "/site_menus/create", view_func=site_menus_manage, methods=["GET", "POST"]
@@ -69,3 +68,5 @@ blueprint.add_url_rule(
 blueprint.add_url_rule(
     "/site_pages/<id>/edit", view_func=site_pages_manage, methods=["GET", "POST"]
 )
+blueprint.add_url_rule("/users", view_func=users)
+blueprint.add_url_rule("/users/<user_id>", view_func=user)
