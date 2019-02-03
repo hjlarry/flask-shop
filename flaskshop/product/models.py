@@ -219,6 +219,34 @@ class ProductAttribute(SurrogatePK, Model):
             AttributeChoiceValue.attribute_id == self.id
         ).all()
 
+    @property
+    def values_label(self):
+        return ','.join([value.title for value in self.values])
+
+    @property
+    def types(self):
+        at_ids = ProductTypeAttributes.query.with_entities(ProductTypeAttributes.product_type_id).filter_by(product_attribute_id=self.id).all()
+        return ProductType.query.filter(ProductType.id.in_(id for id in at_ids)).all()
+
+    @property
+    def types_label(self):
+        return ','.join([t.title for t in self.types])
+
+    def update_values(self, new_values):
+        origin_values = list(value.title for value in self.values)
+        need_del = set()
+        need_add = set()
+        for value in self.values:
+            if value.title not in new_values:
+                need_del.add(value)
+        for value in new_values:
+            if value not in origin_values:
+                need_add.add(value)
+        for value in need_del:
+            value.delete()
+        for value in need_add:
+            AttributeChoiceValue.create(title=value, attribute_id=self.id)
+
 
 class AttributeChoiceValue(SurrogatePK, Model):
     __tablename__ = "product_attributechoicevalue"

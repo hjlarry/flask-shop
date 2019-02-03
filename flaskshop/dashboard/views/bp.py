@@ -12,6 +12,7 @@ from .site import (
     site_pages,
     site_pages_manage,
 )
+from .product import attributes, attribute_manage
 
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -75,4 +76,11 @@ blueprint.add_url_rule(
 )
 blueprint.add_url_rule(
     "/address/<id>/edit", view_func=address_edit, methods=["GET", "POST"]
+)
+blueprint.add_url_rule("/attributes", view_func=attributes)
+blueprint.add_url_rule(
+    "/attributes/create", view_func=attribute_manage, methods=["GET", "POST"]
+)
+blueprint.add_url_rule(
+    "/attributes/<id>/edit", view_func=attribute_manage, methods=["GET", "POST"]
 )

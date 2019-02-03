@@ -8,6 +8,7 @@ from wtforms import (
     TextAreaField,
     BooleanField,
     PasswordField,
+    FieldList,
 )
 from wtforms.validators import DataRequired
 
@@ -74,3 +75,10 @@ class UserAddressForm(FlaskForm):
     contact_name = StringField()
     contact_phone = StringField()
     submit = SubmitField()
+
+
+class AttributeForm(FlaskForm):
+    title = StringField()
+    values = FieldList(StringField("Value"))
+    submit = SubmitField()
+
