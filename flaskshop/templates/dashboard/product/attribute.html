@@ -1,6 +1,10 @@
 {% import 'dashboard/_macros.html' as macros%}
 {% import 'dashboard/_vendor.html' as vendor%}
 {% extends 'dashboard/layout.html' %}
+{% block head_tail %}
+<link href="{{ url_for('static', filename='admin/plugins/select2/select2.min.css') }}" rel="stylesheet">
+{{super()}}
+{% endblock %}
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -18,7 +22,9 @@
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
-                            {{ form.values() }}
+                            {{ macros.render_field_list(form.values, 'Values') }}
+                            {{ macros.render_select_multi_field(form.types, product_types) }}
+
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>
@@ -31,4 +37,14 @@
 {% endblock %}
 
 {% block tail_js %}
+<script src="{{ url_for('static', filename='admin/plugins/select2/select2.min.js') }}"></script>
+
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2();
+
+    });
+
+</script>
 {% endblock %}

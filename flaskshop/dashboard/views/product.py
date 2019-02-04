@@ -1,5 +1,5 @@
 from flask import request, render_template, redirect, url_for
-from flaskshop.product.models import ProductAttribute
+from flaskshop.product.models import ProductAttribute, ProductType
 from flaskshop.dashboard.forms import AttributeForm
 
 
@@ -30,7 +30,11 @@ def attribute_manage(id=None):
     form = AttributeForm(obj=attr)
     if form.validate_on_submit():
         attr.title = form.title.data
+        print(form.values.data)
         attr.update_values(form.values.data)
         attr.save()
         return redirect(url_for("dashboard.attributes"))
-    return render_template("dashboard/product/attribute.html", form=form)
+    product_types = ProductType.query.all()
+    return render_template(
+        "dashboard/product/attribute.html", form=form, product_types=product_types
+    )

@@ -64,6 +64,6 @@
     margin: .375rem 0;
 }
 
-.select2-container, .selection{
+.select2-container, .selection, .select2-selection{
     height:38px;
 }

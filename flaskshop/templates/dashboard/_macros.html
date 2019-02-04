@@ -37,6 +37,20 @@
 </div>
 {% endmacro %}
 
+{% macro render_select_multi_field(field, items) %}
+{% set label_id = field.label.field_id %}
+<div class="form-group">
+    <label>{{ field.label.text }}</label>
+    <select class="form-control select2" style="width: 100%;" name="{{ label_id }}" multiple="multiple">
+        {% for item in items %}
+        <option value="{{ item.id }}" {% if item.title in field.data %} selected {% endif %}>
+            {{ item.title }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+{% endmacro %}
+
 {% macro render_radio_field(field) %}
 {% set label_id = field.label.field_id %}
 <div class="form-group">
@@ -59,6 +73,27 @@
     </div>
 </div>
 {% endmacro %}
+
+{% macro render_field_list(field,field_name) %}
+<div class="form-group">
+    {{ field_name }}
+    {% for subfield in field %}
+    <div class="base_class{% if subfield.errors %} error_class{% endif %}" id="{{subfield.name}}-group">
+        {{ subfield(**kwargs)|safe }}
+        <button data-field="{{ subfield.name }}-group">Remove Entry</button>
+    </div>
+    {% if subfield.errors %}
+    {% for error in subfield.errors %}
+    <p class="error_class">{{ error }}</p>
+    {% endfor %}
+    {% endif %}
+
+    {% endfor %}
+    <br />
+    <button type="button">Add entry</button>
+</div>
+{% endmacro %}
+
 {% macro render_boolean(field) %}
 {% if field %}
 <i class="fa fa-check" style="color:green"></i>
