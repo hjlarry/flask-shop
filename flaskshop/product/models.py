@@ -221,16 +221,22 @@ class ProductAttribute(SurrogatePK, Model):
 
     @property
     def values_label(self):
-        return ','.join([value.title for value in self.values])
+        return ",".join([value.title for value in self.values])
 
     @property
     def types(self):
-        at_ids = ProductTypeAttributes.query.with_entities(ProductTypeAttributes.product_type_id).filter_by(product_attribute_id=self.id).all()
+        at_ids = (
+            ProductTypeAttributes.query.with_entities(
+                ProductTypeAttributes.product_type_id
+            )
+            .filter_by(product_attribute_id=self.id)
+            .all()
+        )
         return ProductType.query.filter(ProductType.id.in_(id for id in at_ids)).all()
 
     @property
     def types_label(self):
-        return ','.join([t.title for t in self.types])
+        return ",".join([t.title for t in self.types])
 
     def update_values(self, new_values):
         origin_values = list(value.title for value in self.values)
@@ -246,6 +252,27 @@ class ProductAttribute(SurrogatePK, Model):
             value.delete()
         for value in need_add:
             AttributeChoiceValue.create(title=value, attribute_id=self.id)
+
+    def update_types(self, new_types):
+        origin_ids = (
+            ProductTypeAttributes.query.with_entities(
+                ProductTypeAttributes.product_type_id
+            )
+            .filter_by(product_attribute_id=self.id)
+            .all()
+        )
+        origin_ids = set(i for i, in origin_ids)
+        new_types = set(int(i) for i in new_types)
+        need_del = origin_ids - new_types
+        need_add = new_types - origin_ids
+        for id in need_del:
+            ProductTypeAttributes.query.filter_by(
+                product_attribute_id=self.id, product_type_id=id
+            ).first().delete()
+        for id in need_add:
+            ProductTypeAttributes.create(
+                product_attribute_id=self.id, product_type_id=id
+            )
 
 
 class AttributeChoiceValue(SurrogatePK, Model):

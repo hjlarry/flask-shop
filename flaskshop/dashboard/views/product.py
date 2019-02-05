@@ -30,7 +30,7 @@ def attribute_manage(id=None):
     form = AttributeForm(obj=attr)
     if form.validate_on_submit():
         attr.title = form.title.data
-        print(form.values.data)
+        attr.update_types(form.types.data)
         attr.update_values(form.values.data)
         attr.save()
         return redirect(url_for("dashboard.attributes"))
