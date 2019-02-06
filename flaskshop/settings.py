@@ -5,9 +5,9 @@ from pathlib import Path
 try:
     from .local_config import WECHAT_APP_ID, WECHAT_APP_SECRET
 except ImportError:
-    WECHAT_APP_ID, WECHAT_APP_SECRET = '', ''
+    WECHAT_APP_ID, WECHAT_APP_SECRET = "", ""
 
-WECHAT_LOGIN_URL = 'https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code'
+WECHAT_LOGIN_URL = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code"
 
 
 class Config(object):
@@ -17,6 +17,8 @@ class Config(object):
     APP_DIR = Path(__file__).parent  # This directory
     PROJECT_ROOT = APP_DIR.parent
     STATIC_DIR = APP_DIR / "static"
+    UPLOAD_FOLDER = "upload"
+    UPLOAD_DIR = STATIC_DIR / UPLOAD_FOLDER
     BCRYPT_LOG_ROUNDS = 13
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
@@ -24,7 +26,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATABASE_QUERY_TIMEOUT = 0.1  # log the slow database query, and unit is second
     SQLALCHEMY_RECORD_QUERIES = True
-    WHOOSH_BASE = APP_DIR / 'whoosh'
+    WHOOSH_BASE = APP_DIR / "whoosh"
     WEBPACK_MANIFEST_PATH = "webpack/manifest.json"
     CACHE_TYPE = "simple"
 

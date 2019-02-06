@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, current_app
 from flaskshop.product.models import ProductAttribute, ProductType, Collection, Product
 from flaskshop.dashboard.forms import AttributeForm, CollectionForm
 
@@ -63,7 +63,13 @@ def collection_manage(id=None):
     if form.validate_on_submit():
         collection.title = form.title.data
         collection.update_products(form.products.data)
-        # TODO file storage
+        image = form.bgimg_file.data
+        background_img = image.filename
+        upload_file = current_app.config["UPLOAD_DIR"] / background_img
+        upload_file.write_bytes(image.read())
+        collection.background_img = (
+            current_app.config["UPLOAD_FOLDER"] + "/" + background_img
+        )
         collection.save()
         return redirect(url_for("dashboard.collections"))
     products = Product.query.all()
