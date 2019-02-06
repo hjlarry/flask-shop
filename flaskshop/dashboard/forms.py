@@ -10,6 +10,7 @@ from wtforms import (
     PasswordField,
     FieldList,
     SelectMultipleField,
+    FileField,
 )
 from wtforms.validators import DataRequired
 
@@ -84,3 +85,10 @@ class AttributeForm(FlaskForm):
     types = SelectMultipleField("Product Types")
     submit = SubmitField()
 
+
+class CollectionForm(FlaskForm):
+    title = StringField()
+    products = SelectMultipleField()
+    background_img = FileField("Background Image")
+    bgimg_path = StringField(default="")
+    submit = SubmitField()
