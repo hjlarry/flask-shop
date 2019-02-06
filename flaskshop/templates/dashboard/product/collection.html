@@ -24,6 +24,7 @@
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
                             {{ macros.render_select_multi_field(form.products, products) }}
+                            {{ macros.render_file_field(form.bgimg_file, form.background_img) }}
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>

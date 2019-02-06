@@ -89,6 +89,6 @@ class AttributeForm(FlaskForm):
 class CollectionForm(FlaskForm):
     title = StringField()
     products = SelectMultipleField()
-    background_img = FileField("Background Image")
-    bgimg_path = StringField(default="")
+    background_img = StringField("Current Image")
+    bgimg_file = FileField("Upload")
     submit = SubmitField()

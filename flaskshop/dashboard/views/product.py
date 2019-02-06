@@ -60,6 +60,12 @@ def collection_manage(id=None):
     else:
         collection = Collection()
     form = CollectionForm(obj=collection)
+    if form.validate_on_submit():
+        collection.title = form.title.data
+        collection.update_products(form.products.data)
+        # TODO file storage
+        collection.save()
+        return redirect(url_for("dashboard.collections"))
     products = Product.query.all()
     return render_template(
         "dashboard/product/collection.html", form=form, products=products

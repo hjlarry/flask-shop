@@ -327,6 +327,23 @@ class Collection(SurrogatePK, Model):
                 attr_filter.add(attr)
         return attr_filter
 
+    def update_products(self, new_products):
+        origin_ids = (
+            ProductCollection.query.with_entities(ProductCollection.product_id)
+            .filter_by(collection_id=self.id)
+            .all()
+        )
+        origin_ids = set(i for i, in origin_ids)
+        new_products = set(int(i) for i in new_products)
+        need_del = origin_ids - new_products
+        need_add = new_products - origin_ids
+        for id in need_del:
+            ProductCollection.query.filter_by(
+                collection_id=self.id, product_id=id
+            ).first().delete()
+        for id in need_add:
+            ProductCollection.create(collection_id=self.id, product_id=id)
+
 
 class ProductCollection(SurrogatePK, Model):
     __tablename__ = "product_collection_products"
