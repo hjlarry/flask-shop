@@ -1,5 +1,11 @@
 from flask import request, render_template, redirect, url_for, current_app
-from flaskshop.product.models import ProductAttribute, ProductType, Collection, Product
+from flaskshop.product.models import (
+    ProductAttribute,
+    ProductType,
+    Collection,
+    Product,
+    Category,
+)
 from flaskshop.dashboard.forms import AttributeForm, CollectionForm
 
 
@@ -76,3 +82,22 @@ def collection_manage(id=None):
     return render_template(
         "dashboard/product/collection.html", form=form, products=products
     )
+
+
+def categories():
+    page = request.args.get("page", type=int, default=1)
+    pagination = Category.query.paginate(page, 10)
+    props = {
+        "id": "ID",
+        "title": "Title",
+        "parent": "Parent",
+        "created_at": "Created At",
+    }
+    context = {
+        "title": "Product Category",
+        "manage_endpoint": "dashboard.collection_manage",
+        "items": pagination.items,
+        "props": props,
+        "pagination": pagination,
+    }
+    return render_template("dashboard/list.html", **context)

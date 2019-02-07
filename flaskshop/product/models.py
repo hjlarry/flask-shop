@@ -88,6 +88,10 @@ class Category(SurrogatePK, Model):
         return Category.query.filter(Category.parent_id == self.id).all()
 
     @property
+    def parent(self):
+        return Category.get_by_id(self.parent_id)
+
+    @property
     def attr_filter(self):
         attr_filter = set()
         for product in self.products:
