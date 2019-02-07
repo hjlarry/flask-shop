@@ -1,0 +1,50 @@
+{% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
+{% extends 'dashboard/layout.html' %}
+{% block head_tail %}
+<link href="{{ url_for('static', filename='admin/plugins/select2/select2.min.css') }}" rel="stylesheet">
+{{super()}}
+{% endblock %}
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %}
+                            Category</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        <div class="card-body">
+                            {{ form.hidden_tag() }}
+                            {{ vendor.render_field(form.title) }}
+                            {{ macros.render_select_field(form.parent_id, parents) }}
+                            {{ macros.render_file_field(form.bgimg_file, form.background_img) }}
+                            <div class="card-footer">
+                                {{ macros.render_submit(form.submit) }}
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block tail_js %}
+<script src="{{ url_for('static', filename='admin/plugins/select2/select2.min.js') }}"></script>
+
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2();
+
+    });
+
+</script>
+{% endblock %}

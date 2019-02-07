@@ -65,5 +65,5 @@
 }
 
 .select2-container, .selection, .select2-selection{
-    height:38px;
+    padding-bottom: 5px;
 }

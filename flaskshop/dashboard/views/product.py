@@ -6,7 +6,7 @@ from flaskshop.product.models import (
     Product,
     Category,
 )
-from flaskshop.dashboard.forms import AttributeForm, CollectionForm
+from flaskshop.dashboard.forms import AttributeForm, CollectionForm, CategoryForm
 
 
 def attributes():
@@ -95,9 +95,33 @@ def categories():
     }
     context = {
         "title": "Product Category",
-        "manage_endpoint": "dashboard.collection_manage",
+        "manage_endpoint": "dashboard.category_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
     }
     return render_template("dashboard/list.html", **context)
+
+
+def category_manage(id=None):
+    if id:
+        category = Category.get_by_id(id)
+    else:
+        category = Category()
+    form = CategoryForm(obj=category)
+    if form.validate_on_submit():
+        category.title = form.title.data
+        category.parent_id = form.parents.data
+        image = form.bgimg_file.data
+        background_img = image.filename
+        upload_file = current_app.config["UPLOAD_DIR"] / background_img
+        upload_file.write_bytes(image.read())
+        category.background_img = (
+            current_app.config["UPLOAD_FOLDER"] + "/" + background_img
+        )
+        category.save()
+        return redirect(url_for("dashboard.categories"))
+    parents = Category.first_level_items()
+    return render_template(
+        "dashboard/product/category.html", form=form, parents=parents
+    )

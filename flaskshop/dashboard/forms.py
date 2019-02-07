@@ -92,3 +92,11 @@ class CollectionForm(FlaskForm):
     background_img = StringField("Current Image")
     bgimg_file = FileField("Upload")
     submit = SubmitField()
+
+
+class CategoryForm(FlaskForm):
+    title = StringField()
+    parent_id = SelectField("Parent")
+    background_img = StringField("Current Image")
+    bgimg_file = FileField("Upload")
+    submit = SubmitField()

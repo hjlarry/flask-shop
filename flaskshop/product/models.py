@@ -69,7 +69,7 @@ class Product(SurrogatePK, Model):
 class Category(SurrogatePK, Model):
     __tablename__ = "product_category"
     title = Column(db.String(255), nullable=False)
-    parent_id = Column(db.Integer())
+    parent_id = Column(db.Integer(), default=0)
     background_img = Column(db.String(255))
 
     def __str__(self):
@@ -108,6 +108,10 @@ class Category(SurrogatePK, Model):
         pagination = query.paginate(page, per_page=16)
         ctx.update(object=category, pagination=pagination, products=pagination.items)
         return ctx
+
+    @classmethod
+    def first_level_items(cls):
+        return cls.query.filter(cls.parent_id == 0).all()
 
 
 class ProductTypeAttributes(SurrogatePK, Model):
