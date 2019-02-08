@@ -7,7 +7,12 @@ from flaskshop.product.models import (
     Category,
     ProductType,
 )
-from flaskshop.dashboard.forms import AttributeForm, CollectionForm, CategoryForm
+from flaskshop.dashboard.forms import (
+    AttributeForm,
+    CollectionForm,
+    CategoryForm,
+    ProductTypeForm,
+)
 
 
 def attributes():
@@ -140,9 +145,25 @@ def product_types():
     }
     context = {
         "title": "Product Type",
-        "manage_endpoint": "dashboard.category_manage",
+        "manage_endpoint": "dashboard.product_type_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
     }
     return render_template("dashboard/list.html", **context)
+
+
+def product_type_manage(id=None):
+    if id:
+        product_type = ProductType.get_by_id(id)
+    else:
+        product_type = ProductType()
+    form = ProductTypeForm(obj=product_type)
+    if form.validate_on_submit():
+        form.populate_obj(product_type)
+        product_type.save()
+        return redirect(url_for("dashboard.product_types"))
+    attributes = ProductAttribute.query.all()
+    return render_template(
+        "dashboard/product/product_type.html", form=form, attributes=attributes
+    )

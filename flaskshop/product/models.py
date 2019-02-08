@@ -165,6 +165,10 @@ class ProductType(SurrogatePK, Model):
             ProductAttribute.id.in_(id for id in at_ids)
         ).all()
 
+    @property
+    def variant_attr_id(self):
+        return self.variant_attributes[0].id
+
 
 class ProductVariant(SurrogatePK, Model):
     __tablename__ = "product_variant"

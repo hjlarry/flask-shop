@@ -100,3 +100,12 @@ class CategoryForm(FlaskForm):
     background_img = StringField("Current Image")
     bgimg_file = FileField("Upload")
     submit = SubmitField()
+
+
+class ProductTypeForm(FlaskForm):
+    title = StringField()
+    has_variants = BooleanField()
+    is_shipping_required = BooleanField()
+    product_attributes = SelectMultipleField()
+    variant_attr_id = SelectField("Variant Attributes")
+    submit = SubmitField()
