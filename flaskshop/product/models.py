@@ -169,6 +169,39 @@ class ProductType(SurrogatePK, Model):
     def variant_attr_id(self):
         return self.variant_attributes[0].id
 
+    def update_product_attr(self, new_attrs):
+        origin_ids = (
+            ProductTypeAttributes.query.with_entities(
+                ProductTypeAttributes.product_attribute_id
+            )
+            .filter_by(product_type_id=self.id)
+            .all()
+        )
+        origin_ids = set(i for i, in origin_ids)
+        new_attrs = set(int(i) for i in new_attrs)
+        need_del = origin_ids - new_attrs
+        need_add = new_attrs - origin_ids
+        for id in need_del:
+            ProductTypeAttributes.query.filter_by(
+                product_type_id=self.id, product_attribute_id=id
+            ).first().delete()
+        for id in need_add:
+            ProductTypeAttributes.create(
+                product_type_id=self.id, product_attribute_id=id
+            )
+
+    def update_variant_attr(self, variant_attr):
+        origin_attr = ProductTypeVariantAttributes.query.filter_by(
+            product_type_id=self.id
+        ).first()
+        if origin_attr:
+            origin_attr.product_attribute_id = variant_attr
+            origin_attr.save()
+        else:
+            ProductTypeVariantAttributes.create(
+                product_type_id=self.id, product_attribute_id=variant_attr
+            )
+
 
 class ProductVariant(SurrogatePK, Model):
     __tablename__ = "product_variant"

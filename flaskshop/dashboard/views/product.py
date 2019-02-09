@@ -160,6 +160,10 @@ def product_type_manage(id=None):
         product_type = ProductType()
     form = ProductTypeForm(obj=product_type)
     if form.validate_on_submit():
+        product_type.update_product_attr(form.product_attributes.data)
+        product_type.update_variant_attr(form.variant_attr_id.data)
+        del form.product_attributes
+        del form.variant_attr_id
         form.populate_obj(product_type)
         product_type.save()
         return redirect(url_for("dashboard.product_types"))
