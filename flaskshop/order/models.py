@@ -105,6 +105,12 @@ class Order(SurrogatePK, Model):
     def notes(self):
         return OrderNote.query.filter(OrderNote.order_id == self.id).all()
 
+    @property
+    def user(self):
+        from flaskshop.account.models import User
+
+        return User.get_by_id(self.user_id)
+
 
 class OrderLine(SurrogatePK, Model):
     __tablename__ = "order_orderline"

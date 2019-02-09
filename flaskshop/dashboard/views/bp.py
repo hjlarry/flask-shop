@@ -24,6 +24,7 @@ from .product import (
     products,
     product_detail,
 )
+from .order import orders
 
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -118,3 +119,6 @@ blueprint.add_url_rule(
 )
 blueprint.add_url_rule("/products", view_func=products)
 blueprint.add_url_rule("/product/<id>", view_func=product_detail)
+
+
+blueprint.add_url_rule("/orders", view_func=orders)
