@@ -171,3 +171,23 @@ def product_type_manage(id=None):
     return render_template(
         "dashboard/product/product_type.html", form=form, attributes=attributes
     )
+
+
+def products():
+    page = request.args.get("page", type=int, default=1)
+    pagination = Product.query.paginate(page, 10)
+    props = {
+        "id": "ID",
+        "title": "Title",
+        "on_sale": "On Sale",
+        "sold_count": "Sold Count",
+        "price": "Price",
+        "category": "Category",
+    }
+    context = {
+        "title": "Product List",
+        "items": pagination.items,
+        "props": props,
+        "pagination": pagination,
+    }
+    return render_template("dashboard/product/list.html", **context)

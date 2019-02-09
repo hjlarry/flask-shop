@@ -21,6 +21,7 @@ from .product import (
     category_manage,
     product_types,
     product_type_manage,
+    products,
 )
 
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
@@ -114,3 +115,4 @@ blueprint.add_url_rule(
 blueprint.add_url_rule(
     "/product_types/<id>/edit", view_func=product_type_manage, methods=["GET", "POST"]
 )
+blueprint.add_url_rule("/products", view_func=products)
