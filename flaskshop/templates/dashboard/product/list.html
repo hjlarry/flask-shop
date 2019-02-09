@@ -39,7 +39,7 @@
                                 <td>{{ item | attr(prop) }}</td>
                                 {% endfor %}
                                 <td>
-                                    <a href="{{url_for('dashboard.user', user_id=item.id)}}" class="btn btn-info btn-sm">View</a>
+                                    <a href="{{url_for('dashboard.product_detail', id=item.id)}}" class="btn btn-info btn-sm">View</a>
                                 </td>
                             </tr>
                             {% endfor %}

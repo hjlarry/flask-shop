@@ -191,3 +191,8 @@ def products():
         "pagination": pagination,
     }
     return render_template("dashboard/product/list.html", **context)
+
+
+def product_detail(id):
+    product = Product.get_by_id(id)
+    return render_template("dashboard/product/detail.html", product=product)
