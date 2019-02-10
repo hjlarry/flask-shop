@@ -23,6 +23,7 @@ from flaskshop.account.models import User, UserAddress
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.order.models import Order, OrderLine, OrderPayment
 from flaskshop.discount.models import Voucher, Sale
+from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.settings import Config
 from flaskshop.constant import (
     PAYMENT_STATUS_WAITING,
@@ -573,3 +574,28 @@ def create_vouchers():
     else:
         yield "Value voucher already exists"
 
+
+dashboard_menus = [
+    {"title": "User", "endpoint": "dashboard.users", "icon_cls": "fa-user"},
+    {"title": "Product", "icon_cls": "fa-bandcamp"},
+    {
+        "title": "Order",
+        "endpoint": "dashboard.orders",
+        "icon_cls": "fa-cart-arrow-down",
+    },
+    {"title": "Promotion", "icon_cls": "fa-gratipay"},
+    {"title": "Site", "icon_cls": "fa-cog"},
+    {"title": "ProductList", "endpoint": "dashboard.products", "parent_id":2},
+    {"title": "Type", "endpoint": "dashboard.product_types", "parent_id":2},
+    {"title": "Category", "endpoint": "dashboard.categories", "parent_id":2},
+    {"title": "Collection", "endpoint": "dashboard.collections", "parent_id":2},
+    {"title": "Attribute", "endpoint": "dashboard.attributes", "parent_id":2},
+    {"title": "Page", "endpoint": "dashboard.site_pages", "parent_id":5},
+    {"title": "SiteMenu", "endpoint": "dashboard.site_menus", "parent_id":5},
+    {"title": "DashboardMenu", "endpoint": "dashboard.dashboard_menus", "parent_id":5},
+]
+
+def create_dashboard_menus():
+    for item in dashboard_menus:
+        DashboardMenu.create(**item)
+    yield "create dashboard menus"
