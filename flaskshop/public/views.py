@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Public section, including homepage and signup."""
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, send_from_directory
 
 from flaskshop.extensions import login_manager
 from flaskshop.account.models import User
@@ -25,6 +25,11 @@ def home():
 @blueprint.route("/style")
 def style():
     return render_template("public/style_guide.html")
+
+
+@blueprint.route("/favicon.ico")
+def favicon():
+    return send_from_directory("static", "favicon-32x32.png")
 
 
 @blueprint.route("/search")
