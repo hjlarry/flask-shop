@@ -37,7 +37,7 @@
                 {% if current_user.is_admin %}
 
                 <li>
-                  <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
+                  <a href="{{ url_for('dashboard.index') }}" target="_blank" rel="noopener">
                     Dashboard
                   </a>
                 </li>
@@ -167,7 +167,7 @@
                 {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
                 <li>
-                  <a href="{{ url_for('admin.index') }}" target="_blank" rel="noopener">
+                  <a href="{{ url_for('dashboard.index') }}" target="_blank" rel="noopener">
                     Dashboard
                   </a>
                 </li>

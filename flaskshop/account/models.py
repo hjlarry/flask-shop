@@ -30,10 +30,6 @@ class User(SurrogatePK, Model, UserMixin):
     def __init__(self, username, email, password, **kwargs):
         super().__init__(username=username, email=email, password=password, **kwargs)
 
-    def __repr__(self):
-        # 暂时用于flaskadmin的QuerySelectField提交时
-        return str(self.id)
-
     def __str__(self):
         return self.username
 
