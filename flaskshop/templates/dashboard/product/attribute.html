@@ -14,7 +14,8 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %} Attribute</h3>
+                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %} Attribute
+                        </h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -22,7 +23,7 @@
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
-                            {{ macros.render_field_list(form.values, 'Values') }}
+                            {{ macros.render_field_list(form.values) }}
                             {{ macros.render_select_multi_field(form.types, product_types) }}
 
                             <div class="card-footer">
@@ -41,9 +42,16 @@
 
 <script>
     $(function () {
-        //Initialize Select2 Elements
         $('.select2').select2();
-
+    });
+    var add_btn = $("#add_entry");
+    var index = add_btn.data('index');
+    var field = add_btn.data('field');
+    add_btn.click(function () {
+        var index_field = field + '-' + index;
+        var html = '<div class="input-group input-group-sm field-list-item"><input type="text" class="form-control" id="' + index_field + '" name="' + index_field + '" ></div>';
+        $('#field_list').append(html);
+        index += 1;
     });
 
 </script>

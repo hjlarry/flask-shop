@@ -67,3 +67,7 @@
 .select2-container, .selection, .select2-selection{
     padding-bottom: 5px;
 }
+
+.field-list-item{
+    margin-bottom: 3px;
+}

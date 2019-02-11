@@ -7,7 +7,8 @@
 {% endif %}
 <div class="form-group">
     <label for="{{label_id}}">{{ field.label.text }}</label>
-    <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}" value="{% if field.data %}{{ field.data }}{% elif field.default is not none %}{{field.default}}{% endif %}">
+    <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}"
+        value="{% if field.data %}{{ field.data }}{% elif field.default is not none %}{{field.default}}{% endif %}">
     {% if field.errors %}
     <div class="invalid-feedback" style="display:block">
         {{ field.errors[0] }}
@@ -74,25 +75,25 @@
 </div>
 {% endmacro %}
 
-{% macro render_field_list(field,field_name) %}
+{% macro render_field_list(field) %}
 <div class="form-group">
-    {{ field_name }}
-    {% for subfield in field %}
-    <div class="base_class{% if subfield.errors %} error_class{% endif %}" id="{{subfield.name}}-group">
-        {{ subfield(**kwargs)|safe }}
-        <button data-field="{{ subfield.name }}-group">Remove Entry</button>
+    <label>{{ field.label.text }}</label>
+    <div id="field_list">
+        {% for subfield in field %}
+        <div class="input-group input-group-sm field-list-item{% if subfield.errors %} error_class{% endif %}">
+            <input type="text" class="form-control" id="{{subfield.label.field_id}}" name="{{subfield.label.field_id}}"
+                value="{{ subfield.data }}">
+            <span class="input-group-append">
+                <button type="button" class="btn btn-info btn-flat">Remove Entry</button>
+            </span>
+        </div>
+        {% endfor %}
     </div>
-    {% if subfield.errors %}
-    {% for error in subfield.errors %}
-    <p class="error_class">{{ error }}</p>
-    {% endfor %}
-    {% endif %}
-
-    {% endfor %}
     <br />
-    <!-- TODO -->
-    <button type="button">Add entry</button>
+    <button type="button" class="btn btn-info" id="add_entry" data-index="{{field | length}}"
+        data-field="{{field.label.field_id}}">Add entry</button>
 </div>
+
 {% endmacro %}
 
 {% macro render_boolean(field) %}
