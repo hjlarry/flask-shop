@@ -113,6 +113,11 @@
     {% endif %}
     <p></p>
     <label>{{ file_field.label.text }}</label>
-    <input type="file" name="{{label_id}}" />
+    <div class="input-group">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="{{label_id}}" name="{{label_id}}">
+            <label class="custom-file-label" for="{{label_id}}">{{path_field.data}}</label>
+        </div>
+    </div>
 </div>
 {% endmacro %}
