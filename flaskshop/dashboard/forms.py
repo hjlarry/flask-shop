@@ -11,6 +11,7 @@ from wtforms import (
     FieldList,
     SelectMultipleField,
     FileField,
+    FloatField,
 )
 from wtforms.validators import DataRequired
 
@@ -108,4 +109,19 @@ class ProductTypeForm(FlaskForm):
     is_shipping_required = BooleanField()
     product_attributes = SelectMultipleField()
     variant_attr_id = SelectField("Variant Attributes")
+    submit = SubmitField()
+
+
+class ProductForm(FlaskForm):
+    title = StringField()
+    price = FloatField()
+    on_sale = BooleanField()
+    is_featured = BooleanField()
+    rating = FloatField()
+    sold_count = IntegerField()
+    review_count = IntegerField()
+    category_id = SelectField()
+    product_type_id = SelectField()
+    description = TextAreaField()
+    attributes = StringField()  # TODO
     submit = SubmitField()

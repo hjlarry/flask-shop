@@ -12,6 +12,7 @@ from flaskshop.dashboard.forms import (
     CollectionForm,
     CategoryForm,
     ProductTypeForm,
+    ProductForm,
 )
 
 
@@ -196,3 +197,24 @@ def products():
 def product_detail(id):
     product = Product.get_by_id(id)
     return render_template("dashboard/product/detail.html", product=product)
+
+
+def product_manage(id=None):
+    if id:
+        product = Product.get_by_id(id)
+    else:
+        product = Product()
+    form = ProductForm(obj=product)
+    if form.validate_on_submit():
+        form.populate_obj(product)
+        product.save()
+        return redirect(url_for("dashboard.product_detail", id=product.id))
+    categories = Category.query.all()
+    product_types = ProductType.query.all()
+    return render_template(
+        "dashboard/product/product.html",
+        form=form,
+        categories=categories,
+        product_types=product_types,
+    )
+
