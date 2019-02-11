@@ -206,6 +206,8 @@ def product_manage(id=None):
         product = Product()
     form = ProductForm(obj=product)
     if form.validate_on_submit():
+        product.update_images(form.images.data)
+        del form.images
         form.populate_obj(product)
         product.save()
         return redirect(url_for("dashboard.product_detail", id=product.id))

@@ -32,6 +32,7 @@
                             {{ macros.render_select_field(form.category_id, categories) }}
                             {{ macros.render_select_field(form.product_type_id, product_types) }}
                             {{ vendor.render_field(form.description) }}
+                            {{ macros.render_multi_img(form.images) }}
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>
@@ -49,6 +50,9 @@
 <script>
     $(function () {
         $('.select2').select2();
+    });
+    $('#field_list').on('click', '#item_del', function () {
+        $(this).parent().remove();
     });
 </script>
 {% endblock %}

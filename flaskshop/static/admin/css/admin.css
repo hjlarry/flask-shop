@@ -124,3 +124,16 @@
 #banner .right {
     float: right;
 }
+
+.img_field {
+    width: 100%;
+    height: 150px;
+}
+.img_block {
+    text-align: center;
+    float: left;
+    width:120px;
+}
+.img_block img{
+    width: 110px;
+}

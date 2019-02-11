@@ -93,7 +93,6 @@
     <button type="button" class="btn btn-info" id="add_entry" data-index="{{field | length}}"
         data-field="{{field.label.field_id}}">Add entry</button>
 </div>
-
 {% endmacro %}
 
 {% macro render_boolean(field) %}
@@ -117,6 +116,32 @@
         <div class="custom-file">
             <input type="file" class="custom-file-input" id="{{label_id}}" name="{{label_id}}">
             <label class="custom-file-label" for="{{label_id}}">{{path_field.data}}</label>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro render_multi_img(field) %}
+<div class="form-group">
+    <label>{{ field.label.text }}</label>
+    <div id="field_list" class="img_field">
+        {% for subfield in field %}
+        <div class="img_block">
+            <img class="" src="{{ subfield.data }}">
+            <input type="hidden" name="{{subfield.label.field_id}}" value="{{ subfield.data.id }}">
+            <button type="button" class="btn btn-info btn-sm" id="item_del">Remove</button>
+        </div>
+        {% endfor %}
+    </div>
+    <br />
+    <div class="input-group">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="exampleInputFile">
+            <label class="custom-file-label" for="exampleInputFile">Update New Image</label>
+        </div>
+        <div class="input-group-append">
+            <!-- TODO ajax upload image -->
+            <span class="input-group-text" id="">Upload</span>
         </div>
     </div>
 </div>

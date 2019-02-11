@@ -123,5 +123,6 @@ class ProductForm(FlaskForm):
     category_id = SelectField()
     product_type_id = SelectField()
     description = TextAreaField()
+    images = FieldList(StringField())
     attributes = StringField()  # TODO
     submit = SubmitField()
