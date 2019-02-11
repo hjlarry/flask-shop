@@ -71,3 +71,56 @@
 .field-list-item{
     margin-bottom: 3px;
 }
+
+
+#banner {
+    margin: 0 auto;
+    background: #ebebeb;
+    width: 400px;
+    height: 400px;
+}
+
+#banner ul {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    padding: 0;
+}
+
+#banner li {
+    display: none;
+    list-style: none;
+    width: 100%;
+}
+
+#banner img {
+    width: 400px;
+    height: 400px;
+}
+
+#banner .b-btn {
+    display: inline-block;
+    height: 400px;
+    width: 30px;
+    font: 30px/300px '微软雅黑';
+    text-align: center;
+    color: #8B7B8B;
+    opacity: 0.2;
+    /*防止双击的时候出现蓝底*/
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#banner .b-btn:hover {
+    background: #cdc1c5;
+    color: #f8f8ff;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+#banner .right {
+    float: right;
+}

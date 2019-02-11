@@ -18,12 +18,23 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <img src="{{product.get_first_img()}}" alt="" width="400px">
+                                <div id="banner">
+                                    <ul>
+                                        {% for img in product.images %}
+                                        <li><img src="{{img}}" class="loop-image"></li>
+                                        {% endfor %}
+                                    </ul>
+                                    <span class="b-btn left">
+                                        < </span> <span class="b-btn right"> >
+                                    </span>
+                                </div>
+                                <!-- <img src="{{product.get_first_img()}}" alt="" width="400px"> -->
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-group mb-3">
                                     <li class="list-group-item">
-                                        <b>On Sale</b> <a class="float-right">{{macros.render_boolean(product.on_sale)}}</a>
+                                        <b>On Sale</b> <a
+                                            class="float-right">{{macros.render_boolean(product.on_sale)}}</a>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Price</b> <a class="float-right">{{product.price}}</a>
@@ -103,4 +114,8 @@
     </div><!-- /.container-fluid -->
 </section>
 
+{% endblock %}
+
+{% block tail_js %}
+<script src="{{ url_for('static', filename='admin/js/banner.js') }}"></script>
 {% endblock %}
