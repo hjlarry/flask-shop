@@ -14,14 +14,14 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %} Product
-                        </h3>
+                        <h3 class="card-title">Edit Product</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form method="POST" action="">
                         <div class="card-body">
                             {{ form.hidden_tag() }}
+                            <label>Type:</label> {{product.product_type}}
                             {{ vendor.render_field(form.title) }}
                             {{ vendor.render_field(form.price) }}
                             {{ vendor.render_field(form.on_sale) }}
@@ -30,7 +30,6 @@
                             {{ vendor.render_field(form.sold_count) }}
                             {{ vendor.render_field(form.review_count) }}
                             {{ macros.render_select_field(form.category_id, categories) }}
-                            {{ macros.render_select_field(form.product_type_id, product_types) }}
                             {{ vendor.render_field(form.description) }}
                             {{ macros.render_multi_img(form.images) }}
                             <div class="card-footer">

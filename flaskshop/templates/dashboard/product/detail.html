@@ -10,10 +10,10 @@
                         <h3 class="card-title">{{product.title}}</h5>
                             <div class="card-tools" style="display: flex;">
                                 <div class="input-group input-group-sm">
-                                    <a href="{{url_for('dashboard.product_manage')}}" class="btn btn-success btn-sm"
+                                    <a href="{{url_for('dashboard.product_create_step1')}}" class="btn btn-success btn-sm"
                                         style="margin-right: 5px;">Create</a>
-                                    <a href="{{url_for('dashboard.product_manage', id=product.id)}}"
-                                        class="btn btn-primary btn-sm" style="margin-right: 5px;">Edit</a>
+                                    <a href="{{url_for('dashboard.product_edit', id=product.id)}}" class="btn btn-primary btn-sm"
+                                        style="margin-right: 5px;">Edit</a>
                                     <a href="" class="btn btn-danger btn-sm">Delete</a>
                                 </div>
                             </div>
@@ -36,8 +36,7 @@
                             <div class="col-md-6">
                                 <ul class="list-group mb-3">
                                     <li class="list-group-item">
-                                        <b>On Sale</b> <a
-                                            class="float-right">{{macros.render_boolean(product.on_sale)}}</a>
+                                        <b>On Sale</b> <a class="float-right">{{macros.render_boolean(product.on_sale)}}</a>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Price</b> <a class="float-right">{{product.price}}</a>

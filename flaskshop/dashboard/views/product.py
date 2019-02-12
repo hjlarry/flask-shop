@@ -199,11 +199,8 @@ def product_detail(id):
     return render_template("dashboard/product/detail.html", product=product)
 
 
-def product_manage(id=None):
-    if id:
-        product = Product.get_by_id(id)
-    else:
-        product = Product()
+def product_edit(id):
+    product = Product.get_by_id(id)
     form = ProductForm(obj=product)
     if form.validate_on_submit():
         product.update_images(form.images.data)
@@ -212,11 +209,9 @@ def product_manage(id=None):
         product.save()
         return redirect(url_for("dashboard.product_detail", id=product.id))
     categories = Category.query.all()
-    product_types = ProductType.query.all()
-    return render_template(
-        "dashboard/product/product.html",
-        form=form,
-        categories=categories,
-        product_types=product_types,
-    )
+    context = {"form": form, "categories": categories, "product": product}
+    return render_template("dashboard/product/product_edit.html", **context)
 
+
+def product_create_step1():
+    pass
