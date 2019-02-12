@@ -13,6 +13,7 @@ from flaskshop.dashboard.forms import (
     CategoryForm,
     ProductTypeForm,
     ProductForm,
+    ProductCreateForm,
 )
 
 
@@ -214,4 +215,16 @@ def product_edit(id):
 
 
 def product_create_step1():
+    form = ProductCreateForm()
+    if form.validate_on_submit():
+        return redirect(url_for("dashboard.product_create_step2"))
+    product_types = ProductType.query.all()
+    return render_template(
+        "dashboard/product/product_create_step1.html",
+        form=form,
+        product_types=product_types,
+    )
+
+
+def product_create_step2():
     pass

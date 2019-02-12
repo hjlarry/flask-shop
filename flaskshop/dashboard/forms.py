@@ -125,3 +125,8 @@ class ProductForm(FlaskForm):
     images = FieldList(StringField())
     attributes = StringField()  # TODO
     submit = SubmitField()
+
+
+class ProductCreateForm(FlaskForm):
+    product_type_id = SelectField("Choose A Product Type", validators=[DataRequired()])
+    submit = SubmitField()
