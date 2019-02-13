@@ -217,7 +217,12 @@ def product_edit(id):
 def product_create_step1():
     form = ProductCreateForm()
     if form.validate_on_submit():
-        return redirect(url_for("dashboard.product_create_step2"))
+        return redirect(
+            url_for(
+                "dashboard.product_create_step2",
+                product_type_id=form.product_type_id.data,
+            )
+        )
     product_types = ProductType.query.all()
     return render_template(
         "dashboard/product/product_create_step1.html",
@@ -227,4 +232,12 @@ def product_create_step1():
 
 
 def product_create_step2():
-    pass
+    form = ProductForm()
+    product_type_id = request.args.get("product_type_id", 1, int)
+    product_type = ProductType.get_by_id(product_type_id)
+    return render_template(
+        "dashboard/product/product_create_step2.html",
+        form=form,
+        product_type=product_type,
+    )
+

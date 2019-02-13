@@ -122,11 +122,11 @@ class ProductForm(FlaskForm):
     review_count = IntegerField()
     category_id = SelectField()
     description = TextAreaField()
-    images = FieldList(StringField())
+    images = FieldList(StringField())  # TODO 限制图片数量
     attributes = StringField()  # TODO
     submit = SubmitField()
 
 
 class ProductCreateForm(FlaskForm):
-    product_type_id = SelectField("Choose A Product Type", validators=[DataRequired()])
+    product_type_id = SelectField("Choose A Product Type")
     submit = SubmitField()
