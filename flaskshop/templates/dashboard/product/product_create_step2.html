@@ -32,6 +32,22 @@
                             {{ macros.render_select_field(form.category_id, categories) }}
                             {{ vendor.render_field(form.description) }}
                             {{ macros.render_multi_img(form.images) }}
+                            <div class="form-group">
+                                <label>Attributes:</label>
+                                <p>
+                                    {% for attr in product_type.product_attributes %}
+                                    <label>{{attr.title}}</label>
+                                    <select class="form-control select2" style="width: 100%;" name="attributes-{{loop.index}}">
+                                        <option value="0">None</option>
+                                        {% for item in attr.values %}
+                                        <option value="{{ item.id }}">
+                                            {{ item.title }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    {% endfor %}
+                                </p>
+                            </div>
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>

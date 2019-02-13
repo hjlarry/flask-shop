@@ -32,6 +32,8 @@
                             {{ macros.render_select_field(form.category_id, categories) }}
                             {{ vendor.render_field(form.description) }}
                             {{ macros.render_multi_img(form.images) }}
+                            {{form.attributes.object_data}}
+
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>

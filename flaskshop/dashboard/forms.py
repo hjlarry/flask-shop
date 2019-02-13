@@ -21,7 +21,12 @@ class FlaskForm(_FlaskForm):
         self._errors = None
         success = True
         for name, field in self._fields.items():
-            if field.type in ("SelectField", "SelectMultipleField", "RadioField"):
+            if field.type in (
+                "SelectField",
+                "SelectMultipleField",
+                "RadioField",
+                "FieldList",
+            ):
                 continue
             if extra_validators is not None and name in extra_validators:
                 extra = extra_validators[name]
@@ -123,7 +128,7 @@ class ProductForm(FlaskForm):
     category_id = SelectField()
     description = TextAreaField()
     images = FieldList(StringField())  # TODO 限制图片数量
-    attributes = StringField()  # TODO
+    attributes = FieldList(SelectField())  # TODO
     submit = SubmitField()
 
 

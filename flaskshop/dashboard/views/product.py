@@ -235,6 +235,15 @@ def product_create_step2():
     form = ProductForm()
     product_type_id = request.args.get("product_type_id", 1, int)
     product_type = ProductType.get_by_id(product_type_id)
+    if form.validate_on_submit():
+        product = Product(product_type_id=product_type_id)
+        product.update_images(form.images.data)
+        product.update_attributes(form.attributes.data)
+        del form.images
+        del form.attributes
+        form.populate_obj(product)
+        product.save()
+        return redirect(url_for("dashboard.product_detail", id=product.id))
     return render_template(
         "dashboard/product/product_create_step2.html",
         form=form,

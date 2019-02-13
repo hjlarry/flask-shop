@@ -83,6 +83,9 @@ class Product(SurrogatePK, Model):
             image.product_id = self.id
             image.save()
 
+    def update_attributes(self, attr_values):
+        pass
+
 
 class Category(SurrogatePK, Model):
     __tablename__ = "product_category"
