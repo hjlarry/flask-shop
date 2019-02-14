@@ -84,7 +84,9 @@ class Product(SurrogatePK, Model):
             image.save()
 
     def update_attributes(self, attr_values):
-        pass
+        attr_entries = [str(item.id) for item in self.product_type.product_attributes]
+        attributes = dict(zip(attr_entries, attr_values))
+        self.attributes = attributes
 
 
 class Category(SurrogatePK, Model):
