@@ -135,3 +135,11 @@ class ProductForm(FlaskForm):
 class ProductCreateForm(FlaskForm):
     product_type_id = SelectField("Choose A Product Type")
     submit = SubmitField()
+
+
+class VariantForm(FlaskForm):
+    sku = StringField()
+    title = StringField()
+    price_override = FloatField()
+    quantity = IntegerField()
+    submit = SubmitField()
