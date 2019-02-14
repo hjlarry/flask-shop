@@ -62,7 +62,7 @@ class SitePageForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     slug = StringField()
     content = TextAreaField()
-    is_visible = BooleanField()
+    is_visible = BooleanField(default=True)
     submit = SubmitField()
 
 
@@ -110,8 +110,8 @@ class CategoryForm(FlaskForm):
 
 class ProductTypeForm(FlaskForm):
     title = StringField()
-    has_variants = BooleanField()
-    is_shipping_required = BooleanField()
+    has_variants = BooleanField(default=True)
+    is_shipping_required = BooleanField(default=True)
     product_attributes = SelectMultipleField()
     variant_attr_id = SelectField("Variant Attributes")
     submit = SubmitField()
@@ -120,11 +120,11 @@ class ProductTypeForm(FlaskForm):
 class ProductForm(FlaskForm):
     title = StringField()
     price = FloatField()
-    on_sale = BooleanField()
-    is_featured = BooleanField()
-    rating = FloatField()
-    sold_count = IntegerField()
-    review_count = IntegerField()
+    on_sale = BooleanField(default=True)
+    is_featured = BooleanField(default=False)
+    rating = FloatField(default=0)
+    sold_count = IntegerField(default=0)
+    review_count = IntegerField(default=0)
     category_id = SelectField()
     description = TextAreaField()
     images = FieldList(StringField())  # TODO 限制图片数量
