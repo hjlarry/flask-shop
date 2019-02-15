@@ -7,8 +7,7 @@
 {% endif %}
 <div class="form-group">
     <label for="{{label_id}}">{{ field.label.text }}</label>
-    <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}"
-        value="{% if field.data %}{{ field.data }}{% elif field.default is not none %}{{field.default}}{% endif %}">
+    <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}" value="{% if field.data %}{{ field.data }}{% elif field.default is not none %}{{field.default}}{% endif %}">
     {% if field.errors %}
     <div class="invalid-feedback" style="display:block">
         {{ field.errors[0] }}
@@ -90,8 +89,8 @@
         {% endfor %}
     </div>
     <br />
-    <button type="button" class="btn btn-info" id="add_entry" data-index="{{field | length}}"
-        data-field="{{field.label.field_id}}">Add entry</button>
+    <button type="button" class="btn btn-info" id="add_entry" data-index="{{field | length}}" data-field="{{field.label.field_id}}">Add
+        entry</button>
 </div>
 {% endmacro %}
 
@@ -144,5 +143,27 @@
             <span class="input-group-text" id="">Upload</span>
         </div>
     </div>
+</div>
+{% endmacro %}
+
+
+{% macro render_attribute_field(field, attributes) %}
+<div class="form-group">
+    <label>{{ field.label.text }}</label>
+    <p>
+        {% for attr in attributes %}
+        <label>{{attr.title}}</label>
+        <select class="form-control select2" style="width: 100%;" name="attributes-{{loop.index}}">
+            <option value="0">None</option>
+            {% for item in attr.values %}
+            {% set attr_id = attr.id|string %}
+            {% set item_id = item.id|string %}
+            <option value="{{ item.id }}" {% if field.object_data[attr_id]==item_id %} selected {% endif %}>
+                {{ item.title }}
+            </option>
+            {% endfor %}
+        </select>
+        {% endfor %}
+    </p>
 </div>
 {% endmacro %}
