@@ -29,10 +29,13 @@ def site_menus():
 def site_menus_manage(id=None):
     if id:
         menu = MenuItem.get_by_id(id)
+        form = SiteMenuForm(obj=menu)
     else:
-        menu = MenuItem()
-    form = SiteMenuForm(obj=menu)
+        form = SiteMenuForm()
+
     if form.validate_on_submit():
+        if not id:
+            menu = MenuItem()
         form.populate_obj(menu)
         menu.save()
         return redirect(url_for("dashboard.site_menus"))
@@ -72,10 +75,12 @@ def dashboard_menus():
 def dashboard_menus_manage(id=None):
     if id:
         menu = DashboardMenu.get_by_id(id)
+        form = DashboardMenuForm(obj=menu)
     else:
-        menu = DashboardMenu()
-    form = DashboardMenuForm(obj=menu)
+        form = DashboardMenuForm()
     if form.validate_on_submit():
+        if not id:
+            menu = DashboardMenu()
         form.populate_obj(menu)
         menu.save()
         return redirect(url_for("dashboard.dashboard_menus"))
@@ -106,10 +111,12 @@ def site_pages():
 def site_pages_manage(id=None):
     if id:
         page = Page.get_by_id(id)
+        form = SitePageForm(obj=page)
     else:
-        page = Page()
-    form = SitePageForm(obj=page)
+        form = SitePageForm()
     if form.validate_on_submit():
+        if not id:
+            page = Page()
         form.populate_obj(page)
         page.save()
         return redirect(url_for("dashboard.site_pages"))

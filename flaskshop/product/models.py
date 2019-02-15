@@ -202,7 +202,10 @@ class ProductType(SurrogatePK, Model):
 
     @property
     def variant_attr_id(self):
-        return self.variant_attributes[0].id
+        if self.variant_attributes:
+            return self.variant_attributes[0].id
+        else:
+            return None
 
     def update_product_attr(self, new_attrs):
         origin_ids = (

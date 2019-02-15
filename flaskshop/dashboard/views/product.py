@@ -41,10 +41,12 @@ def attributes():
 def attribute_manage(id=None):
     if id:
         attr = ProductAttribute.get_by_id(id)
+        form = AttributeForm(obj=attr)
     else:
-        attr = ProductAttribute()
-    form = AttributeForm(obj=attr)
+        form = AttributeForm()
     if form.validate_on_submit():
+        if not id:
+            attr = ProductAttribute()
         attr.title = form.title.data
         attr.update_types(form.types.data)
         attr.update_values(form.values.data)
@@ -73,10 +75,12 @@ def collections():
 def collection_manage(id=None):
     if id:
         collection = Collection.get_by_id(id)
+        form = CollectionForm(obj=collection)
     else:
-        collection = Collection()
-    form = CollectionForm(obj=collection)
+        form = CollectionForm()
     if form.validate_on_submit():
+        if not id:
+            collection = Collection()
         collection.title = form.title.data
         collection.update_products(form.products.data)
         image = form.bgimg_file.data
@@ -116,10 +120,12 @@ def categories():
 def category_manage(id=None):
     if id:
         category = Category.get_by_id(id)
+        form = CategoryForm(obj=category)
     else:
-        category = Category()
-    form = CategoryForm(obj=category)
+        form = CategoryForm()
     if form.validate_on_submit():
+        if not id:
+            category = Category()
         category.title = form.title.data
         category.parent_id = form.parents.data
         image = form.bgimg_file.data
@@ -160,10 +166,12 @@ def product_types():
 def product_type_manage(id=None):
     if id:
         product_type = ProductType.get_by_id(id)
+        form = ProductTypeForm(obj=product_type)
     else:
-        product_type = ProductType()
-    form = ProductTypeForm(obj=product_type)
+        form = ProductTypeForm()
     if form.validate_on_submit():
+        if not id:
+            product_type = ProductType()
         product_type.update_product_attr(form.product_attributes.data)
         product_type.update_variant_attr(form.variant_attr_id.data)
         del form.product_attributes
@@ -261,10 +269,12 @@ def product_create_step2():
 def variant_manage(id=None):
     if id:
         variant = ProductVariant.get_by_id(id)
+        form = VariantForm(obj=variant)
     else:
-        variant = ProductVariant()
-    form = VariantForm(obj=variant)
+        form = VariantForm()
     if form.validate_on_submit():
+        if not id:
+            variant = ProductVariant()
         form.populate_obj(variant)
         product_id = request.args.get("product_id")
         if product_id:
