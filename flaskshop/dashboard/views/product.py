@@ -6,6 +6,7 @@ from flaskshop.product.models import (
     Product,
     Category,
     ProductType,
+    ProductVariant,
 )
 from flaskshop.dashboard.forms import (
     AttributeForm,
@@ -14,6 +15,7 @@ from flaskshop.dashboard.forms import (
     ProductTypeForm,
     ProductForm,
     ProductCreateForm,
+    VariantForm,
 )
 
 
@@ -254,4 +256,20 @@ def product_create_step2():
         product_type=product_type,
         categories=categories,
     )
+
+
+def variant_manage(id=None):
+    if id:
+        variant = ProductVariant.get_by_id(id)
+    else:
+        variant = ProductVariant()
+    form = VariantForm(obj=variant)
+    if form.validate_on_submit():
+        form.populate_obj(variant)
+        product_id = request.args.get("product_id")
+        if product_id:
+            variant.product_id = product_id
+        variant.save()
+        return redirect(url_for("dashboard.product_types"))
+    return render_template("dashboard/product/variant.html", form=form)
 

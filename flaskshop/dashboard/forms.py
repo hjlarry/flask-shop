@@ -141,5 +141,5 @@ class VariantForm(FlaskForm):
     sku = StringField()
     title = StringField()
     price_override = FloatField()
-    quantity = IntegerField()
+    quantity = IntegerField(default=0)
     submit = SubmitField()

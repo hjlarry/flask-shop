@@ -26,6 +26,7 @@ from .product import (
     product_edit,
     product_create_step1,
     product_create_step2,
+    variant_manage,
 )
 from .order import orders
 
@@ -131,5 +132,10 @@ blueprint.add_url_rule(
 blueprint.add_url_rule(
     "/products/<id>/edit", view_func=product_edit, methods=["GET", "POST"]
 )
-
+blueprint.add_url_rule(
+    "/variant/create", view_func=variant_manage, methods=["GET", "POST"]
+)
+blueprint.add_url_rule(
+    "/variant/<id>/edit", view_func=variant_manage, methods=["GET", "POST"]
+)
 blueprint.add_url_rule("/orders", view_func=orders)
