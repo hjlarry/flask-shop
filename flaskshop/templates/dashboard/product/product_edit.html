@@ -32,7 +32,25 @@
                             {{ macros.render_select_field(form.category_id, categories) }}
                             {{ vendor.render_field(form.description) }}
                             {{ macros.render_multi_img(form.images) }}
-                            {{form.attributes.object_data}}
+                            <div class="form-group">
+                                <label>Attributes:</label>
+                                <p>
+                                    {% for attr in product.product_type.product_attributes %}
+                                    <label>{{attr.title}}</label>
+                                    <select class="form-control select2" style="width: 100%;" name="attributes-{{loop.index}}">
+                                        <option value="0">None</option>
+                                        {% for item in attr.values %}
+                                        {% set attr_id = attr.id|string %}
+                                        {% set item_id = item.id|string %}
+                                        <option value="{{ item.id }}" {% if form.attributes.object_data[attr_id]==item_id
+                                            %} selected {% endif %}>
+                                            {{ item.title }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    {% endfor %}
+                                </p>
+                            </div>
 
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}

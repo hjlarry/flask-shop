@@ -200,15 +200,21 @@ def product_detail(id):
     return render_template("dashboard/product/detail.html", product=product)
 
 
+def _save_product(product, form):
+    product.update_images(form.images.data)
+    product.update_attributes(form.attributes.data)
+    del form.images
+    del form.attributes
+    form.populate_obj(product)
+    product.save()
+    return redirect(url_for("dashboard.product_detail", id=product.id))
+
+
 def product_edit(id):
     product = Product.get_by_id(id)
     form = ProductForm(obj=product)
     if form.validate_on_submit():
-        product.update_images(form.images.data)
-        del form.images
-        form.populate_obj(product)
-        product.save()
-        return redirect(url_for("dashboard.product_detail", id=product.id))
+        return _save_product(product, form)
     categories = Category.query.all()
     context = {"form": form, "categories": categories, "product": product}
     return render_template("dashboard/product/product_edit.html", **context)
@@ -238,13 +244,7 @@ def product_create_step2():
     categories = Category.query.all()
     if form.validate_on_submit():
         product = Product(product_type_id=product_type_id)
-        product.update_images(form.images.data)
-        product.update_attributes(form.attributes.data)
-        del form.images
-        del form.attributes
-        form.populate_obj(product)
-        product.save()
-        return redirect(url_for("dashboard.product_detail", id=product.id))
+        return _save_product(product, form)
     return render_template(
         "dashboard/product/product_create_step2.html",
         form=form,
