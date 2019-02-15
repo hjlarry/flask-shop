@@ -207,14 +207,15 @@ def _save_product(product, form):
     del form.attributes
     form.populate_obj(product)
     product.save()
-    return redirect(url_for("dashboard.product_detail", id=product.id))
+    return product
 
 
 def product_edit(id):
     product = Product.get_by_id(id)
     form = ProductForm(obj=product)
     if form.validate_on_submit():
-        return _save_product(product, form)
+        _save_product(product, form)
+        return redirect(url_for("dashboard.product_detail", id=product.id))
     categories = Category.query.all()
     context = {"form": form, "categories": categories, "product": product}
     return render_template("dashboard/product/product_edit.html", **context)
@@ -244,7 +245,9 @@ def product_create_step2():
     categories = Category.query.all()
     if form.validate_on_submit():
         product = Product(product_type_id=product_type_id)
-        return _save_product(product, form)
+        product = _save_product(product, form)
+        product.generate_variants()
+        return redirect(url_for("dashboard.product_detail", id=product.id))
     return render_template(
         "dashboard/product/product_create_step2.html",
         form=form,

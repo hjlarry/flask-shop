@@ -88,6 +88,18 @@ class Product(SurrogatePK, Model):
         attributes = dict(zip(attr_entries, attr_values))
         self.attributes = attributes
 
+    def generate_variants(self):
+        if not self.product_type.has_variants:
+            ProductVariant.create(sku=str(self.id) + "-1337", product_id=self.id)
+        else:
+            sku_id = 1337
+            variant_attributes = self.product_type.variant_attributes[0]
+            for value in variant_attributes.values:
+                sku = str(self.id) + "-" + str(sku_id)
+                attributes = {str(variant_attributes.id): str(value.id)}
+                ProductVariant.create(sku=sku, title=value.title, product_id=self.id, attributes=attributes)
+                sku_id += 1
+
 
 class Category(SurrogatePK, Model):
     __tablename__ = "product_category"
@@ -231,9 +243,9 @@ class ProductVariant(SurrogatePK, Model):
     sku = Column(db.String(32), unique=True)
     title = Column(db.String(255))
     price_override = Column(db.DECIMAL(10, 2))
-    quantity = Column(db.Integer())
+    quantity = Column(db.Integer(), default=0)
     quantity_allocated = Column(db.Integer(), default=0)
-    product_id = Column(db.Integer())
+    product_id = Column(db.Integer(), default=0)
     attributes = Column(MutableDict.as_mutable(db.JSON()))
 
     def __str__(self):
