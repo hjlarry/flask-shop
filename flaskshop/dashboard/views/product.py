@@ -280,6 +280,6 @@ def variant_manage(id=None):
         if product_id:
             variant.product_id = product_id
         variant.save()
-        return redirect(url_for("dashboard.product_types"))
+        return redirect(url_for("dashboard.product_detail", id=variant.product_id))
     return render_template("dashboard/product/variant.html", form=form)
 

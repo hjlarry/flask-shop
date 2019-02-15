@@ -245,7 +245,7 @@ class ProductVariant(SurrogatePK, Model):
     __tablename__ = "product_variant"
     sku = Column(db.String(32), unique=True)
     title = Column(db.String(255))
-    price_override = Column(db.DECIMAL(10, 2))
+    price_override = Column(db.DECIMAL(10, 2), default=0.00)
     quantity = Column(db.Integer(), default=0)
     quantity_allocated = Column(db.Integer(), default=0)
     product_id = Column(db.Integer(), default=0)

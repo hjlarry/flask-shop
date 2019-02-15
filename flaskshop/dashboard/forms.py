@@ -12,6 +12,7 @@ from wtforms import (
     SelectMultipleField,
     FileField,
     FloatField,
+    DecimalField,
 )
 from wtforms.validators import DataRequired
 
@@ -119,7 +120,7 @@ class ProductTypeForm(FlaskForm):
 
 class ProductForm(FlaskForm):
     title = StringField()
-    price = FloatField()
+    price = DecimalField()
     on_sale = BooleanField(default=True)
     is_featured = BooleanField(default=False)
     rating = FloatField(default=0)
@@ -140,6 +141,6 @@ class ProductCreateForm(FlaskForm):
 class VariantForm(FlaskForm):
     sku = StringField()
     title = StringField()
-    price_override = FloatField()
+    price_override = DecimalField(default=0.00)
     quantity = IntegerField(default=0)
     submit = SubmitField()
