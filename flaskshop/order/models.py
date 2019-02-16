@@ -111,6 +111,10 @@ class Order(SurrogatePK, Model):
 
         return User.get_by_id(self.user_id)
 
+    @property
+    def payment(self):
+        return OrderPayment.query.filter_by(order_id=self.id).first()
+
 
 class OrderLine(SurrogatePK, Model):
     __tablename__ = "order_orderline"

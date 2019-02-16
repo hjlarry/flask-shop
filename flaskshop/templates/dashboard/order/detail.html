@@ -1,0 +1,126 @@
+{% import 'dashboard/_vendor.html' as vendor %}
+{% extends 'dashboard/layout.html' %}
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="invoice p-3 mb-3">
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>
+                                <i class="fa fa-globe"></i> {{order.token}}
+                                <small class="float-right">Date: {{order.created_at}}</small>
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+                    <div class="row invoice-info">
+                        <div class="col-sm-4 invoice-col">
+                            <b>Status:</b> {{order.status}}<br>
+                            <b>Payment Status:</b> {{order.payment.status}}<br>
+                            <b>Payment Due:</b> {{order.payment.paid_at}}<br>
+                            <b>Account:</b> {{order.user}}
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 invoice-col">
+                            Shipping Address
+                            <address>
+                                <strong>{{order.shipping_address.contact_name}}</strong><br>
+                                {{order.shipping_address.full_address}}<br>
+                                Phone: {{order.shipping_address.contact_phone}}<br>
+                            </address>
+                        </div>
+                        <div class="col-sm-4 invoice-col">
+                            Shipping Method
+                            <address>
+                                <strong>{{order.shipping_method_name}}</strong><br>
+                            </address>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Qty</th>
+                                        <th>Product</th>
+                                        <th>SKU</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in order.lines %}
+                                    <tr>
+                                        <td>{{item.quantity}}</td>
+                                        <td>{{item.product_name}}</td>
+                                        <td>{{item.product_sku}}</td>
+                                        <td>${{item.unit_price_net}}</td>
+                                        <td>${{item.quantity * item.unit_price_net}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <!-- accepted payments column -->
+                        <div class="col-6">
+                            <p class="lead">Payment Methods:</p>
+                            {{order.payment.payment_method}}
+
+                            <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                                {{order.note}}
+                            </p>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-6">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:50%">Subtotal:</th>
+                                        <td>${{order.total_net-order.shipping_price_net}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping:</th>
+                                        <td>${{order.shipping_price_net}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total:</th>
+                                        <td>${{order.total_net}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- this row will not appear when printing -->
+                    <div class="row no-print">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-success float-right"><i class="fa fa-credit-card"></i>
+                                Send Order
+                            </button>
+                            <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                <i class="fa fa-download"></i> Generate PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock %}

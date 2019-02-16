@@ -28,7 +28,7 @@ from .product import (
     product_create_step2,
     variant_manage,
 )
-from .order import orders
+from .order import orders, order_detail
 
 blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -139,3 +139,4 @@ blueprint.add_url_rule(
     "/variant/<id>/edit", view_func=variant_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/orders", view_func=orders)
+blueprint.add_url_rule("/order/<id>", view_func=order_detail)
