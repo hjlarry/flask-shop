@@ -28,7 +28,7 @@ class Config(object):
     SQLALCHEMY_RECORD_QUERIES = True
     WHOOSH_BASE = APP_DIR / "whoosh"
     WEBPACK_MANIFEST_PATH = "webpack/manifest.json"
-    CACHE_TYPE = "simple"
+    REDIS_URL = "redis://localhost:6379"
 
 
 class ProdConfig(Config):
@@ -45,7 +45,9 @@ class DevConfig(Config):
 
     ENV = "dev"
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/flaskshop"
+    SQLALCHEMY_DATABASE_URI = (
+        "mysql+pymysql://root:root@127.0.0.1:3306/flaskshop?charset=utf8mb4"
+    )
     PURCHASE_URI = "https://openapi.alipaydev.com/gateway.do?"
     DEBUG_TB_ENABLED = True
 

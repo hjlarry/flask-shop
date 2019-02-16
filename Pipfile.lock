@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f804fdf1f5dbe39d7b1f6a5e1da4c1a909e36b790a8da8dc739e3d7ebe736682"
+            "sha256": "296ba309f6a8d6bb047825dd615260a72670ad22372420a47ef661a1ae6fb222"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -31,27 +31,15 @@
     "default": {
         "alembic": {
             "hashes": [],
-            "version": "==1.0.6"
+            "version": "==1.0.7"
         },
         "aniso8601": {
             "hashes": [],
             "version": "==4.1.0"
         },
-        "atomicwrites": {
-            "hashes": [],
-            "version": "==1.2.1"
-        },
-        "attrs": {
-            "hashes": [],
-            "version": "==18.2.0"
-        },
         "bcrypt": {
             "hashes": [],
             "version": "==3.1.6"
-        },
-        "beautifulsoup4": {
-            "hashes": [],
-            "version": "==4.7.1"
         },
         "blinker": {
             "hashes": [],
@@ -67,7 +55,7 @@
         },
         "cffi": {
             "hashes": [],
-            "version": "==1.11.5"
+            "version": "==1.12.0"
         },
         "chardet": {
             "hashes": [],
@@ -77,57 +65,25 @@
             "hashes": [],
             "version": "==7.0"
         },
-        "factory-boy": {
+        "decorator": {
             "hashes": [],
-            "version": "==2.11.1"
+            "version": "==4.3.2"
+        },
+        "dogpile.cache": {
+            "hashes": [],
+            "version": "==0.7.1"
         },
         "faker": {
             "hashes": [],
-            "version": "==1.0.1"
-        },
-        "flake8": {
-            "hashes": [],
-            "version": "==3.5.0"
-        },
-        "flake8-blind-except": {
-            "hashes": [],
-            "version": "==0.1.1"
-        },
-        "flake8-debugger": {
-            "hashes": [],
-            "version": "==3.1.0"
-        },
-        "flake8-docstrings": {
-            "hashes": [],
-            "version": "==1.3.0"
-        },
-        "flake8-isort": {
-            "hashes": [],
-            "version": "==2.5"
-        },
-        "flake8-polyfill": {
-            "hashes": [],
             "version": "==1.0.2"
-        },
-        "flake8-quotes": {
-            "hashes": [],
-            "version": "==1.0.0"
         },
         "flask": {
             "hashes": [],
             "version": "==1.0.2"
         },
-        "flask-admin": {
-            "hashes": [],
-            "version": "==1.5.3"
-        },
         "flask-bcrypt": {
             "hashes": [],
             "version": "==0.7.1"
-        },
-        "flask-caching": {
-            "hashes": [],
-            "version": "==1.4.0"
         },
         "flask-debugtoolbar": {
             "hashes": [],
@@ -139,7 +95,7 @@
         },
         "flask-migrate": {
             "hashes": [],
-            "version": "==2.2.0"
+            "version": "==2.3.1"
         },
         "flask-restplus": {
             "hashes": [],
@@ -157,25 +113,13 @@
             "hashes": [],
             "version": "==0.7.5"
         },
-        "flask-wtf": {
-            "hashes": [],
-            "version": "==0.14.2"
-        },
-        "gunicorn": {
-            "hashes": [],
-            "version": "==19.9.0"
-        },
         "idna": {
             "hashes": [],
             "version": "==2.8"
         },
-        "isort": {
-            "hashes": [],
-            "version": "==4.3.4"
-        },
         "itsdangerous": {
             "hashes": [],
-            "version": "==0.24"
+            "version": "==1.1.0"
         },
         "jinja2": {
             "hashes": [],
@@ -195,51 +139,19 @@
         },
         "markupsafe": {
             "hashes": [],
-            "version": "==1.0"
-        },
-        "mccabe": {
-            "hashes": [],
-            "version": "==0.6.1"
-        },
-        "more-itertools": {
-            "hashes": [],
-            "version": "==5.0.0"
+            "version": "==1.1.0"
         },
         "mysqlclient": {
             "hashes": [],
-            "version": "==1.4.1"
-        },
-        "pep8-naming": {
-            "hashes": [],
-            "version": "==0.7.0"
+            "version": "==1.4.2.post1"
         },
         "phonenumbers": {
             "hashes": [],
-            "version": "==8.10.3"
+            "version": "==8.10.5"
         },
         "phonenumberslite": {
             "hashes": [],
-            "version": "==8.10.3"
-        },
-        "pillow": {
-            "hashes": [],
-            "version": "==5.4.1"
-        },
-        "pluggy": {
-            "hashes": [],
-            "version": "==0.6.0"
-        },
-        "psycopg2": {
-            "hashes": [],
-            "version": "==2.7.5"
-        },
-        "py": {
-            "hashes": [],
-            "version": "==1.7.0"
-        },
-        "pycodestyle": {
-            "hashes": [],
-            "version": "==2.3.1"
+            "version": "==8.10.5"
         },
         "pycparser": {
             "hashes": [],
@@ -249,17 +161,9 @@
             "hashes": [],
             "version": "==3.7.2"
         },
-        "pydocstyle": {
+        "pymysql": {
             "hashes": [],
-            "version": "==3.0.0"
-        },
-        "pyflakes": {
-            "hashes": [],
-            "version": "==1.6.0"
-        },
-        "pytest": {
-            "hashes": [],
-            "version": "==3.6.1"
+            "version": "==0.9.3"
         },
         "python-alipay-sdk": {
             "hashes": [],
@@ -267,7 +171,7 @@
         },
         "python-dateutil": {
             "hashes": [],
-            "version": "==2.7.5"
+            "version": "==2.8.0"
         },
         "python-dotenv": {
             "hashes": [],
@@ -275,11 +179,15 @@
         },
         "python-editor": {
             "hashes": [],
-            "version": "==1.0.3"
+            "version": "==1.0.4"
         },
         "pytz": {
             "hashes": [],
             "version": "==2018.9"
+        },
+        "redis": {
+            "hashes": [],
+            "version": "==3.1.0"
         },
         "requests": {
             "hashes": [],
@@ -289,21 +197,13 @@
             "hashes": [],
             "version": "==1.12.0"
         },
-        "snowballstemmer": {
-            "hashes": [],
-            "version": "==1.2.1"
-        },
-        "soupsieve": {
-            "hashes": [],
-            "version": "==1.7.2"
-        },
         "sqlalchemy": {
             "hashes": [],
-            "version": "==1.2.8"
+            "version": "==1.2.18"
         },
-        "testfixtures": {
+        "sqlalchemy-utils": {
             "hashes": [],
-            "version": "==6.4.3"
+            "version": "==0.33.11"
         },
         "text-unidecode": {
             "hashes": [],
@@ -313,18 +213,6 @@
             "hashes": [],
             "version": "==1.24.1"
         },
-        "waitress": {
-            "hashes": [],
-            "version": "==1.2.0"
-        },
-        "webob": {
-            "hashes": [],
-            "version": "==1.8.5"
-        },
-        "webtest": {
-            "hashes": [],
-            "version": "==2.0.29"
-        },
         "werkzeug": {
             "hashes": [],
             "version": "==0.14.1"
@@ -332,106 +220,7 @@
         "whoosh": {
             "hashes": [],
             "version": "==2.7.4"
-        },
-        "wtforms": {
-            "hashes": [],
-            "version": "==2.2.1"
         }
     },
-    "develop": {
-        "appnope": {
-            "hashes": [],
-            "markers": "sys_platform == 'darwin'",
-            "version": "==0.1.0"
-        },
-        "backcall": {
-            "hashes": [],
-            "version": "==0.1.0"
-        },
-        "click": {
-            "hashes": [],
-            "version": "==7.0"
-        },
-        "coverage": {
-            "hashes": [],
-            "version": "==4.5.2"
-        },
-        "decorator": {
-            "hashes": [],
-            "version": "==4.3.0"
-        },
-        "flask": {
-            "hashes": [],
-            "version": "==1.0.2"
-        },
-        "flask-shell-ipython": {
-            "hashes": [],
-            "version": "==0.4.0"
-        },
-        "ipython": {
-            "hashes": [],
-            "version": "==7.2.0"
-        },
-        "ipython-genutils": {
-            "hashes": [],
-            "version": "==0.2.0"
-        },
-        "itsdangerous": {
-            "hashes": [],
-            "version": "==1.1.0"
-        },
-        "jedi": {
-            "hashes": [],
-            "version": "==0.13.2"
-        },
-        "jinja2": {
-            "hashes": [],
-            "version": "==2.10"
-        },
-        "markupsafe": {
-            "hashes": [],
-            "version": "==1.1.0"
-        },
-        "parso": {
-            "hashes": [],
-            "version": "==0.3.1"
-        },
-        "pexpect": {
-            "hashes": [],
-            "markers": "sys_platform != 'win32'",
-            "version": "==4.6.0"
-        },
-        "pickleshare": {
-            "hashes": [],
-            "version": "==0.7.5"
-        },
-        "prompt-toolkit": {
-            "hashes": [],
-            "version": "==2.0.7"
-        },
-        "ptyprocess": {
-            "hashes": [],
-            "version": "==0.6.0"
-        },
-        "pygments": {
-            "hashes": [],
-            "version": "==2.3.1"
-        },
-        "six": {
-            "hashes": [],
-            "version": "==1.12.0"
-        },
-        "traitlets": {
-            "hashes": [],
-            "version": "==4.3.2"
-        },
-        "wcwidth": {
-            "hashes": [],
-            "version": "==0.1.7"
-        },
-        "werkzeug": {
-            "hashes": [],
-            "version": "==0.14.1"
-        }
-    }
+    "develop": {}
 }
