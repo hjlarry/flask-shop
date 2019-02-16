@@ -2,14 +2,7 @@ from flask import url_for
 from flask_login import current_user
 from uuid import uuid4
 
-from flaskshop.database import (
-    Column,
-    Model,
-    SurrogatePK,
-    db,
-    reference_col,
-    relationship,
-)
+from flaskshop.database import Column, Model, SurrogatePK, db
 from flaskshop.constant import (
     ORDER_STATUS_UNFULFILLED,
     ORDER_STATUS_PARTIALLY_FULFILLED,
@@ -27,7 +20,7 @@ class Order(SurrogatePK, Model):
     total_net = Column(db.DECIMAL(10, 2))
     discount_amount = Column(db.DECIMAL(10, 2))
     discount_name = Column(db.String(100))
-    voucher_id = reference_col("discount_voucher")
+    voucher_id = Column(db.Integer())
     shipping_price_net = Column(db.DECIMAL(10, 2))
     status = Column(db.String(100))
     shipping_method_name = Column(db.String(100))

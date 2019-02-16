@@ -4,9 +4,7 @@ import datetime
 
 from .extensions import db
 
-# Alias common SQLAlchemy names
 Column = db.Column
-relationship = db.relationship
 
 
 class CRUDMixin(object):
@@ -43,7 +41,6 @@ class Model(CRUDMixin, db.Model):
     __abstract__ = True
 
 
-
 class SurrogatePK:
     __table_args__ = {"extend_existing": True}
 
@@ -61,10 +58,10 @@ class SurrogatePK:
     def get_by_id(cls, record_id):
         """Get record by ID."""
         if any(
-                (
-                        isinstance(record_id, (str, bytes)) and record_id.isdigit(),
-                        isinstance(record_id, (int, float)),
-                )
+            (
+                isinstance(record_id, (str, bytes)) and record_id.isdigit(),
+                isinstance(record_id, (int, float)),
+            )
         ):
             return cls.query.get(int(record_id))
         return None
@@ -81,21 +78,3 @@ class SurrogatePK:
     def to_dict(self):
         return self.__dict__.copy()
 
-
-def reference_col(tablename, nullable=True, pk_name="id", **kwargs):
-    """Column that adds primary key foreign key reference.
-
-    Usage: ::
-
-        category_id = reference_col('category')
-        category = relationship('Category', backref='categories')
-    """
-    return Column(
-        db.ForeignKey(
-            f"{tablename}.{pk_name}",
-            ondelete="SET NULL",
-            onupdate="CASCADE",
-        ),
-        nullable=nullable,
-        **kwargs,
-    )

@@ -1,42 +1,8 @@
-from flaskshop.database import Column, Model, SurrogatePK, db, reference_col, relationship
-
-sale_categories = db.Table(
-    "discount_sale_categories",
-    Column("id", db.Integer(), primary_key=True, autoincrement=True),
-    Column(
-        "sale_id",
-        db.Integer(),
-        db.ForeignKey("discount_sale.id"),
-        primary_key=True,
-    ),
-    Column(
-        "category_id",
-        db.Integer(),
-        db.ForeignKey("product_category.id"),
-        primary_key=True,
-    ),
-)
-
-sale_products = db.Table(
-    "discount_sale_products",
-    Column("id", db.Integer(), primary_key=True, autoincrement=True),
-    Column(
-        "sale_id",
-        db.Integer(),
-        db.ForeignKey("discount_sale.id"),
-        primary_key=True,
-    ),
-    Column(
-        "product_id",
-        db.Integer(),
-        db.ForeignKey("product_product.id"),
-        primary_key=True,
-    ),
-)
+from flaskshop.database import Column, Model, SurrogatePK, db
 
 
 class Voucher(SurrogatePK, Model):
-    __tablename__ = 'discount_voucher'
+    __tablename__ = "discount_voucher"
     type = Column(db.String(20))
     title = Column(db.String(255))
     code = Column(db.String(12))
@@ -48,22 +14,30 @@ class Voucher(SurrogatePK, Model):
     discount_value = Column(db.DECIMAL(10, 2))
     apply_to = Column(db.String(20))
     limit = Column(db.DECIMAL(10, 2))
-    category_id = reference_col('product_category')
-    product_id = reference_col('product_product')
-    product = relationship('Product', backref="discounts")
+    category_id = Column(db.Integer())
+    product_id = Column(db.Integer())
 
     def __str__(self):
         return self.title
 
 
 class Sale(SurrogatePK, Model):
-    __tablename__ = 'discount_sale'
+    __tablename__ = "discount_sale"
     type = Column(db.String(10))
     title = Column(db.String(255))
     value = Column(db.DECIMAL(10, 2))
-    products = relationship(
-        "Product", secondary=sale_products, backref="sales",
-    )
 
     def __str__(self):
         return self.title
+
+
+class SaleCategory(SurrogatePK, Model):
+    __tablename__ = "discount_sale_categories"
+    sale_id = Column(db.Integer())
+    category_id = Column(db.Integer())
+
+
+class SaleProduct(SurrogatePK, Model):
+    __tablename__ = "discount_sale_products"
+    sale_id = Column(db.Integer())
+    product_id = Column(db.Integer())
