@@ -8,6 +8,7 @@ except ImportError:
     WECHAT_APP_ID, WECHAT_APP_SECRET = "", ""
 
 WECHAT_LOGIN_URL = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code"
+REDIS_URL = "redis://localhost:6379"
 
 
 class Config(object):
@@ -28,7 +29,6 @@ class Config(object):
     SQLALCHEMY_RECORD_QUERIES = True
     WHOOSH_BASE = APP_DIR / "whoosh"
     WEBPACK_MANIFEST_PATH = "webpack/manifest.json"
-    REDIS_URL = "redis://localhost:6379"
 
 
 class ProdConfig(Config):

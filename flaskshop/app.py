@@ -22,7 +22,6 @@ from flaskshop.extensions import (
     migrate,
     webpack,
     bootstrap,
-    flask_whooshalchemyplus,
 )
 from flaskshop.settings import ProdConfig
 from flaskshop.utils import log_slow_queries, jinja_global_varibles
@@ -51,7 +50,6 @@ def register_extensions(app):
     migrate.init_app(app, db)
     webpack.init_app(app)
     bootstrap.init_app(app)
-    flask_whooshalchemyplus.init_app(app)
 
 
 def register_blueprints(app):

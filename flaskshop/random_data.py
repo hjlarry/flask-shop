@@ -22,7 +22,7 @@ from flaskshop.product.utils import get_name_from_attributes
 from flaskshop.account.models import User, UserAddress
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.order.models import Order, OrderLine, OrderPayment
-from flaskshop.discount.models import Voucher, Sale
+from flaskshop.discount.models import Voucher, Sale, SaleProduct
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.settings import Config
 from flaskshop.constant import (
@@ -227,7 +227,7 @@ def get_or_create_category(category_schema, placeholder_dir):
     category_name = category_schema["name"]
     image_name = category_schema["image_name"]
     image_dir = get_product_list_images_dir(placeholder_dir)
-    defaults = {"background_img": image_dir / image_name}
+    defaults = {"background_img": str(image_dir / image_name)}
     category, _ = Category.get_or_create(
         title=category_name, parent_id=parent_id, **defaults
     )
@@ -263,7 +263,7 @@ def create_product_images(product, how_many, placeholder_dir):
     placeholder_root = Config.STATIC_DIR / placeholder_dir
     for dummy in range(how_many):
         image_name = random.choice(list(placeholder_root.iterdir()))
-        image = image_name.relative_to(Config.STATIC_DIR)
+        image = str(image_name.relative_to(Config.STATIC_DIR))
         ProductImage.get_or_create(image=image, product_id=product.id)
 
 
@@ -427,7 +427,7 @@ def create_fake_collection(placeholder_dir, collection_data):
     image_dir = get_product_list_images_dir(placeholder_dir)
     background_img = image_dir / collection_data["image_name"]
     collection = Collection.get_or_create(
-        title=collection_data["name"], background_img=background_img
+        title=collection_data["name"], background_img=str(background_img)
     )[0]
     products = Product.query.limit(4)
     for product in products:
@@ -461,7 +461,7 @@ def create_payment(order):
         [PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED]
     )
     payment = OrderPayment.create(
-        order=order,
+        order_id=order.id,
         status=status,
         total=order.total_net,
         delivery=order.shipping_price_net,
@@ -477,12 +477,12 @@ def create_order_line(order, discounts, taxes):
     variant.quantity += quantity
     variant.save()
     return OrderLine.create(
-        order=order,
+        order_id=order.id,
         product_name=variant.display_product(),
         product_sku=variant.sku,
         is_shipping_required=variant.is_shipping_required,
         quantity=quantity,
-        variant=variant,
+        variant_id=variant.id,
         unit_price_net=variant.price,
     )
 
@@ -494,11 +494,9 @@ def create_order_lines(order, discounts, taxes, how_many=10):
 
 def create_fake_order(discounts, taxes):
     user = User.query.filter_by(is_admin=False).order_by(func.random()).first()
-
-    order_data = {"user": user, "shipping_address": create_fake_address()}
-
+    address = create_fake_address()
+    order_data = {"user_id": user.id, "shipping_address_id": address.id}
     shipping_method = ShippingMethod.query.order_by(func.random()).first()
-
     order_data.update(
         {
             "shipping_method_name": shipping_method.title,
@@ -507,16 +505,11 @@ def create_fake_order(discounts, taxes):
     )
 
     order = Order.create(**order_data)
-
     lines = create_order_lines(order, discounts, taxes, random.randrange(1, 5))
-
     order.total_net = sum(
         [line.get_total() for line in lines], order.shipping_price_net
     )
     order.save()
-
-    # create_fulfillments(order)
-
     create_payment(order)
     return order
 
@@ -528,7 +521,7 @@ def create_fake_sale():
         value=random.choice([10, 20, 30, 40, 50]),
     )
     for product in Product.query.order_by(func.random()).all()[:4]:
-        sale.products.append(product)
+        SaleProduct.create(sale_id=sale.id, product_id=product.id)
     return sale
 
 

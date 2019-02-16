@@ -184,7 +184,7 @@ class ProductType(SurrogatePK, Model):
             .all()
         )
         return ProductAttribute.query.filter(
-            ProductAttribute.id.in_(id for id in at_ids)
+            ProductAttribute.id.in_(id for id, in at_ids)
         ).all()
 
     @property
@@ -197,7 +197,7 @@ class ProductType(SurrogatePK, Model):
             .all()
         )
         return ProductAttribute.query.filter(
-            ProductAttribute.id.in_(id for id in at_ids)
+            ProductAttribute.id.in_(id for id, in at_ids)
         ).all()
 
     @property

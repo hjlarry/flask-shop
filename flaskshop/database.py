@@ -7,9 +7,7 @@ from .extensions import db
 Column = db.Column
 
 
-class CRUDMixin(object):
-    """Mixin that adds convenience methods for CRUD (create, read, update, delete) operations."""
-
+class CRUDMixin:
     @classmethod
     def create(cls, **kwargs):
         """Create a new record and save it the database."""
@@ -42,18 +40,6 @@ class Model(CRUDMixin, db.Model):
 
 
 class SurrogatePK:
-    __table_args__ = {"extend_existing": True}
-
-    id = Column(db.Integer(), primary_key=True)
-    created_at = Column(db.DateTime(), default=datetime.datetime.utcnow, index=True)
-
-    def __init__(self, **kwargs):
-        db.Model.__init__(self, **kwargs)
-
-    def __repr__(self):
-        class_ = type(self)
-        return f"<{class_.__module__}.{class_.__name__}(id={self.id})>"
-
     @classmethod
     def get_by_id(cls, record_id):
         """Get record by ID."""

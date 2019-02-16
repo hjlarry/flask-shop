@@ -2,12 +2,12 @@ import copy
 import json
 from datetime import datetime
 
-from flask import current_app
 from redis import Redis
 
 from flaskshop.corelib.local_cache import lc
+from flaskshop.settings import REDIS_URL
 
-rdb = Redis.from_url(current_app.config["REDIS_URL"])
+rdb = Redis.from_url(REDIS_URL)
 
 
 class PropsMixin:
