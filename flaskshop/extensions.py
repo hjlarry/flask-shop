@@ -11,9 +11,11 @@ from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy, Model, BaseQuery, DefaultMeta, _QueryProperty
 from dogpile.cache import make_region
+from dogpile.cache.api import NO_VALUE
 from sqlalchemy import Column, Integer, DateTime, event, inspect
 from sqlalchemy.ext.declarative import declared_attr, DeclarativeMeta, declarative_base
 from sqlalchemy.orm.attributes import get_history
+from sqlalchemy.orm.interfaces import MapperOption
 
 from flaskshop.corelib.db import PropsItem, PropsMixin
 from flaskshop.settings import REDIS_URL
@@ -105,6 +107,17 @@ class CachingQuery(BaseQuery):
 
 def query_callable(regions, query_cls=CachingQuery):
     return functools.partial(query_cls, regions)
+
+
+class FromCache(MapperOption):
+    propagate_to_loaders = False
+
+    def __init__(self, region="default", cache_key=None):
+        self.region = region
+        self.cache_key = cache_key
+
+    def process_query(self, query):
+        query._cache_region = self
 
 
 class Cache:

@@ -223,7 +223,7 @@ def get_or_create_category(category_schema, placeholder_dir):
             category_schema["parent"], placeholder_dir
         ).id
     else:
-        parent_id = None
+        parent_id = 0
     category_name = category_schema["name"]
     image_name = category_schema["image_name"]
     image_dir = get_product_list_images_dir(placeholder_dir)
