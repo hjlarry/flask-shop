@@ -2,7 +2,7 @@ from flask import url_for
 from flask_login import current_user
 from uuid import uuid4
 
-from flaskshop.database import Column, Model, SurrogatePK, db
+from flaskshop.database import Column, Model, db
 from flaskshop.constant import (
     ORDER_STATUS_UNFULFILLED,
     ORDER_STATUS_PARTIALLY_FULFILLED,
@@ -12,7 +12,7 @@ from flaskshop.account.models import User, UserAddress
 from flaskshop.product.models import ProductVariant
 
 
-class Order(SurrogatePK, Model):
+class Order(Model):
     __tablename__ = "order_order"
     token = Column(db.String(100), unique=True)
     shipping_address_id = Column(db.Integer())  # TODO user address may edit
@@ -109,7 +109,7 @@ class Order(SurrogatePK, Model):
         return OrderPayment.query.filter_by(order_id=self.id).first()
 
 
-class OrderLine(SurrogatePK, Model):
+class OrderLine(Model):
     __tablename__ = "order_orderline"
     product_name = Column(db.String(255))
     product_sku = Column(db.String(100))
@@ -127,7 +127,7 @@ class OrderLine(SurrogatePK, Model):
         return self.unit_price_net * self.quantity
 
 
-class OrderNote(SurrogatePK, Model):
+class OrderNote(Model):
     __tablename__ = "order_ordernote"
     order_id = Column(db.Integer())
     user_id = Column(db.Integer())
@@ -135,7 +135,7 @@ class OrderNote(SurrogatePK, Model):
     is_public = Column(db.Boolean(), default=True)
 
 
-class OrderPayment(SurrogatePK, Model):
+class OrderPayment(Model):
     __tablename__ = "order_payment"
     order_id = Column(db.Integer())
     status = Column(db.String(100))

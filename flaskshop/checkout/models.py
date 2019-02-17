@@ -5,12 +5,12 @@ from sqlalchemy.dialects.mysql import BOOLEAN
 from flask_login import current_user
 
 from flaskshop.constant import TYPE_FIXED
-from flaskshop.database import Column, Model, SurrogatePK, db
+from flaskshop.database import Column, Model, db
 from flaskshop.account.models import UserAddress
 from flaskshop.product.models import ProductVariant
 
 
-class Cart(SurrogatePK, Model):
+class Cart(Model):
     __tablename__ = "checkout_cart"
     user_id = Column(db.Integer())
     token = Column(db.String(255))
@@ -59,7 +59,7 @@ class Cart(SurrogatePK, Model):
         return self.quantity
 
 
-class CartLine(SurrogatePK, Model):
+class CartLine(Model):
     __tablename__ = "checkout_cartline"
     cart_id = Column(db.Integer())
     quantity = Column(db.Integer())
@@ -85,7 +85,7 @@ class CartLine(SurrogatePK, Model):
         return self.variant.price * self.quantity
 
 
-class ShippingMethod(SurrogatePK, Model):
+class ShippingMethod(Model):
     __tablename__ = "checkout_shippingmethod"
     title = Column(db.String(255), nullable=False)
     price = Column(db.DECIMAL(10, 2))
@@ -94,7 +94,7 @@ class ShippingMethod(SurrogatePK, Model):
         return self.title + "   $" + str(self.price)
 
 
-class CouponCode(SurrogatePK, Model):
+class CouponCode(Model):
     __tablename__ = "coupon_codes"
     title = Column(db.String(255), nullable=False)
     code = Column(db.String(255), unique=True, nullable=False)

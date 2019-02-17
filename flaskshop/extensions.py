@@ -31,11 +31,11 @@ class BaseModel(PropsMixin, Model):
     created_at = Column(DateTime, default=datetime.utcnow())
     updated_at = Column(DateTime, default=None)
 
-    def get_uuid(self):
-        return f"/bran/{self.__class__.__name__}/{self.id}"
-
     def __repr__(self):
         return f"<{self.__class__.__name__} id:{self.id}>"
+
+    def get_uuid(self):
+        return f"/bran/{self.__class__.__name__}/{self.id}"
 
     @classmethod
     def get(cls, id):

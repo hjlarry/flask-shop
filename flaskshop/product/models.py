@@ -1,10 +1,10 @@
 from flask import url_for, request
 from sqlalchemy.ext.mutable import MutableDict
 
-from flaskshop.database import Column, Model, SurrogatePK, db
+from flaskshop.database import Column, Model, db
 
 
-class Product(SurrogatePK, Model):
+class Product(Model):
     __tablename__ = "product_product"
     __searchable__ = ["title", "description"]
     title = Column(db.String(255), nullable=False)
@@ -101,7 +101,7 @@ class Product(SurrogatePK, Model):
                 sku_id += 1
 
 
-class Category(SurrogatePK, Model):
+class Category(Model):
     __tablename__ = "product_category"
     title = Column(db.String(255), nullable=False)
     parent_id = Column(db.Integer(), default=0)
@@ -149,7 +149,7 @@ class Category(SurrogatePK, Model):
         return cls.query.filter(cls.parent_id == 0).all()
 
 
-class ProductTypeAttributes(SurrogatePK, Model):
+class ProductTypeAttributes(Model):
     """存储的产品的属性是包括用户可选和不可选"""
 
     __tablename__ = "product_producttype_product_attributes"
@@ -157,7 +157,7 @@ class ProductTypeAttributes(SurrogatePK, Model):
     product_attribute_id = Column(db.Integer())
 
 
-class ProductTypeVariantAttributes(SurrogatePK, Model):
+class ProductTypeVariantAttributes(Model):
     """存储的产品SKU的属性是可以给用户去选择的"""
 
     __tablename__ = "product_producttype_variant_attributes"
@@ -165,7 +165,7 @@ class ProductTypeVariantAttributes(SurrogatePK, Model):
     product_attribute_id = Column(db.Integer())
 
 
-class ProductType(SurrogatePK, Model):
+class ProductType(Model):
     __tablename__ = "product_producttype"
     title = Column(db.String(255), nullable=False)
     has_variants = Column(db.Boolean(), default=True)
@@ -241,7 +241,7 @@ class ProductType(SurrogatePK, Model):
             )
 
 
-class ProductVariant(SurrogatePK, Model):
+class ProductVariant(Model):
     __tablename__ = "product_variant"
     sku = Column(db.String(32), unique=True)
     title = Column(db.String(255))
@@ -289,7 +289,7 @@ class ProductVariant(SurrogatePK, Model):
         return items
 
 
-class ProductAttribute(SurrogatePK, Model):
+class ProductAttribute(Model):
     __tablename__ = "product_productattribute"
     title = Column(db.String(255), nullable=False)
 
@@ -358,7 +358,7 @@ class ProductAttribute(SurrogatePK, Model):
             )
 
 
-class AttributeChoiceValue(SurrogatePK, Model):
+class AttributeChoiceValue(Model):
     __tablename__ = "product_attributechoicevalue"
     title = Column(db.String(255), nullable=False)
     attribute_id = Column(db.Integer())
@@ -371,7 +371,7 @@ class AttributeChoiceValue(SurrogatePK, Model):
         return ProductAttribute.get_by_id(self.attribute_id)
 
 
-class ProductImage(SurrogatePK, Model):
+class ProductImage(Model):
     __tablename__ = "product_productimage"
     image = Column(db.String(255))
     order = Column(db.Integer())
@@ -381,7 +381,7 @@ class ProductImage(SurrogatePK, Model):
         return url_for("static", filename=self.image, _external=True)
 
 
-class Collection(SurrogatePK, Model):
+class Collection(Model):
     __tablename__ = "product_collection"
     title = Column(db.String(255), nullable=False)
     background_img = Column(db.String(255))
@@ -428,7 +428,7 @@ class Collection(SurrogatePK, Model):
             ProductCollection.create(collection_id=self.id, product_id=id)
 
 
-class ProductCollection(SurrogatePK, Model):
+class ProductCollection(Model):
     __tablename__ = "product_collection_products"
     product_id = Column(db.Integer())
     collection_id = Column(db.Integer())

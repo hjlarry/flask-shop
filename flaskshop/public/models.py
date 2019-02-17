@@ -1,9 +1,9 @@
 from flask import url_for
 
-from flaskshop.database import Column, Model, SurrogatePK, db
+from flaskshop.database import Column, Model, db
 
 
-class Site(SurrogatePK, Model):
+class Site(Model):
     __tablename__ = "site_setting"
     header_text = Column(db.String(255), nullable=False)
     description = Column(db.Text())
@@ -26,7 +26,7 @@ class Site(SurrogatePK, Model):
         return self.get_menu_items(self.bottom_menu_id)
 
 
-class MenuItem(SurrogatePK, Model):
+class MenuItem(Model):
     __tablename__ = "menu_menuitem"
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
@@ -68,7 +68,7 @@ class MenuItem(SurrogatePK, Model):
         return cls.query.filter(cls.parent_id == 0).order_by("order").all()
 
 
-class Page(SurrogatePK, Model):
+class Page(Model):
     __tablename__ = "page_page"
     title = Column(db.String(255), nullable=False)
     slug = Column(db.String(255))

@@ -38,15 +38,6 @@ def generate_id():
     return binascii.hexlify(oid).decode("utf-8")
 
 
-def is_numeric(value):
-    """检测一个str的值是不是可以是整数"""
-    try:
-        int(value)
-    except (TypeError, ValueError):
-        return False
-    return True
-
-
 class AttrDict(dict):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

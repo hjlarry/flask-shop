@@ -1,7 +1,7 @@
-from flaskshop.database import Column, Model, SurrogatePK, db
+from flaskshop.database import Column, Model, db
 
 
-class Voucher(SurrogatePK, Model):
+class Voucher(Model):
     __tablename__ = "discount_voucher"
     type = Column(db.String(20))
     title = Column(db.String(255))
@@ -21,7 +21,7 @@ class Voucher(SurrogatePK, Model):
         return self.title
 
 
-class Sale(SurrogatePK, Model):
+class Sale(Model):
     __tablename__ = "discount_sale"
     type = Column(db.String(10))
     title = Column(db.String(255))
@@ -31,13 +31,13 @@ class Sale(SurrogatePK, Model):
         return self.title
 
 
-class SaleCategory(SurrogatePK, Model):
+class SaleCategory(Model):
     __tablename__ = "discount_sale_categories"
     sale_id = Column(db.Integer())
     category_id = Column(db.Integer())
 
 
-class SaleProduct(SurrogatePK, Model):
+class SaleProduct(Model):
     __tablename__ = "discount_sale_products"
     sale_id = Column(db.Integer())
     product_id = Column(db.Integer())

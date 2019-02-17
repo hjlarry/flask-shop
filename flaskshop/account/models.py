@@ -4,11 +4,11 @@ from flask_login import UserMixin
 from libgravatar import Gravatar
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from flaskshop.database import Column, Model, SurrogatePK, db
+from flaskshop.database import Column, Model, db
 from flaskshop.extensions import bcrypt
 
 
-class User(SurrogatePK, Model, UserMixin):
+class User(Model, UserMixin):
     __tablename__ = "users"
     username = Column(db.String(80), unique=True, nullable=False, comment="use`s name")
     email = Column(db.String(80), unique=True, nullable=False)
@@ -47,7 +47,7 @@ class User(SurrogatePK, Model, UserMixin):
         return UserAddress.query.filter_by(user_id=self.id)
 
 
-class UserAddress(SurrogatePK, Model):
+class UserAddress(Model):
     __tablename__ = "users_address"
     user_id = Column(db.Integer())
     province = Column(db.String(255))

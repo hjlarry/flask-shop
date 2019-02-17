@@ -1,9 +1,9 @@
 from flask import url_for, request
 
-from flaskshop.database import Column, Model, SurrogatePK, db
+from flaskshop.database import Column, Model, db
 
 
-class DashboardMenu(SurrogatePK, Model):
+class DashboardMenu(Model):
     __tablename__ = "menu_dashboard"
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
