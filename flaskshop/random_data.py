@@ -16,6 +16,7 @@ from flaskshop.product.models import (
     ProductTypeAttributes,
     ProductTypeVariantAttributes,
     Collection,
+    ProductCollection
 )
 from flaskshop.public.models import Site, MenuItem, Page
 from flaskshop.product.utils import get_name_from_attributes
@@ -431,8 +432,7 @@ def create_fake_collection(placeholder_dir, collection_data):
     )[0]
     products = Product.query.limit(4)
     for product in products:
-        product.collection_id = collection.id
-        product.save()
+        ProductCollection.create(product_id=product.id, collection_id=collection.id)
     return collection
 
 
