@@ -289,7 +289,7 @@ def create_page():
         <a href="https://github.com/mirumee/saleor/">Get Saleor</a> today!
     </p>
     """
-    page_data = {"content": content, "title": "About", "is_visible": True}
+    page_data = {"content": content, "title": "About", "is_visible": True, "slug":"about"}
     page, _ = Page.get_or_create(**page_data)
     yield f"Page {page.title} created"
 

@@ -47,7 +47,7 @@ def jinja_global_varibles(app):
 
     @app.context_processor
     def inject_param():
-        site = Site.query.first()
+        site = Site.get_by_id(1)
         current_user_cart = Cart.get_current_user_cart()
         return dict(site=site, current_user_cart=current_user_cart)
 

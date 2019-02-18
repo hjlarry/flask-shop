@@ -1,8 +1,10 @@
 import datetime
 
+from flaskshop.corelib.mc import cache
 from .extensions import db
 
 Column = db.Column
+MC_KEY_GET_BY_ID = "global:{}:{}"
 
 
 class CRUDMixin:
@@ -33,6 +35,7 @@ class CRUDMixin:
         return commit and db.session.commit()
 
     @classmethod
+    @cache(MC_KEY_GET_BY_ID.format("{cls.__name__}", "{record_id}"))
     def get_by_id(cls, record_id):
         """Get record by ID."""
         if any(

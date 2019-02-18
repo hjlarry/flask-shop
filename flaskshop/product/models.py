@@ -2,6 +2,10 @@ from flask import url_for, request
 from sqlalchemy.ext.mutable import MutableDict
 
 from flaskshop.database import Column, Model, db
+from flaskshop.corelib.mc import cache
+
+MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
+MC_KEY_PRODUCT_IMAGES = "product:{}:images"
 
 
 class Product(Model):
@@ -22,24 +26,22 @@ class Product(Model):
     def __str__(self):
         return self.title
 
+    def __iter__(self):
+        return iter(self.variants)
+
     def get_absolute_url(self):
         return url_for("product.show", id=self.id)
 
     @property
+    @cache(MC_KEY_PRODUCT_IMAGES.format("{self.id}"))
     def images(self):
         return ProductImage.query.filter(ProductImage.product_id == self.id).all()
 
-    def get_first_img(self):
+    @property
+    def first_img(self):
         if self.images:
             return self.images[0]
         return ""
-
-    @property
-    def first_img(self):
-        return self.get_first_img()
-
-    def __iter__(self):
-        return iter(self.variants)
 
     @property
     def is_in_stock(self):
@@ -64,6 +66,11 @@ class Product(Model):
             for k, v in self.attributes.items()
         }
         return items
+
+    @classmethod
+    @cache(MC_KEY_FEATURED_PRODUCTS.format("{num}"))
+    def get_featured_product(cls, num=8):
+        return cls.query.filter_by(is_featured=True).limit(num).all()
 
     def update_images(self, new_images):
         origin_ids = (

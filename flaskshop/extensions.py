@@ -26,7 +26,7 @@ bootstrap = Bootstrap()
 
 
 class BaseModel(PropsMixin, Model):
-    __table_args__ = {"mysql_charset": "utf8mb4"}
+    __table_args__ = {"mysql_charset": "utf8mb4", "extend_existing": True}
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, default=datetime.utcnow())
     updated_at = Column(DateTime, default=None)

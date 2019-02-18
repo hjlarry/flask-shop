@@ -18,7 +18,7 @@ def load_user(user_id):
 
 @blueprint.route("/")
 def home():
-    products = Product.query.filter_by(is_featured=True).limit(8)
+    products = Product.get_featured_product()
     return render_template("public/home.html", products=products)
 
 

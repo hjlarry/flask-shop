@@ -3,7 +3,7 @@
   <a href="{{ product.get_absolute_url() }}" class="link--clean">
     <div class="text-center">
       <div>
-        <img class="img-responsive lazyload lazypreload" alt="" src="{{ product.get_first_img() }}">
+        <img class="img-responsive lazyload lazypreload" alt="" src="{{ product.first_img }}">
         <span class="product-list-item-name" title="{{ product }}">{{ product }}</span>
       </div>
       <div class="panel-footer">

@@ -1,6 +1,10 @@
 from flask import url_for
 
 from flaskshop.database import Column, Model, db
+from flaskshop.corelib.mc import cache
+
+MC_KEY_MENU_ITEMS = "public:site:{}:{}"
+MC_KEY_MENU_ITEM_CHILDREN = "public:menuitem:{}:children"
 
 
 class Site(Model):
@@ -10,11 +14,13 @@ class Site(Model):
     top_menu_id = Column(db.Integer())
     bottom_menu_id = Column(db.Integer())
 
+    @cache(MC_KEY_MENU_ITEMS.format("{self.id}", "{menu_id}"))
     def get_menu_items(self, menu_id):
         return (
             MenuItem.query.filter(MenuItem.site_id == menu_id)
             .filter(MenuItem.parent_id == 0)
             .order_by(MenuItem.order)
+            .all()
         )
 
     @property
@@ -45,6 +51,7 @@ class MenuItem(Model):
         return MenuItem.get_by_id(self.parent_id)
 
     @property
+    @cache(MC_KEY_MENU_ITEM_CHILDREN.format("{self.id}"))
     def children(self):
         return (
             MenuItem.query.filter(MenuItem.parent_id == self.id).order_by("order").all()
