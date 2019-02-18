@@ -61,7 +61,6 @@ class BaseModel(PropsMixin, Model):
 
     @staticmethod
     def _flush_event(mapper, connection, target):
-        target.cache._flush_all(target)
         target.__flush_event__(target)
 
     @classmethod

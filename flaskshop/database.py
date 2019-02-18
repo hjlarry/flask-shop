@@ -9,15 +9,10 @@ class CRUDMixin:
     @classmethod
     def create(cls, **kwargs):
         props = cls.get_db_props(kwargs)
-        if not kwargs:
-            return None, False
-        obj = cls.query.filter_by(**kwargs).first()
-        if obj:
-            return obj, False
         obj = cls(**kwargs)
         obj.save()
         cls.update_db_props(obj, props)
-        return obj, True
+        return obj
 
     def update(self, commit=True, **kwargs):
         """Update specific fields of a record."""
@@ -51,12 +46,16 @@ class CRUDMixin:
 
     @classmethod
     def get_or_create(cls, **kwargs):
+        props = cls.get_db_props(kwargs)
+        if not kwargs:
+            return None, False
         obj = cls.query.filter_by(**kwargs).first()
         if obj:
             return obj, False
-        else:
-            obj, is_true = cls.create(**kwargs)
-            return obj, is_true
+        obj = cls(**kwargs)
+        obj.save()
+        cls.update_db_props(obj, props)
+        return obj, True
 
     @classmethod
     def create_or_update(cls, **kwargs):

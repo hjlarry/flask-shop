@@ -97,7 +97,12 @@ class Product(Model):
             for value in variant_attributes.values:
                 sku = str(self.id) + "-" + str(sku_id)
                 attributes = {str(variant_attributes.id): str(value.id)}
-                ProductVariant.create(sku=sku, title=value.title, product_id=self.id, attributes=attributes)
+                ProductVariant.create(
+                    sku=sku,
+                    title=value.title,
+                    product_id=self.id,
+                    attributes=attributes,
+                )
                 sku_id += 1
 
 
@@ -399,7 +404,7 @@ class Collection(Model):
             .filter(ProductCollection.collection_id == self.id)
             .all()
         )
-        return Product.query.filter(Product.id.in_(id for id in at_ids)).all()
+        return Product.query.filter(Product.id.in_(id for id, in at_ids)).all()
 
     @property
     def attr_filter(self):
@@ -441,7 +446,7 @@ class ProductCollection(Model):
             .filter(ProductCollection.collection_id == collection.id)
             .all()
         )
-        query = Product.query.filter(Product.id.in_(id for id in at_ids))
+        query = Product.query.filter(Product.id.in_(id for id, in at_ids))
         ctx, query = get_product_list_context(query, collection)
         pagination = query.paginate(page, per_page=16)
         ctx.update(object=collection, pagination=pagination, products=pagination.items)
