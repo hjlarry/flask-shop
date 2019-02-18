@@ -1,6 +1,6 @@
 import datetime
 
-from flaskshop.corelib.mc import cache
+from flaskshop.corelib.mc import cache, rdb
 from .extensions import db
 
 Column = db.Column
@@ -91,6 +91,11 @@ class CRUDMixin:
     def update_db_props(cls, obj, db_props):
         for prop, value in db_props.items():
             obj.set_props_item(prop, value)
+
+    @classmethod
+    def __flush_after_update_event__(cls, target):
+        print(9999)
+        rdb.delete(MC_KEY_GET_BY_ID.format(cls.__name__, target.id))
 
 
 class Model(CRUDMixin, db.Model):

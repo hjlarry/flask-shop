@@ -1,7 +1,7 @@
 from flask import url_for
 
 from flaskshop.database import Column, Model, db
-from flaskshop.corelib.mc import cache
+from flaskshop.corelib.mc import cache, rdb
 
 MC_KEY_MENU_ITEMS = "public:site:{}:{}"
 MC_KEY_MENU_ITEM_CHILDREN = "public:menuitem:{}:children"
@@ -102,3 +102,9 @@ class Page(Model):
 
     def __str__(self):
         return self.title
+
+    @classmethod
+    def __flush_after_update_event__(cls, target):
+        super().__flush_after_update_event__(target)
+        rdb.delete(MC_KEY_PAGE_ID.format(target.id))
+        rdb.delete(MC_KEY_PAGE_ID.format(target.slug))
