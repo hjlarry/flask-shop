@@ -5,6 +5,7 @@ from flaskshop.corelib.mc import cache
 
 MC_KEY_MENU_ITEMS = "public:site:{}:{}"
 MC_KEY_MENU_ITEM_CHILDREN = "public:menuitem:{}:children"
+MC_KEY_PAGE_ID = "public:page:{}"
 
 
 class Site(Model):
@@ -87,6 +88,7 @@ class Page(Model):
         return url_for("public.show_page", identity=identity)
 
     @classmethod
+    @cache(MC_KEY_PAGE_ID.format("{identity}"))
     def get_by_identity(cls, identity):
         try:
             int(identity)
