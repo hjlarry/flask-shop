@@ -6,10 +6,12 @@ from flaskshop.corelib.mc import cache, cache_by_args
 from flaskshop.corelib.db import PropsItem
 
 MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
-MC_KEY_PRODUCT_IMAGES = "product:{}:images"
-MC_KEY_PRODUCT_ATTR_VALUES = "product:attribute:values:{}"
+MC_KEY_PRODUCT_IMAGES = "product:product:{}:images"
+MC_KEY_PRODUCT_VARIANT = "product:product:{}:variant"
+MC_KEY_ATTRIBUTE_VALUES = "product:attribute:values:{}"
 MC_KEY_COLLECTION_PRODUCTS = "product:collection:{}:products:{}"
 MC_KEY_CATEGORY_PRODUCTS = "product:category:{}:products:{}"
+MC_KEY_CATEGORY_CHILDREN = "product:category:{}:children"
 
 
 class Product(Model):
@@ -60,6 +62,7 @@ class Product(Model):
         return ProductType.get_by_id(self.product_type_id)
 
     @property
+    @cache(MC_KEY_PRODUCT_VARIANT.format("{self.id}"))
     def variant(self):
         return ProductVariant.query.filter(ProductVariant.product_id == self.id).all()
 
@@ -135,6 +138,7 @@ class Category(Model):
         return Product.query.filter(Product.category_id.in_(all_category_ids)).all()
 
     @property
+    @cache(MC_KEY_CATEGORY_CHILDREN.format("{self.id}"))
     def children(self):
         return Category.query.filter(Category.parent_id == self.id).all()
 
@@ -315,7 +319,7 @@ class ProductAttribute(Model):
         return self.title
 
     @property
-    @cache(MC_KEY_PRODUCT_ATTR_VALUES.format("{self.id}"))
+    @cache(MC_KEY_ATTRIBUTE_VALUES.format("{self.id}"))
     def values(self):
         return AttributeChoiceValue.query.filter(
             AttributeChoiceValue.attribute_id == self.id

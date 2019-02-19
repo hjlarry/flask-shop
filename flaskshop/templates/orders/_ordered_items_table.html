@@ -2,12 +2,12 @@
 <div class="order-details__addresses">
     <div class="row">
         {% if order.is_shipping_required %}
-            <div class="col-6">
-                <h3>
-                    Shipping address
-                </h3>
-                {{ macros.format_address(order.shipping_address) }}
-            </div>
+        <div class="col-6">
+            <h3>
+                Shipping address
+            </h3>
+            {{ macros.format_address(order.shipping_address) }}
+        </div>
         {% endif %}
     </div>
 </div>
@@ -32,29 +32,28 @@
 </div>
 
 {% for line in order.lines %}
-    <div class="table__row order-details__product{% if loop.last %} order-details__last-row{% endif %}">
-        <div class="row">
-            <div class="col-md-8">
-                <a class="link--clean" href="{% if line.variant %}{{ line.variant.get_absolute_url() }}{% endif %}">
-                    <img class="float-left lazyload lazypreload"
-                         src="{{ line.variant.product.get_first_img() }}" width="60">
-                    <span class="order-details__product__description">{{ line.product_name }}</span>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <p class="float-right">x {{ line.quantity }}</p>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <p class="float-right">
-                            ${{ line.get_total() }}
-                        </p>
-                    </div>
+<div class="table__row order-details__product{% if loop.last %} order-details__last-row{% endif %}">
+    <div class="row">
+        <div class="col-md-8">
+            <a class="link--clean" href="{% if line.variant %}{{ line.variant.get_absolute_url() }}{% endif %}">
+                <img class="float-left lazyload lazypreload" src="{{ line.variant.product.first_img }}" width="60">
+                <span class="order-details__product__description">{{ line.product_name }}</span>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <p class="float-right">x {{ line.quantity }}</p>
+                </div>
+                <div class="col-md-6 col-12">
+                    <p class="float-right">
+                        ${{ line.get_total() }}
+                    </p>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endfor %}
 
 <div class="table__row">
@@ -74,36 +73,36 @@
 </div>
 
 {% if order.is_shipping_required %}
-    <div class="table__row">
-        <div class="row">
-            <div class="col-8 order-details__table-footer">
-                <p>
-                    Shipping
-                    ({{ order.shipping_method_name}})
-                </p>
-            </div>
-            <div class="col-4">
-                <p class="float-right">
-                    ${{ order.shipping_price_net }}
-                </p>
-            </div>
+<div class="table__row">
+    <div class="row">
+        <div class="col-8 order-details__table-footer">
+            <p>
+                Shipping
+                ({{ order.shipping_method_name}})
+            </p>
+        </div>
+        <div class="col-4">
+            <p class="float-right">
+                ${{ order.shipping_price_net }}
+            </p>
         </div>
     </div>
+</div>
 {% endif %}
 
 {% if order.discount_amount %}
-    <div class="table__row">
-        <div class="row">
-            <div class="col-8 order-details__table-footer">
-                <p>{{ order.discount_name }}</p>
-            </div>
-            <div class="col-4">
-                <p class="float-right">
-                    {{ order.discount_amount  }}
-                </p>
-            </div>
+<div class="table__row">
+    <div class="row">
+        <div class="col-8 order-details__table-footer">
+            <p>{{ order.discount_name }}</p>
+        </div>
+        <div class="col-4">
+            <p class="float-right">
+                {{ order.discount_amount  }}
+            </p>
         </div>
     </div>
+</div>
 {% endif %}
 
 

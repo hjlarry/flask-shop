@@ -8,6 +8,9 @@ from flaskshop.constant import TYPE_FIXED
 from flaskshop.database import Column, Model, db
 from flaskshop.account.models import UserAddress
 from flaskshop.product.models import ProductVariant
+from flaskshop.corelib.mc import cache
+
+MC_KEY_CART_BY_USER = "checkout:cart:user_id:{}"
 
 
 class Cart(Model):
@@ -33,9 +36,14 @@ class Cart(Model):
         return CartLine.query.filter(CartLine.cart_id == self.id).all()
 
     @classmethod
+    @cache(MC_KEY_CART_BY_USER.format("{user_id}"))
+    def get_cart_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).first()
+
+    @classmethod
     def get_current_user_cart(cls):
         if current_user.is_authenticated:
-            cart = cls.query.filter_by(user_id=current_user.id).first()
+            cart = cls.get_cart_by_user_id(current_user.id)
         else:
             cart = None
         return cart

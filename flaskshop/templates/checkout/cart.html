@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-7 cart__line__product">
                 <a class="link--clean" href="{{ line.product.get_absolute_url() }}">
-                    <img class="lazyload lazypreload" data-src="{{ line.product.get_first_img() }}" width="60" />
+                    <img class="lazyload lazypreload" data-src="{{ line.product.first_img }}" width="60" />
                     <p>{{ line.product }}<br>
                         <small>{{ line.variant }}</small>
                     </p>
@@ -50,7 +50,8 @@
                             </div>
                         </form>
                         <span class="cart-item-delete">
-                            <svg data-src="{{ url_for('static', filename='img/delete.svg') }}" height="20px" width="20px"></svg>
+                            <svg data-src="{{ url_for('static', filename='img/delete.svg') }}" height="20px"
+                                width="20px"></svg>
                         </span>
                         <small class="cart__line__quantity-error text-danger"></small>
                     </div>
@@ -69,7 +70,8 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ url_for('checkout.checkout_shipping_address') }}" class="btn btn-primary float-right cart__submit">
+            <a href="{{ url_for('checkout.checkout_shipping_address') }}"
+                class="btn btn-primary float-right cart__submit">
                 Checkout
             </a>
         </div>

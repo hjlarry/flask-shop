@@ -1,11 +1,12 @@
 <div class="container">
   {% if current_user.is_authenticated and current_user_cart and current_user_cart.quantity > 0 %}
-  <div id="cart-dropdown-list" class="cart-dropdown__list{% if current_user_cart.lines|length <= 2 %} overflow{% endif %}">
+  <div id="cart-dropdown-list"
+    class="cart-dropdown__list{% if current_user_cart.lines|length <= 2 %} overflow{% endif %}">
     {% for line in current_user_cart.lines %}
     <div class="row item">
       <div class="col-md-10">
         <a class="link--clean" href="{{ line.product.get_absolute_url() }}">
-          <img class="cart-dropdown__image lazyload lazypreload" alt="" src="{{ line.product.get_first_img() }}">
+          <img class="cart-dropdown__image lazyload lazypreload" alt="" src="{{ line.product.first_img }}">
           <h3>
             {{ line.product }}
             <span>x{{ line.quantity }}</span>
@@ -31,7 +32,8 @@
       </h3>
     </div>
     <div class="col-md-4">
-      <h3 class="float-md-right price {% if current_user_cart.lines|length <= 2 %}single{% endif %}" data-quantity="{{ quantity }}">
+      <h3 class="float-md-right price {% if current_user_cart.lines|length <= 2 %}single{% endif %}"
+        data-quantity="{{ quantity }}">
         <p>
           ${{ current_user_cart.total }}
         </p>
@@ -44,7 +46,8 @@
       <a href="{{ url_for('checkout.cart_index') }}" class="btn secondary narrow float-md-right">Go to cart</a>
     </div>
     <div class="col-md-5">
-      <a href="{{ url_for('checkout.checkout_shipping_address') }}" class="btn btn-primary narrow float-md-right">Checkout</a>
+      <a href="{{ url_for('checkout.checkout_shipping_address') }}"
+        class="btn btn-primary narrow float-md-right">Checkout</a>
     </div>
   </div>
   {% else %}

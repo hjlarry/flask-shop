@@ -2,7 +2,8 @@ from flask import request
 from flask_login import current_user
 from sqlalchemy import desc
 
-from flaskshop.checkout.models import Cart, CartLine
+from flaskshop.checkout.models import Cart, CartLine, MC_KEY_CART_BY_USER
+from flaskshop.corelib.mc import rdb
 
 
 def get_name_from_attributes(variant):
@@ -27,3 +28,5 @@ def add_to_currentuser_cart(quantity, variant_id):
         line.update(quantity=quantity)
     else:
         CartLine.create(variant_id=variant_id, quantity=quantity, cart_id=cart.id)
+
+    rdb.delete(MC_KEY_CART_BY_USER.format(current_user.id))
