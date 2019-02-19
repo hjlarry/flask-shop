@@ -2,6 +2,7 @@ import inspect
 import functools
 from pickle import UnpicklingError
 
+from flask import request
 from sqlalchemy.ext.serializer import loads, dumps
 
 from flaskshop.corelib.db import rdb
@@ -67,30 +68,38 @@ def cache(key_pattern, expire=None):
     return deco
 
 
-def pcache(key_pattern, count=300, expire=None):
+def cache_by_args(key_pattern, expire=None):
     def deco(f):
         arg_names, varargs, varkw, defaults = inspect.getargspec(f)
         if varargs or varkw:
             raise Exception("do not support varargs")
-        if not ("limit" in arg_names):
-            raise Exception("function must has 'limit' in args")
         gen_key = gen_key_factory(key_pattern, arg_names, defaults)
 
         @functools.wraps(f)
         def _(*a, **kw):
             key, args = gen_key(*a, **kw)
-            start = int(args.pop("start", 0))
-            limit = int(args.pop("limit"))
-            if not key or limit is None or start + limit > count:
+            if not key:
                 return f(*a, **kw)
+            key = key + ":" + request.query_string.decode()
             force = kw.pop("force", False)
             r = rdb.get(key) if not force else None
             if r is None:
-                r = f(limit=count, **args)
-                r = dumps(r)
-                rdb.set(key, r, expire)
-            r = loads(r)
-            return r[start : start + limit]
+                r = f(*a, **kw)
+                if r is not None:
+                    if not isinstance(r, BUILTIN_TYPES):
+                        r = dumps(r)
+                    rdb.set(key, r, expire)
+                else:
+                    r = dumps(empty)
+                    rdb.set(key, r, expire)
+
+            try:
+                r = loads(r)
+            except (TypeError, UnpicklingError):
+                pass
+            if isinstance(r, Empty):
+                r = None
+            return r
 
         _.original_function = f
         return _

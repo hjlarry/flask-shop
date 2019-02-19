@@ -2,13 +2,14 @@ from flask import url_for, request
 from sqlalchemy.ext.mutable import MutableDict
 
 from flaskshop.database import Column, Model, db
-from flaskshop.corelib.mc import cache
+from flaskshop.corelib.mc import cache, cache_by_args
 from flaskshop.corelib.db import PropsItem
 
 MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
 MC_KEY_PRODUCT_IMAGES = "product:{}:images"
 MC_KEY_PRODUCT_ATTR_VALUES = "product:attribute:values:{}"
 MC_KEY_COLLECTION_PRODUCTS = "product:collection:{}:products:{}"
+MC_KEY_CATEGORY_PRODUCTS = "product:category:{}:products:{}"
 
 
 class Product(Model):
@@ -150,12 +151,14 @@ class Category(Model):
         return attr_filter
 
     @classmethod
+    @cache_by_args(MC_KEY_CATEGORY_PRODUCTS.format("{category_id}", "{page}"))
     def get_product_by_category(cls, category_id, page):
         category = Category.get_by_id(category_id)
         all_category_ids = [child.id for child in category.children] + [category.id]
         query = Product.query.filter(Product.category_id.in_(all_category_ids))
         ctx, query = get_product_list_context(query, category)
         pagination = query.paginate(page, per_page=16)
+        del pagination.query
         ctx.update(object=category, pagination=pagination, products=pagination.items)
         return ctx
 
@@ -312,7 +315,7 @@ class ProductAttribute(Model):
         return self.title
 
     @property
-    @cache(MC_KEY_PRODUCT_ATTR_VALUES.format('{self.id}'))
+    @cache(MC_KEY_PRODUCT_ATTR_VALUES.format("{self.id}"))
     def values(self):
         return AttributeChoiceValue.query.filter(
             AttributeChoiceValue.attribute_id == self.id
@@ -450,7 +453,7 @@ class ProductCollection(Model):
     collection_id = Column(db.Integer())
 
     @classmethod
-    @cache(MC_KEY_COLLECTION_PRODUCTS.format("{collection_id}", "{page}"))
+    @cache_by_args(MC_KEY_COLLECTION_PRODUCTS.format("{collection_id}", "{page}"))
     def get_product_by_collection(cls, collection_id, page):
         collection = Collection.get_by_id(collection_id)
         at_ids = (
@@ -471,7 +474,6 @@ def get_product_list_context(query, obj):
     obj: collection or category, to get it`s attr_filter.
     """
     args_dict = {}
-
     price_from = request.args.get("price_from", None, type=int)
     price_to = request.args.get("price_to", None, type=int)
     if price_from:
