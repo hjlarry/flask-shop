@@ -7,6 +7,8 @@ from flaskshop.corelib.db import PropsItem
 
 MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
 MC_KEY_PRODUCT_IMAGES = "product:{}:images"
+MC_KEY_PRODUCT_ATTR_VALUES = "product:attribute:values:{}"
+MC_KEY_COLLECTION_PRODUCTS = "product:collection:{}:products:{}"
 
 
 class Product(Model):
@@ -310,6 +312,7 @@ class ProductAttribute(Model):
         return self.title
 
     @property
+    @cache(MC_KEY_PRODUCT_ATTR_VALUES.format('{self.id}'))
     def values(self):
         return AttributeChoiceValue.query.filter(
             AttributeChoiceValue.attribute_id == self.id
@@ -447,6 +450,7 @@ class ProductCollection(Model):
     collection_id = Column(db.Integer())
 
     @classmethod
+    @cache(MC_KEY_COLLECTION_PRODUCTS.format("{collection_id}", "{page}"))
     def get_product_by_collection(cls, collection_id, page):
         collection = Collection.get_by_id(collection_id)
         at_ids = (
@@ -457,6 +461,7 @@ class ProductCollection(Model):
         query = Product.query.filter(Product.id.in_(id for id, in at_ids))
         ctx, query = get_product_list_context(query, collection)
         pagination = query.paginate(page, per_page=16)
+        del pagination.query
         ctx.update(object=collection, pagination=pagination, products=pagination.items)
         return ctx
 

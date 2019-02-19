@@ -41,4 +41,5 @@ def show_category(id):
 def show_collection(id):
     page = request.args.get("page", 1, type=int)
     ctx = ProductCollection.get_product_by_collection(id, page)
+    # ctx = ProductCollection.get_ctx(id, page)
     return render_template("category/index.html", **ctx)

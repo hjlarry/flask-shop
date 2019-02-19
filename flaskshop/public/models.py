@@ -81,7 +81,7 @@ class Page(Model):
     __tablename__ = "page_page"
     title = Column(db.String(255), nullable=False)
     slug = Column(db.String(255))
-    content = PropsItem("content")
+    content = PropsItem("content", "")
     is_visible = Column(db.Boolean(), default=True)
 
     def get_absolute_url(self):
