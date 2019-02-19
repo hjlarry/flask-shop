@@ -3,6 +3,7 @@ from sqlalchemy.ext.mutable import MutableDict
 
 from flaskshop.database import Column, Model, db
 from flaskshop.corelib.mc import cache
+from flaskshop.corelib.db import PropsItem
 
 MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
 MC_KEY_PRODUCT_IMAGES = "product:{}:images"
@@ -12,7 +13,7 @@ class Product(Model):
     __tablename__ = "product_product"
     __searchable__ = ["title", "description"]
     title = Column(db.String(255), nullable=False)
-    description = Column(db.Text())
+    description = PropsItem("description")
     on_sale = Column(db.Boolean(), default=True)
     rating = Column(db.DECIMAL(8, 2), default=5.0)
     sold_count = Column(db.Integer(), default=0)

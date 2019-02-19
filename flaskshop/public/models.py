@@ -2,6 +2,7 @@ from flask import url_for
 
 from flaskshop.database import Column, Model, db
 from flaskshop.corelib.mc import cache, rdb
+from flaskshop.corelib.db import PropsItem
 
 MC_KEY_MENU_ITEMS = "public:site:{}:{}"
 MC_KEY_MENU_ITEM_CHILDREN = "public:menuitem:{}:children"
@@ -80,7 +81,7 @@ class Page(Model):
     __tablename__ = "page_page"
     title = Column(db.String(255), nullable=False)
     slug = Column(db.String(255))
-    content = Column(db.Text())
+    content = PropsItem("content")
     is_visible = Column(db.Boolean(), default=True)
 
     def get_absolute_url(self):

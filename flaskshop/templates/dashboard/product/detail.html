@@ -10,8 +10,8 @@
                         <h3 class="card-title">{{product.title}}</h5>
                             <div class="card-tools" style="display: flex;">
                                 <div class="input-group input-group-sm">
-                                    <a href="{{url_for('dashboard.product_edit', id=product.id)}}" class="btn btn-primary btn-sm"
-                                        style="margin-right: 5px;">Edit</a>
+                                    <a href="{{url_for('dashboard.product_edit', id=product.id)}}"
+                                        class="btn btn-primary btn-sm" style="margin-right: 5px;">Edit</a>
                                     <a href="" class="btn btn-danger btn-sm">Delete</a>
                                 </div>
                             </div>
@@ -29,12 +29,12 @@
                                         < </span> <span class="b-btn right"> >
                                     </span>
                                 </div>
-                                <!-- <img src="{{product.get_first_img()}}" alt="" width="400px"> -->
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-group mb-3">
                                     <li class="list-group-item">
-                                        <b>On Sale</b> <a class="float-right">{{macros.render_boolean(product.on_sale)}}</a>
+                                        <b>On Sale</b> <a
+                                            class="float-right">{{macros.render_boolean(product.on_sale)}}</a>
                                     </li>
                                     <li class="list-group-item">
                                         <b>Price</b> <a class="float-right">{{product.price}}</a>
@@ -78,7 +78,8 @@
                         <h5 class="m-0">Variants</h5>
                         <div class="card-tools" style="display: flex;">
                             <div class="input-group input-group-sm">
-                                <a href="{{url_for('dashboard.variant_manage', product_id=product.id)}}" class="btn btn-success btn-sm">Create</a>
+                                <a href="{{url_for('dashboard.variant_manage', product_id=product.id)}}"
+                                    class="btn btn-success btn-sm">Create</a>
                             </div>
                         </div>
                     </div>
@@ -100,7 +101,8 @@
                                 <td>{{item.quantity}}</td>
                                 <td>{{item.price_override}}</td>
                                 <td>
-                                    <a href="{{url_for('dashboard.variant_manage', id=item.id)}}" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="{{url_for('dashboard.variant_manage', id=item.id)}}"
+                                        class="btn btn-primary btn-sm">Edit</a>
                                     <a href="#" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>

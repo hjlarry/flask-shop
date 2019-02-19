@@ -94,7 +94,10 @@ class CRUDMixin:
 
     @classmethod
     def __flush_after_update_event__(cls, target):
-        print(9999)
+        rdb.delete(MC_KEY_GET_BY_ID.format(cls.__name__, target.id))
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
         rdb.delete(MC_KEY_GET_BY_ID.format(cls.__name__, target.id))
 
 
