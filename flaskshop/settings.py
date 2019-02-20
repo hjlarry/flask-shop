@@ -8,27 +8,34 @@ except ImportError:
     WECHAT_APP_ID, WECHAT_APP_SECRET = "", ""
 
 WECHAT_LOGIN_URL = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code"
-REDIS_URL = "redis://localhost:6379"
 
 
 class Config(object):
     """Base configuration."""
 
     SECRET_KEY = "thisisashop"
+
     APP_DIR = Path(__file__).parent  # This directory
     PROJECT_ROOT = APP_DIR.parent
     STATIC_DIR = APP_DIR / "static"
     UPLOAD_FOLDER = "upload"
     UPLOAD_DIR = STATIC_DIR / UPLOAD_FOLDER
+    DASHBOARD_TEMPLATE_FOLDER = APP_DIR / "templates" / "dashboard"
+    TEMPLATE_THEME = "adminlte"  # can choose stisla or adminlte
+    DASHBOARD_TEMPLATE_THEME = DASHBOARD_TEMPLATE_FOLDER / TEMPLATE_THEME
+
     BCRYPT_LOG_ROUNDS = 13
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEBUG_TB_PROFILER_ENABLED = True
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATABASE_QUERY_TIMEOUT = 0.1  # log the slow database query, and unit is second
     SQLALCHEMY_RECORD_QUERIES = True
-    WHOOSH_BASE = APP_DIR / "whoosh"
+
     WEBPACK_MANIFEST_PATH = "webpack/manifest.json"
+
+    REDIS_URL = "redis://localhost:6379"
 
 
 class ProdConfig(Config):

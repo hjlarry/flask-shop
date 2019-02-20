@@ -5,9 +5,9 @@ from datetime import datetime
 from redis import Redis
 
 from flaskshop.corelib.local_cache import lc
-from flaskshop.settings import REDIS_URL
+from flaskshop.settings import Config
 
-rdb = Redis.from_url(REDIS_URL)
+rdb = Redis.from_url(Config.REDIS_URL)
 
 
 class PropsMixin:
