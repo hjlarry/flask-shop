@@ -9,6 +9,12 @@
             {{ macros.format_address(order.shipping_address) }}
         </div>
         {% endif %}
+        {% if not order.is_fully_paid %}
+        <div class="col-6">
+            <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary float-right">
+                Pay for order
+            </a></div>
+        {% endif %}
     </div>
 </div>
 <div class="table__header order-details__table-header d-none d-sm-block">

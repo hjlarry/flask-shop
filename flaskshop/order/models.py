@@ -3,12 +3,8 @@ from flask_login import current_user
 from uuid import uuid4
 
 from flaskshop.database import Column, Model, db
-from flaskshop.constant import (
-    ORDER_STATUS_UNFULFILLED,
-    ORDER_STATUS_PARTIALLY_FULFILLED,
-)
+from flaskshop.constant import ORDER_STATUS_UNFULFILLED
 from flaskshop.account.models import User, UserAddress
-
 from flaskshop.product.models import ProductVariant
 
 
@@ -79,8 +75,7 @@ class Order(Model):
 
     @property
     def is_open(self):
-        statuses = {ORDER_STATUS_UNFULFILLED, ORDER_STATUS_PARTIALLY_FULFILLED}
-        return self.status in statuses
+        return self.status == ORDER_STATUS_UNFULFILLED
 
     @property
     def is_shipping_required(self):

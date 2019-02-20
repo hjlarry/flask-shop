@@ -64,8 +64,6 @@ class Cart(Model):
         else:
             CartLine.create(variant_id=variant_id, quantity=quantity, cart_id=cart.id)
 
-        rdb.delete(MC_KEY_CART_BY_USER.format(current_user.id))
-
     @property
     def is_shipping_required(self):
         return any(line.is_shipping_required for line in self)
@@ -83,6 +81,20 @@ class Cart(Model):
         self.quantity = sum(line.quantity for line in self)
         self.save()
         return self.quantity
+
+    @classmethod
+    def __flush_insert_event__(cls, target):
+        rdb.delete(MC_KEY_CART_BY_USER.format(current_user.id))
+
+    @classmethod
+    def __flush_after_update_event__(cls, target):
+        super().__flush_after_update_event__(target)
+        rdb.delete(MC_KEY_CART_BY_USER.format(current_user.id))
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
+        super().__flush_delete_event__(target)
+        rdb.delete(MC_KEY_CART_BY_USER.format(current_user.id))
 
 
 class CartLine(Model):

@@ -34,11 +34,6 @@ Order {{ order }}
         <h2 class="order-details__header">
             Order {{ order }}: {{ order.status }}
         </h2>
-        {% if not order.is_fully_paid %}
-        <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary">
-            Pay for order
-        </a>
-        {% endif %}
         {% include "orders/_ordered_items_table.html" %}
         <div class="order-notes">
             {% if order.notes %}
