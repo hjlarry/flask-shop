@@ -45,22 +45,6 @@ def update_cartline(id):
     return jsonify(response)
 
 
-# @blueprint.route('/coupon/<code>', methods=['POST'])
-# def verify(code):
-#     """check a coupon code"""
-#     coupon = CouponCode.query.filter_by(code=code).first()
-#     if not coupon:
-#         return Response('It`s not a correct code!', status=422)
-#     try:
-#         coupon.check_available()
-#     except Exception as e:
-#         return Response(e.args, status=422)
-#     res = {
-#         'description': coupon.description,
-#     }
-#     return Response(json.dumps(res), status=200)
-
-
 @blueprint.route("/shipping_address", methods=["GET", "POST"])
 def checkout_shipping_address():
     form = AddressForm(request.form)

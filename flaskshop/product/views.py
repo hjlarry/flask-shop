@@ -3,9 +3,10 @@
 from flask import Blueprint, render_template, request
 from flask_login import login_required
 
+from flaskshop.checkout.models import Cart
+
 from .models import Product, Category, ProductCollection
 from .forms import AddCartForm
-from .utils import add_to_currentuser_cart
 
 blueprint = Blueprint("product", __name__, url_prefix="/products")
 
@@ -26,7 +27,7 @@ def product_add_to_cart(id):
     form = AddCartForm(request.form, product=product)
 
     if form.validate_on_submit():
-        add_to_currentuser_cart(form.quantity.data, form.variant.data)
+        Cart.add_to_currentuser_cart(form.quantity.data, form.variant.data)
     return show(id, form=form)
 
 
@@ -41,5 +42,4 @@ def show_category(id):
 def show_collection(id):
     page = request.args.get("page", 1, type=int)
     ctx = ProductCollection.get_product_by_collection(id, page)
-    # ctx = ProductCollection.get_ctx(id, page)
     return render_template("category/index.html", **ctx)

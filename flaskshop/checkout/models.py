@@ -9,6 +9,7 @@ from flaskshop.database import Column, Model, db
 from flaskshop.account.models import UserAddress
 from flaskshop.product.models import ProductVariant
 from flaskshop.corelib.mc import cache
+from flaskshop.corelib.mc import rdb
 
 MC_KEY_CART_BY_USER = "checkout:cart:user_id:{}"
 
@@ -47,6 +48,23 @@ class Cart(Model):
         else:
             cart = None
         return cart
+
+    @classmethod
+    def add_to_currentuser_cart(cls, quantity, variant_id):
+        cart = cls.get_current_user_cart()
+        if cart:
+            cart.quantity += quantity
+            cart.save()
+        else:
+            cart = cls.create(user_id=current_user.id, quantity=quantity)
+        line = CartLine.query.filter_by(cart_id=cart.id, variant_id=variant_id).first()
+        if line:
+            quantity += line.quantity
+            line.update(quantity=quantity)
+        else:
+            CartLine.create(variant_id=variant_id, quantity=quantity, cart_id=cart.id)
+
+        rdb.delete(MC_KEY_CART_BY_USER.format(current_user.id))
 
     @property
     def is_shipping_required(self):

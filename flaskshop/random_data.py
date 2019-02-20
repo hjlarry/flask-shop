@@ -19,7 +19,6 @@ from flaskshop.product.models import (
     ProductCollection
 )
 from flaskshop.public.models import Site, MenuItem, Page
-from flaskshop.product.utils import get_name_from_attributes
 from flaskshop.account.models import User, UserAddress
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.order.models import Order, OrderLine, OrderPayment
@@ -246,6 +245,13 @@ def create_product(**kwargs):
     defaults.update(kwargs)
     return Product.create(**defaults)
 
+def get_name_from_attributes(variant):
+    """Generates ProductVariant's name based on its attributes."""
+    values = [
+        attributechoice_value.title
+        for attributechoice_value in variant.attribute_map.values()
+    ]
+    return " / ".join(values)
 
 def create_variant(product, **kwargs):
     defaults = {"product_id": product.id, "quantity": fake.random_int(1, 50)}
