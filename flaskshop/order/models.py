@@ -1,6 +1,7 @@
 from flask import url_for
 from flask_login import current_user
 from uuid import uuid4
+from sqlalchemy.dialects.mysql import TINYINT
 
 from flaskshop.database import Column, Model, db
 from flaskshop.constant import ORDER_STATUS_UNFULFILLED
@@ -21,6 +22,8 @@ class Order(Model):
     status = Column(db.String(100))
     shipping_method_name = Column(db.String(100))
     shipping_method_id = Column(db.Integer())
+    refund_status = Column(TINYINT())
+    ship_status = Column(TINYINT())
 
     def __str__(self):
         return f"#{self.id}"
@@ -133,7 +136,7 @@ class OrderNote(Model):
 class OrderPayment(Model):
     __tablename__ = "order_payment"
     order_id = Column(db.Integer())
-    status = Column(db.String(100))
+    status = Column(TINYINT)
     total = Column(db.DECIMAL(10, 2))
     delivery = Column(db.DECIMAL(10, 2))
     description = Column(db.Text())

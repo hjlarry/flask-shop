@@ -16,7 +16,7 @@ from flaskshop.product.models import (
     ProductTypeAttributes,
     ProductTypeVariantAttributes,
     Collection,
-    ProductCollection
+    ProductCollection,
 )
 from flaskshop.public.models import Site, MenuItem, Page
 from flaskshop.account.models import User, UserAddress
@@ -26,13 +26,12 @@ from flaskshop.discount.models import Voucher, Sale, SaleProduct
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.settings import Config
 from flaskshop.constant import (
-    PAYMENT_STATUS_WAITING,
-    PAYMENT_STATUS_PREAUTH,
-    PAYMENT_STATUS_CONFIRMED,
-    TYPE_PERCENT,
-    TYPE_FIXED,
+    PAYMENT_STATUS_KINDS,
+    DISCOUNT_VALUE_PERCENT,
+    DISCOUNT_VALUE_FIXED,
     VOUCHER_TYPE_SHIPPING,
     VOUCHER_TYPE_VALUE,
+    ORDER_STATUS_KINDS,
 )
 
 fake = Factory.create()
@@ -121,6 +120,26 @@ DEFAULT_SCHEMA = {
 COLLECTIONS_SCHEMA = [
     {"name": "Summer collection", "image_name": "summer.jpg"},
     {"name": "Winter sale", "image_name": "sale.jpg"},
+]
+
+DASHBOARD_MENUS = [
+    {"title": "User", "endpoint": "dashboard.users", "icon_cls": "fa-user"},
+    {"title": "Product", "icon_cls": "fa-bandcamp"},
+    {
+        "title": "Order",
+        "endpoint": "dashboard.orders",
+        "icon_cls": "fa-cart-arrow-down",
+    },
+    {"title": "Promotion", "icon_cls": "fa-gratipay"},
+    {"title": "Site", "icon_cls": "fa-cog"},
+    {"title": "ProductList", "endpoint": "dashboard.products", "parent_id": 2},
+    {"title": "Type", "endpoint": "dashboard.product_types", "parent_id": 2},
+    {"title": "Category", "endpoint": "dashboard.categories", "parent_id": 2},
+    {"title": "Collection", "endpoint": "dashboard.collections", "parent_id": 2},
+    {"title": "Attribute", "endpoint": "dashboard.attributes", "parent_id": 2},
+    {"title": "Page", "endpoint": "dashboard.site_pages", "parent_id": 5},
+    {"title": "SiteMenu", "endpoint": "dashboard.site_menus", "parent_id": 5},
+    {"title": "DashboardMenu", "endpoint": "dashboard.dashboard_menus", "parent_id": 5},
 ]
 
 
@@ -245,6 +264,7 @@ def create_product(**kwargs):
     defaults.update(kwargs)
     return Product.create(**defaults)
 
+
 def get_name_from_attributes(variant):
     """Generates ProductVariant's name based on its attributes."""
     values = [
@@ -252,6 +272,7 @@ def get_name_from_attributes(variant):
         for attributechoice_value in variant.attribute_map.values()
     ]
     return " / ".join(values)
+
 
 def create_variant(product, **kwargs):
     defaults = {"product_id": product.id, "quantity": fake.random_int(1, 50)}
@@ -295,7 +316,12 @@ def create_page():
         <a href="https://github.com/mirumee/saleor/">Get Saleor</a> today!
     </p>
     """
-    page_data = {"content": content, "title": "About", "is_visible": True, "slug":"about"}
+    page_data = {
+        "content": content,
+        "title": "About",
+        "is_visible": True,
+        "slug": "about",
+    }
     page, _ = Page.get_or_create(**page_data)
     yield f"Page {page.title} created"
 
@@ -463,9 +489,7 @@ def create_admin():
 
 
 def create_payment(order):
-    status = random.choice(
-        [PAYMENT_STATUS_WAITING, PAYMENT_STATUS_PREAUTH, PAYMENT_STATUS_CONFIRMED]
-    )
+    status = random.choice(PAYMENT_STATUS_KINDS)
     payment = OrderPayment.create(
         order_id=order.id,
         status=status,
@@ -501,7 +525,12 @@ def create_order_lines(order, discounts, taxes, how_many=10):
 def create_fake_order(discounts, taxes):
     user = User.query.filter_by(is_admin=False).order_by(func.random()).first()
     address = create_fake_address()
-    order_data = {"user_id": user.id, "shipping_address_id": address.id}
+    status = random.choice(ORDER_STATUS_KINDS)
+    order_data = {
+        "user_id": user.id,
+        "shipping_address_id": address.id,
+        "status": status,
+    }
     shipping_method = ShippingMethod.query.order_by(func.random()).first()
     order_data.update(
         {
@@ -523,8 +552,8 @@ def create_fake_order(discounts, taxes):
 def create_fake_sale():
     sale = Sale.create(
         title=f"Happy {fake.word()} day!",
-        type=TYPE_PERCENT,
-        value=random.choice([10, 20, 30, 40, 50]),
+        discount_value_type=DISCOUNT_VALUE_PERCENT,
+        discount_value=random.choice([10, 20, 30, 40, 50]),
     )
     for product in Product.query.order_by(func.random()).all()[:4]:
         SaleProduct.create(sale_id=sale.id, product_id=product.id)
@@ -550,7 +579,7 @@ def create_vouchers():
     defaults = {
         "type": VOUCHER_TYPE_SHIPPING,
         "title": "Free shipping",
-        "discount_value_type": TYPE_PERCENT,
+        "discount_value_type": DISCOUNT_VALUE_PERCENT,
         "discount_value": 100,
     }
     voucher, created = Voucher.get_or_create(code="FREESHIPPING", **defaults)
@@ -562,7 +591,7 @@ def create_vouchers():
     defaults = {
         "type": VOUCHER_TYPE_VALUE,
         "title": "Big order discount",
-        "discount_value_type": TYPE_FIXED,
+        "discount_value_type": DISCOUNT_VALUE_FIXED,
         "discount_value": 25,
         "limit": 200,
     }
@@ -574,27 +603,7 @@ def create_vouchers():
         yield "Value voucher already exists"
 
 
-dashboard_menus = [
-    {"title": "User", "endpoint": "dashboard.users", "icon_cls": "fa-user"},
-    {"title": "Product", "icon_cls": "fa-bandcamp"},
-    {
-        "title": "Order",
-        "endpoint": "dashboard.orders",
-        "icon_cls": "fa-cart-arrow-down",
-    },
-    {"title": "Promotion", "icon_cls": "fa-gratipay"},
-    {"title": "Site", "icon_cls": "fa-cog"},
-    {"title": "ProductList", "endpoint": "dashboard.products", "parent_id":2},
-    {"title": "Type", "endpoint": "dashboard.product_types", "parent_id":2},
-    {"title": "Category", "endpoint": "dashboard.categories", "parent_id":2},
-    {"title": "Collection", "endpoint": "dashboard.collections", "parent_id":2},
-    {"title": "Attribute", "endpoint": "dashboard.attributes", "parent_id":2},
-    {"title": "Page", "endpoint": "dashboard.site_pages", "parent_id":5},
-    {"title": "SiteMenu", "endpoint": "dashboard.site_menus", "parent_id":5},
-    {"title": "DashboardMenu", "endpoint": "dashboard.dashboard_menus", "parent_id":5},
-]
-
 def create_dashboard_menus():
-    for item in dashboard_menus:
+    for item in DASHBOARD_MENUS:
         DashboardMenu.create(**item)
     yield "create dashboard menus"
