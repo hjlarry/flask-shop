@@ -31,6 +31,7 @@ from .product import (
 from .order import orders, order_detail
 from flaskshop.settings import Config
 
+# template_folder = Config.APP_DIR / "templates" / "dashboard" / "stisla"
 template_folder = Config.APP_DIR / "templates" / "dashboard" / "adminlte"
 blueprint = Blueprint(
     "dashboard", __name__, url_prefix="/dashboard", template_folder=template_folder

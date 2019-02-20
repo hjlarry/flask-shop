@@ -2,7 +2,7 @@
 {% import 'dashboard/adminlte/_vendor.html' as vendor%}
 {% extends 'dashboard/adminlte/layout.html' %}
 {% block head_tail %}
-<link href="{{ url_for('static', filename='admin/plugins/select2/select2.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='dashboard/plugins/select2/select2.min.css') }}" rel="stylesheet">
 {{super()}}
 {% endblock %}
 {% block body %}
@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='admin/plugins/select2/select2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='dashboard/plugins/select2/select2.min.js') }}"></script>
 <script>
     $(function () {
         //Initialize Select2 Elements
