@@ -35,7 +35,7 @@ def attributes():
         "props": props,
         "pagination": pagination,
     }
-    return render_template("dashboard/list.html", **context)
+    return render_template("list.html", **context)
 
 
 def attribute_manage(id=None):
@@ -54,7 +54,7 @@ def attribute_manage(id=None):
         return redirect(url_for("dashboard.attributes"))
     product_types = ProductType.query.all()
     return render_template(
-        "dashboard/product/attribute.html", form=form, product_types=product_types
+        "product/attribute.html", form=form, product_types=product_types
     )
 
 
@@ -69,7 +69,7 @@ def collections():
         "props": props,
         "pagination": pagination,
     }
-    return render_template("dashboard/list.html", **context)
+    return render_template("list.html", **context)
 
 
 def collection_manage(id=None):
@@ -94,7 +94,7 @@ def collection_manage(id=None):
         return redirect(url_for("dashboard.collections"))
     products = Product.query.all()
     return render_template(
-        "dashboard/product/collection.html", form=form, products=products
+        "product/collection.html", form=form, products=products
     )
 
 
@@ -114,7 +114,7 @@ def categories():
         "props": props,
         "pagination": pagination,
     }
-    return render_template("dashboard/list.html", **context)
+    return render_template("list.html", **context)
 
 
 def category_manage(id=None):
@@ -139,7 +139,7 @@ def category_manage(id=None):
         return redirect(url_for("dashboard.categories"))
     parents = Category.first_level_items()
     return render_template(
-        "dashboard/product/category.html", form=form, parents=parents
+        "product/category.html", form=form, parents=parents
     )
 
 
@@ -160,7 +160,7 @@ def product_types():
         "props": props,
         "pagination": pagination,
     }
-    return render_template("dashboard/list.html", **context)
+    return render_template("list.html", **context)
 
 
 def product_type_manage(id=None):
@@ -181,7 +181,7 @@ def product_type_manage(id=None):
         return redirect(url_for("dashboard.product_types"))
     attributes = ProductAttribute.query.all()
     return render_template(
-        "dashboard/product/product_type.html", form=form, attributes=attributes
+        "product/product_type.html", form=form, attributes=attributes
     )
 
 
@@ -202,12 +202,12 @@ def products():
         "props": props,
         "pagination": pagination,
     }
-    return render_template("dashboard/product/list.html", **context)
+    return render_template("product/list.html", **context)
 
 
 def product_detail(id):
     product = Product.get_by_id(id)
-    return render_template("dashboard/product/detail.html", product=product)
+    return render_template("product/detail.html", product=product)
 
 
 def _save_product(product, form):
@@ -228,7 +228,7 @@ def product_edit(id):
         return redirect(url_for("dashboard.product_detail", id=product.id))
     categories = Category.query.all()
     context = {"form": form, "categories": categories, "product": product}
-    return render_template("dashboard/product/product_edit.html", **context)
+    return render_template("product/product_edit.html", **context)
 
 
 def product_create_step1():
@@ -242,7 +242,7 @@ def product_create_step1():
         )
     product_types = ProductType.query.all()
     return render_template(
-        "dashboard/product/product_create_step1.html",
+        "product/product_create_step1.html",
         form=form,
         product_types=product_types,
     )
@@ -259,7 +259,7 @@ def product_create_step2():
         product.generate_variants()
         return redirect(url_for("dashboard.product_detail", id=product.id))
     return render_template(
-        "dashboard/product/product_create_step2.html",
+        "product/product_create_step2.html",
         form=form,
         product_type=product_type,
         categories=categories,
@@ -281,5 +281,5 @@ def variant_manage(id=None):
             variant.product_id = product_id
         variant.save()
         return redirect(url_for("dashboard.product_detail", id=variant.product_id))
-    return render_template("dashboard/product/variant.html", form=form)
+    return render_template("product/variant.html", form=form)
 

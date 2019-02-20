@@ -1,6 +1,6 @@
-{% import 'dashboard/_macros.html' as macros%}
-{% import 'dashboard/_vendor.html' as vendor%}
-{% extends 'dashboard/layout.html' %}
+{% import 'dashboard/adminlte/_macros.html' as macros%}
+{% import 'dashboard/adminlte/_vendor.html' as vendor%}
+{% extends 'dashboard/adminlte/layout.html' %}
 {% block head_tail %}
 <link href="{{ url_for('static', filename='admin/plugins/select2/select2.min.css') }}" rel="stylesheet">
 {{super()}}
@@ -14,7 +14,8 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %} Site Menu</h3>
+                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %} Site Menu
+                        </h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->

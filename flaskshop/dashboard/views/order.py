@@ -20,9 +20,9 @@ def orders():
         "props": props,
         "pagination": pagination,
     }
-    return render_template("dashboard/order/list.html", **context)
+    return render_template("order/list.html", **context)
 
 
 def order_detail(id):
     order = Order.get_by_id(id)
-    return render_template("dashboard/order/detail.html", order=order)
+    return render_template("order/detail.html", order=order)

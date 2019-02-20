@@ -15,7 +15,7 @@ def users():
         "is_admin": "Is Admin",
     }
     return render_template(
-        "dashboard/user/list.html", props=props, items=users, title="User List"
+        "user/list.html", props=props, items=users, title="User List"
     )
 
 
@@ -24,7 +24,7 @@ def user(user_id):
     addresses = user.addresses
     orders = Order.get_user_orders(user_id)
     context = {"user": user, "addresses": addresses, "orders": orders}
-    return render_template("dashboard/user/detail.html", **context)
+    return render_template("user/detail.html", **context)
 
 
 def user_edit(user_id):
@@ -36,7 +36,7 @@ def user_edit(user_id):
         form.populate_obj(user)
         user.save()
         return redirect(url_for("dashboard.user", user_id=user_id))
-    return render_template("dashboard/user/edit.html", form=form)
+    return render_template("user/edit.html", form=form)
 
 
 def address_edit(id):
@@ -46,4 +46,4 @@ def address_edit(id):
         form.populate_obj(addr)
         addr.save()
         return redirect(url_for("dashboard.user", user_id=addr.user_id))
-    return render_template("dashboard/user/edit_addr.html", form=form)
+    return render_template("user/edit_addr.html", form=form)

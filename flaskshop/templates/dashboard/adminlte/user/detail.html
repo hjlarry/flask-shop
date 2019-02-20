@@ -1,5 +1,5 @@
-{% import 'dashboard/_macros.html' as macros %}
-{% extends 'dashboard/layout.html' %}
+{% import 'dashboard/adminlte/_macros.html' as macros %}
+{% extends 'dashboard/adminlte/layout.html' %}
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -10,7 +10,8 @@
                 <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle" src="{{ user.avatar }}" alt="User profile picture">
+                            <img class="profile-user-img img-fluid img-circle" src="{{ user.avatar }}"
+                                alt="User profile picture">
                         </div>
 
                         <h3 class="profile-username text-center">{{user.username}}</h3>
@@ -29,7 +30,8 @@
                             </li>
                         </ul>
 
-                        <a href="{{url_for('dashboard.user_edit', user_id=user.id)}}" class="btn btn-primary btn-block"><b>Edit</b></a>
+                        <a href="{{url_for('dashboard.user_edit', user_id=user.id)}}"
+                            class="btn btn-primary btn-block"><b>Edit</b></a>
                         <a href="#" class="btn btn-danger btn-block"><b>Delete</b></a>
                     </div>
                     <!-- /.card-body -->
@@ -41,7 +43,8 @@
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#address" data-toggle="tab">Addresses</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="#address"
+                                    data-toggle="tab">Addresses</a></li>
                             <li class="nav-item"><a class="nav-link" href="#order" data-toggle="tab">Orders</a></li>
                         </ul>
                     </div><!-- /.card-header -->
@@ -61,7 +64,8 @@
                                         <td>{{address.id}}</td>
                                         <td>{{address.contact_name}}</td>
                                         <td>{{address.contact_phone}}</td>
-                                        <td style="text-align:center"><a href="{{url_for('dashboard.address_edit', id=address.id)}}"
+                                        <td style="text-align:center"><a
+                                                href="{{url_for('dashboard.address_edit', id=address.id)}}"
                                                 class="btn btn-primary btn-sm">Edit</a></td>
                                     </tr>
                                     {% endfor %}
@@ -87,7 +91,8 @@
                                         <td>{{order.status}}</td>
                                         <td>{{order.total_net}}</td>
                                         <td>{{order.created_at}}</td>
-                                        <td style="text-align:center"><a href="" class="btn btn-info btn-sm">View</a></td>
+                                        <td style="text-align:center"><a href="" class="btn btn-info btn-sm">View</a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
 
