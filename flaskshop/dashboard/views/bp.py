@@ -29,8 +29,12 @@ from .product import (
     variant_manage,
 )
 from .order import orders, order_detail
+from flaskshop.settings import Config
 
-blueprint = Blueprint("dashboard", __name__, url_prefix="/dashboard")
+template_folder = Config.APP_DIR / "templates" / "dashboard" / "adminlte"
+blueprint = Blueprint(
+    "dashboard", __name__, url_prefix="/dashboard", template_folder=template_folder
+)
 
 
 @blueprint.context_processor
@@ -59,7 +63,7 @@ def before_request():
 
 @blueprint.route("/")
 def index():
-    return render_template("dashboard/index.html")
+    return render_template("index.html")
 
 
 blueprint.add_url_rule("/site_menus", view_func=site_menus)
