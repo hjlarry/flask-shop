@@ -21,14 +21,12 @@ blueprint = Blueprint("order", __name__, url_prefix="/orders")
 @blueprint.route("/")
 @login_required
 def index():
-    """List orders."""
     return redirect(url_for("account.index"))
 
 
 @blueprint.route("/<string:token>")
 @login_required
 def show(token):
-    """Show an order."""
     order = Order.query.filter_by(token=token).first()
     if not order.is_self_order:
         return abort(403)
@@ -63,9 +61,7 @@ def ali_notify():
         order_payment = OrderPayment.query.filter_by(
             payment_no=data["out_trade_no"]
         ).first()
-        order_payment.update(
-            paid_at=data["gmt_payment"], status=PaymentStatusKinds.confirmed.value
-        )
+        order_payment.pay_success(paid_at=data["gmt_payment"])
     return "", 200
 
 

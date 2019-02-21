@@ -7,7 +7,7 @@ from flaskshop.database import Column, Model, db
 from flaskshop.constant import OrderStatusKinds
 from flaskshop.account.models import User, UserAddress
 from flaskshop.product.models import ProductVariant
-from flaskshop.constant import OrderStatusKinds
+from flaskshop.constant import OrderStatusKinds, PaymentStatusKinds
 from flaskshop.checkout.models import ShippingMethod
 
 
@@ -55,6 +55,7 @@ class Order(Model):
 
         # Step2, create Order obj
         try:
+            # TODO: if order not shipping required
             shipping_method = ShippingMethod.get_by_id(shipping_method_id)
             shipping_address = UserAddress.get_by_id(
                 cart.shipping_address_id
@@ -156,6 +157,33 @@ class Order(Model):
     def payment(self):
         return OrderPayment.query.filter_by(order_id=self.id).first()
 
+    def pay_success(self, payment):
+        self.status = OrderStatusKinds.fulfilled.value
+        db.session.add(self)
+        db.session.add(payment)
+
+        for line in self.lines:
+            variant = line.variant
+            variant.quantity_allocated -= line.quantity
+            variant.quantity -= line.quantity
+            db.session.add(variant)
+
+        db.session.commit()
+
+    def cancel_order(self):
+        self.status = OrderStatusKinds.canceled.value
+        db.session.add(self)
+
+        for line in self.lines:
+            variant = line.variant
+            variant.quantity_allocated -= line.quantity
+            db.session.add(variant)
+
+        db.session.commit()
+
+    def complete_order(self):
+        self.update(status=OrderStatusKinds.completed.value)
+
 
 class OrderLine(Model):
     __tablename__ = "order_orderline"
@@ -193,5 +221,12 @@ class OrderPayment(Model):
     customer_ip_address = Column(db.String(100))
     token = Column(db.String(100))
     payment_method = Column(db.String(255))
-    payment_no = Column(db.String(255), unique=True)
+    payment_no = Column(db.String(255), unique=True, index=True)
     paid_at = Column(db.DateTime())
+
+    def pay_success(self, paid_at):
+        self.paid_at = paid_at
+        self.status = PaymentStatusKinds.confirmed.value
+        order = Order.get_by_id(self.order_id)
+        order.pay_success(payment=self)
+
