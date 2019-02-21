@@ -9,8 +9,8 @@ MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
 MC_KEY_PRODUCT_IMAGES = "product:product:{}:images"
 MC_KEY_PRODUCT_VARIANT = "product:product:{}:variant"
 MC_KEY_ATTRIBUTE_VALUES = "product:attribute:values:{}"
-MC_KEY_COLLECTION_PRODUCTS = "product:collection:{}:products:{}"
-MC_KEY_CATEGORY_PRODUCTS = "product:category:{}:products:{}"
+MC_KEY_COLLECTION_PRODUCTS = "product:collection:{}:products:{}:"
+MC_KEY_CATEGORY_PRODUCTS = "product:category:{}:products:{}:"
 MC_KEY_CATEGORY_CHILDREN = "product:category:{}:children"
 
 

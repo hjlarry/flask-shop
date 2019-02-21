@@ -1,40 +1,17 @@
-SHIP_STATUS_KINDS = (
-    SHIP_STATUS_PENDING,
-    SHIP_STATUS_DELIVERED,
-    SHIP_STATUS_RECEIVED,
-) = range(3)
+import enum
 
-PAYMENT_STATUS_KINDS = (
-    PAYMENT_STATUS_WAITING,
-    PAYMENT_STATUS_PREAUTH,
-    PAYMENT_STATUS_CONFIRMED,
-    PAYMENT_STATUS_REJECTED,
-    PAYMENT_STATUS_REFUNDED,
-) = range(5)
+ShipStatusKinds = enum.Enum(value="ShipStatus", names="pending delivered received")
+PaymentStatusKinds = enum.Enum(
+    value="PaymentStatus", names="waiting preauth confirmed rejected refunded"
+)
+OrderStatusKinds = enum.Enum(
+    value="OrderStatus", names="draft unfulfilled fulfilled canceled completed refunded"
+)
+RefundStatusKinds = enum.Enum(
+    value="RefundStatus", names="pending applied processing successed failed"
+)
+DiscountValueTypeKinds = enum.Enum(value="DiscountValueType", names="fixed percent")
+VoucherTypeKinds = enum.Enum(
+    value="VoucherType", names="product category shipping value"
+)
 
-
-ORDER_STATUS_KINDS = (
-    ORDER_STATUS_DRAFT,
-    ORDER_STATUS_UNFULFILLED,
-    ORDER_STATUS_FULFILLED,
-    ORDER_STATUS_CANCELED,
-    ORDER_STATUS_COMPLETED,
-    ORDER_STATUS_REFUND,
-) = range(6)
-
-REFUND_STATUS_KINDS = (
-    REFUND_STATUS_PENDING,
-    REFUND_STATUS_APPLIED,
-    REFUND_STATUS_PROCESSING,
-    REFUND_STATUS_SUCCESS,
-    REFUND_STATUS_FAILED,
-) = range(5)
-
-DISCOUNT_VALUE_TYPE_KINDS = (DISCOUNT_VALUE_FIXED, DISCOUNT_VALUE_PERCENT) = range(2)
-
-VOUCHER_TYPE_KINDS = (
-    VOUCHER_TYPE_PRODUCT,
-    VOUCHER_TYPE_CATEGORY,
-    VOUCHER_TYPE_SHIPPING,
-    VOUCHER_TYPE_VALUE,
-) = range(4)

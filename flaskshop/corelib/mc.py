@@ -80,7 +80,7 @@ def cache_by_args(key_pattern, expire=None):
             key, args = gen_key(*a, **kw)
             if not key:
                 return f(*a, **kw)
-            key = key + ":" + request.query_string.decode()
+            key += request.query_string.decode()
             force = kw.pop("force", False)
             r = rdb.get(key) if not force else None
             if r is None:

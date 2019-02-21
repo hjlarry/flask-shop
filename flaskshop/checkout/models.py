@@ -4,7 +4,7 @@ import datetime
 from sqlalchemy.dialects.mysql import BOOLEAN
 from flask_login import current_user
 
-from flaskshop.constant import DISCOUNT_VALUE_FIXED
+from flaskshop.constant import DiscountValueTypeKinds
 from flaskshop.database import Column, Model, db
 from flaskshop.account.models import UserAddress
 from flaskshop.product.models import ProductVariant
@@ -150,7 +150,7 @@ class CouponCode(Model):
         full = ""
         if self.min_amount > 0:
             full = "满" + str(self.min_amount)
-        if self.type == DISCOUNT_VALUE_FIXED:
+        if self.type == DiscountValueTypeKinds.fixed.value:
             return full + "减" + str(self.value)
         return full + "优惠" + str(self.value).replace(".00", "") + "%"
 
@@ -179,6 +179,6 @@ class CouponCode(Model):
         return True
 
     def get_adjusted_price(self, order_total_amount):
-        if self.type == DISCOUNT_VALUE_FIXED:
+        if self.type == DiscountValueTypeKinds.fixed.value:
             return max(0.01, float(order_total_amount) - float(self.value))
         return float(order_total_amount) * (100 - float(self.value)) / 100

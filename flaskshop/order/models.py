@@ -4,7 +4,7 @@ from uuid import uuid4
 from sqlalchemy.dialects.mysql import TINYINT
 
 from flaskshop.database import Column, Model, db
-from flaskshop.constant import ORDER_STATUS_UNFULFILLED
+from flaskshop.constant import OrderStatusKinds
 from flaskshop.account.models import User, UserAddress
 from flaskshop.product.models import ProductVariant
 
@@ -54,6 +54,10 @@ class Order(Model):
     def identity(self):
         return self.token.split("-")[-1]
 
+    @property
+    def status_name(self):
+        return OrderStatusKinds(int(self.status)).name
+
     @classmethod
     def get_current_user_orders(cls):
         if current_user.is_authenticated:
@@ -78,7 +82,7 @@ class Order(Model):
 
     @property
     def is_open(self):
-        return self.status == ORDER_STATUS_UNFULFILLED
+        return self.status == OrderStatusKinds.unfulfilled.value
 
     @property
     def is_shipping_required(self):

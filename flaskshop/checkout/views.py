@@ -6,7 +6,7 @@ from .forms import ShippingMethodForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
 from flaskshop.order.models import Order, OrderLine, OrderNote
-from flaskshop.constant import ORDER_STATUS_UNFULFILLED
+from flaskshop.constant import OrderStatusKinds
 
 blueprint = Blueprint("checkout", __name__, url_prefix="/checkout")
 
@@ -78,7 +78,7 @@ def checkout_shipping_method():
             user_id=current_user.id,
             shipping_method_id=form.shipping_method.data,
             shipping_address_id=cart.address.id,
-            status=ORDER_STATUS_UNFULFILLED,
+            status=OrderStatusKinds.unfulfilled.value,
         )
         if form.note.data:
             OrderNote.create(

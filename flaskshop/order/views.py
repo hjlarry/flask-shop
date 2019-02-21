@@ -13,12 +13,7 @@ import time
 from .models import Order, OrderLine, OrderNote, OrderPayment
 from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
-from flaskshop.constant import (
-    REFUND_STATUS_APPLIED,
-    SHIP_STATUS_RECEIVED,
-    PAYMENT_STATUS_WAITING,
-    PAYMENT_STATUS_CONFIRMED,
-)
+from flaskshop.constant import ShipStatusKinds, PaymentStatusKinds, RefundStatusKinds
 
 blueprint = Blueprint("order", __name__, url_prefix="/orders")
 
@@ -51,7 +46,7 @@ def ali_pay(token):
         order_id=order.id,
         payment_method="alipay",
         payment_no=payment_no,
-        status=PAYMENT_STATUS_WAITING,
+        status=PaymentStatusKinds.waiting.value,
         total=order.total_net,
         customer_ip_address=customer_ip_address,
     )
@@ -69,7 +64,7 @@ def ali_notify():
             payment_no=data["out_trade_no"]
         ).first()
         order_payment.update(
-            paid_at=data["gmt_payment"], status=PAYMENT_STATUS_CONFIRMED
+            paid_at=data["gmt_payment"], status=PaymentStatusKinds.confirmed.value
         )
     return "", 200
 
@@ -91,7 +86,7 @@ def request_refund(id):
     reason = request.get_json()["reason"]
     extra = order.extra if order.extra else dict()
     extra["refund_reason"] = reason
-    order.update(refund_status=REFUND_STATUS_APPLIED, extra=extra)
+    order.update(refund_status=RefundStatusKinds.applied.value, extra=extra)
     return "", 200
 
 
@@ -103,5 +98,5 @@ def received(id):
         order.can_review()
     except Exception as e:
         return e.args, 422
-    order.update(ship_status=SHIP_STATUS_RECEIVED)
+    order.update(ship_status=ShipStatusKinds.received.value)
     return "", 200

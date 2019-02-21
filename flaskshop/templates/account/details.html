@@ -62,7 +62,7 @@
         <div class="table__row">
           <div class="row">
             <div class="col-md-2 col-3">
-              {{ order }}
+              {{ order.identity }}
             </div>
             <div class="col-md-3 d-none d-md-block">
               {{ order.created_at }}
@@ -73,7 +73,7 @@
 
             </div>
             <div class="col-md-4 d-none d-md-block">
-              {{ order.status }}
+              {{ order.status_name }}
             </div>
             <div class="col-md-1 col-5">
               <a href="{{ order.get_absolute_url() }}" class="float-right link--styled">

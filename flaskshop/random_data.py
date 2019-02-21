@@ -26,12 +26,10 @@ from flaskshop.discount.models import Voucher, Sale, SaleProduct
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.settings import Config
 from flaskshop.constant import (
-    PAYMENT_STATUS_KINDS,
-    DISCOUNT_VALUE_PERCENT,
-    DISCOUNT_VALUE_FIXED,
-    VOUCHER_TYPE_SHIPPING,
-    VOUCHER_TYPE_VALUE,
-    ORDER_STATUS_KINDS,
+    PaymentStatusKinds,
+    DiscountValueTypeKinds,
+    VoucherTypeKinds,
+    OrderStatusKinds,
 )
 
 fake = Factory.create()
@@ -489,7 +487,7 @@ def create_admin():
 
 
 def create_payment(order):
-    status = random.choice(PAYMENT_STATUS_KINDS)
+    status = random.choice(list(PaymentStatusKinds)).value
     payment = OrderPayment.create(
         order_id=order.id,
         status=status,
@@ -525,7 +523,7 @@ def create_order_lines(order, discounts, taxes, how_many=10):
 def create_fake_order(discounts, taxes):
     user = User.query.filter_by(is_admin=False).order_by(func.random()).first()
     address = create_fake_address()
-    status = random.choice(ORDER_STATUS_KINDS)
+    status = random.choice(list(OrderStatusKinds)).value
     order_data = {
         "user_id": user.id,
         "shipping_address_id": address.id,
@@ -552,7 +550,7 @@ def create_fake_order(discounts, taxes):
 def create_fake_sale():
     sale = Sale.create(
         title=f"Happy {fake.word()} day!",
-        discount_value_type=DISCOUNT_VALUE_PERCENT,
+        discount_value_type=DiscountValueTypeKinds.percent.value,
         discount_value=random.choice([10, 20, 30, 40, 50]),
     )
     for product in Product.query.order_by(func.random()).all()[:4]:
@@ -577,9 +575,9 @@ def create_product_sales(how_many=5):
 
 def create_vouchers():
     defaults = {
-        "type": VOUCHER_TYPE_SHIPPING,
+        "type": VoucherTypeKinds.shipping.value,
         "title": "Free shipping",
-        "discount_value_type": DISCOUNT_VALUE_PERCENT,
+        "discount_value_type": DiscountValueTypeKinds.percent.value,
         "discount_value": 100,
     }
     voucher, created = Voucher.get_or_create(code="FREESHIPPING", **defaults)
@@ -589,9 +587,9 @@ def create_vouchers():
         yield "Shipping voucher already exists"
 
     defaults = {
-        "type": VOUCHER_TYPE_VALUE,
+        "type": VoucherTypeKinds.value.value,
         "title": "Big order discount",
-        "discount_value_type": DISCOUNT_VALUE_FIXED,
+        "discount_value_type": DiscountValueTypeKinds.fixed.value,
         "discount_value": 25,
         "limit": 200,
     }
