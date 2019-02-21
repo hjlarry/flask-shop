@@ -28,7 +28,7 @@ class BaseModel(PropsMixin, Model):
     __table_args__ = {"mysql_charset": "utf8mb4", "extend_existing": True}
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime, default=datetime.utcnow())
-    updated_at = Column(DateTime, default=None)
+    updated_at = Column(DateTime, default=datetime.utcnow(), onupdate=datetime.utcnow())
 
     def __repr__(self):
         return f"<{self.__class__.__name__} id:{self.id}>"

@@ -13,6 +13,7 @@ from wtforms import (
     FileField,
     FloatField,
     DecimalField,
+    DateTimeField,
 )
 from wtforms.validators import DataRequired
 
@@ -73,6 +74,8 @@ class UserForm(FlaskForm):
     password = PasswordField()
     is_active = BooleanField()
     is_admin = BooleanField()
+    created_at = DateTimeField()
+    updated_at = DateTimeField()
     submit = SubmitField()
 
 
@@ -129,7 +132,7 @@ class ProductForm(FlaskForm):
     category_id = SelectField()
     description = TextAreaField()
     images = FieldList(StringField())  # TODO 限制图片数量
-    attributes = FieldList(SelectField())  # TODO
+    attributes = FieldList(SelectField())
     submit = SubmitField()
 
 

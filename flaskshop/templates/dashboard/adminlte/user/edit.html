@@ -22,6 +22,8 @@
                             {{ vendor.render_field(form.password) }}
                             {{ macros.render_boolean_field(form.is_active) }}
                             {{ macros.render_boolean_field(form.is_admin) }}
+                            {{ vendor.render_field(form.created_at) }}
+                            {{ vendor.render_field(form.updated_at) }}
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">

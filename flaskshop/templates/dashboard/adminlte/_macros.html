@@ -7,7 +7,8 @@
 {% endif %}
 <div class="form-group">
     <label for="{{label_id}}">{{ field.label.text }}</label>
-    <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}" value="{% if field.data %}{{ field.data }}{% elif field.default is not none %}{{field.default}}{% endif %}">
+    <input type="{{type}}" class="form-control" id="{{label_id}}" name="{{label_id}}"
+        value="{% if field.data %}{{ field.data }}{% elif field.default is not none %}{{field.default}}{% endif %}">
     {% if field.errors %}
     <div class="invalid-feedback" style="display:block">
         {{ field.errors[0] }}
@@ -43,7 +44,7 @@
     <label>{{ field.label.text }}</label>
     <select class="form-control select2" style="width: 100%;" name="{{ label_id }}" multiple="multiple">
         {% for item in items %}
-        <option value="{{ item.id }}" {% if item.title in field.data %} selected {% endif %}>
+        <option value="{{ item.id }}" {% if field.data and item.title in field.data %} selected {% endif %}>
             {{ item.title }}
         </option>
         {% endfor %}
@@ -89,7 +90,8 @@
         {% endfor %}
     </div>
     <br />
-    <button type="button" class="btn btn-info" id="add_entry" data-index="{{field | length}}" data-field="{{field.label.field_id}}">Add
+    <button type="button" class="btn btn-info" id="add_entry" data-index="{{field | length}}"
+        data-field="{{field.label.field_id}}">Add
         entry</button>
 </div>
 {% endmacro %}
