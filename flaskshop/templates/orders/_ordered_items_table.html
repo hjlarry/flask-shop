@@ -6,7 +6,7 @@
             <h3>
                 Shipping address
             </h3>
-            {{ macros.format_address(order.shipping_address) }}
+            {{ order.shipping_address | safe }}
         </div>
         {% endif %}
         {% if not order.is_fully_paid %}

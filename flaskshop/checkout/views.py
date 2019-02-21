@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from flask_login import current_user, login_required
 
 from .models import CartLine, Cart
@@ -72,37 +72,15 @@ def checkout_shipping_address():
 @blueprint.route("/shipping_method", methods=["GET", "POST"])
 def checkout_shipping_method():
     form = ShippingMethodForm(request.form)
+    cart = Cart.get_current_user_cart()
+    address = UserAddress.get_by_id(cart.shipping_address_id)
     if form.validate_on_submit():
-        cart = Cart.get_current_user_cart()
-        order = Order.create(
-            user_id=current_user.id,
-            shipping_method_id=form.shipping_method.data,
-            shipping_address_id=cart.address.id,
-            status=OrderStatusKinds.unfulfilled.value,
+        order, msg = Order.create_whole_order(
+            cart, form.shipping_method.data, form.note.data
         )
-        if form.note.data:
-            OrderNote.create(
-                order_id=order.id, user_id=current_user.id, content=form.note.data
-            )
-        total = 0
-        for line in cart.lines:
-            order_line = OrderLine.create(
-                order_id=order.id,
-                variant_id=line.variant.id,
-                quantity=line.quantity,
-                product_name=line.product.title,
-                product_sku=line.variant.sku,
-                unit_price_net=line.variant.price,
-                is_shipping_required=line.variant.is_shipping_required,
-            )
-            total += order_line.get_total()
-            line.delete()
-        total += order.shipping_method.price
-        order.update(
-            total_net=total,
-            shipping_method_name=order.shipping_method.title,
-            shipping_price_net=order.shipping_method.price,
-        )
-        cart.delete()
-        return redirect(order.get_absolute_url())
-    return render_template("checkout/shipping_method.html", form=form)
+        if order:
+            return redirect(order.get_absolute_url())
+        else:
+            flash(msg, "warning")
+            return redirect(url_for("checkout.cart_index"))
+    return render_template("checkout/shipping_method.html", form=form, address=address)

@@ -59,7 +59,7 @@ class UserAddress(Model):
 
     @property
     def full_address(self):
-        return f"{self.province}{self.city}{self.district}{self.address}"
+        return f"{self.province}{self.city}{self.district}<br>{self.address}<br>{self.contact_name}<br>{self.contact_phone}"
 
     @hybrid_property
     def user(self):

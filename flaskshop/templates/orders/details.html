@@ -32,7 +32,7 @@ Order {{ order }}
 <div class="row order-details">
     <div class="col-lg-10 m-auto">
         <h2 class="order-details__header">
-            Order {{ order }}: {{ order.status }}
+            Order {{ order }}: {{ order.status_name }}
         </h2>
         {% include "orders/_ordered_items_table.html" %}
         <div class="order-notes">

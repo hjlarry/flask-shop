@@ -292,6 +292,10 @@ class ProductVariant(Model):
         return self.quantity_available > 0
 
     @property
+    def stock(self):
+        return self.quantity - self.quantity_allocated
+
+    @property
     def price(self):
         return self.price_override or self.product.price
 

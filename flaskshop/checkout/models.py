@@ -6,7 +6,6 @@ from flask_login import current_user
 
 from flaskshop.constant import DiscountValueTypeKinds
 from flaskshop.database import Column, Model, db
-from flaskshop.account.models import UserAddress
 from flaskshop.product.models import ProductVariant
 from flaskshop.corelib.mc import cache
 from flaskshop.corelib.mc import rdb
@@ -27,10 +26,6 @@ class Cart(Model):
         # TODO discount and tax
         subtotal = (line.subtotal for line in self.lines)
         return sum(subtotal)
-
-    @property
-    def address(self):
-        return UserAddress.get_by_id(self.shipping_address_id)
 
     @property
     def lines(self):

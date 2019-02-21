@@ -7,12 +7,14 @@ from flaskshop.database import Column, Model, db
 from flaskshop.constant import OrderStatusKinds
 from flaskshop.account.models import User, UserAddress
 from flaskshop.product.models import ProductVariant
+from flaskshop.constant import OrderStatusKinds
+from flaskshop.checkout.models import ShippingMethod
 
 
 class Order(Model):
     __tablename__ = "order_order"
     token = Column(db.String(100), unique=True)
-    shipping_address_id = Column(db.Integer())  # TODO user address may edit
+    shipping_address = Column(db.String(255))
     user_id = Column(db.Integer())
     total_net = Column(db.DECIMAL(10, 2))
     discount_amount = Column(db.DECIMAL(10, 2))
@@ -28,10 +30,66 @@ class Order(Model):
     def __str__(self):
         return f"#{self.id}"
 
-    def save(self, commit=True):
-        if not self.token:
-            self.token = str(uuid4())
-        return super().save(commit=commit)
+    @classmethod
+    def create_whole_order(cls, cart, shipping_method_id, note=None):
+        # Step1, process stock
+        to_update_variants = []
+        to_update_orderlines = []
+        total = 0
+        for line in cart.lines:
+            variant = ProductVariant.get_by_id(line.variant.id)
+            if variant.stock < line.quantity:
+                return False, f"{variant.display_product()} has not enough stock"
+            variant.quantity_allocated += line.quantity
+            to_update_variants.append(variant)
+            orderline = OrderLine(
+                variant_id=variant.id,
+                quantity=line.quantity,
+                product_name=variant.display_product(),
+                product_sku=variant.sku,
+                unit_price_net=variant.price,
+                is_shipping_required=variant.is_shipping_required,
+            )
+            to_update_orderlines.append(orderline)
+            total += orderline.get_total()
+
+        # Step2, create Order obj
+        try:
+            shipping_method = ShippingMethod.get_by_id(shipping_method_id)
+            shipping_address = UserAddress.get_by_id(
+                cart.shipping_address_id
+            ).full_address
+            total += shipping_method.price
+            order = cls.create(
+                user_id=current_user.id,
+                token=str(uuid4()),
+                shipping_method_id=shipping_method.id,
+                shipping_method_name=shipping_method.title,
+                shipping_price_net=shipping_method.price,
+                shipping_address=shipping_address,
+                status=OrderStatusKinds.unfulfilled.value,
+                total_net=total,
+            )
+        except Exception as e:
+            return False, e.msg
+
+        # Step3, process others
+        if note:
+            order_note = OrderNote(
+                order_id=order.id, user_id=current_user.id, content=note
+            )
+            db.session.add(order_note)
+        for variant in to_update_variants:
+            db.session.add(variant)
+        for orderline in to_update_orderlines:
+            orderline.order_id = order.id
+            db.session.add(orderline)
+        for line in cart.lines:
+            db.session.delete(line)
+        db.session.delete(cart)
+
+        db.session.commit()
+        return order, "success"
 
     def get_absolute_url(self):
         return url_for("order.show", token=self.token)
@@ -39,16 +97,6 @@ class Order(Model):
     def get_subtotal(self):
         subtotal_iterator = (line.get_total() for line in self.lines)
         return sum(subtotal_iterator)
-
-    @property
-    def shipping_address(self):
-        return UserAddress.get_by_id(self.shipping_address_id)
-
-    @property
-    def shipping_method(self):
-        from flaskshop.checkout.models import ShippingMethod
-
-        return ShippingMethod.get_by_id(self.shipping_method_id)
 
     @property
     def identity(self):
@@ -102,8 +150,6 @@ class Order(Model):
 
     @property
     def user(self):
-        from flaskshop.account.models import User
-
         return User.get_by_id(self.user_id)
 
     @property
