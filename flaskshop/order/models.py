@@ -31,7 +31,7 @@ class Order(Model):
         return f"#{self.id}"
 
     @classmethod
-    def create_whole_order(cls, cart, shipping_method_id, note=None):
+    def create_whole_order(cls, cart, note=None):
         # Step1, process stock
         to_update_variants = []
         to_update_orderlines = []
@@ -57,7 +57,7 @@ class Order(Model):
         # Step2, create Order obj
         try:
             # TODO: if order not shipping required
-            shipping_method = ShippingMethod.get_by_id(shipping_method_id)
+            shipping_method = ShippingMethod.get_by_id(cart.shipping_method_id)
             shipping_address = UserAddress.get_by_id(
                 cart.shipping_address_id
             ).full_address

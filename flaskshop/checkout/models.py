@@ -14,16 +14,19 @@ MC_KEY_CART_BY_USER = "checkout:cart:user_id:{}"
 class Cart(Model):
     __tablename__ = "checkout_cart"
     user_id = Column(db.Integer())
-    token = Column(db.String(255))
     voucher_code = Column(db.String(255))
     quantity = Column(db.Integer())
     shipping_address_id = Column(db.Integer())
+    shipping_method_id = Column(db.Integer())
+
+    @property
+    def subtotal(self):
+        return sum(line.subtotal for line in self.lines)
 
     @property
     def total(self):
-        # TODO discount and tax
-        subtotal = (line.subtotal for line in self.lines)
-        return sum(subtotal)
+        # TODO discount
+        return self.subtotal + self.shipping_method_price
 
     @property
     def lines(self):
@@ -65,6 +68,16 @@ class Cart(Model):
     @property
     def is_shipping_required(self):
         return any(line.is_shipping_required for line in self)
+
+    @property
+    def shipping_method(self):
+        return ShippingMethod.get_by_id(self.shipping_method_id)
+
+    @property
+    def shipping_method_price(self):
+        if self.shipping_method:
+            return self.shipping_method.price
+        return 0
 
     def __repr__(self):
         return f"Cart(quantity={self.quantity})"

@@ -2,9 +2,10 @@ from flask import Blueprint, render_template, request, redirect, url_for, jsonif
 from flask_login import current_user, login_required
 
 from .models import CartLine, Cart, ShippingMethod
-from .forms import ShippingMethodForm
+from .forms import NoteForm, VoucherForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
+from flaskshop.account.utils import flash_errors
 from flaskshop.order.models import Order, OrderLine, OrderNote
 from flaskshop.constant import OrderStatusKinds
 
@@ -46,47 +47,54 @@ def update_cartline(id):
     return jsonify(response)
 
 
-@blueprint.route("/shipping_address", methods=["GET", "POST"])
-def checkout_shipping_address():
+@blueprint.route("/shipping", methods=["GET", "POST"])
+def checkout_shipping():
     form = AddressForm(request.form)
-    if request.method == "GET":
-        shipping_methods = ShippingMethod.query.all()
-        return render_template(
-            "checkout/shipping_address.html",
-            form=form,
-            shipping_methods=shipping_methods,
-        )
-    if request.form["address_sel"] == "new":
-        if not form.validate_on_submit():
-            return
-        user_address = UserAddress.create(
-            province=form.province.data,
-            city=form.city.data,
-            district=form.district.data,
-            address=form.address.data,
-            contact_name=form.contact_name.data,
-            contact_phone=form.contact_phone.data,
-            user_id=current_user.id,
-        )
-    else:
-        user_address = UserAddress.get_by_id(request.form["address_sel"])
-    cart = Cart.get_current_user_cart()
-    cart.update(shipping_address_id=user_address.id)
-    return redirect(url_for("checkout.checkout_shipping_method"))
+    user_address = None
+    if request.method == "POST":
+        if request.form["address_sel"] != "new":
+            user_address = UserAddress.get_by_id(request.form["address_sel"])
+        elif request.form["address_sel"] == "new" and form.validate_on_submit():
+            user_address = UserAddress.create(
+                province=form.province.data,
+                city=form.city.data,
+                district=form.district.data,
+                address=form.address.data,
+                contact_name=form.contact_name.data,
+                contact_phone=form.contact_phone.data,
+                user_id=current_user.id,
+            )
+        shipping_method = ShippingMethod.get_by_id(request.form["shipping_method"])
+        if user_address and shipping_method:
+            cart = Cart.get_current_user_cart()
+            cart.update(
+                shipping_address_id=user_address.id,
+                shipping_method_id=shipping_method.id,
+            )
+            return redirect(url_for("checkout.checkout_note"))
+    flash_errors(form)
+    shipping_methods = ShippingMethod.query.all()
+    return render_template(
+        "checkout/shipping.html", form=form, shipping_methods=shipping_methods
+    )
 
 
-@blueprint.route("/shipping_method", methods=["GET", "POST"])
-def checkout_shipping_method():
-    form = ShippingMethodForm(request.form)
+@blueprint.route("/note", methods=["GET", "POST"])
+def checkout_note():
+    form = NoteForm(request.form)
     cart = Cart.get_current_user_cart()
     address = UserAddress.get_by_id(cart.shipping_address_id)
+    shipping_method = ShippingMethod.get_by_id(cart.shipping_method_id)
     if form.validate_on_submit():
-        order, msg = Order.create_whole_order(
-            cart, form.shipping_method.data, form.note.data
-        )
+        order, msg = Order.create_whole_order(cart, form.note.data)
         if order:
             return redirect(order.get_absolute_url())
         else:
             flash(msg, "warning")
             return redirect(url_for("checkout.cart_index"))
-    return render_template("checkout/shipping_method.html", form=form, address=address)
+    return render_template(
+        "checkout/note.html",
+        form=form,
+        address=address,
+        shipping_method=shipping_method,
+    )

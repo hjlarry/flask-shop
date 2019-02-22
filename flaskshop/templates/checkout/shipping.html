@@ -9,7 +9,8 @@
     {% for address in current_user.addresses %}
     <div class="radio address_hide">
       <label>
-        <input type="radio" name="address_sel" value="{{ address.id }}" id="address_{{ address.id }}">
+        <input type="radio" name="address_sel" value="{{ address.id }}" id="address_{{ address.id }}"
+          {% if loop.first %}checked{%endif%}>
         <div class="address-details">
           {{ macros.format_address(address) }}
         </div>
@@ -34,7 +35,8 @@
     {% for method in shipping_methods %}
     <div class="radio">
       <label>
-        <input type="radio" name="shipping_method" value="{{ method.id }}" id="shipping_{{ method.id }}">
+        <input type="radio" name="shipping_method" value="{{ method.id }}" id="shipping_{{ method.id }}"
+          {% if loop.first %}checked{%endif%}>
         <div class="address-details">
           {{ method }}
         </div>

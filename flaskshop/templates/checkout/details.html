@@ -48,7 +48,7 @@
         </div>
         <div class="col-4">
           <p class="float-right">
-            ${{ current_user_cart.total }}
+            ${{ current_user_cart.subtotal }}
           </p>
         </div>
       </div>
@@ -59,7 +59,7 @@
         <div class="col-4">
           <p class="float-right">
             {% if current_user_cart.shipping_method %}
-            {# TODO #}
+            {{current_user_cart.shipping_method_price }}
             {% else %}
             &mdash;
             {% endif %}

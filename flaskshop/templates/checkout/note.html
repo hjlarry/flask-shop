@@ -1,0 +1,28 @@
+{% extends "checkout/details.html" %}
+{% from 'bootstrap/form.html' import render_field %}
+
+{% block forms %}
+<div class="row">
+  <div class="col-md-6">
+    <h3>Shipping address</h3>
+    {{ macros.format_address(address) }}
+    <p><a href="{{ url_for('checkout.checkout_shipping') }}">Select other address</a></p>
+  </div>
+  <div class="col-md-6">
+    <h3>Shipping Method</h3>
+    {{ shipping_method }}
+    <p><a href="{{ url_for('checkout.checkout_shipping') }}">Select other shipping method</a></p>
+  </div>
+</div>
+
+<hr>
+<form method="post" novalidate>
+  {{ form.csrf_token }}
+  {{ render_field(form.note) }}
+  <p class="text-md-right">
+    <button type="submit" class="btn btn-primary">
+      ORDER & PAY
+    </button>
+  </p>
+</form>
+{% endblock %}
