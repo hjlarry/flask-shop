@@ -1,6 +1,8 @@
 import string
 import random
 import datetime
+
+from flask import flash
 from sqlalchemy.dialects.mysql import BOOLEAN
 from flask_login import current_user
 
@@ -47,6 +49,11 @@ class Cart(Model):
     @classmethod
     def add_to_currentuser_cart(cls, quantity, variant_id):
         cart = cls.get_current_user_cart()
+        variant = ProductVariant.get_by_id(variant_id)
+        result, msg = variant.check_enough_stock(quantity)
+        if result is False:
+            flash(msg, "warning")
+            return
         if cart:
             cart.quantity += quantity
             cart.save()

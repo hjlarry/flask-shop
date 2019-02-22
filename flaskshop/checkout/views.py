@@ -25,6 +25,7 @@ def cart_index():
 
 @blueprint.route("/update_cart/<int:id>", methods=["POST"])
 def update_cartline(id):
+    # TODO when not enough stock, response ajax error
     line = CartLine.get_by_id(id)
     response = {
         "variantId": line.variant_id,

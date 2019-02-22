@@ -38,8 +38,9 @@ class Order(Model):
         total = 0
         for line in cart.lines:
             variant = ProductVariant.get_by_id(line.variant.id)
-            if variant.stock < line.quantity:
-                return False, f"{variant.display_product()} has not enough stock"
+            result, msg = variant.check_enough_stock(line.quantity)
+            if result is False:
+                return result, msg
             variant.quantity_allocated += line.quantity
             to_update_variants.append(variant)
             orderline = OrderLine(

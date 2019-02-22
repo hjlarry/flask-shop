@@ -314,6 +314,11 @@ class ProductVariant(Model):
         }
         return items
 
+    def check_enough_stock(self, quantity):
+        if self.stock < quantity:
+            return False, f"{self.display_product()} has not enough stock"
+        return True, "success"
+
 
 class ProductAttribute(Model):
     __tablename__ = "product_productattribute"
