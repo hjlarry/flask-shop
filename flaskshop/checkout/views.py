@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from flask_login import current_user, login_required
 
-from .models import CartLine, Cart
+from .models import CartLine, Cart, ShippingMethod
 from .forms import ShippingMethodForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
@@ -50,7 +50,12 @@ def update_cartline(id):
 def checkout_shipping_address():
     form = AddressForm(request.form)
     if request.method == "GET":
-        return render_template("checkout/shipping_address.html", form=form)
+        shipping_methods = ShippingMethod.query.all()
+        return render_template(
+            "checkout/shipping_address.html",
+            form=form,
+            shipping_methods=shipping_methods,
+        )
     if request.form["address_sel"] == "new":
         if not form.validate_on_submit():
             return

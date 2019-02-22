@@ -22,16 +22,16 @@ export default $(document).ready((e) => {
     let $addressShow = $('.address_show label');
     let $addressHide = $('.address_hide label');
     let $addressForm = $('.checkout__new-address');
-    let $initialValue = $('#address_new_address').prop('checked');
+    let $initialValue = $('#address_new').prop('checked');
     $addressShow.click((e) => {
         $addressForm.slideDown('slow');
     });
     $addressHide.click((e) => {
         $addressForm.slideUp('slow');
     });
-    // if ($initialValue) {
-    //     $addressForm.slideDown(0);
-    // } else {
-    //     $addressForm.slideUp(0);
-    // }
+    if ($initialValue) {
+        $addressForm.slideDown(0);
+    } else {
+        $addressForm.slideUp(0);
+    }
 });
