@@ -66,12 +66,35 @@
           </p>
         </div>
       </div>
-      {# <div class="row checkout__review__section">#}
-      {# <div class="col-12">#}
-      {# TODO <h3>Promo code</h3>#}
-      {# {% include "checkout/snippets/voucher_form.html" %}#}
-      {# </div>#}
-      {# </div>#}
+      {% if voucher_form %}
+      <div class="row checkout__review__section">
+        <div class="col-12">
+          <h3>Promo code</h3>
+          {% if current_user_cart.discount_amount %}
+          <form action="" method="post" class="float-left input-btn">
+            {{voucher_form.csrf_token}}
+            <span>{{ current_user_cart.discount_name }}</span>
+            <button type="submit" class="btn btn-link btn-voucher-remove" aria-label=Remove">
+              (Remove)
+            </button>
+          </form>
+          <div class="float-right">
+
+          </div>
+          {% else %}
+          <form action="" method="post">
+            {{voucher_form.csrf_token}}
+            <div class="form-group input-btn">
+              <div class="form-group"><label class="sr-only" for="id_discount-voucher">Voucher</label>
+                <input type="text" name="discount-voucher" class="form-control" id="id_discount-voucher">
+              </div>
+              <button class="btn secondary narrow" type="submit">Use</button>
+            </div>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
       <div class="row checkout__review__section">
         <div class="col-8">
           <h3>Total</h3>

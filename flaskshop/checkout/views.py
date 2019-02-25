@@ -82,6 +82,7 @@ def checkout_shipping():
 @blueprint.route("/note", methods=["GET", "POST"])
 def checkout_note():
     form = NoteForm(request.form)
+    voucher_form = VoucherForm(request.form)
     cart = Cart.get_current_user_cart()
     address = UserAddress.get_by_id(cart.shipping_address_id)
     shipping_method = ShippingMethod.get_by_id(cart.shipping_method_id)
@@ -96,5 +97,6 @@ def checkout_note():
         "checkout/note.html",
         form=form,
         address=address,
+        voucher_form=voucher_form,
         shipping_method=shipping_method,
     )
