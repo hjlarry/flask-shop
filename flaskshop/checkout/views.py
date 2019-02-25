@@ -108,18 +108,18 @@ def checkout_voucher():
     voucher_form = VoucherForm(request.form)
     if voucher_form.validate_on_submit():
         voucher = Voucher.get_by_code(voucher_form.code.data)
+        cart = Cart.get_current_user_cart()
         err_msg = None
         if voucher:
             try:
-                voucher.check_available()
-            except expression as e:
-                err_msg = e
+                voucher.check_available(cart)
+            except Exception as e:
+                err_msg = str(e)
         else:
             err_msg = "Your code is not correct"
         if err_msg:
             flash(err_msg, "warning")
         else:
-            cart = Cart.get_current_user_cart()
             cart.voucher_code = voucher.code
             cart.save()
         return redirect(url_for("checkout.checkout_note"))

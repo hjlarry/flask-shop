@@ -22,7 +22,7 @@ class Cart(Model):
 
     @property
     def subtotal(self):
-        return sum(line.subtotal for line in self.lines)
+        return sum(line.subtotal for line in self)
 
     @property
     def total(self):
@@ -30,9 +30,7 @@ class Cart(Model):
 
     @property
     def discount_amount(self):
-        return self.voucher.get_vouchered_price(
-            self.subtotal, self.shipping_method_price
-        )
+        return self.voucher.get_vouchered_price(self) if self.voucher_code else 0
 
     @property
     def lines(self):
@@ -70,6 +68,20 @@ class Cart(Model):
             line.update(quantity=quantity)
         else:
             CartLine.create(variant_id=variant_id, quantity=quantity, cart_id=cart.id)
+
+    def get_product_price(self, product_id):
+        price = 0
+        for line in self:
+            if line.product.id == product_id:
+                price += line.subtotal
+        return price
+
+    def get_category_price(self, category_id):
+        price = 0
+        for line in self:
+            if line.category.id == category_id:
+                price += line.subtotal
+        return price
 
     @property
     def is_shipping_required(self):
@@ -140,6 +152,10 @@ class CartLine(Model):
     @property
     def product(self):
         return self.variant.product
+
+    @property
+    def category(self):
+        return self.product.category
 
     @property
     def subtotal(self):

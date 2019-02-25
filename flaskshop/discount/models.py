@@ -6,6 +6,7 @@ from sqlalchemy.dialects.mysql import TINYINT
 
 from flaskshop.database import Column, Model, db
 from flaskshop.constant import VoucherTypeKinds, DiscountValueTypeKinds
+from flaskshop.product.models import Product, Category
 
 
 class Voucher(Model):
@@ -35,34 +36,64 @@ class Voucher(Model):
         else:
             return cls.generate_code()
 
-    def check_available(self, order_total_amount=0, shipping_method_price=0):
+    def check_available(self, cart=None):
         if self.start_date and self.start_date > datetime.datetime.now():
             raise Exception("The voucher code can not use now, please retry later")
         if self.end_date and self.end_date < datetime.datetime.now():
             raise Exception("The voucher code has expired")
         if self.usage_limit and self.usage_limit - self.used < 0:
             raise Exception("This voucher code has been used out")
+        if cart:
+            self.check_available_by_cart(cart)
+
+        return True
+
+    def check_available_by_cart(self, cart):
         if self.type == VoucherTypeKinds.value.value:
-            if self.limit and order_total_amount < self.limit:
+            if self.limit and cart.subtotal < self.limit:
                 raise Exception(
-                    "The order total amount is not enough to use this voucher code"
+                    f"The order total amount is not enough({self.limit}) to use this voucher code"
                 )
         elif self.type == VoucherTypeKinds.shipping.value:
-            if self.limit and shipping_method_price < self.limit:
+            if self.limit and cart.shipping_method_price < self.limit:
                 raise Exception(
-                    "The order shipping price is not enough to use this voucher code"
+                    f"The order shipping price is not enough({self.limit}) to use this voucher code"
                 )
-        return True
+        elif self.type == VoucherTypeKinds.product.value:
+            product = Product.get_by_id(self.product_id)
+            # got any product in cart, should be zero
+            if cart.get_product_price(self.product_id) == 0:
+                raise Exception(f"This Voucher Code should be used for {product.title}")
+            if self.limit and cart.get_product_price(self.product_id) < self.limit:
+                raise Exception(
+                    f"The product {product.title} total amount is not enough({self.limit}) to use this voucher code"
+                )
+        elif self.type == VoucherTypeKinds.category.value:
+            category = Category.get_by_id(self.category_id)
+            if cart.get_category_price(self.category_id) == 0:
+                raise Exception(
+                    f"This Voucher Code should be used for {category.title}"
+                )
+            if self.limit and cart.get_category_price(self.category_id) < self.limit:
+                raise Exception(
+                    f"The category {category.title} total amount is not enough({self.limit}) to use this voucher code"
+                )
 
     @classmethod
     def get_by_code(cls, code):
         return cls.query.filter_by(code=code).first()
 
-    def get_vouchered_price(self, order_total_amount=0, shipping_method_price=0):
+    def get_vouchered_price(self, cart):
         if self.type == VoucherTypeKinds.value.value:
-            return self.get_voucher_from_price(order_total_amount)
+            return self.get_voucher_from_price(cart.subtotal)
         elif self.type == VoucherTypeKinds.shipping.value:
-            return self.get_voucher_from_price(shipping_method_price)
+            return self.get_voucher_from_price(cart.shipping_method_price)
+        elif self.type == VoucherTypeKinds.product.value:
+            return self.get_voucher_from_price(cart.get_product_price(self.product_id))
+        elif self.type == VoucherTypeKinds.category.value:
+            return self.get_voucher_from_price(
+                cart.get_category_price(self.category_id)
+            )
         return 0
 
     def get_voucher_from_price(self, price):
