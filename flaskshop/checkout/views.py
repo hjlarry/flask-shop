@@ -7,6 +7,7 @@ from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
 from flaskshop.account.utils import flash_errors
 from flaskshop.order.models import Order, OrderLine, OrderNote
+from flaskshop.discount.models import Voucher
 from flaskshop.constant import OrderStatusKinds
 
 blueprint = Blueprint("checkout", __name__, url_prefix="/checkout")
@@ -100,3 +101,35 @@ def checkout_note():
         voucher_form=voucher_form,
         shipping_method=shipping_method,
     )
+
+
+@blueprint.route("/voucher", methods=["POST"])
+def checkout_voucher():
+    voucher_form = VoucherForm(request.form)
+    if voucher_form.validate_on_submit():
+        voucher = Voucher.get_by_code(form.code.data)
+        err_msg = None
+        if voucher:
+            try:
+                voucher.check_available()
+            except expression as e:
+                err_msg = e
+        else:
+            err_msg = "Your code is not correct"
+        if err_msg:
+            flash(err_msg, "warning")
+        else:
+            cart = Cart.get_current_user_cart()
+            cart.voucher_code = voucher.code
+            cart.save()
+        return redirect(url_for("checkout.checkout_note"))
+
+
+@blueprint.route("/voucher/remove", methods=["POST"])
+def checkout_voucher_remove():
+    voucher_form = VoucherForm(request.form)
+    if voucher_form.validate_on_submit():
+        cart = Cart.get_current_user_cart()
+        cart.voucher_code = None
+        cart.save()
+        return redirect(url_for("checkout.checkout_note"))

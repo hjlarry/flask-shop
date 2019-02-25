@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField
+from wtforms import TextAreaField, StringField
 
 
 class NoteForm(FlaskForm):
@@ -7,4 +7,4 @@ class NoteForm(FlaskForm):
 
 
 class VoucherForm(FlaskForm):
-    pass
+    code = StringField()

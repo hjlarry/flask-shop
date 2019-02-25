@@ -5,6 +5,7 @@ from flask_login import current_user
 from flaskshop.constant import DiscountValueTypeKinds
 from flaskshop.database import Column, Model, db
 from flaskshop.product.models import ProductVariant
+from flaskshop.discount.models import Voucher
 from flaskshop.corelib.mc import cache
 from flaskshop.corelib.mc import rdb
 
@@ -25,8 +26,11 @@ class Cart(Model):
 
     @property
     def total(self):
-        # TODO discount
-        return self.subtotal + self.shipping_method_price
+        return self.subtotal + self.shipping_method_price - self.discount_amount
+
+    @property
+    def discount_amount(self):
+        return 10
 
     @property
     def lines(self):
@@ -78,6 +82,12 @@ class Cart(Model):
         if self.shipping_method:
             return self.shipping_method.price
         return 0
+
+    @property
+    def voucher(self):
+        if self.voucher_code:
+            return Voucher.get_by_code(self.voucher_code)
+        return None
 
     def __repr__(self):
         return f"Cart(quantity={self.quantity})"

@@ -43,6 +43,10 @@ class Voucher(Model):
             raise Exception("This voucher code has been used out")
         return True
 
+    @classmethod
+    def get_by_code(cls, code):
+        return cls.query.filter_by(code=code).first()
+
 
 class Sale(Model):
     __tablename__ = "discount_sale"
