@@ -107,7 +107,7 @@ def checkout_note():
 def checkout_voucher():
     voucher_form = VoucherForm(request.form)
     if voucher_form.validate_on_submit():
-        voucher = Voucher.get_by_code(form.code.data)
+        voucher = Voucher.get_by_code(voucher_form.code.data)
         err_msg = None
         if voucher:
             try:

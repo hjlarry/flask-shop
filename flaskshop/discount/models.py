@@ -5,6 +5,7 @@ import datetime
 from sqlalchemy.dialects.mysql import TINYINT
 
 from flaskshop.database import Column, Model, db
+from flaskshop.constant import VoucherTypeKinds, DiscountValueTypeKinds
 
 
 class Voucher(Model):
@@ -34,18 +35,41 @@ class Voucher(Model):
         else:
             return cls.generate_code()
 
-    def check_available(self, order_total_amount=None):
+    def check_available(self, order_total_amount=0, shipping_method_price=0):
         if self.start_date and self.start_date > datetime.datetime.now():
             raise Exception("The voucher code can not use now, please retry later")
         if self.end_date and self.end_date < datetime.datetime.now():
             raise Exception("The voucher code has expired")
         if self.usage_limit and self.usage_limit - self.used < 0:
             raise Exception("This voucher code has been used out")
+        if self.type == VoucherTypeKinds.value.value:
+            if self.limit and order_total_amount < self.limit:
+                raise Exception(
+                    "The order total amount is not enough to use this voucher code"
+                )
+        elif self.type == VoucherTypeKinds.shipping.value:
+            if self.limit and shipping_method_price < self.limit:
+                raise Exception(
+                    "The order shipping price is not enough to use this voucher code"
+                )
         return True
 
     @classmethod
     def get_by_code(cls, code):
         return cls.query.filter_by(code=code).first()
+
+    def get_vouchered_price(self, order_total_amount=0, shipping_method_price=0):
+        if self.type == VoucherTypeKinds.value.value:
+            return self.get_voucher_from_price(order_total_amount)
+        elif self.type == VoucherTypeKinds.shipping.value:
+            return self.get_voucher_from_price(shipping_method_price)
+        return 0
+
+    def get_voucher_from_price(self, price):
+        if self.discount_value_type == DiscountValueTypeKinds.fixed.value:
+            return self.discount_value if price > self.discount_value else price
+        elif self.discount_value_type == DiscountValueTypeKinds.percent.value:
+            return price * self.discount_value
 
 
 class Sale(Model):

@@ -30,7 +30,9 @@ class Cart(Model):
 
     @property
     def discount_amount(self):
-        return 10
+        return self.voucher.get_vouchered_price(
+            self.subtotal, self.shipping_method_price
+        )
 
     @property
     def lines(self):
