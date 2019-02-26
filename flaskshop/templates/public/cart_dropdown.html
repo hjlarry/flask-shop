@@ -28,7 +28,7 @@
     <div class="col-md-8">
       <h3>
         Subtotal<br>
-        <span>Shipment and taxes calculated at checkout</span>
+        <span>Shipment calculated at checkout</span>
       </h3>
     </div>
     <div class="col-md-4">
@@ -46,7 +46,8 @@
       <a href="{{ url_for('checkout.cart_index') }}" class="btn secondary narrow float-md-right">Go to cart</a>
     </div>
     <div class="col-md-5">
-      <a href="{{ url_for('checkout.checkout_shipping') }}" class="btn btn-primary narrow float-md-right">Checkout</a>
+      <a href="{% if current_user_cart.is_shipping_required %}{{ url_for('checkout.checkout_shipping') }}{% else %}{{ url_for('checkout.checkout_note') }}{% endif %}"
+        class="btn btn-primary narrow float-md-right">Checkout</a>
     </div>
   </div>
   {% else %}

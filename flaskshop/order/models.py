@@ -18,11 +18,11 @@ class Order(Model):
     shipping_address = Column(db.String(255))
     user_id = Column(db.Integer())
     total_net = Column(db.DECIMAL(10, 2))
-    discount_amount = Column(db.DECIMAL(10, 2))
+    discount_amount = Column(db.DECIMAL(10, 2), default=0)
     discount_name = Column(db.String(100))
     voucher_id = Column(db.Integer())
     shipping_price_net = Column(db.DECIMAL(10, 2))
-    status = Column(db.String(100))
+    status = Column(TINYINT())
     shipping_method_name = Column(db.String(100))
     shipping_method_id = Column(db.Integer())
     refund_status = Column(TINYINT())
@@ -65,17 +65,26 @@ class Order(Model):
 
         # Step2, create Order obj
         try:
-            # TODO: if order not shipping required
-            shipping_method = ShippingMethod.get_by_id(cart.shipping_method_id)
-            shipping_address = UserAddress.get_by_id(
-                cart.shipping_address_id
-            ).full_address
+            shipping_method_id = None
+            shipping_method_title = None
+            shipping_method_price = 0
+            shipping_address = None
+
+            if cart.shipping_method_id:
+                shipping_method = ShippingMethod.get_by_id(cart.shipping_method_id)
+                shipping_method_id = shipping_method.id
+                shipping_method_title = shipping_method.title
+                shipping_method_price = shipping_method.price
+                shipping_address = UserAddress.get_by_id(
+                    cart.shipping_address_id
+                ).full_address
+
             order = cls.create(
                 user_id=current_user.id,
                 token=str(uuid4()),
-                shipping_method_id=shipping_method.id,
-                shipping_method_name=shipping_method.title,
-                shipping_price_net=shipping_method.price,
+                shipping_method_id=shipping_method_id,
+                shipping_method_name=shipping_method_title,
+                shipping_price_net=shipping_method_price,
                 shipping_address=shipping_address,
                 status=OrderStatusKinds.unfulfilled.value,
                 total_net=total_net,

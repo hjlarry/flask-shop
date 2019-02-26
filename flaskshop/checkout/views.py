@@ -85,8 +85,16 @@ def checkout_note():
     form = NoteForm(request.form)
     voucher_form = VoucherForm(request.form)
     cart = Cart.get_current_user_cart()
-    address = UserAddress.get_by_id(cart.shipping_address_id)
-    shipping_method = ShippingMethod.get_by_id(cart.shipping_method_id)
+    address = (
+        UserAddress.get_by_id(cart.shipping_address_id)
+        if cart.shipping_address_id
+        else None
+    )
+    shipping_method = (
+        ShippingMethod.get_by_id(cart.shipping_method_id)
+        if cart.shipping_method_id
+        else None
+    )
     if form.validate_on_submit():
         order, msg = Order.create_whole_order(cart, form.note.data)
         if order:

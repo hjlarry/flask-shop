@@ -1,5 +1,6 @@
 from flask import url_for, request
 from sqlalchemy.ext.mutable import MutableDict
+from sqlalchemy import desc
 
 from flaskshop.database import Column, Model, db
 from flaskshop.corelib.mc import cache, cache_by_args
@@ -502,11 +503,10 @@ def get_product_list_context(query, obj):
         is_descending = True
         arg_sort_by = arg_sort_by[1:]
     if arg_sort_by in sort_by_choices:
-        query = (
-            query.order_by(desc(getattr(Product, arg_sort_by)))
-            if is_descending
-            else query.order_by(getattr(Product, arg_sort_by))
-        )
+        if is_descending:
+            query = query.order_by(desc(getattr(Product, arg_sort_by)))
+        else:
+            query = query.order_by(getattr(Product, arg_sort_by))
     now_sorted_by = arg_sort_by or "title"
     args_dict.update(
         sort_by_choices=sort_by_choices,

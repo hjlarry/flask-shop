@@ -498,7 +498,7 @@ def create_payment(order):
     return payment
 
 
-def create_order_line(order, discounts, taxes):
+def create_order_line(order, discounts):
     product = Product.query.order_by(func.random()).first()
     variant = product.variant[0]
     quantity = random.randrange(1, 5)
@@ -515,33 +515,32 @@ def create_order_line(order, discounts, taxes):
     )
 
 
-def create_order_lines(order, discounts, taxes, how_many=10):
+def create_order_lines(order, discounts, how_many=10):
     for dummy in range(how_many):
-        yield create_order_line(order, discounts, taxes)
+        yield create_order_line(order, discounts)
 
 
-def create_fake_order(discounts, taxes):
+def create_fake_order(discounts):
     user = User.query.filter_by(is_admin=False).order_by(func.random()).first()
     address = create_fake_address()
     status = random.choice(list(OrderStatusKinds)).value
     order_data = {
         "user_id": user.id,
-        "shipping_address_id": address.id,
+        "shipping_address": address.full_address,
         "status": status,
     }
     shipping_method = ShippingMethod.query.order_by(func.random()).first()
     order_data.update(
         {
             "shipping_method_name": shipping_method.title,
+            "shipping_method_id": shipping_method.id,
             "shipping_price_net": shipping_method.price,
         }
     )
 
     order = Order.create(**order_data)
-    lines = create_order_lines(order, discounts, taxes, random.randrange(1, 5))
-    order.total_net = sum(
-        [line.get_total() for line in lines], order.shipping_price_net
-    )
+    lines = create_order_lines(order, discounts, random.randrange(1, 5))
+    order.total_net = sum([line.get_total() for line in lines])
     order.save()
     create_payment(order)
     return order
@@ -559,11 +558,10 @@ def create_fake_sale():
 
 
 def create_orders(how_many=10):
-    taxes = None
     # discounts = Sale.objects.prefetch_related('products', 'categories')
     discounts = None
     for dummy in range(how_many):
-        order = create_fake_order(discounts, taxes)
+        order = create_fake_order(discounts)
         yield f"Order: {order}"
 
 

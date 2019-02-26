@@ -70,7 +70,8 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ url_for('checkout.checkout_shipping') }}" class="btn btn-primary float-right cart__submit">
+            <a href="{% if current_user_cart.is_shipping_required %}{{ url_for('checkout.checkout_shipping') }}{% else %}{{ url_for('checkout.checkout_note') }}{% endif %}"
+                class="btn btn-primary float-right cart__submit">
                 Checkout
             </a>
         </div>

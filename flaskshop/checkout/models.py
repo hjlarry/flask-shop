@@ -114,7 +114,10 @@ class Cart(Model):
 
     def update_quantity(self):
         self.quantity = sum(line.quantity for line in self)
-        self.save()
+        if self.quantity == 0:
+            self.delete()
+        else:
+            self.save()
         return self.quantity
 
     @classmethod

@@ -1,14 +1,14 @@
 {% import '_macros.html' as macros %}
 <div class="order-details__addresses">
     <div class="row">
-        {% if order.is_shipping_required %}
         <div class="col-6">
+            {% if order.is_shipping_required %}
             <h3>
                 Shipping address
             </h3>
             {{ order.shipping_address | safe }}
+            {% endif %}
         </div>
-        {% endif %}
         {% if order.is_open %}
         <div class="col-6">
             <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary float-right">
