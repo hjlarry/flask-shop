@@ -9,6 +9,7 @@ from flaskshop.account.models import User, UserAddress
 from flaskshop.product.models import ProductVariant
 from flaskshop.constant import OrderStatusKinds, PaymentStatusKinds
 from flaskshop.checkout.models import ShippingMethod
+from flaskshop.discount.models import Voucher
 
 
 class Order(Model):
@@ -35,7 +36,7 @@ class Order(Model):
         # Step1, process stock
         to_update_variants = []
         to_update_orderlines = []
-        total = 0
+        total_net = 0
         for line in cart.lines:
             variant = ProductVariant.get_by_id(line.variant.id)
             result, msg = variant.check_enough_stock(line.quantity)
@@ -52,7 +53,15 @@ class Order(Model):
                 is_shipping_required=variant.is_shipping_required,
             )
             to_update_orderlines.append(orderline)
-            total += orderline.get_total()
+            total_net += orderline.get_total()
+
+        voucher = None
+        if cart.voucher_code:
+            voucher = Voucher.get_by_code(cart.voucher_code)
+            try:
+                voucher.check_available(cart)
+            except Exception as e:
+                return False, str(e)
 
         # Step2, create Order obj
         try:
@@ -61,7 +70,6 @@ class Order(Model):
             shipping_address = UserAddress.get_by_id(
                 cart.shipping_address_id
             ).full_address
-            total += shipping_method.price
             order = cls.create(
                 user_id=current_user.id,
                 token=str(uuid4()),
@@ -70,10 +78,10 @@ class Order(Model):
                 shipping_price_net=shipping_method.price,
                 shipping_address=shipping_address,
                 status=OrderStatusKinds.unfulfilled.value,
-                total_net=total,
+                total_net=total_net,
             )
         except Exception as e:
-            return False, e.msg
+            return False, str(e)
 
         # Step3, process others
         if note:
@@ -81,6 +89,13 @@ class Order(Model):
                 order_id=order.id, user_id=current_user.id, content=note
             )
             db.session.add(order_note)
+        if voucher:
+            order.voucher_id = voucher.id
+            order.discount_amount = voucher.get_vouchered_price(cart)
+            order.discount_name = voucher.title
+            voucher.used += 1
+            db.session.add(order)
+            db.session.add(voucher)
         for variant in to_update_variants:
             db.session.add(variant)
         for orderline in to_update_orderlines:
@@ -96,13 +111,13 @@ class Order(Model):
     def get_absolute_url(self):
         return url_for("order.show", token=self.token)
 
-    def get_subtotal(self):
-        subtotal_iterator = (line.get_total() for line in self.lines)
-        return sum(subtotal_iterator)
-
     @property
     def identity(self):
         return self.token.split("-")[-1]
+
+    @property
+    def total(self):
+        return self.total_net + self.shipping_price_net - self.discount_amount
 
     @property
     def status_name(self):
@@ -119,16 +134,6 @@ class Order(Model):
     @classmethod
     def get_user_orders(cls, user_id):
         return cls.query.filter_by(user_id=user_id).all()
-
-    @property
-    def is_fully_paid(self):
-        # TODO
-        return False
-
-    @property
-    def is_pre_authorized(self):
-        # TODO
-        return False
 
     @property
     def is_open(self):
