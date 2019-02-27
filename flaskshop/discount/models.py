@@ -1,6 +1,6 @@
 import random
 import string
-import datetime
+from datetime import datetime
 from decimal import Decimal
 
 from sqlalchemy.dialects.mysql import TINYINT
@@ -17,8 +17,8 @@ class Voucher(Model):
     code = Column(db.String(16), unique=True)
     usage_limit = Column(db.Integer())
     used = Column(db.Integer(), default=0)
-    start_date = Column(db.DateTime())
-    end_date = Column(db.DateTime())
+    start_date = Column(db.Date())
+    end_date = Column(db.Date())
     discount_value_type = Column(TINYINT())
     discount_value = Column(db.DECIMAL(10, 2))
     limit = Column(db.DECIMAL(10, 2))
@@ -36,6 +36,14 @@ class Voucher(Model):
     def discount_value_type_label(self):
         return DiscountValueTypeKinds(int(self.discount_value_type)).name
 
+    @property
+    def validity_period(self):
+        return (
+            datetime.strftime(self.start_date, "%m/%d/%Y")
+            + " - "
+            + datetime.strftime(self.end_date, "%m/%d/%Y")
+        )
+
     @classmethod
     def generate_code(cls):
         code = "".join(random.choices(string.ascii_uppercase, k=16))
@@ -46,9 +54,9 @@ class Voucher(Model):
             return cls.generate_code()
 
     def check_available(self, cart=None):
-        if self.start_date and self.start_date > datetime.datetime.now():
+        if self.start_date and self.start_date > datetime.now():
             raise Exception("The voucher code can not use now, please retry later")
-        if self.end_date and self.end_date < datetime.datetime.now():
+        if self.end_date and self.end_date < datetime.now():
             raise Exception("The voucher code has expired")
         if self.usage_limit and self.usage_limit - self.used < 0:
             raise Exception("This voucher code has been used out")

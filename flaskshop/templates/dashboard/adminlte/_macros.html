@@ -35,6 +35,9 @@
         </option>
         {% endfor %}
     </select>
+    {% if field.description %}
+    <small class="form-text text-muted">{{ field.description|safe }}</small>
+    {% endif %}
 </div>
 {% endmacro %}
 
@@ -167,5 +170,21 @@
         </select>
         {% endfor %}
     </p>
+</div>
+{% endmacro %}
+
+{% macro render_daterange_field(field) %}
+{% set label_id = field.label.field_id %}
+<div class="form-group">
+    <label>{{ field.label.text }}</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">
+                <i class="fa fa-calendar"></i>
+            </span>
+        </div>
+        <input type="text" class="form-control float-right" id="reservation" name="{{ label_id }}"
+            value="{% if field.data %}{{ field.data }}{% elif field.default is not none %}{{field.default}}{% endif %}">
+    </div>
 </div>
 {% endmacro %}

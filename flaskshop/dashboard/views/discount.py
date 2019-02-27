@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import request, render_template, redirect, url_for
 
 from flaskshop.discount.models import Voucher, Sale, SaleCategory, SaleProduct
@@ -37,6 +39,10 @@ def voucher_manage(id=None):
     if form.validate_on_submit():
         if not id:
             voucher = Voucher()
+        start_date, end_date = form.validity_period.data.split("-")
+        voucher.start_date = datetime.strptime(start_date.strip(), "%m/%d/%Y")
+        voucher.end_date = datetime.strptime(end_date.strip(), "%m/%d/%Y")
+        del form.validity_period
         form.populate_obj(voucher)
         voucher.save()
         return redirect(url_for("dashboard.vouchers"))
