@@ -29,6 +29,7 @@ from .product import (
     variant_manage,
 )
 from .order import orders, order_detail
+from .discount import vouchers
 from flaskshop.settings import Config
 
 
@@ -147,3 +148,4 @@ blueprint.add_url_rule(
 )
 blueprint.add_url_rule("/orders", view_func=orders)
 blueprint.add_url_rule("/order/<id>", view_func=order_detail)
+blueprint.add_url_rule("/vouchers", view_func=vouchers)

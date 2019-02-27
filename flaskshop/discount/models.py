@@ -28,6 +28,14 @@ class Voucher(Model):
     def __str__(self):
         return self.title
 
+    @property
+    def type_label(self):
+        return VoucherTypeKinds(int(self.type)).name
+
+    @property
+    def discount_value_type_label(self):
+        return DiscountValueTypeKinds(int(self.discount_value_type)).name
+
     @classmethod
     def generate_code(cls):
         code = "".join(random.choices(string.ascii_uppercase, k=16))

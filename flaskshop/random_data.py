@@ -128,7 +128,7 @@ DASHBOARD_MENUS = [
         "endpoint": "dashboard.orders",
         "icon_cls": "fa-cart-arrow-down",
     },
-    {"title": "Promotion", "icon_cls": "fa-gratipay"},
+    {"title": "Discount", "icon_cls": "fa-gratipay"},
     {"title": "Site", "icon_cls": "fa-cog"},
     {"title": "ProductList", "endpoint": "dashboard.products", "parent_id": 2},
     {"title": "Type", "endpoint": "dashboard.product_types", "parent_id": 2},
