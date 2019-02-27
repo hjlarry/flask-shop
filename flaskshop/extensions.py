@@ -2,6 +2,7 @@ import hashlib
 import functools
 from datetime import datetime
 
+from flask import abort
 from flask_bcrypt import Bcrypt
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager

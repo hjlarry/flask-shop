@@ -15,7 +15,7 @@ from wtforms import (
     DecimalField,
     DateTimeField,
 )
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, optional
 
 
 class FlaskForm(_FlaskForm):
@@ -146,4 +146,20 @@ class VariantForm(FlaskForm):
     title = StringField()
     price_override = DecimalField(default=0.00)
     quantity = IntegerField(default=0)
+    submit = SubmitField()
+
+
+class VoucherForm(FlaskForm):
+    title = StringField()
+    type = SelectField()
+    code = StringField()
+    usage_limit = IntegerField(description="sdadsad", validators=[optional()])
+    used = IntegerField(default=0)
+    start_date = DateTimeField(default=None, validators=[optional()])
+    end_date = DateTimeField(validators=[optional()])
+    discount_value_type = SelectField()
+    discount_value = DecimalField(default=0.00)
+    limit = IntegerField(validators=[optional()])
+    category_id = SelectField()
+    product_id = SelectField()
     submit = SubmitField()
