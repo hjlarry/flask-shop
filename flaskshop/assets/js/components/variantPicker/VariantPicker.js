@@ -9,177 +9,165 @@ import QuantityInput from './QuantityInput';
 import * as queryString from 'query-string';
 
 export default observer(class VariantPicker extends Component {
-    static propTypes = {
-        onAddToCartError: PropTypes.func.isRequired,
-        onAddToCartSuccess: PropTypes.func.isRequired,
-        store: PropTypes.object.isRequired,
-        url: PropTypes.string.isRequired,
-        variantAttributes: PropTypes.array.isRequired,
-        variants: PropTypes.array.isRequired
+  static propTypes = {
+    onAddToCartError: PropTypes.func.isRequired,
+    onAddToCartSuccess: PropTypes.func.isRequired,
+    store: PropTypes.object.isRequired,
+    url: PropTypes.string.isRequired,
+    variantAttributes: PropTypes.array.isRequired,
+    variants: PropTypes.array.isRequired
+  };
+
+  constructor (props) {
+    super(props);
+    const { variants } = this.props;
+
+    const variant = variants.filter(v => !!Object.keys(v.attributes).length)[0];
+    const params = queryString.parse(location.search);
+    let selection = {};
+    if (Object.keys(params).length) {
+      Object.keys(params)
+        .some((name) => {
+          const valueName = params[name];
+          const attribute = this.matchAttributeBySlug(name);
+          const value = this.matchAttributeValueByName(attribute, valueName);
+          if (attribute && value) {
+            selection[attribute.pk] = value.pk.toString();
+          } else {
+            // if attribute doesn't exist - show variant
+            selection = variant ? variant.attributes : {};
+            // break
+            return true;
+          }
+        });
+    } else if (Object.keys(variant).length) {
+      selection = variant.attributes;
+    }
+    this.state = {
+      errors: {},
+      quantity: 1,
+      selection: selection
     };
+    this.matchVariantFromSelection();
+  }
 
-    constructor(props) {
-        super(props);
-        const {variants} = this.props;
+  checkVariantAvailability = () => {
+    const { store } = this.props;
+    return store.variant.availability;
+  };
 
-        const variant = variants.filter(v => !!Object.keys(v.attributes).length)[0];
-        const params = queryString.parse(location.search);
-        let selection = {};
-        if (Object.keys(params).length) {
-            Object.keys(params)
-                .some((name) => {
-                    const valueName = params[name];
-                    const attribute = this.matchAttributeBySlug(name);
-                    const value = this.matchAttributeValueByName(attribute, valueName);
-                    if (attribute && value) {
-                        selection[attribute.pk] = value.pk.toString();
-                    } else {
-                        // if attribute doesn't exist - show variant
-                        selection = variant ? variant.attributes : {};
-                        // break
-                        return true;
-                    }
-                });
-        } else if (Object.keys(variant).length) {
-            selection = variant.attributes;
+  handleAddToCart = () => {
+    const { onAddToCartSuccess, onAddToCartError, store } = this.props;
+    const { quantity } = this.state;
+    if (quantity > 0 && !store.isEmpty) {
+      $.ajax({
+        url: this.props.url,
+        method: 'post',
+        data: {
+          quantity: quantity,
+          variant: store.variant.id
+        },
+        success: () => {
+          onAddToCartSuccess();
+        },
+        error: (response) => {
+          onAddToCartError(response);
         }
-        this.state = {
-            errors: {},
-            quantity: 1,
-            selection: selection
-        };
-        this.matchVariantFromSelection();
+      });
     }
+  };
 
-    checkVariantAvailability = () => {
-        const {store} = this.props;
-        return store.variant.availability;
-    };
-
-    handleAddToCart = () => {
-        const {onAddToCartSuccess, onAddToCartError, store} = this.props;
-        const {quantity} = this.state;
-        if (quantity > 0 && !store.isEmpty) {
-            $.ajax({
-                url: this.props.url,
-                method: 'post',
-                data: {
-                    quantity: quantity,
-                    variant: store.variant.id
-                },
-                success: () => {
-                    onAddToCartSuccess();
-                },
-                error: (response) => {
-                    onAddToCartError(response);
-                }
-            });
-        }
-    };
-
-    handleAttributeChange = (attrId, valueId) => {
-        this.setState({
-            selection: Object.assign({}, this.state.selection, {[attrId]: valueId})
-        }, () => {
-            this.matchVariantFromSelection();
-            let params = {};
-            Object.keys(this.state.selection)
-                .forEach(attrId => {
-                    const attribute = this.matchAttribute(attrId);
-                    const value = this.matchAttributeValue(attribute, this.state.selection[attrId]);
-                    if (attribute && value) {
-                        params[attribute.slug] = value.slug;
-                    }
-                });
-            history.pushState(null, null, '?' + queryString.stringify(params));
+  handleAttributeChange = (attrId, valueId) => {
+    this.setState({
+      selection: Object.assign({}, this.state.selection, { [attrId]: valueId })
+    }, () => {
+      this.matchVariantFromSelection();
+      let params = {};
+      Object.keys(this.state.selection)
+        .forEach(attrId => {
+          const attribute = this.matchAttribute(attrId);
+          const value = this.matchAttributeValue(attribute, this.state.selection[attrId]);
+          if (attribute && value) {
+            params[attribute.slug] = value.slug;
+          }
         });
-    };
+      history.pushState(null, null, '?' + queryString.stringify(params));
+    });
+  };
 
-    handleQuantityChange = (event) => {
-        this.setState({quantity: parseInt(event.target.value)});
-    };
+  handleQuantityChange = (event) => {
+    this.setState({ quantity: parseInt(event.target.value) });
+  };
 
-    matchAttribute = (id) => {
-        const {variantAttributes} = this.props;
-        const match = variantAttributes.filter(attribute => attribute.pk.toString() === id);
-        return match.length > 0 ? match[0] : null;
-    };
+  matchAttribute = (id) => {
+    const { variantAttributes } = this.props;
+    const match = variantAttributes.filter(attribute => attribute.pk.toString() === id);
+    return match.length > 0 ? match[0] : null;
+  };
 
-    matchAttributeBySlug = (slug) => {
-        const {variantAttributes} = this.props;
-        const match = variantAttributes.filter(attribute => attribute.slug === slug);
-        return match.length > 0 ? match[0] : null;
-    };
+  matchAttributeBySlug = (slug) => {
+    const { variantAttributes } = this.props;
+    const match = variantAttributes.filter(attribute => attribute.slug === slug);
+    return match.length > 0 ? match[0] : null;
+  };
 
-    matchAttributeValue = (attribute, id) => {
-        const match = attribute.values.filter(attribute => attribute.pk.toString() === id);
-        return match.length > 0 ? match[0] : null;
-    };
+  matchAttributeValue = (attribute, id) => {
+    const match = attribute.values.filter(attribute => attribute.pk.toString() === id);
+    return match.length > 0 ? match[0] : null;
+  };
 
-    matchAttributeValueByName = (attribute, name) => {
-        const match = attribute ? attribute.values.filter(value => value.slug === name) : [];
-        return match.length > 0 ? match[0] : null;
-    };
+  matchAttributeValueByName = (attribute, name) => {
+    const match = attribute ? attribute.values.filter(value => value.slug === name) : [];
+    return match.length > 0 ? match[0] : null;
+  };
 
-    matchVariantFromSelection() {
-        const {store, variants} = this.props;
-        let matchedVariant = null;
-        variants.forEach(variant => {
-            if (_.isEqual(this.state.selection, variant.attributes)) {
-                matchedVariant = variant;
-            }
-        });
-        store.setVariant(matchedVariant);
-    }
+  matchVariantFromSelection () {
+    const { store, variants } = this.props;
+    let matchedVariant = null;
+    variants.forEach(variant => {
+      if (_.isEqual(this.state.selection, variant.attributes)) {
+        matchedVariant = variant;
+      }
+    });
+    store.setVariant(matchedVariant);
+  }
 
-    render() {
-        const {store, variantAttributes} = this.props;
-        const {errors, selection, quantity} = this.state;
-        const disableAddToCart = store.isEmpty || !this.checkVariantAvailability();
+  render () {
+    const { store, variantAttributes } = this.props;
+    const { errors, selection, quantity } = this.state;
+    const disableAddToCart = store.isEmpty || !this.checkVariantAvailability();
 
-        const addToCartBtnClasses = classNames({
-            'btn primary': true,
-            'disabled': disableAddToCart
-        });
+    const addToCartBtnClasses = classNames({
+      'btn primary': true,
+      'disabled': disableAddToCart
+    });
 
-        return (
-            < div >
-            {variantAttributes.map((attribute, i) =>
-            < AttributeSelectionWidget
-        attribute = {attribute}
-        handleChange = {this.handleAttributeChange
-    }
-        key = {i}
-        selected = {selection[attribute.pk]}
-        />
-    )
-    }
-    <
-        div
-        className = "clearfix" >
-            < QuantityInput
-        errors = {errors.quantity
-    }
-        handleChange = {this.handleQuantityChange
-    }
-        quantity = {quantity}
-        />
-        < div
-        className = "form-group product__info__button" >
-            < button
-        className = {addToCartBtnClasses}
-        onClick = {this.handleAddToCart
-    }
-        disabled = {disableAddToCart} >
-            {pgettext('Product details primary action', 'Add to cart'
-    )
-    }
-    <
-        /button>
-        < /div>
-        < /div>
-        < /div>
-    )
-        ;
-    }
+    return (
+      <div>
+        {variantAttributes.map((attribute, i) =>
+          <AttributeSelectionWidget
+            attribute={attribute}
+            handleChange={this.handleAttributeChange}
+            key={i}
+            selected={selection[attribute.pk]}
+          />
+        )}
+        <div className="clearfix">
+          <QuantityInput
+            errors={errors.quantity}
+            handleChange={this.handleQuantityChange}
+            quantity={quantity}
+          />
+          <div className="form-group product__info__button">
+            <button
+              className={addToCartBtnClasses}
+              onClick={this.handleAddToCart}
+              disabled={disableAddToCart}>
+              {pgettext('Product details primary action', 'Add to cart')}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 });

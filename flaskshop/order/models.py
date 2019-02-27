@@ -33,7 +33,7 @@ class Order(Model):
 
     @classmethod
     def create_whole_order(cls, cart, note=None):
-        # Step1, process stock
+        # Step1, certify stock, voucher
         to_update_variants = []
         to_update_orderlines = []
         total_net = 0

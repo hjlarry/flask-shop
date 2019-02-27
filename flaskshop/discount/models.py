@@ -1,6 +1,7 @@
 import random
 import string
 import datetime
+from decimal import Decimal
 
 from sqlalchemy.dialects.mysql import TINYINT
 
@@ -100,7 +101,8 @@ class Voucher(Model):
         if self.discount_value_type == DiscountValueTypeKinds.fixed.value:
             return self.discount_value if price > self.discount_value else price
         elif self.discount_value_type == DiscountValueTypeKinds.percent.value:
-            return price * self.discount_value
+            price = price * self.discount_value / 100
+            return Decimal(price).quantize(Decimal("0.00"))
 
 
 class Sale(Model):
@@ -111,6 +113,24 @@ class Sale(Model):
 
     def __str__(self):
         return self.title
+
+    @classmethod
+    def get_discounted_price(cls, product):
+        sale_product = SaleProduct.query.filter_by(product_id=product.id).first()
+        if sale_product:
+            sale = Sale.get_by_id(sale_product.sale_id)
+        else:
+            sale_category = SaleCategory.query.filter_by(
+                category_id=product.category.id
+            ).first()
+            sale = Sale.get_by_id(sale_category.sale_id) if sale_category else None
+        if sale is None:
+            return 0
+        if sale.discount_value_type == DiscountValueTypeKinds.fixed.value:
+            return sale.discount_value
+        elif sale.discount_value_type == DiscountValueTypeKinds.percent.value:
+            price = product.basic_price * sale.discount_value / 100
+            return Decimal(price).quantize(Decimal("0.00"))
 
 
 class SaleCategory(Model):

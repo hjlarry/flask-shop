@@ -7,7 +7,8 @@
         <span class="product-list-item-name" title="{{ product }}">{{ product }}</span>
       </div>
       <div class="panel-footer">
-        ${{product.price}} {% if product.discounts %}
+        ${{product.price}}
+        {% if product.is_discounted %}
         <div class="product-list__sale">
           <svg data-src="{{ url_for('static', filename='img/sale-bg.svg')}}"></svg>
           <span class="product-list__sale__text">Sale</span>

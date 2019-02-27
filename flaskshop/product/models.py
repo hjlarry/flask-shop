@@ -17,14 +17,13 @@ MC_KEY_CATEGORY_CHILDREN = "product:category:{}:children"
 
 class Product(Model):
     __tablename__ = "product_product"
-    __searchable__ = ["title", "description"]
     title = Column(db.String(255), nullable=False)
     description = PropsItem("description")
     on_sale = Column(db.Boolean(), default=True)
     rating = Column(db.DECIMAL(8, 2), default=5.0)
     sold_count = Column(db.Integer(), default=0)
     review_count = Column(db.Integer(), default=0)
-    price = Column(db.DECIMAL(10, 2))
+    basic_price = Column(db.DECIMAL(10, 2))
     category_id = Column(db.Integer())
     is_featured = Column(db.Boolean(), default=False)
     product_type_id = Column(db.Integer())
@@ -61,6 +60,23 @@ class Product(Model):
     @property
     def product_type(self):
         return ProductType.get_by_id(self.product_type_id)
+
+    @property
+    def is_discounted(self):
+        if self.discounted_price > 0:
+            return True
+        return False
+
+    @property
+    def discounted_price(self):
+        from flaskshop.discount.models import Sale
+        return Sale.get_discounted_price(self)
+
+    @property
+    def price(self):
+        if self.is_discounted:
+            return self.basic_price - self.discounted_price
+        return self.basic_price
 
     @property
     @cache(MC_KEY_PRODUCT_VARIANT.format("{self.id}"))
