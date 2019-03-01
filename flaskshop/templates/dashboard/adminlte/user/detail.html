@@ -32,7 +32,8 @@
 
                         <a href="{{url_for('dashboard.user_edit', user_id=user.id)}}"
                             class="btn btn-primary btn-block"><b>Edit</b></a>
-                        <a href="#" class="btn btn-danger btn-block"><b>Delete</b></a>
+                        <a class="btn btn-danger btn-block" id="delete-btn" data-id="{{user.id}}"
+                            data-url="{{url_for('dashboard.user_delete', id=user.id)}}"><b>Delete</b></a>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -113,4 +114,43 @@
     </div><!-- /.container-fluid -->
 </section>
 
+{% endblock %}
+
+{% block tail_js %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $(function () {
+        $("#delete-btn").click(
+            function () {
+                var $this = $(event.currentTarget)[0];
+                var $url = $($this).data('url');
+                var $id = $($this).data('id');
+                swal({
+                    title: "Are you sure to delete?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        console.log($url)
+                        $.ajax({
+                            url: $url,
+                            type: 'DELETE',
+                            data: {},
+                            success: function (rs) {
+                                if (rs.r) {
+                                    console.log(rs.msg)
+                                } else {
+                                    swal("Poof! This user has been deleted!", {
+                                        icon: "success",
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        )
+    });
+</script>
 {% endblock %}
