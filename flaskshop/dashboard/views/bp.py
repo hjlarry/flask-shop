@@ -99,7 +99,7 @@ blueprint.add_url_rule(
     "/users/<user_id>/edit", view_func=user_edit, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/address/<id>/edit", view_func=address_edit, methods=["GET", "POST"]
+    "/users/address/<id>/edit", view_func=address_edit, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/attributes", view_func=attributes)
 blueprint.add_url_rule(
@@ -130,7 +130,7 @@ blueprint.add_url_rule(
     "/product_types/<id>/edit", view_func=product_type_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/products", view_func=products)
-blueprint.add_url_rule("/product/<id>", view_func=product_detail)
+blueprint.add_url_rule("/products/<id>", view_func=product_detail)
 blueprint.add_url_rule(
     "/products/create/step1", view_func=product_create_step1, methods=["GET", "POST"]
 )
@@ -141,22 +141,22 @@ blueprint.add_url_rule(
     "/products/<id>/edit", view_func=product_edit, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/variant/create", view_func=variant_manage, methods=["GET", "POST"]
+    "/products/variant/create", view_func=variant_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/variant/<id>/edit", view_func=variant_manage, methods=["GET", "POST"]
+    "/products/variant/<id>/edit", view_func=variant_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/orders", view_func=orders)
-blueprint.add_url_rule("/order/<id>", view_func=order_detail)
+blueprint.add_url_rule("/orders/<id>", view_func=order_detail)
 blueprint.add_url_rule("/vouchers", view_func=vouchers)
 blueprint.add_url_rule(
-    "/voucher/create", view_func=voucher_manage, methods=["GET", "POST"]
+    "/vouchers/create", view_func=voucher_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/voucher/<id>/edit", view_func=voucher_manage, methods=["GET", "POST"]
+    "/vouchers/<id>/edit", view_func=voucher_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/sales", view_func=sales)
-blueprint.add_url_rule("/sale/create", view_func=sale_manage, methods=["GET", "POST"])
+blueprint.add_url_rule("/sales/create", view_func=sale_manage, methods=["GET", "POST"])
 blueprint.add_url_rule(
-    "/sale/<id>/edit", view_func=sale_manage, methods=["GET", "POST"]
+    "/sales/<id>/edit", view_func=sale_manage, methods=["GET", "POST"]
 )

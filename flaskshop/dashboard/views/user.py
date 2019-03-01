@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 
 from flaskshop.account.models import User, UserAddress
 from flaskshop.order.models import Order
@@ -6,7 +6,8 @@ from flaskshop.dashboard.forms import UserForm, UserAddressForm
 
 
 def users():
-    users = User.query.all()
+    page = request.args.get("page", type=int, default=1)
+    pagination = User.query.paginate(page, 10)
     props = {
         "id": "ID",
         "username": "Username",
@@ -14,9 +15,13 @@ def users():
         "is_active": "Is Active",
         "is_admin": "Is Admin",
     }
-    return render_template(
-        "user/list.html", props=props, items=users, title="User List"
-    )
+    context = {
+        "title": "User List",
+        "items": pagination.items,
+        "props": props,
+        "pagination": pagination,
+    }
+    return render_template("user/list.html", **context)
 
 
 def user(user_id):

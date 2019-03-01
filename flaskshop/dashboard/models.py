@@ -23,7 +23,7 @@ class DashboardMenu(Model):
         return cls.query.filter(cls.parent_id == 0).order_by("order").all()
 
     def is_active(self):
-        if self.endpoint and request.path == url_for(self.endpoint):
+        if self.endpoint and self.endpoint in request.path:
             return True
         if any((child.is_active() for child in self.children)):
             return True
@@ -33,5 +33,5 @@ class DashboardMenu(Model):
         if self.children:
             return "#"
         if self.endpoint:
-            return url_for(self.endpoint)
+            return url_for("dashboard." + self.endpoint)
 

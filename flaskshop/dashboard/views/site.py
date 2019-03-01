@@ -54,7 +54,8 @@ def site_menus_manage(id=None):
 
 
 def dashboard_menus():
-    dashboard_menus = DashboardMenu.query.all()
+    page = request.args.get("page", type=int, default=1)
+    pagination = DashboardMenu.query.paginate(page, 10)
     props = {
         "id": "ID",
         "title": "Title",
@@ -66,8 +67,9 @@ def dashboard_menus():
     context = {
         "title": "Dashboard Menus",
         "manage_endpoint": "dashboard.dashboard_menus_manage",
-        "items": dashboard_menus,
+        "items": pagination.items,
         "props": props,
+        "pagination": pagination,
     }
     return render_template("list.html", **context)
 
@@ -85,13 +87,12 @@ def dashboard_menus_manage(id=None):
         menu.save()
         return redirect(url_for("dashboard.dashboard_menus"))
     parents = DashboardMenu.first_level_items()
-    return render_template(
-        "site/dashboard_menu.html", form=form, parents=parents
-    )
+    return render_template("site/dashboard_menu.html", form=form, parents=parents)
 
 
 def site_pages():
-    pages = Page.query.all()
+    page = request.args.get("page", type=int, default=1)
+    pagination = Page.query.paginate(page, 10)
     props = {
         "id": "ID",
         "title": "Title",
@@ -102,8 +103,9 @@ def site_pages():
     context = {
         "title": "Site Pages",
         "manage_endpoint": "dashboard.site_pages_manage",
-        "items": pages,
+        "items": pagination.items,
         "props": props,
+        "pagination": pagination,
     }
     return render_template("list.html", **context)
 

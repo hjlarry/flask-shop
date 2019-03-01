@@ -1,6 +1,8 @@
 import itertools
 import random
 import unicodedata
+from uuid import uuid4
+
 from faker import Factory
 from faker.providers import BaseProvider
 from sqlalchemy.sql.expression import func
@@ -121,25 +123,21 @@ COLLECTIONS_SCHEMA = [
 ]
 
 DASHBOARD_MENUS = [
-    {"title": "User", "endpoint": "dashboard.users", "icon_cls": "fa-user"},
+    {"title": "User", "endpoint": "users", "icon_cls": "fa-user"},
     {"title": "Product", "icon_cls": "fa-bandcamp"},
-    {
-        "title": "Order",
-        "endpoint": "dashboard.orders",
-        "icon_cls": "fa-cart-arrow-down",
-    },
+    {"title": "Order", "endpoint": "orders", "icon_cls": "fa-cart-arrow-down"},
     {"title": "Discount", "icon_cls": "fa-gratipay"},
     {"title": "Site", "icon_cls": "fa-cog"},
-    {"title": "ProductList", "endpoint": "dashboard.products", "parent_id": 2},
-    {"title": "Type", "endpoint": "dashboard.product_types", "parent_id": 2},
-    {"title": "Category", "endpoint": "dashboard.categories", "parent_id": 2},
-    {"title": "Collection", "endpoint": "dashboard.collections", "parent_id": 2},
-    {"title": "Attribute", "endpoint": "dashboard.attributes", "parent_id": 2},
-    {"title": "Page", "endpoint": "dashboard.site_pages", "parent_id": 5},
-    {"title": "SiteMenu", "endpoint": "dashboard.site_menus", "parent_id": 5},
-    {"title": "DashboardMenu", "endpoint": "dashboard.dashboard_menus", "parent_id": 5},
-    {"title": "Voucher", "endpoint": "dashboard.vouchers", "parent_id": 4},
-    {"title": "Sale", "endpoint": "dashboard.sales", "parent_id": 4},
+    {"title": "ProductList", "endpoint": "products", "parent_id": 2},
+    {"title": "Type", "endpoint": "product_types", "parent_id": 2},
+    {"title": "Category", "endpoint": "categories", "parent_id": 2},
+    {"title": "Collection", "endpoint": "collections", "parent_id": 2},
+    {"title": "Attribute", "endpoint": "attributes", "parent_id": 2},
+    {"title": "Page", "endpoint": "site_pages", "parent_id": 5},
+    {"title": "SiteMenu", "endpoint": "site_menus", "parent_id": 5},
+    {"title": "DashboardMenu", "endpoint": "dashboard_menus", "parent_id": 5},
+    {"title": "Voucher", "endpoint": "vouchers", "parent_id": 4},
+    {"title": "Sale", "endpoint": "sales", "parent_id": 4},
 ]
 
 
@@ -530,6 +528,7 @@ def create_fake_order(discounts):
         "user_id": user.id,
         "shipping_address": address.full_address,
         "status": status,
+        "token": str(uuid4()),
     }
     shipping_method = ShippingMethod.query.order_by(func.random()).first()
     order_data.update(
