@@ -138,6 +138,8 @@ DASHBOARD_MENUS = [
     {"title": "Page", "endpoint": "dashboard.site_pages", "parent_id": 5},
     {"title": "SiteMenu", "endpoint": "dashboard.site_menus", "parent_id": 5},
     {"title": "DashboardMenu", "endpoint": "dashboard.dashboard_menus", "parent_id": 5},
+    {"title": "Voucher", "endpoint": "dashboard.vouchers", "parent_id": 4},
+    {"title": "Sale", "endpoint": "dashboard.sales", "parent_id": 4},
 ]
 
 

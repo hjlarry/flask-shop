@@ -130,6 +130,10 @@ class Sale(Model):
     def __str__(self):
         return self.title
 
+    @property
+    def discount_value_type_label(self):
+        return DiscountValueTypeKinds(int(self.discount_value_type)).name
+
     @classmethod
     def get_discounted_price(cls, product):
         sale_product = SaleProduct.query.filter_by(product_id=product.id).first()

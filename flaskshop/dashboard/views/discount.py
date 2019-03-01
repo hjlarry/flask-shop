@@ -60,3 +60,22 @@ def voucher_manage(id=None):
         "discount_types": discount_types,
     }
     return render_template("discount/voucher.html", **context)
+
+
+def sales():
+    page = request.args.get("page", type=int, default=1)
+    pagination = Sale.query.paginate(page, 10)
+    props = {
+        "id": "ID",
+        "title": "Title",
+        "discount_value_type_label": "Discount Type",
+        "discount_value": "Discount Value",
+    }
+    context = {
+        "title": "Sale",
+        "manage_endpoint": "dashboard.voucher_manage",
+        "items": pagination.items,
+        "props": props,
+        "pagination": pagination,
+    }
+    return render_template("list.html", **context)
