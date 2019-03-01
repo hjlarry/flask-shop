@@ -29,7 +29,7 @@ from .product import (
     variant_manage,
 )
 from .order import orders, order_detail
-from .discount import vouchers, voucher_manage, sales
+from .discount import vouchers, voucher_manage, sales, sale_manage
 from flaskshop.settings import Config
 
 
@@ -156,3 +156,7 @@ blueprint.add_url_rule(
     "/voucher/<id>/edit", view_func=voucher_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/sales", view_func=sales)
+blueprint.add_url_rule("/sale/create", view_func=sale_manage, methods=["GET", "POST"])
+blueprint.add_url_rule(
+    "/sale/<id>/edit", view_func=sale_manage, methods=["GET", "POST"]
+)

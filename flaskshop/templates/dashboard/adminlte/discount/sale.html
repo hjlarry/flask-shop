@@ -3,8 +3,6 @@
 {% extends 'dashboard/adminlte/layout.html' %}
 {% block head_tail %}
 <link href="{{ url_for('static', filename='dashboard/plugins/select2/select2.min.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='dashboard/plugins/daterangepicker/daterangepicker-bs3.css') }}"
-    rel="stylesheet">
 {{super()}}
 {% endblock %}
 {% block body %}
@@ -17,7 +15,7 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %}
-                            Voucher</h3>
+                            Sale</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -25,16 +23,10 @@
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
-                            {{ macros.render_select_field(form.type, voucher_types) }}
-                            {{ vendor.render_field(form.code) }}
-                            {{ vendor.render_field(form.usage_limit) }}
-                            {{ vendor.render_field(form.used) }}
-                            {{ macros.render_daterange_field(form.validity_period) }}
                             {{ macros.render_select_field(form.discount_value_type, discount_types) }}
                             {{ vendor.render_field(form.discount_value) }}
-                            {{ vendor.render_field(form.limit) }}
-                            {{ macros.render_select_field(form.category_id, categories) }}
-                            {{ macros.render_select_field(form.product_id, products) }}
+                            {{ macros.render_select_multi_field(form.categories, categories) }}
+                            {{ macros.render_select_multi_field(form.products, products) }}
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>
@@ -48,14 +40,10 @@
 
 {% block tail_js %}
 <script src="{{ url_for('static', filename='dashboard/plugins/select2/select2.min.js') }}"></script>
-<script src="{{ url_for('static', filename='dashboard/plugins/daterangepicker/moment.min.js') }}"></script>
-<script src="{{ url_for('static', filename='dashboard/plugins/daterangepicker/daterangepicker.js') }}"></script>
-
 <script>
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2();
-        $('#reservation').daterangepicker();
     });
 
 </script>

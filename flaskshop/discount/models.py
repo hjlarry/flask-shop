@@ -152,6 +152,56 @@ class Sale(Model):
             price = product.basic_price * sale.discount_value / 100
             return Decimal(price).quantize(Decimal("0.00"))
 
+    @property
+    def categories(self):
+        at_ids = (
+            SaleCategory.query.with_entities(SaleCategory.category_id)
+            .filter(SaleCategory.sale_id == self.id)
+            .all()
+        )
+        return Category.query.filter(Category.id.in_(id for id, in at_ids)).all()
+
+    @property
+    def products(self):
+        at_ids = (
+            SaleProduct.query.with_entities(SaleProduct.product_id)
+            .filter(SaleProduct.sale_id == self.id)
+            .all()
+        )
+        return Product.query.filter(Product.id.in_(id for id, in at_ids)).all()
+
+    def update_categories(self, category_ids):
+        origin_ids = (
+            SaleCategory.query.with_entities(SaleCategory.category_id)
+            .filter_by(sale_id=self.id)
+            .all()
+        )
+        origin_ids = set(i for i, in origin_ids)
+        new_attrs = set(int(i) for i in category_ids)
+        need_del = origin_ids - new_attrs
+        need_add = new_attrs - origin_ids
+        for id in need_del:
+            SaleCategory.query.filter_by(
+                sale_id=self.id, category_id=id
+            ).first().delete()
+        for id in need_add:
+            SaleCategory.create(sale_id=self.id, category_id=id)
+
+    def update_products(self, product_ids):
+        origin_ids = (
+            SaleProduct.query.with_entities(SaleProduct.product_id)
+            .filter_by(sale_id=self.id)
+            .all()
+        )
+        origin_ids = set(i for i, in origin_ids)
+        new_attrs = set(int(i) for i in product_ids)
+        need_del = origin_ids - new_attrs
+        need_add = new_attrs - origin_ids
+        for id in need_del:
+            SaleProduct.query.filter_by(sale_id=self.id, product_id=id).first().delete()
+        for id in need_add:
+            SaleProduct.create(sale_id=self.id, product_id=id)
+
 
 class SaleCategory(Model):
     __tablename__ = "discount_sale_categories"

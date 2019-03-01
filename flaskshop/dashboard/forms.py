@@ -158,11 +158,22 @@ class VoucherForm(FlaskForm):
     )
     used = IntegerField(default=0)
     validity_period = StringField()
-    # start_date = DateTimeField(default=None, validators=[optional()])
-    # end_date = DateTimeField(validators=[optional()])
     discount_value_type = SelectField()
     discount_value = DecimalField(default=0.00)
     limit = IntegerField(validators=[optional()])
-    category_id = SelectField(description="when type is category, need to select")
-    product_id = SelectField(description="when type is product, need to select")
+    category_id = SelectField(
+        "Category", description="when type is category, need to select"
+    )
+    product_id = SelectField(
+        "Product", description="when type is product, need to select"
+    )
+    submit = SubmitField()
+
+
+class SaleForm(FlaskForm):
+    title = StringField()
+    discount_value_type = SelectField()
+    discount_value = DecimalField(default=0.00)
+    categories = SelectMultipleField("Category")
+    products = SelectMultipleField("Product")
     submit = SubmitField()
