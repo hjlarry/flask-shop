@@ -30,10 +30,10 @@ def attributes():
     }
     context = {
         "title": "Product Attribute",
-        "manage_endpoint": "dashboard.attribute_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "identity": "attribute",
     }
     return render_template("list.html", **context)
 
@@ -64,10 +64,10 @@ def collections():
     props = {"id": "ID", "title": "Title", "created_at": "Created At"}
     context = {
         "title": "Product Collection",
-        "manage_endpoint": "dashboard.collection_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "identity": "collection",
     }
     return render_template("list.html", **context)
 
@@ -93,9 +93,7 @@ def collection_manage(id=None):
         collection.save()
         return redirect(url_for("dashboard.collections"))
     products = Product.query.all()
-    return render_template(
-        "product/collection.html", form=form, products=products
-    )
+    return render_template("product/collection.html", form=form, products=products)
 
 
 def categories():
@@ -109,10 +107,10 @@ def categories():
     }
     context = {
         "title": "Product Category",
-        "manage_endpoint": "dashboard.category_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "identity": "category",
     }
     return render_template("list.html", **context)
 
@@ -138,9 +136,7 @@ def category_manage(id=None):
         category.save()
         return redirect(url_for("dashboard.categories"))
     parents = Category.first_level_items()
-    return render_template(
-        "product/category.html", form=form, parents=parents
-    )
+    return render_template("product/category.html", form=form, parents=parents)
 
 
 def product_types():
@@ -155,10 +151,10 @@ def product_types():
     }
     context = {
         "title": "Product Type",
-        "manage_endpoint": "dashboard.product_type_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "identity": "product_type",
     }
     return render_template("list.html", **context)
 
@@ -242,9 +238,7 @@ def product_create_step1():
         )
     product_types = ProductType.query.all()
     return render_template(
-        "product/product_create_step1.html",
-        form=form,
-        product_types=product_types,
+        "product/product_create_step1.html", form=form, product_types=product_types
     )
 
 

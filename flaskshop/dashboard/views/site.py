@@ -18,10 +18,10 @@ def site_menus():
     }
     context = {
         "title": "Site Menus",
-        "manage_endpoint": "dashboard.site_menus_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "identity": "site_menus",
     }
     return render_template("list.html", **context)
 
@@ -66,10 +66,10 @@ def dashboard_menus():
     }
     context = {
         "title": "Dashboard Menus",
-        "manage_endpoint": "dashboard.dashboard_menus_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "identity": "dashboard_menus",
     }
     return render_template("list.html", **context)
 
@@ -102,10 +102,10 @@ def site_pages():
     }
     context = {
         "title": "Site Pages",
-        "manage_endpoint": "dashboard.site_pages_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "identity": "site_pages",
     }
     return render_template("list.html", **context)
 

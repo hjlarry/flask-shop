@@ -22,10 +22,10 @@ def vouchers():
     }
     context = {
         "title": "Voucher",
-        "manage_endpoint": "dashboard.voucher_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "identity": "voucher",
     }
     return render_template("list.html", **context)
 
@@ -73,10 +73,10 @@ def sales():
     }
     context = {
         "title": "Sale",
-        "manage_endpoint": "dashboard.sale_manage",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "identity": "sale",
     }
     return render_template("list.html", **context)
 
