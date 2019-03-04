@@ -30,7 +30,6 @@ from .product import (
 )
 from .order import orders, order_detail
 from .discount import vouchers, voucher_manage, sales, sale_manage
-from .api import user_delete
 from flaskshop.settings import Config
 
 
@@ -161,4 +160,3 @@ blueprint.add_url_rule("/sales/create", view_func=sale_manage, methods=["GET", "
 blueprint.add_url_rule(
     "/sales/<id>/edit", view_func=sale_manage, methods=["GET", "POST"]
 )
-blueprint.add_url_rule("/api/user_delete", view_func=user_delete, methods=["POST"])

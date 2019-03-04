@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
+from werkzeug.wsgi import DispatcherMiddleware
 
 from flaskshop import (
     commands,
@@ -12,6 +13,7 @@ from flaskshop import (
     api,
     discount,
     dashboard,
+    dashboard_api,
 )
 from flaskshop.extensions import (
     bcrypt,
@@ -37,6 +39,10 @@ def create_app(config_object=ProdConfig):
     register_commands(app)
     jinja_global_varibles(app)
     log_slow_queries(app)
+
+    app.wsgi_app = DispatcherMiddleware(
+        app.wsgi_app, {"/dashboard_api": dashboard_api.api_app.json_api}
+    )
 
     return app
 

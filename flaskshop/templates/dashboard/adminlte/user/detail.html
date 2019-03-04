@@ -32,7 +32,7 @@
 
                         <a href="{{url_for('dashboard.user_edit', user_id=user.id)}}"
                             class="btn btn-primary btn-block"><b>Edit</b></a>
-                        <a class="btn btn-danger btn-block" id="delete-btn" data-id="{{user.id}}"
+                        <a class="btn btn-danger btn-block" id="delete-btn"
                             data-url="{{url_for('dashboard.user_delete', id=user.id)}}"><b>Delete</b></a>
                     </div>
                     <!-- /.card-body -->
@@ -124,7 +124,6 @@
             function () {
                 var $this = $(event.currentTarget)[0];
                 var $url = $($this).data('url');
-                var $id = $($this).data('id');
                 swal({
                     title: "Are you sure to delete?",
                     icon: "warning",
