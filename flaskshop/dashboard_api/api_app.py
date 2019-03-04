@@ -1,19 +1,22 @@
+import os
+
 from flask import request
 from flask.views import MethodView
 
 from flaskshop.extensions import db
-from flaskshop.settings import ProdConfig
+from flaskshop import settings
 from .utils import ApiFlask
 
 
-def create_app():
+def create_app(config):
     app = ApiFlask(__name__)
-    app.config.from_object(ProdConfig)
+    app.config.from_object(config)
     db.init_app(app)
     return app
 
 
-json_api = create_app()
+config = getattr(settings, os.environ.get("CURRENT_CONFIG"), "ProdConfig")
+json_api = create_app(config)
 
 
 def user_del(id):

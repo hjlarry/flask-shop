@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """Create an application instance."""
-from flask.helpers import get_debug_flag
+import os
 
 from flaskshop.app import create_app
-from flaskshop.settings import DevConfig, ProdConfig
+from flaskshop import settings
 
-CONFIG = DevConfig if get_debug_flag() else ProdConfig
-
-app = create_app(CONFIG)
+config = getattr(settings, os.environ.get("CURRENT_CONFIG"), "ProdConfig")
+app = create_app(config)
