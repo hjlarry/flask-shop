@@ -41,7 +41,7 @@ def create_app(config_object=ProdConfig):
     log_slow_queries(app)
 
     app.wsgi_app = DispatcherMiddleware(
-        app.wsgi_app, {"/dashboard_api": dashboard_api.api_app.json_api}
+        app.wsgi_app, {"/dashboard_api": dashboard_api.api_app.dashboard_api}
     )
 
     return app
