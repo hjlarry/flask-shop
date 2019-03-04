@@ -46,6 +46,11 @@ class User(Model, UserMixin):
     def addresses(self):
         return UserAddress.query.filter_by(user_id=self.id)
 
+    def delete(self):
+        for addr in self.addresses:
+            addr.delete()
+        return super().delete()
+
 
 class UserAddress(Model):
     __tablename__ = "users_address"

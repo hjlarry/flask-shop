@@ -8,6 +8,7 @@ from flaskshop.extensions import db, login_manager
 from flaskshop import settings
 from .utils import ApiFlask, ApiResult
 from .exceptions import ApiException, httperrors
+from .views import user_del
 
 
 def create_app(config):
@@ -41,7 +42,7 @@ def error_handler(error):
     else:
         msg = error.msg
         status = 500
-    return ApiResult({"errmsg": msg, "r": 1, "status": status})
+    return ApiResult({"msg": msg, "r": 1, "status": status})
 
 
 def admin_required(func):
@@ -52,10 +53,6 @@ def admin_required(func):
         return func(*args, **kwargs)
 
     return decorated_view
-
-
-def user_del(id):
-    print(id)
 
 
 @dashboard_api.before_request
