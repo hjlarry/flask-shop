@@ -1,4 +1,6 @@
-from flask import url_for, request
+import itertools
+
+from flask import url_for, request, current_app
 from sqlalchemy.ext.mutable import MutableDict
 from sqlalchemy import desc
 
@@ -70,6 +72,7 @@ class Product(Model):
     @property
     def discounted_price(self):
         from flaskshop.discount.models import Sale
+
         return Sale.get_discounted_price(self)
 
     @property
@@ -187,6 +190,24 @@ class Category(Model):
     def first_level_items(cls):
         return cls.query.filter(cls.parent_id == 0).all()
 
+    def delete(self):
+        for child in self.children:
+            child.parent_id = 0
+            db.session.add(child)
+        need_update_products = Product.query.filter_by(category_id=self.id).all()
+        for product in need_update_products:
+            product.category_id = 0
+            db.session.add(product)
+        image = current_app.config["STATIC_DIR"] / self.background_img
+        db.session.delete(self)
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+            raise
+        if image.exists():
+            image.unlink()
+
 
 class ProductTypeAttributes(Model):
     """存储的产品的属性是包括用户可选和不可选"""
@@ -278,6 +299,27 @@ class ProductType(Model):
             ProductTypeVariantAttributes.create(
                 product_type_id=self.id, product_attribute_id=variant_attr
             )
+
+    def delete(self):
+        need_del_product_attrs = ProductTypeAttributes.query.filter_by(
+            product_type_id=self.id
+        ).all()
+        need_del_variant_attrs = ProductTypeVariantAttributes.query.filter_by(
+            product_type_id=self.id
+        ).all()
+
+        for item in itertools.chain(need_del_product_attrs, need_del_variant_attrs):
+            item.delete(commit=False)
+        need_update_products = Product.query.filter_by(product_type_id=self.id).all()
+        for product in need_update_products:
+            product.product_type_id = 0
+            db.session.add(product)
+        db.session.delete(self)
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+            raise
 
 
 class ProductVariant(Model):
@@ -406,6 +448,24 @@ class ProductAttribute(Model):
                 product_attribute_id=self.id, product_type_id=id
             )
 
+    def delete(self):
+        need_del_product_attrs = ProductTypeAttributes.query.filter_by(
+            product_attribute_id=self.id
+        ).all()
+        need_del_variant_attrs = ProductTypeVariantAttributes.query.filter_by(
+            product_attribute_id=self.id
+        ).all()
+        for item in itertools.chain(
+            need_del_product_attrs, need_del_variant_attrs, self.values
+        ):
+            item.delete(commit=False)
+        db.session.delete(self)
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+            raise
+
 
 class AttributeChoiceValue(Model):
     __tablename__ = "product_attributechoicevalue"
@@ -445,14 +505,13 @@ class Collection(Model):
     def products(self):
         at_ids = (
             ProductCollection.query.with_entities(ProductCollection.product_id)
-            .filter(ProductCollection.collection_id == self.id)
+            .filter_by(collection_id=self.id)
             .all()
         )
         return Product.query.filter(Product.id.in_(id for id, in at_ids)).all()
 
     @property
     def attr_filter(self):
-        # TODO cache
         attr_filter = set()
         for product in self.products:
             for attr in product.product_type.product_attributes:
@@ -475,6 +534,20 @@ class Collection(Model):
             ).first().delete()
         for id in need_add:
             ProductCollection.create(collection_id=self.id, product_id=id)
+
+    def delete(self):
+        need_del = ProductCollection.query.filter_by(collection_id=self.id).all()
+        for item in need_del:
+            item.delete(commit=False)
+        image = current_app.config["STATIC_DIR"] / self.background_img
+        db.session.delete(self)
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+            raise
+        if image.exists():
+            image.unlink()
 
 
 class ProductCollection(Model):

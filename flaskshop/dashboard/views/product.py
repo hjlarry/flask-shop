@@ -125,7 +125,7 @@ def category_manage(id=None):
         if not id:
             category = Category()
         category.title = form.title.data
-        category.parent_id = form.parents.data
+        category.parent_id = form.parent_id.data
         image = form.bgimg_file.data
         background_img = image.filename
         upload_file = current_app.config["UPLOAD_DIR"] / background_img
