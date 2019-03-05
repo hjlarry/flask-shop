@@ -84,12 +84,13 @@ def collection_manage(id=None):
         collection.title = form.title.data
         collection.update_products(form.products.data)
         image = form.bgimg_file.data
-        background_img = image.filename
-        upload_file = current_app.config["UPLOAD_DIR"] / background_img
-        upload_file.write_bytes(image.read())
-        collection.background_img = (
-            current_app.config["UPLOAD_FOLDER"] + "/" + background_img
-        )
+        if image:
+            background_img = image.filename
+            upload_file = current_app.config["UPLOAD_DIR"] / background_img
+            upload_file.write_bytes(image.read())
+            collection.background_img = (
+                current_app.config["UPLOAD_FOLDER"] + "/" + background_img
+            )
         collection.save()
         return redirect(url_for("dashboard.collections"))
     products = Product.query.all()

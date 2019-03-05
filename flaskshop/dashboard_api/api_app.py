@@ -8,7 +8,13 @@ from flaskshop.extensions import db, login_manager
 from flaskshop import settings
 from .utils import ApiFlask, ApiResult
 from .exceptions import ApiException, httperrors
-from .views import user_del, product_type_del, category_del
+from .views import (
+    user_del,
+    product_type_del,
+    category_del,
+    collection_del,
+    attribute_del,
+)
 
 
 def create_app(config):
@@ -69,4 +75,10 @@ dashboard_api.add_url_rule(
 )
 dashboard_api.add_url_rule(
     "/category/<int:id>/delete", view_func=category_del, methods=["DELETE"]
+)
+dashboard_api.add_url_rule(
+    "/collection/<int:id>/delete", view_func=collection_del, methods=["DELETE"]
+)
+dashboard_api.add_url_rule(
+    "/attribute/<int:id>/delete", view_func=attribute_del, methods=["DELETE"]
 )

@@ -5,15 +5,15 @@ from sqlalchemy.ext.mutable import MutableDict
 from sqlalchemy import desc
 
 from flaskshop.database import Column, Model, db
-from flaskshop.corelib.mc import cache, cache_by_args
+from flaskshop.corelib.mc import cache, cache_by_args, rdb
 from flaskshop.corelib.db import PropsItem
 
 MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
 MC_KEY_PRODUCT_IMAGES = "product:product:{}:images"
 MC_KEY_PRODUCT_VARIANT = "product:product:{}:variant"
 MC_KEY_ATTRIBUTE_VALUES = "product:attribute:values:{}"
-MC_KEY_COLLECTION_PRODUCTS = "product:collection:{}:products:{}:"
-MC_KEY_CATEGORY_PRODUCTS = "product:category:{}:products:{}:"
+MC_KEY_COLLECTION_PRODUCTS = "product:collection:{}:products:{}"
+MC_KEY_CATEGORY_PRODUCTS = "product:category:{}:products:{}"
 MC_KEY_CATEGORY_CHILDREN = "product:category:{}:children"
 
 
@@ -207,6 +207,23 @@ class Category(Model):
             raise
         if image.exists():
             image.unlink()
+
+    @staticmethod
+    def clear_mc(target):
+        rdb.delete(MC_KEY_CATEGORY_CHILDREN.format(target.id))
+        keys = rdb.keys(MC_KEY_CATEGORY_PRODUCTS.format(target.id, "*"))
+        for key in keys:
+            rdb.delete(key)
+
+    @classmethod
+    def __flush_after_update_event__(cls, target):
+        super().__flush_after_update_event__(target)
+        target.clear_mc(target)
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
+        super().__flush_delete_event__(target)
+        target.clear_mc(target)
 
 
 class ProductTypeAttributes(Model):
@@ -466,6 +483,16 @@ class ProductAttribute(Model):
             db.session.rollback()
             raise
 
+    @classmethod
+    def __flush_after_update_event__(cls, target):
+        super().__flush_after_update_event__(target)
+        rdb.delete(MC_KEY_ATTRIBUTE_VALUES.format(target.id))
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
+        super().__flush_delete_event__(target)
+        rdb.delete(MC_KEY_ATTRIBUTE_VALUES.format(target.id))
+
 
 class AttributeChoiceValue(Model):
     __tablename__ = "product_attributechoicevalue"
@@ -571,6 +598,26 @@ class ProductCollection(Model):
         ctx.update(object=collection, pagination=pagination, products=pagination.items)
         return ctx
 
+    @staticmethod
+    def clear_mc(target):
+        keys = rdb.keys(MC_KEY_COLLECTION_PRODUCTS.format(target.collection_id, "*"))
+        for key in keys:
+            rdb.delete(key)
+
+    @classmethod
+    def __flush_insert_event__(cls, target):
+        target.clear_mc(target)
+
+    @classmethod
+    def __flush_after_update_event__(cls, target):
+        super().__flush_after_update_event__(target)
+        target.clear_mc(target)
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
+        super().__flush_delete_event__(target)
+        target.clear_mc(target)
+
 
 def get_product_list_context(query, obj):
     """
@@ -580,9 +627,9 @@ def get_product_list_context(query, obj):
     price_from = request.args.get("price_from", None, type=int)
     price_to = request.args.get("price_to", None, type=int)
     if price_from:
-        query = query.filter(Product.price > price_from)
+        query = query.filter(Product.basic_price > price_from)
     if price_to:
-        query = query.filter(Product.price < price_to)
+        query = query.filter(Product.basic_price < price_to)
     args_dict.update(price_from=price_from, price_to=price_to)
 
     sort_by_choices = {"title": "title", "price": "price"}
