@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
+const glob = require('glob');
 
 const resolve = path.resolve.bind(path, __dirname);
 // take debug mode from the environment
@@ -44,13 +45,15 @@ const output = {
   publicPath: `${publicHost}/static/build/`,
 };
 
+const entry_items = glob.sync('./flaskshop/assets/js/dashboard/**/*.js').reduce(
+  (entries, entry) => Object.assign(entries, { [entry.split('/').splice(-2, 2).join('/').replace('.js', '')]: entry }), {});
+entry_items['storefront'] = './flaskshop/assets/js/storefront.js';
+
 const config = {
-  entry: {
-    storefront: './flaskshop/assets/js/storefront.js',
-  },
+  entry: entry_items,
   output,
   devServer: {
-    headers: {'Access-Control-Allow-Origin': '*'},
+    headers: { 'Access-Control-Allow-Origin': '*' },
   },
   module: {
     rules: [
