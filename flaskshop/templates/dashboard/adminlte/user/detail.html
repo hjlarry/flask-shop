@@ -117,7 +117,7 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{{ url_for('static', filename='dashboard/plugins/sweetalert.min.js') }}"></script>
 <script>
     $(function () {
         $("#delete-btn").click(

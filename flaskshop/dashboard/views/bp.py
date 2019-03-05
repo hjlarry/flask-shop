@@ -50,7 +50,7 @@ def inject_param():
 def admin_required(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
-        if not current_user.is_admin:
+        if current_user.is_anonymous or not current_user.is_admin:
             abort(403)
         return func(*args, **kwargs)
 
