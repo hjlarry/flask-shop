@@ -10,3 +10,8 @@ def user_del(id):
     except Exception as e:
         return ApiResult({"r": 1, "msg": e.message})
     return ApiResult(dict())
+
+
+def product_type_del(id):
+
+    return ApiResult(dict())

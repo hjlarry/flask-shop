@@ -43,8 +43,8 @@
                                 <td>
                                     <a href="{{url_for('dashboard.{}_manage'.format(identity), id=item.id)}}"
                                         class="btn btn-primary btn-sm">Edit</a>
-                                    <a data-url="{{identity}}/{{item.id}}/delete" class="btn btn-danger btn-sm"
-                                        id="delete-btn">Delete</a>
+                                    <a data-url="{{identity}}/{{item.id}}/delete"
+                                        class="btn btn-danger btn-sm delete-btn">Delete</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -63,4 +63,42 @@
     </div><!-- /.container-fluid -->
 </section>
 
+{% endblock %}
+
+{% block tail_js %}
+<script src="{{ url_for('static', filename='dashboard/plugins/sweetalert.min.js') }}"></script>
+<script>
+    $(function () {
+        $(".delete-btn").click(
+            function () {
+                var $this = $(event.currentTarget)[0];
+                var url = $($this).data('url');
+                swal({
+                    title: "Are you sure to delete?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: `/dashboard_api/${url}`,
+                            type: 'DELETE',
+                            data: {},
+                            success: function (rs) {
+                                if (rs.r) {
+                                    console.log(rs.msg)
+                                } else {
+                                    swal("Poof! This item has been deleted!", {
+                                        icon: "success",
+                                    });
+                                    $this.closest('tr').remove();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        )
+    });
+</script>
 {% endblock %}

@@ -32,7 +32,7 @@
 
                         <a href="{{url_for('dashboard.user_edit', user_id=user.id)}}"
                             class="btn btn-primary btn-block"><b>Edit</b></a>
-                        <a class="btn btn-danger btn-block" id="delete-btn"
+                        <a class="btn btn-danger btn-block delete-btn"
                             data-url="users/{{user.id}}/delete"><b>Delete</b></a>
                     </div>
                     <!-- /.card-body -->
@@ -120,7 +120,7 @@
 <script src="{{ url_for('static', filename='dashboard/plugins/sweetalert.min.js') }}"></script>
 <script>
     $(function () {
-        $("#delete-btn").click(
+        $(".delete-btn").click(
             function () {
                 var $this = $(event.currentTarget)[0];
                 var url = $($this).data('url');
