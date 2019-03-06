@@ -26,6 +26,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.1.2",
+    "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
     "daterangepicker": "^3.0.3",
     "detect-passive-events": "^1.0.4",
