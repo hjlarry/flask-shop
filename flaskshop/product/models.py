@@ -110,7 +110,6 @@ class Product(Model):
         need_del = origin_ids - new_images
         need_add = new_images - origin_ids
         for id in need_del:
-            # TODO delete file
             ProductImage.get_by_id(id).delete()
         for id in need_add:
             image = ProductImage.get_by_id(id)
@@ -138,6 +137,50 @@ class Product(Model):
                     attributes=attributes,
                 )
                 sku_id += 1
+
+    def delete(self):
+        need_del_collection_products = ProductCollection.query.filter_by(
+            product_id=self.id
+        ).all()
+        for item in itertools.chain(
+            self.images, self.variant, need_del_collection_products
+        ):
+            item.delete(commit=False)
+        db.session.delete(self)
+        try:
+            db.session.commit()
+        except:
+            db.session.rollback()
+            raise
+
+    @staticmethod
+    def clear_mc(target):
+        keys = rdb.keys(MC_KEY_FEATURED_PRODUCTS.format("*"))
+        for key in keys:
+            rdb.delete(key)
+
+    @staticmethod
+    def clear_category_cache(target):
+        keys = rdb.keys(MC_KEY_CATEGORY_PRODUCTS.format(target.category_id, "*"))
+        for key in keys:
+            rdb.delete(key)
+
+    @classmethod
+    def __flush_before_update_event__(cls, target):
+        super().__flush_before_update_event__(target)
+        target.clear_category_cache(target)
+
+    @classmethod
+    def __flush_after_update_event__(cls, target):
+        super().__flush_after_update_event__(target)
+        target.clear_mc(target)
+        target.clear_category_cache(target)
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
+        super().__flush_delete_event__(target)
+        target.clear_mc(target)
+        target.clear_category_cache(target)
 
 
 class Category(Model):
@@ -395,6 +438,20 @@ class ProductVariant(Model):
             return False, f"{self.display_product()} has not enough stock"
         return True, "success"
 
+    @staticmethod
+    def clear_mc(target):
+        rdb.delete(MC_KEY_PRODUCT_VARIANT.format(target.product_id))
+
+    @classmethod
+    def __flush_insert_event__(cls, target):
+        super().__flush_insert_event__(target)
+        target.clear_mc(target)
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
+        super().__flush_delete_event__(target)
+        target.clear_mc(target)
+
 
 class ProductAttribute(Model):
     __tablename__ = "product_productattribute"
@@ -515,6 +572,23 @@ class ProductImage(Model):
 
     def __str__(self):
         return url_for("static", filename=self.image, _external=True)
+
+    @staticmethod
+    def clear_mc(target):
+        rdb.delete(MC_KEY_PRODUCT_IMAGES.format(target.product_id))
+
+    @classmethod
+    def __flush_insert_event__(cls, target):
+        super().__flush_insert_event__(target)
+        target.clear_mc(target)
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
+        super().__flush_delete_event__(target)
+        target.clear_mc(target)
+        image_file = current_app.config["STATIC_DIR"] / target.image
+        if image_file.exists():
+            image_file.unlink()
 
 
 class Collection(Model):

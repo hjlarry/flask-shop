@@ -14,6 +14,8 @@ from .views import (
     category_del,
     collection_del,
     attribute_del,
+    variant_del,
+    product_del,
 )
 
 
@@ -81,4 +83,10 @@ dashboard_api.add_url_rule(
 )
 dashboard_api.add_url_rule(
     "/attribute/<int:id>/delete", view_func=attribute_del, methods=["DELETE"]
+)
+dashboard_api.add_url_rule(
+    "/variant/<int:id>/delete", view_func=variant_del, methods=["DELETE"]
+)
+dashboard_api.add_url_rule(
+    "/product/<int:id>/delete", view_func=product_del, methods=["DELETE"]
 )
