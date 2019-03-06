@@ -110,11 +110,13 @@ class Product(Model):
         need_del = origin_ids - new_images
         need_add = new_images - origin_ids
         for id in need_del:
-            ProductImage.get_by_id(id).delete()
+            ProductImage.get_by_id(id).delete(commit=False)
         for id in need_add:
             image = ProductImage.get_by_id(id)
             image.product_id = self.id
-            image.save()
+            image.save(commit=False)
+        db.session.commit()
+
 
     def update_attributes(self, attr_values):
         attr_entries = [str(item.id) for item in self.product_type.product_attributes]
@@ -147,11 +149,8 @@ class Product(Model):
         ):
             item.delete(commit=False)
         db.session.delete(self)
-        try:
-            db.session.commit()
-        except:
-            db.session.rollback()
-            raise
+        db.session.commit()
+
 
     @staticmethod
     def clear_mc(target):
@@ -243,11 +242,7 @@ class Category(Model):
             db.session.add(product)
         image = current_app.config["STATIC_DIR"] / self.background_img
         db.session.delete(self)
-        try:
-            db.session.commit()
-        except:
-            db.session.rollback()
-            raise
+        db.session.commit()
         if image.exists():
             image.unlink()
 
@@ -342,11 +337,14 @@ class ProductType(Model):
         for id in need_del:
             ProductTypeAttributes.query.filter_by(
                 product_type_id=self.id, product_attribute_id=id
-            ).first().delete()
+            ).first().delete(commit=False)
         for id in need_add:
-            ProductTypeAttributes.create(
+            new = ProductTypeAttributes(
                 product_type_id=self.id, product_attribute_id=id
             )
+            db.session.add(new)
+        db.session.commit()
+
 
     def update_variant_attr(self, variant_attr):
         origin_attr = ProductTypeVariantAttributes.query.filter_by(
@@ -375,11 +373,7 @@ class ProductType(Model):
             product.product_type_id = 0
             db.session.add(product)
         db.session.delete(self)
-        try:
-            db.session.commit()
-        except:
-            db.session.rollback()
-            raise
+        db.session.commit()
 
 
 class ProductVariant(Model):
@@ -497,9 +491,11 @@ class ProductAttribute(Model):
             if value not in origin_values:
                 need_add.add(value)
         for value in need_del:
-            value.delete()
+            value.delete(commit=False)
         for value in need_add:
-            AttributeChoiceValue.create(title=value, attribute_id=self.id)
+            new = AttributeChoiceValue(title=value, attribute_id=self.id)
+            db.session.add(new)
+        db.session.commit()
 
     def update_types(self, new_types):
         origin_ids = (
@@ -516,11 +512,13 @@ class ProductAttribute(Model):
         for id in need_del:
             ProductTypeAttributes.query.filter_by(
                 product_attribute_id=self.id, product_type_id=id
-            ).first().delete()
+            ).first().delete(commit=False)
         for id in need_add:
-            ProductTypeAttributes.create(
+            new = ProductTypeAttributes(
                 product_attribute_id=self.id, product_type_id=id
             )
+            db.session.add(new)
+        db.session.commit()
 
     def delete(self):
         need_del_product_attrs = ProductTypeAttributes.query.filter_by(
@@ -534,11 +532,8 @@ class ProductAttribute(Model):
         ):
             item.delete(commit=False)
         db.session.delete(self)
-        try:
-            db.session.commit()
-        except:
-            db.session.rollback()
-            raise
+        db.session.commit()
+
 
     @classmethod
     def __flush_after_update_event__(cls, target):
@@ -632,9 +627,11 @@ class Collection(Model):
         for id in need_del:
             ProductCollection.query.filter_by(
                 collection_id=self.id, product_id=id
-            ).first().delete()
+            ).first().delete(commit=False)
         for id in need_add:
-            ProductCollection.create(collection_id=self.id, product_id=id)
+            new = ProductCollection(collection_id=self.id, product_id=id)
+            db.session.add(new)
+        db.session.commit()
 
     def delete(self):
         need_del = ProductCollection.query.filter_by(collection_id=self.id).all()
@@ -642,11 +639,7 @@ class Collection(Model):
             item.delete(commit=False)
         image = current_app.config["STATIC_DIR"] / self.background_img
         db.session.delete(self)
-        try:
-            db.session.commit()
-        except:
-            db.session.rollback()
-            raise
+        db.session.commit()
         if image.exists():
             image.unlink()
 
