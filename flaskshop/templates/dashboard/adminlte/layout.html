@@ -102,12 +102,7 @@
         </aside>
     </div>
     <!-- ./wrapper -->
-
-    <script src="{{ url_for('static', filename='dashboard/js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/js/adminlte/adminlte.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/js/adminlte/customize.js') }}"></script>
-
+    {{ javascript_tag('dashboard/layout') | safe }}
     {% block tail_js %} {% endblock %}
 </body>
 {% endblock %}

@@ -19,14 +19,14 @@ $(".delete-btn").click(
                         if (rs.r) {
                             console.log(rs.msg)
                         } else {
-                            swal("Poof! This user has been deleted!", {
+                            swal("Poof! This item has been deleted!", {
                                 icon: "success",
                             });
-                            window.location.replace("/dashboard/users");
+                            $this.closest('tr').remove();
                         }
                     }
                 });
             }
         });
     }
-);
+)

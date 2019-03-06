@@ -37,20 +37,5 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='dashboard/plugins/select2/select2.min.js') }}"></script>
-
-<script>
-    $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2();
-
-    });
-
-    $('.custom-file-input').click(function () {
-        $('.custom-file-input').change(function () {
-            var filename = $('.custom-file-input').val();
-            $('.custom-file-label').html(filename);
-        });
-    });
-</script>
+{{ javascript_tag('dashboard/collection') | safe }}
 {% endblock %}

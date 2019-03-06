@@ -90,6 +90,10 @@ const config = {
         ],
       },
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
         test: /\.(eot|otf|png|svg|jpg|ttf|woff|woff2)(\?v=[0-9.]+)?$/,
         loader: fileLoaderPath,
         include: [

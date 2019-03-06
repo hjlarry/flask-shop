@@ -39,12 +39,5 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='dashboard/plugins/select2/select2.min.js') }}"></script>
-<script>
-    $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2();
-    });
-
-</script>
+{{ javascript_tag('dashboard/select') | safe }}
 {% endblock %}

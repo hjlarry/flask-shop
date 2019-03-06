@@ -46,14 +46,5 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='dashboard/plugins/select2/select2.min.js') }}"></script>
-
-<script>
-    $(function () {
-        $('.select2').select2();
-    });
-    $('#field_list').on('click', '#item_del', function () {
-        $(this).parent().remove();
-    });
-</script>
+{{ javascript_tag('dashboard/product') | safe }}
 {% endblock %}
