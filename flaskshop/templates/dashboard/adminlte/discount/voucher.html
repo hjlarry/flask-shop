@@ -47,13 +47,5 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='dashboard/plugins/daterangepicker/moment.min.js') }}"></script>
-<script src="{{ url_for('static', filename='dashboard/plugins/daterangepicker/daterangepicker.js') }}"></script>
-{{ javascript_tag('dashboard/select') | safe }}
-<script>
-    $(function () {
-        $('#reservation').daterangepicker();
-    });
-
-</script>
+{{ javascript_tag('dashboard/voucher') | safe }}
 {% endblock %}

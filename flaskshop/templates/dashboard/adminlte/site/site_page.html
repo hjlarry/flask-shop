@@ -41,16 +41,5 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
-<script>
-    var E = window.wangEditor
-    var editor = new E('#text-editor')
-    var $text1 = $('#content')
-    $text1.hide()
-    editor.customConfig.onchange = function (html) {
-        $text1.val(html)
-    }
-    editor.create()
-    $text1.val(editor.txt.html())
-</script>
+{{ javascript_tag('dashboard/sitepage') | safe }}
 {% endblock %}
