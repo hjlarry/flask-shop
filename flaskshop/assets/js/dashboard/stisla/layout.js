@@ -21,3 +21,5 @@ import './page/index';
 import './scripts';
 import './custom';
 
+import '../../../scss/stisla.scss';
+
