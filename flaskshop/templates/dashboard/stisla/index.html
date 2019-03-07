@@ -974,31 +974,8 @@
         </footer>
       </div>
     </div>
+    {{ javascript_tag('stisla/layout') | safe }}
 
-    <!-- General JS Scripts -->
-    <script src="{{ url_for('static', filename='dashboard/js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/plugins/popper.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/plugins/tooltip.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/plugins/nicescroll/jquery.nicescroll.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/plugins/moment.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/js/stisla/stisla.js') }}"></script>
-
-
-    <!-- JS Libraies -->
-    <script src="{{ url_for('static', filename='dashboard/plugins/jquery.sparkline.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/plugins/chart.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/plugins/owlcarousel2/dist/owl.carousel.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/plugins/summernote/summernote-bs4.js') }}"></script>
-    <script
-      src="{{ url_for('static', filename='dashboard/plugins/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
-
-    <!-- Page Specific JS File -->
-    <script src="{{ url_for('static', filename='dashboard/js/stisla/page/index.js') }}"></script>
-
-    <!-- Template JS File -->
-    <script src="{{ url_for('static', filename='dashboard/js/stisla/scripts.js') }}"></script>
-    <script src="{{ url_for('static', filename='dashboard/js/stisla/custom.js') }}"></script>
   </body>
 
 </html>
