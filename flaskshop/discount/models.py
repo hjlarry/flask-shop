@@ -166,7 +166,6 @@ class Sale(Model):
         return Category.query.filter(Category.id.in_(id for id, in at_ids)).all()
 
     @property
-    @cache(MC_KEY_SALE_PRODUCT_IDS.format("{self.id}"))
     def products_ids(self):
         return (
             SaleProduct.query.with_entities(SaleProduct.product_id)
@@ -193,9 +192,11 @@ class Sale(Model):
         for id in need_del:
             SaleCategory.query.filter_by(
                 sale_id=self.id, category_id=id
-            ).first().delete()
+            ).first().delete(commit=False)
         for id in need_add:
-            SaleCategory.create(sale_id=self.id, category_id=id)
+            new = SaleCategory(sale_id=self.id, category_id=id)
+            db.session.add(new)
+        db.session.commit()
 
     def update_products(self, product_ids):
         origin_ids = (
@@ -208,15 +209,29 @@ class Sale(Model):
         need_del = origin_ids - new_attrs
         need_add = new_attrs - origin_ids
         for id in need_del:
-            SaleProduct.query.filter_by(sale_id=self.id, product_id=id).first().delete()
+            SaleProduct.query.filter_by(sale_id=self.id, product_id=id).first().delete(
+                commit=False
+            )
         for id in need_add:
-            SaleProduct.create(sale_id=self.id, product_id=id)
+            new = SaleProduct(sale_id=self.id, product_id=id)
+            db.session.add(new)
+        db.session.commit()
 
     @staticmethod
     def clear_mc(target):
         # when update sales, need to update product discounts
-        for (id,) in target.products_ids:
-            rdb.delete(MC_KEY_PRODUCT_DISCOUNT_PRICE.format(id))
+        # for (id,) in target.products_ids:
+        #     rdb.delete(MC_KEY_PRODUCT_DISCOUNT_PRICE.format(id))
+
+        # need to process so many states, category update etc.. so delete all
+        keys = rdb.keys(MC_KEY_PRODUCT_DISCOUNT_PRICE.format("*"))
+        for key in keys:
+            rdb.delete(key)
+
+    @classmethod
+    def __flush_insert_event__(cls, target):
+        super().__flush_insert_event__(target)
+        target.clear_mc(target)
 
     @classmethod
     def __flush_after_update_event__(cls, target):
@@ -239,19 +254,4 @@ class SaleProduct(Model):
     __tablename__ = "discount_sale_products"
     sale_id = Column(db.Integer())
     product_id = Column(db.Integer())
-
-    @staticmethod
-    def clear_mc(target):
-        rdb.delete(MC_KEY_SALE_PRODUCT_IDS.format(target.sale_id))
-        rdb.delete(MC_KEY_PRODUCT_DISCOUNT_PRICE.format(target.product_id))
-
-    @classmethod
-    def __flush_insert_event__(cls, target):
-        super().__flush_insert_event__(target)
-        target.clear_mc(target)
-
-    @classmethod
-    def __flush_delete_event__(cls, target):
-        super().__flush_delete_event__(target)
-        target.clear_mc(target)
 
