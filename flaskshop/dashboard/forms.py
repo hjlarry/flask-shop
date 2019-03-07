@@ -123,7 +123,7 @@ class ProductTypeForm(FlaskForm):
 
 class ProductForm(FlaskForm):
     title = StringField()
-    price = DecimalField()
+    basic_price = DecimalField()
     on_sale = BooleanField(default=True)
     is_featured = BooleanField(default=False)
     rating = FloatField(default=0)

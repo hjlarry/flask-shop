@@ -11,6 +11,7 @@ from flaskshop.corelib.db import PropsItem
 MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
 MC_KEY_PRODUCT_IMAGES = "product:product:{}:images"
 MC_KEY_PRODUCT_VARIANT = "product:product:{}:variant"
+MC_KEY_PRODUCT_DISCOUNT_PRICE = "product:product:{}:discount_price"
 MC_KEY_ATTRIBUTE_VALUES = "product:attribute:values:{}"
 MC_KEY_COLLECTION_PRODUCTS = "product:collection:{}:products:{}"
 MC_KEY_CATEGORY_PRODUCTS = "product:category:{}:products:{}"
@@ -65,11 +66,12 @@ class Product(Model):
 
     @property
     def is_discounted(self):
-        if self.discounted_price > 0:
+        if float(self.discounted_price) > 0:
             return True
         return False
 
     @property
+    @cache(MC_KEY_PRODUCT_DISCOUNT_PRICE.format("{self.id}"))
     def discounted_price(self):
         from flaskshop.discount.models import Sale
 
@@ -154,6 +156,7 @@ class Product(Model):
 
     @staticmethod
     def clear_mc(target):
+        rdb.delete(MC_KEY_PRODUCT_DISCOUNT_PRICE.format(target.id))
         keys = rdb.keys(MC_KEY_FEATURED_PRODUCTS.format("*"))
         for key in keys:
             rdb.delete(key)

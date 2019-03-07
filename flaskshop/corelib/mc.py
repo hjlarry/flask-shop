@@ -60,6 +60,8 @@ def cache(key_pattern, expire=None):
                 pass
             if isinstance(r, Empty):
                 r = None
+            if isinstance(r, bytes):
+                r = r.decode()
             return r
 
         _.original_function = f

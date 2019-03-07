@@ -5,9 +5,13 @@ from decimal import Decimal
 
 from sqlalchemy.dialects.mysql import TINYINT
 
+from flaskshop.corelib.mc import cache, rdb
 from flaskshop.database import Column, Model, db
 from flaskshop.constant import VoucherTypeKinds, DiscountValueTypeKinds
-from flaskshop.product.models import Product, Category
+from flaskshop.product.models import Product, Category, MC_KEY_PRODUCT_DISCOUNT_PRICE
+
+
+MC_KEY_SALE_PRODUCT_IDS = "discount:sale:{}:product_ids"
 
 
 class Voucher(Model):
@@ -162,13 +166,19 @@ class Sale(Model):
         return Category.query.filter(Category.id.in_(id for id, in at_ids)).all()
 
     @property
-    def products(self):
-        at_ids = (
+    @cache(MC_KEY_SALE_PRODUCT_IDS.format("{self.id}"))
+    def products_ids(self):
+        return (
             SaleProduct.query.with_entities(SaleProduct.product_id)
             .filter(SaleProduct.sale_id == self.id)
             .all()
         )
-        return Product.query.filter(Product.id.in_(id for id, in at_ids)).all()
+
+    @property
+    def products(self):
+        return Product.query.filter(
+            Product.id.in_(id for id, in self.products_ids)
+        ).all()
 
     def update_categories(self, category_ids):
         origin_ids = (
@@ -202,6 +212,22 @@ class Sale(Model):
         for id in need_add:
             SaleProduct.create(sale_id=self.id, product_id=id)
 
+    @staticmethod
+    def clear_mc(target):
+        # when update sales, need to update product discounts
+        for (id,) in target.products_ids:
+            rdb.delete(MC_KEY_PRODUCT_DISCOUNT_PRICE.format(id))
+
+    @classmethod
+    def __flush_after_update_event__(cls, target):
+        super().__flush_after_update_event__(target)
+        target.clear_mc(target)
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
+        super().__flush_delete_event__(target)
+        target.clear_mc(target)
+
 
 class SaleCategory(Model):
     __tablename__ = "discount_sale_categories"
@@ -213,4 +239,19 @@ class SaleProduct(Model):
     __tablename__ = "discount_sale_products"
     sale_id = Column(db.Integer())
     product_id = Column(db.Integer())
+
+    @staticmethod
+    def clear_mc(target):
+        rdb.delete(MC_KEY_SALE_PRODUCT_IDS.format(target.sale_id))
+        rdb.delete(MC_KEY_PRODUCT_DISCOUNT_PRICE.format(target.product_id))
+
+    @classmethod
+    def __flush_insert_event__(cls, target):
+        super().__flush_insert_event__(target)
+        target.clear_mc(target)
+
+    @classmethod
+    def __flush_delete_event__(cls, target):
+        super().__flush_delete_event__(target)
+        target.clear_mc(target)
 
