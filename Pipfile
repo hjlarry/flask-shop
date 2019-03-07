@@ -1,17 +1,12 @@
 [[source]]
-
 url = "http://pypi.douban.com/simple"
 verify_ssl = false
 name = "pypi"
 
-
 [global]
-
 trusted-host = "files.pythonhosted.org"
 
-
 [packages]
-
 sqlalchemy = "*"
 flask-sqlalchemy = "*"
 flask-login = "*"
@@ -33,12 +28,9 @@ python-dotenv = "*"
 phonenumbers = "*"
 phonenumberslite = "*"
 redis = "*"
-
+elasticsearch-dsl = "*"
 
 [dev-packages]
 
-
-
 [requires]
-
 python_version = "3.6"
