@@ -8,5 +8,9 @@
 @import "~owl.carousel2/dist/assets/owl.theme.default.min.css";
 
 // Template CSS
-// @import "../css/stisla/style.css";
+@import "../css/stisla/style.css";
 @import "../css/stisla/components.css";
+
+.dropdown-menu {
+    border: 0px;
+}
