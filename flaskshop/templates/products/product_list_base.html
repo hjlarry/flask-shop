@@ -20,7 +20,7 @@
 
 {% block topcontent %}
 {% if object.background_img %}
-<div class="row" id="product-list-image" style="background-image: url('{{ url_for('static', filename=object.background_img) }}')"></div>
+<div class="row" id="product-list-image" style="background-image: url('{{ object.background_img_url }}')"></div>
 {% endif %}
 {% endblock topcontent %}
 
@@ -77,13 +77,15 @@
                                             <a href="{{ get_sort_by_url(choice) }}">
                                                 <span>ascending</span>
                                                 <div class="sort-order-icon float-right">
-                                                    <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/arrow-up.svg') }}">
+                                                    <img class="lazyload lazypreload"
+                                                        data-src="{{ url_for('static', filename='img/arrow-up.svg') }}">
                                                 </div>
                                             </a>
                                             <a href="{{ get_sort_by_url(choice,descending=True) }}">
                                                 <span>descending</span>
                                                 <div class="sort-order-icon float-right">
-                                                    <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/arrow-down.svg') }}">
+                                                    <img class="lazyload lazypreload"
+                                                        data-src="{{ url_for('static', filename='img/arrow-down.svg') }}">
                                                 </div>
                                             </a>
                                         </div>

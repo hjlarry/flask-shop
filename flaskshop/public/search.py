@@ -1,6 +1,7 @@
 from elasticsearch_dsl import Boolean, Document, Integer, Float, Date, Text
 from elasticsearch_dsl.connections import connections
 from elasticsearch.helpers import parallel_bulk
+from elasticsearch.exceptions import NotFoundError
 from flask_sqlalchemy import Pagination
 
 from flaskshop.settings import Config
@@ -38,10 +39,6 @@ class Item(Document):
         name = "flaskshop"
 
     @classmethod
-    def get(cls, id):
-        return super().get(f"{id}")
-
-    @classmethod
     def add(cls, item):
         obj = cls(**get_item_data(item))
         obj.save()
@@ -51,7 +48,7 @@ class Item(Document):
     def update_item(cls, item):
         try:
             obj = cls.get(item.id)
-        except:
+        except NotFoundError:
             return cls.add(item)
 
         kw = get_item_data(item)

@@ -14,7 +14,7 @@ class Config(object):
     """Base configuration."""
 
     SECRET_KEY = "thisisashop"
-    SERVER_NAME = "0.0.0.0:5000"
+    SERVER_NAME = "localhost.com:5000"
 
     APP_DIR = Path(__file__).parent  # This directory
     PROJECT_ROOT = APP_DIR.parent

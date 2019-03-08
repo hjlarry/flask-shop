@@ -211,6 +211,10 @@ class Category(Model):
         return url_for("product.show_category", id=self.id)
 
     @property
+    def background_img_url(self):
+        return url_for('static', filename=self.background_img)
+
+    @property
     def products(self):
         all_category_ids = [child.id for child in self.children] + [self.id]
         return Product.query.filter(Product.category_id.in_(all_category_ids)).all()
@@ -610,6 +614,10 @@ class Collection(Model):
 
     def get_absolute_url(self):
         return url_for("product.show_collection", id=self.id)
+
+    @property
+    def background_img_url(self):
+        return url_for('static', filename=self.background_img)
 
     @property
     def products(self):

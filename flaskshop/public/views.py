@@ -39,7 +39,10 @@ def search():
     page = request.args.get("page", default=1, type=int)
     pagination = Item.new_search(query, page)
     return render_template(
-        "public/search_result.html", products=pagination.items, query=query
+        "public/search_result.html",
+        products=pagination.items,
+        query=query,
+        pagination=pagination,
     )
 
 
