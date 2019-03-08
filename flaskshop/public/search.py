@@ -1,9 +1,9 @@
 from elasticsearch_dsl import Boolean, Document, Integer, Float, Date, Text
 from elasticsearch_dsl.connections import connections
+from elasticsearch.helpers import parallel_bulk
 from flask_sqlalchemy import Pagination
 
 from flaskshop.settings import Config
-from flaskshop.product.models import Product
 
 connections.create_connection(hosts=Config.ES_HOSTS)
 
@@ -39,7 +39,7 @@ class Item(Document):
 
     @classmethod
     def get(cls, id):
-        return super().get(id)
+        return super().get(f"{id}")
 
     @classmethod
     def add(cls, item):
@@ -49,11 +49,11 @@ class Item(Document):
 
     @classmethod
     def update_item(cls, item):
-        obj = cls.get(item.id)
-        if obj is None:
-            return cls.add(obj)
-        if not obj:
-            return
+        try:
+            obj = cls.get(item.id)
+        except:
+            return cls.add(item)
+
         kw = get_item_data(item)
         try:
             obj.update(**kw)
@@ -61,6 +61,32 @@ class Item(Document):
             obj = cls.get(item.id)
             obj.update(**kw)
         return True
+
+    @classmethod
+    def delete(cls, item):
+        rs = cls.get(item.id)
+        if rs:
+            super(cls, rs).delete()
+            return True
+        return False
+
+    @classmethod
+    def bulk_update(cls, items, chunk_size=5000, op_type="update", **kwargs):
+        index = cls._index._name
+        _type = cls._doc_type.name
+        obj = [
+            {
+                "_op_type": op_type,
+                "_id": f"{doc.id}",
+                "_index": index,
+                "_type": _type,
+                "_source": get_item_data(doc),
+            }
+            for doc in items
+        ]
+        client = cls.get_es()
+        rs = list(parallel_bulk(client, obj, chunk_size=chunk_size, **kwargs))
+        return rs
 
     @classmethod
     def get_es(cls):
@@ -75,6 +101,5 @@ class Item(Document):
         s = s.extra(**{"from": start, "size": per_page})
         s = s if order_by is None else s.sort(order_by)
         rs = s.execute()
-        print(rs)
-        items = []
-        return Pagination(query, page, per_page, rs.hits.total, items)
+        return Pagination(query, page, per_page, rs.hits.total, rs)
+

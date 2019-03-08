@@ -24,6 +24,7 @@ from flaskshop.random_data import (
 )
 from flaskshop.corelib.db import rdb
 from flaskshop.public.search import Item
+from flaskshop.product.models import Product
 
 HERE = Path(__file__).resolve()
 PROJECT_ROOT = HERE.parent
@@ -200,8 +201,10 @@ def flushdb():
 
 @click.command()
 @with_appcontext
-def clear_search():
+def reindex():
     """ clear elastic-search items.
     """
     Item._index.delete(ignore=404)
     Item.init()
+    products = Product.query.all()
+    Item.bulk_update(products, op_type="create")

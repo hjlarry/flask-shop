@@ -106,4 +106,4 @@ def register_commands(app):
     app.cli.add_command(commands.urls)
     app.cli.add_command(commands.seed)
     app.cli.add_command(commands.flushdb)
-    app.cli.add_command(commands.clear_search)
+    app.cli.add_command(commands.reindex)

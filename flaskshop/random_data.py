@@ -255,7 +255,7 @@ def create_product(**kwargs):
     description = fake.paragraphs(5)
     defaults = {
         "title": fake.company(),
-        "price": fake.pydecimal(2, 2, positive=True),
+        "basic_price": fake.pydecimal(2, 2, positive=True),
         "description": "\n\n".join(description),
         "is_featured": random.choice([0, 1]),
     }

@@ -8,6 +8,7 @@ from flaskshop.database import Column, Model, db
 from flaskshop.corelib.mc import cache, cache_by_args, rdb
 from flaskshop.corelib.db import PropsItem
 
+
 MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
 MC_KEY_PRODUCT_IMAGES = "product:product:{}:images"
 MC_KEY_PRODUCT_VARIANT = "product:product:{}:variant"
@@ -49,7 +50,7 @@ class Product(Model):
     @property
     def first_img(self):
         if self.images:
-            return self.images[0]
+            return str(self.images[0])
         return ""
 
     @property
@@ -119,7 +120,6 @@ class Product(Model):
             image.save(commit=False)
         db.session.commit()
 
-
     def update_attributes(self, attr_values):
         attr_entries = [str(item.id) for item in self.product_type.product_attributes]
         attributes = dict(zip(attr_entries, attr_values))
@@ -153,7 +153,6 @@ class Product(Model):
         db.session.delete(self)
         db.session.commit()
 
-
     @staticmethod
     def clear_mc(target):
         rdb.delete(MC_KEY_PRODUCT_DISCOUNT_PRICE.format(target.id))
@@ -168,21 +167,35 @@ class Product(Model):
             rdb.delete(key)
 
     @classmethod
+    def __flush_insert_event__(cls, target):
+        from flaskshop.public.search import Item
+
+        super().__flush_insert_event__(target)
+        Item.add(target)
+
+    @classmethod
     def __flush_before_update_event__(cls, target):
+
         super().__flush_before_update_event__(target)
         target.clear_category_cache(target)
 
     @classmethod
     def __flush_after_update_event__(cls, target):
+        from flaskshop.public.search import Item
+
         super().__flush_after_update_event__(target)
         target.clear_mc(target)
         target.clear_category_cache(target)
+        Item.update_item(target)
 
     @classmethod
     def __flush_delete_event__(cls, target):
+        from flaskshop.public.search import Item
+
         super().__flush_delete_event__(target)
         target.clear_mc(target)
         target.clear_category_cache(target)
+        Item.delete(target)
 
 
 class Category(Model):
@@ -347,7 +360,6 @@ class ProductType(Model):
             )
             db.session.add(new)
         db.session.commit()
-
 
     def update_variant_attr(self, variant_attr):
         origin_attr = ProductTypeVariantAttributes.query.filter_by(
@@ -536,7 +548,6 @@ class ProductAttribute(Model):
             item.delete(commit=False)
         db.session.delete(self)
         db.session.commit()
-
 
     @classmethod
     def __flush_after_update_event__(cls, target):
