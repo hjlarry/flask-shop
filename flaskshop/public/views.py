@@ -6,6 +6,7 @@ from flaskshop.extensions import login_manager
 from flaskshop.account.models import User
 from flaskshop.product.models import Product
 from .models import Page
+from .search import Item
 
 blueprint = Blueprint("public", __name__)
 
@@ -34,9 +35,12 @@ def favicon():
 
 @blueprint.route("/search")
 def search():
-    query = request.args.get("q", None)
-    products = Product.query.whoosh_search(query).all()
-    return render_template("public/search_result.html", products=products, query=query)
+    query = request.args.get("q", "")
+    page = request.args.get("page", default=1, type=int)
+    pagination = Item.new_search(query, page)
+    return render_template(
+        "public/search_result.html", products=pagination.items, query=query
+    )
 
 
 @blueprint.route("/page/<identity>")

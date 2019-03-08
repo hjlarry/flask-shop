@@ -21,7 +21,7 @@ class Config(object):
     UPLOAD_FOLDER = "upload"
     UPLOAD_DIR = STATIC_DIR / UPLOAD_FOLDER
     DASHBOARD_TEMPLATE_FOLDER = APP_DIR / "templates" / "dashboard"
-    TEMPLATE_THEME = "stisla"  # can choose stisla or adminlte
+    TEMPLATE_THEME = "adminlte"  # can choose stisla or adminlte
     DASHBOARD_TEMPLATE_THEME = DASHBOARD_TEMPLATE_FOLDER / TEMPLATE_THEME
 
     BCRYPT_LOG_ROUNDS = 13
@@ -36,6 +36,8 @@ class Config(object):
     WEBPACK_MANIFEST_PATH = "webpack/manifest.json"
 
     REDIS_URL = "redis://localhost:6379"
+
+    ES_HOSTS = ["localhost"]
 
 
 class ProdConfig(Config):
