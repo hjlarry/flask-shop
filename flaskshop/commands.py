@@ -7,7 +7,6 @@ from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
 from pathlib import Path
 from itertools import chain
-from flask_whooshalchemyplus import index_all
 
 from flaskshop.random_data import (
     create_users,
@@ -23,6 +22,8 @@ from flaskshop.random_data import (
     create_vouchers,
     create_dashboard_menus,
 )
+from flaskshop.corelib.db import rdb
+from flaskshop.public.search import Item
 
 HERE = Path(__file__).resolve()
 PROJECT_ROOT = HERE.parent
@@ -146,6 +147,8 @@ def urls(url, order):
 @click.option("--type", default="default", help="which type to seed")
 @with_appcontext
 def seed(type):
+    """ Generate random data for test.
+    """
     if type == "default":
         place_holder = Path("placeholders")
         create_products_by_schema(
@@ -189,5 +192,16 @@ def seed(type):
 
 @click.command()
 @with_appcontext
-def search_index():
-    index_all(current_app)
+def flushdb():
+    """ Clear all redis keys, include cache and propitems.
+    """
+    rdb.flushdb()
+
+
+@click.command()
+@with_appcontext
+def clear_search():
+    """ clear elastic-search items.
+    """
+    Item._index.delete(ignore=404)
+    Item.init()

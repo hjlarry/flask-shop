@@ -34,6 +34,9 @@ class Item(Document):
     is_discounted = Boolean()
     created_at = Date()
 
+    class Index:
+        name = "flaskshop"
+
     @classmethod
     def get(cls, id):
         return super().get(id)
