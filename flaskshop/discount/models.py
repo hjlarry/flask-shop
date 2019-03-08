@@ -42,11 +42,13 @@ class Voucher(Model):
 
     @property
     def validity_period(self):
-        return (
-            datetime.strftime(self.start_date, "%m/%d/%Y")
-            + " - "
-            + datetime.strftime(self.end_date, "%m/%d/%Y")
-        )
+        if self.start_date and self.end_date:
+            return (
+                datetime.strftime(self.start_date, "%m/%d/%Y")
+                + " - "
+                + datetime.strftime(self.end_date, "%m/%d/%Y")
+            )
+        return ""
 
     @classmethod
     def generate_code(cls):

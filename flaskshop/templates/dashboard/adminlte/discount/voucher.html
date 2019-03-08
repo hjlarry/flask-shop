@@ -2,7 +2,7 @@
 {% import 'dashboard/adminlte/_vendor.html' as vendor%}
 {% extends 'dashboard/adminlte/layout.html' %}
 {% block head_tail %}
-<link href="{{ url_for('static', filename='dashboard/plugins/select2/select2.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='plugins/select2/select2.min.css') }}" rel="stylesheet">
 <link href="{{ url_for('static', filename='dashboard/plugins/daterangepicker/daterangepicker-bs3.css') }}"
     rel="stylesheet">
 {{super()}}
@@ -47,5 +47,5 @@
 {% endblock %}
 
 {% block tail_js %}
-{{ javascript_tag('dashboard/voucher') | safe }}
+{{ javascript_tag('adminlte/voucher') | safe }}
 {% endblock %}
