@@ -273,19 +273,19 @@
   background-size: 100%;
 }
 .browser.browser-chrome {
-  background-image: url("../img/browsers/chrome.png");
+  background-image: url("../../images/stisla/browsers/chrome.png");
 }
 .browser.browser-firefox {
-  background-image: url("../img/browsers/firefox.png");
+  background-image: url("../../images/stisla/browsers/firefox.png");
 }
 .browser.browser-internet-explorer {
-  background-image: url("../img/browsers/internet-explorer.png");
+  background-image: url("../../images/stisla/browsers/internet-explorer.png");
 }
 .browser.browser-opera {
-  background-image: url("../img/browsers/opera.png");
+  background-image: url("../../images/stisla/browsers/opera.png");
 }
 .browser.browser-safari {
-  background-image: url("../img/browsers/safari.png");
+  background-image: url("../../images/stisla/browsers/safari.png");
 }
 
 /* 1.5 Chat */
@@ -335,7 +335,7 @@
   margin-bottom: 10px;
 }
 .chat-box .chat-content .chat-item.chat-typing .chat-details .chat-text {
-  background-image: url("../img/typing.svg");
+  background-image: url("../../images/stisla/typing.svg");
   height: 40px;
   width: 60px;
   background-position: center;
@@ -418,7 +418,7 @@ table.dataTable.no-footer {
 
 div.dataTables_wrapper div.dataTables_processing {
   font-size: 0 !important;
-  background-image: url("../img/spinner.svg") !important;
+  background-image: url("../../images/stisla/spinner.svg") !important;
   background-color: #fff;
   background-size: 100%;
   width: 50px !important;

@@ -100,7 +100,6 @@ const config = {
           resolve('node_modules'),
           resolve('flaskshop/assets/fonts'),
           resolve('flaskshop/assets/images'),
-          resolve('flaskshop/assets/css/img'),
         ],
       },
     ],

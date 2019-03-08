@@ -189,19 +189,19 @@ select.form-control:not([size]):not([multiple]) {
   background-size: 40px;
   padding-right: 60px; }
   .form-control.creditcard.visa {
-    background-image: url("../img/visa.png"); }
+    background-image: url("../../images/stisla/visa.png"); }
   .form-control.creditcard.americanexpress {
-    background-image: url("../img/americanexpress.png"); }
+    background-image: url("../../images/stisla/americanexpress.png"); }
   .form-control.creditcard.dinersclub {
-    background-image: url("../img/dinersclub.png"); }
+    background-image: url("../../images/stisla/dinersclub.png"); }
   .form-control.creditcard.discover {
-    background-image: url("../img/discover.png"); }
+    background-image: url("../../images/stisla/discover.png"); }
   .form-control.creditcard.jcb {
-    background-image: url("../img/jcb.png"); }
+    background-image: url("../../images/stisla/jcb.png"); }
   .form-control.creditcard.mastercard {
-    background-image: url("../img/mastercard.png"); }
+    background-image: url("../../images/stisla/mastercard.png"); }
   .form-control.creditcard.visa {
-    background-image: url("../img/visa.png"); }
+    background-image: url("../../images/stisla/visa.png"); }
 
 .form-group {
   margin-bottom: 25px; }
@@ -722,7 +722,7 @@ select.form-control:not([size]):not([multiple]) {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%); }
   .card.card-progress:not(.remove-spinner):after {
-    background-image: url("../img/spinner.svg");
+    background-image: url("../../images/stisla/spinner.svg");
     background-size: 80px;
     background-repeat: no-repeat;
     background-position: center; }
@@ -995,7 +995,7 @@ table tr:hover .table-links {
     height: 100%;
     background-color: rgba(255, 255, 255, 0.5);
     z-index: 999;
-    background-image: url("../img/spinner.svg");
+    background-image: url("../../images/stisla/spinner.svg");
     background-size: 80px;
     background-repeat: no-repeat;
     background-position: center;
@@ -1361,7 +1361,7 @@ h6 .badge {
 
 .btn-progress {
   position: relative;
-  background-image: url("../img/spinner-white.svg");
+  background-image: url("../../images/stisla/spinner-white.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 30px;
