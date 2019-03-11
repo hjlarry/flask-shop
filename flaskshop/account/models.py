@@ -9,8 +9,8 @@ from flaskshop.extensions import bcrypt
 
 
 class User(Model, UserMixin):
-    __tablename__ = "users"
-    username = Column(db.String(80), unique=True, nullable=False, comment="use`s name")
+    __tablename__ = "account_user"
+    username = Column(db.String(80), unique=True, nullable=False, comment="user`s name")
     email = Column(db.String(80), unique=True, nullable=False)
     #: The hashed password
     _password = Column("password", db.String(128))
@@ -53,7 +53,7 @@ class User(Model, UserMixin):
 
 
 class UserAddress(Model):
-    __tablename__ = "users_address"
+    __tablename__ = "account_address"
     user_id = Column(db.Integer())
     province = Column(db.String(255))
     city = Column(db.String(255))
@@ -72,3 +72,37 @@ class UserAddress(Model):
 
     def __str__(self):
         return self.full_address
+
+    def can(self, permissions):
+        if self.roles is None:
+            return False
+        all_perms = reduce(or_, map(lambda x: x.permissions, self.roles))
+        return all_perms & permissions == permissions
+
+    def can_admin(self):
+        return self.can(Permission.ADMINISTER)
+
+
+class Permission:
+    LOGIN = 0x01
+    EDITOR = 0x02
+    OPERATOR = 0x04
+    ADMINISTER = 0xFF
+    PERMISSION_MAP = {
+        LOGIN: ("login", "Login user"),
+        EDITOR: ("editor", "Editor"),
+        OPERATOR: ("op", "Operator"),
+        ADMINISTER: ("admin", "Super administrator"),
+    }
+
+
+class Role(Model):
+    __tablename__ = "account_role"
+    name = Column(db.String(80), unique=True)
+    permissions = Column(db.Integer(), default=Permission.LOGIN)
+
+
+class UserRole(Model):
+    __tablename__ = "account_user_role"
+    user_id = Column(db.Integer())
+    role_id = Column(db.Integer())

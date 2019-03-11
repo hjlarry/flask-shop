@@ -287,7 +287,7 @@ class Category(Model):
 class ProductTypeAttributes(Model):
     """存储的产品的属性是包括用户可选和不可选"""
 
-    __tablename__ = "product_producttype_product_attributes"
+    __tablename__ = "product_type_attribute"
     product_type_id = Column(db.Integer())
     product_attribute_id = Column(db.Integer())
 
@@ -295,13 +295,13 @@ class ProductTypeAttributes(Model):
 class ProductTypeVariantAttributes(Model):
     """存储的产品SKU的属性是可以给用户去选择的"""
 
-    __tablename__ = "product_producttype_variant_attributes"
+    __tablename__ = "product_type_variant_attribute"
     product_type_id = Column(db.Integer())
     product_attribute_id = Column(db.Integer())
 
 
 class ProductType(Model):
-    __tablename__ = "product_producttype"
+    __tablename__ = "product_type"
     title = Column(db.String(255), nullable=False)
     has_variants = Column(db.Boolean(), default=True)
     is_shipping_required = Column(db.Boolean(), default=False)
@@ -467,7 +467,7 @@ class ProductVariant(Model):
 
 
 class ProductAttribute(Model):
-    __tablename__ = "product_productattribute"
+    __tablename__ = "product_attribute"
     title = Column(db.String(255), nullable=False)
 
     def __str__(self):
@@ -565,7 +565,7 @@ class ProductAttribute(Model):
 
 
 class AttributeChoiceValue(Model):
-    __tablename__ = "product_attributechoicevalue"
+    __tablename__ = "product_attribute_value"
     title = Column(db.String(255), nullable=False)
     attribute_id = Column(db.Integer())
 
@@ -578,7 +578,7 @@ class AttributeChoiceValue(Model):
 
 
 class ProductImage(Model):
-    __tablename__ = "product_productimage"
+    __tablename__ = "product_image"
     image = Column(db.String(255))
     order = Column(db.Integer())
     product_id = Column(db.Integer())
@@ -667,7 +667,7 @@ class Collection(Model):
 
 
 class ProductCollection(Model):
-    __tablename__ = "product_collection_products"
+    __tablename__ = "product_collection_product"
     product_id = Column(db.Integer())
     collection_id = Column(db.Integer())
 

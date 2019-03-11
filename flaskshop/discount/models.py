@@ -247,13 +247,13 @@ class Sale(Model):
 
 
 class SaleCategory(Model):
-    __tablename__ = "discount_sale_categories"
+    __tablename__ = "discount_sale_category"
     sale_id = Column(db.Integer())
     category_id = Column(db.Integer())
 
 
 class SaleProduct(Model):
-    __tablename__ = "discount_sale_products"
+    __tablename__ = "discount_sale_product"
     sale_id = Column(db.Integer())
     product_id = Column(db.Integer())
 

@@ -10,7 +10,7 @@ MC_KEY_PAGE_ID = "public:page:{}"
 
 
 class Site(Model):
-    __tablename__ = "site_setting"
+    __tablename__ = "public_setting"
     header_text = Column(db.String(255), nullable=False)
     description = Column(db.Text())
     top_menu_id = Column(db.Integer())
@@ -35,7 +35,7 @@ class Site(Model):
 
 
 class MenuItem(Model):
-    __tablename__ = "menu_menuitem"
+    __tablename__ = "public_menuitem"
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
     url_ = Column("url", db.String(255))
@@ -78,7 +78,7 @@ class MenuItem(Model):
 
 
 class Page(Model):
-    __tablename__ = "page_page"
+    __tablename__ = "public_page"
     title = Column(db.String(255), nullable=False)
     slug = Column(db.String(255))
     content = PropsItem("content", "")

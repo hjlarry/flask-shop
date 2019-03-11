@@ -201,7 +201,7 @@ class Order(Model):
 
 
 class OrderLine(Model):
-    __tablename__ = "order_orderline"
+    __tablename__ = "order_line"
     product_name = Column(db.String(255))
     product_sku = Column(db.String(100))
     quantity = Column(db.Integer())
@@ -219,7 +219,7 @@ class OrderLine(Model):
 
 
 class OrderNote(Model):
-    __tablename__ = "order_ordernote"
+    __tablename__ = "order_note"
     order_id = Column(db.Integer())
     user_id = Column(db.Integer())
     content = Column(db.Text())

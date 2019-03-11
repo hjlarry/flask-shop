@@ -4,7 +4,7 @@ from flaskshop.database import Column, Model, db
 
 
 class DashboardMenu(Model):
-    __tablename__ = "menu_dashboard"
+    __tablename__ = "public_dashboard"
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
     endpoint = Column(db.String(255))
