@@ -1,7 +1,12 @@
+from functools import wraps
+
 import phonenumbers
-from flask import flash
+from flask import flash, abort
+from flask_login import current_user
 from phonenumbers.phonenumberutil import is_possible_number
 from wtforms import ValidationError
+
+from flaskshop.constant import Permission
 
 
 class PhoneNumber(phonenumbers.PhoneNumber):
@@ -124,8 +129,18 @@ def validate_possible_number(value):
         raise ValidationError("The phone number entered is not valid.")
 
 
-def flash_errors(form, category="warning"):
-    """Flash all errors for a form."""
-    for field, errors in form.errors.items():
-        for error in errors:
-            flash(f"{getattr(form, field).label.text} - {error}", category)
+def permission_required(permission):
+    def decorator(f):
+        @wraps(f)
+        def _deco(*args, **kwargs):
+            if not current_user.can(permission):
+                abort(403)
+            return f(*args, **kwargs)
+
+        return _deco
+
+    return decorator
+
+
+def admin_required(f):
+    return permission_required(Permission.ADMINISTER)(f)

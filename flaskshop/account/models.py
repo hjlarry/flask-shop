@@ -1,11 +1,13 @@
-# -*- coding: utf-8 -*-
-"""User models."""
+from operator import or_
+from functools import reduce
+
 from flask_login import UserMixin
 from libgravatar import Gravatar
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from flaskshop.database import Column, Model, db
 from flaskshop.extensions import bcrypt
+from flaskshop.constant import Permission
 
 
 class User(Model, UserMixin):
@@ -46,10 +48,28 @@ class User(Model, UserMixin):
     def addresses(self):
         return UserAddress.query.filter_by(user_id=self.id)
 
+    @property
+    def roles(self):
+        at_ids = (
+            UserRole.query.with_entities(UserRole.role_id)
+            .filter_by(user_id=self.id)
+            .all()
+        )
+        return Role.query.filter(Role.id.in_(id for id, in at_ids)).all()
+
     def delete(self):
         for addr in self.addresses:
             addr.delete()
         return super().delete()
+
+    def can(self, permissions):
+        if not self.roles:
+            return False
+        all_perms = reduce(or_, map(lambda x: x.permissions, self.roles))
+        return all_perms & permissions == permissions
+
+    def can_admin(self):
+        return self.can(Permission.ADMINISTER)
 
 
 class UserAddress(Model):
@@ -73,28 +93,6 @@ class UserAddress(Model):
     def __str__(self):
         return self.full_address
 
-    def can(self, permissions):
-        if self.roles is None:
-            return False
-        all_perms = reduce(or_, map(lambda x: x.permissions, self.roles))
-        return all_perms & permissions == permissions
-
-    def can_admin(self):
-        return self.can(Permission.ADMINISTER)
-
-
-class Permission:
-    LOGIN = 0x01
-    EDITOR = 0x02
-    OPERATOR = 0x04
-    ADMINISTER = 0xFF
-    PERMISSION_MAP = {
-        LOGIN: ("login", "Login user"),
-        EDITOR: ("editor", "Editor"),
-        OPERATOR: ("op", "Operator"),
-        ADMINISTER: ("admin", "Super administrator"),
-    }
-
 
 class Role(Model):
     __tablename__ = "account_role"
@@ -106,3 +104,4 @@ class UserRole(Model):
     __tablename__ = "account_user_role"
     user_id = Column(db.Integer())
     role_id = Column(db.Integer())
+

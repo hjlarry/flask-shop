@@ -5,7 +5,7 @@ from .models import CartLine, Cart, ShippingMethod
 from .forms import NoteForm, VoucherForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
-from flaskshop.account.utils import flash_errors
+from flaskshop.utils import flash_errors
 from flaskshop.order.models import Order, OrderLine, OrderNote
 from flaskshop.discount.models import Voucher
 from flaskshop.constant import OrderStatusKinds

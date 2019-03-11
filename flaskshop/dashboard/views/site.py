@@ -3,9 +3,11 @@ from flask import render_template, redirect, url_for, request
 from flaskshop.public.models import MenuItem, Page
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.product.models import Category, Collection
+from flaskshop.account.utils import admin_required, permission_required, Permission
 from flaskshop.dashboard.forms import DashboardMenuForm, SiteMenuForm, SitePageForm
 
 
+@permission_required(Permission.OPERATOR)
 def site_menus():
     page = request.args.get("page", type=int, default=1)
     pagination = MenuItem.query.paginate(page, 10)
@@ -53,6 +55,7 @@ def site_menus_manage(id=None):
     return render_template("site/site_menu.html", **context)
 
 
+@admin_required
 def dashboard_menus():
     page = request.args.get("page", type=int, default=1)
     pagination = DashboardMenu.query.paginate(page, 10)
