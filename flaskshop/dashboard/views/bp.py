@@ -3,6 +3,9 @@ from flask import Blueprint, render_template, abort, redirect
 from flask_login import login_required, current_user
 
 from flaskshop.dashboard.models import DashboardMenu
+from flaskshop.account.utils import permission_required
+from flaskshop.settings import Config
+from flaskshop.constant import Permission
 from .user import users, user, user_edit, address_edit
 from .site import (
     site_menus,
@@ -30,7 +33,6 @@ from .product import (
 )
 from .order import orders, order_detail
 from .discount import vouchers, voucher_manage, sales, sale_manage
-from flaskshop.settings import Config
 
 
 blueprint = Blueprint(
@@ -47,18 +49,8 @@ def inject_param():
     return {"menus": menus}
 
 
-def admin_required(func):
-    @wraps(func)
-    def decorated_view(*args, **kwargs):
-        if current_user.is_anonymous or not current_user.is_admin:
-            abort(403)
-        return func(*args, **kwargs)
-
-    return decorated_view
-
-
 @blueprint.before_request
-@admin_required
+@permission_required(Permission.EDITOR)
 @login_required
 def before_request():
     """The whole blueprint need to login first"""

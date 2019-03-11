@@ -9,13 +9,13 @@ from flaskshop.account.models import User
 from tests.factories import UserFactory
 
 
-@pytest.mark.usefixtures('db')
+@pytest.mark.usefixtures("db")
 class TestUser:
     """User tests."""
 
     def test_get_by_id(self):
         """Get user by ID."""
-        user = User('foo', 'foo@bar.com', '123')
+        user = User("foo", "foo@bar.com", "123")
         user.save()
 
         retrieved = User.get_by_id(user.id)
@@ -23,25 +23,23 @@ class TestUser:
 
     def test_created_at_defaults_to_datetime(self):
         """Test creation date."""
-        user = User(username='foo', email='foo@bar.com', password='123')
+        user = User(username="foo", email="foo@bar.com", password="123")
         user.save()
         assert bool(user.created_at)
         assert isinstance(user.created_at, dt.datetime)
 
     def test_factory(self, db):
         """Test user factory."""
-        user = UserFactory(password='myprecious')
+        user = UserFactory(password="myprecious")
         db.session.commit()
         assert bool(user.username)
         assert bool(user.email)
         assert bool(user.created_at)
-        assert user.is_admin is False
         assert user.active is True
-        assert user.check_password('myprecious')
+        assert user.check_password("myprecious")
 
     def test_check_password(self):
         """Check password."""
-        user = User.create(username='foo', email='foo@bar.com',
-                           password='foobarbaz123')
-        assert user.check_password('foobarbaz123') is True
-        assert user.check_password('barfoobaz') is False
+        user = User.create(username="foo", email="foo@bar.com", password="foobarbaz123")
+        assert user.check_password("foobarbaz123") is True
+        assert user.check_password("barfoobaz") is False

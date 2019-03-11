@@ -5,6 +5,7 @@ from flask import request, abort
 from flask_login import current_user, login_required
 
 from flaskshop.extensions import db, login_manager
+from flaskshop.account.utils import admin_required
 from flaskshop import settings
 from .utils import ApiFlask, ApiResult
 from .exceptions import ApiException, httperrors
@@ -51,16 +52,6 @@ def error_handler(error):
         msg = error.msg
         status = 500
     return ApiResult({"msg": msg, "r": 1, "status": status})
-
-
-def admin_required(func):
-    @wraps(func)
-    def decorated_view(*args, **kwargs):
-        if current_user.is_anonymous or not current_user.is_admin:
-            abort(403)
-        return func(*args, **kwargs)
-
-    return decorated_view
 
 
 @dashboard_api.before_request

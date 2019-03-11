@@ -11,7 +11,6 @@ from itertools import chain
 from flaskshop.random_data import (
     create_users,
     create_menus,
-    create_addresses,
     create_shipping_methods,
     create_products_by_schema,
     create_page,
@@ -21,6 +20,7 @@ from flaskshop.random_data import (
     create_product_sales,
     create_vouchers,
     create_dashboard_menus,
+    create_roles,
 )
 from flaskshop.corelib.db import rdb
 from flaskshop.public.search import Item
@@ -158,13 +158,13 @@ def seed(type):
         create_generator = chain(
             create_collections_by_schema(place_holder),
             create_users(),
-            create_addresses(),
             create_page(),
             create_menus(),
             create_shipping_methods(),
             create_orders(),
             create_product_sales(),
             create_vouchers(),
+            create_roles(),
             create_admin(),
             create_dashboard_menus(),
         )
@@ -179,12 +179,12 @@ def seed(type):
         create_dict = {
             "user": create_users,
             "menu": create_menus,
-            "address": create_addresses,
             "ship": create_shipping_methods,
             "order": create_orders,
             "sale": create_product_sales,
             "voucher": create_vouchers,
             "dashboard": create_dashboard_menus,
+            "role": create_roles,
         }
         fn = create_dict[type]
         for msg in fn():

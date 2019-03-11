@@ -13,7 +13,6 @@ def users():
         "username": "Username",
         "email": "Email",
         "is_active": "Is Active",
-        "is_admin": "Is Admin",
     }
     context = {
         "title": "User List",

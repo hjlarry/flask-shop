@@ -7,7 +7,6 @@ from flaskshop.account.utils import admin_required, permission_required, Permiss
 from flaskshop.dashboard.forms import DashboardMenuForm, SiteMenuForm, SitePageForm
 
 
-@permission_required(Permission.OPERATOR)
 def site_menus():
     page = request.args.get("page", type=int, default=1)
     pagination = MenuItem.query.paginate(page, 10)
@@ -28,6 +27,7 @@ def site_menus():
     return render_template("list.html", **context)
 
 
+@admin_required
 def site_menus_manage(id=None):
     if id:
         menu = MenuItem.get_by_id(id)
@@ -55,7 +55,6 @@ def site_menus_manage(id=None):
     return render_template("site/site_menu.html", **context)
 
 
-@admin_required
 def dashboard_menus():
     page = request.args.get("page", type=int, default=1)
     pagination = DashboardMenu.query.paginate(page, 10)
@@ -77,6 +76,7 @@ def dashboard_menus():
     return render_template("list.html", **context)
 
 
+@admin_required
 def dashboard_menus_manage(id=None):
     if id:
         menu = DashboardMenu.get_by_id(id)

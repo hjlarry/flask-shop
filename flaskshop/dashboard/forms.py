@@ -73,7 +73,6 @@ class UserForm(FlaskForm):
     email = StringField(validators=[DataRequired()])
     password = PasswordField()
     is_active = BooleanField()
-    is_admin = BooleanField()
     created_at = DateTimeField()
     updated_at = DateTimeField()
     submit = SubmitField()

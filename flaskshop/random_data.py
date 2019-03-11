@@ -21,7 +21,7 @@ from flaskshop.product.models import (
     ProductCollection,
 )
 from flaskshop.public.models import Site, MenuItem, Page
-from flaskshop.account.models import User, UserAddress
+from flaskshop.account.models import User, UserAddress, Role, UserRole
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.order.models import Order, OrderLine, OrderPayment
 from flaskshop.discount.models import Voucher, Sale, SaleProduct
@@ -32,6 +32,7 @@ from flaskshop.constant import (
     DiscountValueTypeKinds,
     VoucherTypeKinds,
     OrderStatusKinds,
+    Permission,
 )
 
 fake = Factory.create()
@@ -139,6 +140,10 @@ DASHBOARD_MENUS = [
     {"title": "Voucher", "endpoint": "vouchers", "parent_id": 4},
     {"title": "Sale", "endpoint": "sales", "parent_id": 4},
 ]
+
+"""
+Fake for products data
+"""
 
 
 def create_attributes_and_values(attribute_data):
@@ -304,6 +309,60 @@ def get_product_list_images_dir(placeholder_dir):
     return product_list_images_dir
 
 
+def get_variant_combinations(product):
+    # Returns all possible variant combinations
+    # For example: product type has two variant attributes: Size, Color
+    # Size has available values: [S, M], Color has values [Red, Green]
+    # All combinations will be generated (S, Red), (S, Green), (M, Red),
+    # (M, Green)
+    # Output is list of dicts, where key is product attribute id and value is
+    # attribute value id. Casted to string.
+    variant_attr_map = {
+        attr: attr.values for attr in product.product_type.variant_attributes
+    }
+    all_combinations = itertools.product(*variant_attr_map.values())
+    return [
+        {str(attr_value.attribute.id): str(attr_value.id) for attr_value in combination}
+        for combination in all_combinations
+    ]
+
+
+def get_price_override(schema, combinations_num, current_price):
+    prices = []
+    if schema.get("different_variant_prices"):
+        prices = sorted(
+            [
+                current_price + fake.pydecimal(2, 2, positive=True)
+                for _ in range(combinations_num)
+            ],
+            reverse=True,
+        )
+    return prices
+
+
+def create_fake_collection(placeholder_dir, collection_data):
+    image_dir = get_product_list_images_dir(placeholder_dir)
+    background_img = image_dir / collection_data["image_name"]
+    collection = Collection.get_or_create(
+        title=collection_data["name"], background_img=str(background_img)
+    )[0]
+    products = Product.query.limit(4)
+    for product in products:
+        ProductCollection.create(product_id=product.id, collection_id=collection.id)
+    return collection
+
+
+def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
+    for collection_data in schema:
+        collection = create_fake_collection(placeholder_dir, collection_data)
+        yield f"Collection: {collection}"
+
+
+"""
+Fake for public data
+"""
+
+
 def create_page():
     content = """
     <h2 align="center">AN OPENSOURCE STOREFRONT PLATFORM FOR PERFECTIONISTS</h2>
@@ -372,60 +431,15 @@ def create_menus():
         MenuItem.get_or_create(title=page.title, page_id=page.id, parent_id=item.id)
 
 
-def get_email(first_name, last_name):
-    _first = unicodedata.normalize("NFD", first_name).encode("ascii", "ignore")
-    _last = unicodedata.normalize("NFD", last_name).encode("ascii", "ignore")
-    return (
-        f"{_first.lower().decode('utf-8')}.{_last.lower().decode('utf-8')}@example.com"
-    )
+def create_dashboard_menus():
+    for item in DASHBOARD_MENUS:
+        DashboardMenu.create(**item)
+    yield "create dashboard menus"
 
 
-def create_users(how_many=10):
-    for dummy in range(how_many):
-        user = create_fake_user()
-        yield f"User: {user.email}"
-
-
-def create_fake_user():
-    email = get_email(fake.first_name(), fake.last_name())
-    user, _ = User.get_or_create(
-        username=fake.first_name() + fake.last_name(),
-        email=email,
-        password="password",
-        is_active=True,
-    )
-    return user
-
-
-def get_variant_combinations(product):
-    # Returns all possible variant combinations
-    # For example: product type has two variant attributes: Size, Color
-    # Size has available values: [S, M], Color has values [Red, Green]
-    # All combinations will be generated (S, Red), (S, Green), (M, Red),
-    # (M, Green)
-    # Output is list of dicts, where key is product attribute id and value is
-    # attribute value id. Casted to string.
-    variant_attr_map = {
-        attr: attr.values for attr in product.product_type.variant_attributes
-    }
-    all_combinations = itertools.product(*variant_attr_map.values())
-    return [
-        {str(attr_value.attribute.id): str(attr_value.id) for attr_value in combination}
-        for combination in all_combinations
-    ]
-
-
-def get_price_override(schema, combinations_num, current_price):
-    prices = []
-    if schema.get("different_variant_prices"):
-        prices = sorted(
-            [
-                current_price + fake.pydecimal(2, 2, positive=True)
-                for _ in range(combinations_num)
-            ],
-            reverse=True,
-        )
-    return prices
+"""
+Fake for account data
+"""
 
 
 def create_fake_address(user_id=None):
@@ -441,12 +455,6 @@ def create_fake_address(user_id=None):
     return address
 
 
-def create_addresses(how_many=10):
-    for dummy in range(how_many):
-        address = create_fake_address()
-        yield f"Address: {address.contact_name}"
-
-
 def create_shipping_methods():
     shipping_method = ShippingMethod.create(title="UPC", price=fake.money())
     yield f"Shipping method #{shipping_method.id}"
@@ -454,36 +462,62 @@ def create_shipping_methods():
     yield f"Shipping method #{shipping_method.id}"
 
 
-def create_fake_collection(placeholder_dir, collection_data):
-    image_dir = get_product_list_images_dir(placeholder_dir)
-    background_img = image_dir / collection_data["image_name"]
-    collection = Collection.get_or_create(
-        title=collection_data["name"], background_img=str(background_img)
-    )[0]
-    products = Product.query.limit(4)
-    for product in products:
-        ProductCollection.create(product_id=product.id, collection_id=collection.id)
-    return collection
+def get_email(first_name, last_name):
+    _first = unicodedata.normalize("NFD", first_name).encode("ascii", "ignore")
+    _last = unicodedata.normalize("NFD", last_name).encode("ascii", "ignore")
+    return (
+        f"{_first.lower().decode('utf-8')}.{_last.lower().decode('utf-8')}@example.com"
+    )
 
 
-def create_collections_by_schema(placeholder_dir, schema=COLLECTIONS_SCHEMA):
-    for collection_data in schema:
-        collection = create_fake_collection(placeholder_dir, collection_data)
-        yield f"Collection: {collection}"
+def create_users(how_many=10):
+    for dummy in range(how_many):
+        user = create_fake_user()
+        address = create_fake_address(user_id=user.id)
+        yield f"User: {user.email}"
+
+
+def create_fake_user():
+    email = get_email(fake.first_name(), fake.last_name())
+    user, _ = User.get_or_create(
+        username=fake.first_name() + fake.last_name(),
+        email=email,
+        password="password",
+        is_active=True,
+    )
+    return user
 
 
 def create_admin():
     user = User.create(
-        username="hjlarry",
-        email="hjlarry@163.com",
-        password="123",
-        is_active=True,
-        is_admin=True,
+        username="admin", email="hjlarry@163.com", password="admin", is_active=True
     )
-    address1 = create_fake_address(user.id)
-    address2 = create_fake_address(user.id)
-    address3 = create_fake_address(user.id)
+    create_fake_address(user.id)
+    create_fake_address(user.id)
+    create_fake_address(user.id)
+    UserRole.create(user_id=user.id, role_id=4)
     yield f"Admin {user.username} created"
+    user = User.create(
+        username="op", email="op@163.com", password="op", is_active=True
+    )
+    UserRole.create(user_id=user.id, role_id=3)
+    yield f"Admin {user.username} created"
+    user = User.create(
+        username="editor", email="editor@163.com", password="editor", is_active=True
+    )
+    UserRole.create(user_id=user.id, role_id=2)
+    yield f"Admin {user.username} created"
+
+
+def create_roles():
+    for permissions, (name, desc) in Permission.PERMISSION_MAP.items():
+        Role.create(name=name, permissions=permissions)
+        yield f"Role {name} created"
+
+
+"""
+Fake for order data
+"""
 
 
 def create_payment(order):
@@ -521,7 +555,7 @@ def create_order_lines(order, discounts, how_many=10):
 
 
 def create_fake_order(discounts):
-    user = User.query.filter_by(is_admin=False).order_by(func.random()).first()
+    user = User.query.order_by(func.random()).first()
     address = create_fake_address()
     status = random.choice(list(OrderStatusKinds)).value
     order_data = {
@@ -559,7 +593,6 @@ def create_fake_sale():
 
 
 def create_orders(how_many=10):
-    # discounts = Sale.objects.prefetch_related('products', 'categories')
     discounts = None
     for dummy in range(how_many):
         order = create_fake_order(discounts)
@@ -599,8 +632,3 @@ def create_vouchers():
     else:
         yield "Value voucher already exists"
 
-
-def create_dashboard_menus():
-    for item in DASHBOARD_MENUS:
-        DashboardMenu.create(**item)
-    yield "create dashboard menus"
