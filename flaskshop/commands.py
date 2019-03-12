@@ -158,15 +158,15 @@ def seed(type):
         create_generator = chain(
             create_collections_by_schema(place_holder),
             create_users(),
+            create_roles(),
+            create_admin(),
             create_page(),
             create_menus(),
             create_shipping_methods(),
+            create_dashboard_menus(),
             create_orders(),
             create_product_sales(),
             create_vouchers(),
-            create_roles(),
-            create_admin(),
-            create_dashboard_menus(),
         )
         for msg in create_generator:
             click.echo(msg)
