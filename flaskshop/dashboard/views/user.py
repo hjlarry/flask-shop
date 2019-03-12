@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, request
+from sqlalchemy import or_
 
 from flaskshop.account.models import User, UserAddress
 from flaskshop.order.models import Order
@@ -7,7 +8,16 @@ from flaskshop.dashboard.forms import UserForm, UserAddressForm
 
 def users():
     page = request.args.get("page", type=int, default=1)
-    pagination = User.query.paginate(page, 10)
+    search_word = request.args.get("keyword")
+    query = User.query
+    if search_word:
+        query = query.filter(
+            or_(
+                User.username.like("%" + search_word + "%"),
+                User.email.like("%" + search_word + "%"),
+            )
+        )
+    pagination = query.paginate(page, 10)
     props = {
         "id": "ID",
         "username": "Username",
