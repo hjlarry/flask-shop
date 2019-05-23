@@ -25,7 +25,7 @@
   "homepage": "https://github.com/hjlarry/flaskshop#readme",
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap": "^4.1.2",
+    "bootstrap": "^4.3.1",
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
     "daterangepicker": "^3.0.3",
