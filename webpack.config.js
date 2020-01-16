@@ -16,14 +16,14 @@ const publicHost = debug ? 'http://localhost:2992' : '';
 const fileLoaderPath = 'file-loader?name=[name].[ext]';
 const rootAssetPath = path.join(__dirname, 'flaskshop', 'assets');
 
-const manifestRevisionPlugin = new ManifestRevisionPlugin(path.join(__dirname, 'flaskshop', 'webpack', 'manifest.json'), {
+const manifestRevisionPlugin = new ManifestRevisionPlugin(path.join(__dirname, 'flaskshop', 'manifest.json'), {
   rootAssetPath,
   ignorePaths: ['/js', '/scss', '/css', '/fonts', '/images'],
 });
 
 const extractCssPlugin = new MiniCssExtractPlugin({
-  filename: '[name].[hash].css',
-  chunkFilename: '[name].[hash].css',
+  filename: '[name].css',
+  chunkFilename: '[name].css',
 });
 
 const bundleTrackerPlugin = new BundleTracker({
@@ -40,8 +40,8 @@ const providePlugin = new webpack.ProvidePlugin({
 
 const output = {
   path: resolve('flaskshop/static/build/'),
-  filename: '[name].[hash].js',
-  chunkFilename: '[name].[hash].js',
+  filename: '[name].js',
+  chunkFilename: '[name].js',
   publicPath: `${publicHost}/static/build/`,
 };
 
@@ -120,3 +120,4 @@ const config = {
 };
 
 module.exports = config;
+

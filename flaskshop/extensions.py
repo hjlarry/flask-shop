@@ -1,5 +1,3 @@
-import hashlib
-import functools
 from datetime import datetime
 
 from flask import abort
@@ -7,7 +5,6 @@ from flask_bcrypt import Bcrypt
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flask_webpack import Webpack
 from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy, Model, BaseQuery, DefaultMeta, _QueryProperty
@@ -21,7 +18,6 @@ csrf_protect = CSRFProtect()
 login_manager = LoginManager()
 migrate = Migrate(compare_type=True)
 debug_toolbar = DebugToolbarExtension()
-webpack = Webpack()
 bootstrap = Bootstrap()
 
 

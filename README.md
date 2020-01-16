@@ -17,10 +17,10 @@ It havn`t complete yet.
 
 ```
 git clone https://github.com/hjlarry/flaskshop
-cd flaskshop
-pipenv install
+cd flask-shop
+# please create virual env
+pip3 install -r requirements.txt
 npm install
-pipenv shell
 export FLASK_APP=autoapp.py
 export FLASK_DEBUG=1
 flask db init

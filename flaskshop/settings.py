@@ -34,8 +34,6 @@ class Config(object):
     DATABASE_QUERY_TIMEOUT = 0.1  # log the slow database query, and unit is second
     SQLALCHEMY_RECORD_QUERIES = True
 
-    WEBPACK_MANIFEST_PATH = "webpack/manifest.json"
-
     REDIS_URL = "redis://localhost:6379"
 
     ES_HOSTS = ["localhost"]

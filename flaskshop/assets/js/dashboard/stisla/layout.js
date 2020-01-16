@@ -9,7 +9,7 @@ import './stisla';
 // JS Libraies
 import 'jquery-sparkline';
 import 'chart.js';
-import 'owl.carousel2';
+import 'owl.carousel';
 import 'summernote';
 import 'chocolat';
 

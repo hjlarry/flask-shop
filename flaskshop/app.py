@@ -22,7 +22,6 @@ from flaskshop.extensions import (
     debug_toolbar,
     login_manager,
     migrate,
-    webpack,
     bootstrap,
 )
 from flaskshop.settings import ProdConfig
@@ -54,7 +53,6 @@ def register_extensions(app):
     login_manager.init_app(app)
     debug_toolbar.init_app(app)
     migrate.init_app(app, db)
-    webpack.init_app(app)
     bootstrap.init_app(app)
 
 

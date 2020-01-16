@@ -15,9 +15,7 @@
     <meta name="og:type" content="website">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {% endblock meta %}
-
-    {{ stylesheet_tag('storefront') | safe }}
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='build/storefront.css') }}">
     {% block stylesheet %}{% endblock stylesheet %}
 
   </head>
@@ -263,7 +261,7 @@
     </footer>
     {% endblock %}
     {% block footer_scripts %}
-    {{ javascript_tag('storefront') | safe }}
+
     {% endblock footer_scripts %}
   </body>
 
