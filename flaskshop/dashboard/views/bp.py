@@ -39,7 +39,7 @@ blueprint = Blueprint(
     "dashboard",
     __name__,
     url_prefix="/dashboard",
-    template_folder=Config.DASHBOARD_TEMPLATE_THEME,
+    template_folder=Config.DASHBOARD_TEMPLATE_FOLDER,
 )
 
 

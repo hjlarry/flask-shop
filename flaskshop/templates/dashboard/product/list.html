@@ -1,5 +1,5 @@
-{% import 'dashboard/adminlte/_vendor.html' as vendor %}
-{% extends 'dashboard/adminlte/layout.html' %}
+{% import 'dashboard/_vendor.html' as vendor %}
+{% extends 'dashboard/layout.html' %}
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -19,6 +19,10 @@
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                                 </div>
+                                <div class="input-group input-group-sm" style="width:auto;margin-left: 10px;">
+                                    <a href="{{url_for('dashboard.product_create_step1')}}"
+                                        class="btn btn-success btn-sm">Create</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -37,7 +41,7 @@
                                 <td>{{ item | attr(prop) }}</td>
                                 {% endfor %}
                                 <td>
-                                    <a href="{{url_for('dashboard.order_detail', id=item.id)}}"
+                                    <a href="{{url_for('dashboard.product_detail', id=item.id)}}"
                                         class="btn btn-info btn-sm">View</a>
                                 </td>
                             </tr>

@@ -1,6 +1,6 @@
-{% import 'dashboard/adminlte/_macros.html' as macros%}
-{% import 'dashboard/adminlte/_vendor.html' as vendor%}
-{% extends 'dashboard/adminlte/layout.html' %}
+{% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
+{% extends 'dashboard/layout.html' %}
 {% block head_tail %}
 <link href="{{ url_for('static', filename='vendor/daterangepicker.css') }}" rel="stylesheet">
 {{super()}}

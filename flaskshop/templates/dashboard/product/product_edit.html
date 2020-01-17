@@ -1,20 +1,24 @@
-{% import 'dashboard/adminlte/_macros.html' as macros%}
-{% import 'dashboard/adminlte/_vendor.html' as vendor%}
-{% extends 'dashboard/adminlte/layout.html' %}
+{% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
+{% extends 'dashboard/layout.html' %}
 
 {% block body %}
 <section class="content">
     <div class="container-fluid">
         <div class="row">
+            <!-- left column -->
             <div class="col-md-12">
+                <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Create Product Step 2</h3>
+                        <h3 class="card-title">Edit Product</h3>
                     </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
                     <form method="POST" action="">
                         <div class="card-body">
                             {{ form.hidden_tag() }}
-                            <label>Type:</label> {{product_type}}
+                            <label>Type:</label> {{product.product_type}}
                             {{ vendor.render_field(form.title) }}
                             {{ vendor.render_field(form.basic_price) }}
                             {{ vendor.render_field(form.on_sale) }}
@@ -25,7 +29,8 @@
                             {{ macros.render_select_field(form.category_id, categories) }}
                             {{ vendor.render_field(form.description) }}
                             {{ macros.render_multi_img(form.images) }}
-                            {{ macros.render_attribute_field(form.attributes, product_type.product_attributes) }}
+                            {{ macros.render_attribute_field(form.attributes, product.product_type.product_attributes) }}
+
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>

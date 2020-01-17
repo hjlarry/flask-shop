@@ -1,6 +1,6 @@
-{% import 'dashboard/adminlte/_macros.html' as macros%}
-{% import 'dashboard/adminlte/_vendor.html' as vendor%}
-{% extends 'dashboard/adminlte/layout.html' %}
+{% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
+{% extends 'dashboard/layout.html' %}
 
 {% block body %}
 <section class="content">
@@ -11,8 +11,8 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %}
-                            Product Type</h3>
+                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %} Attribute
+                        </h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -20,10 +20,9 @@
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
-                            {{ vendor.render_field(form.has_variants) }}
-                            {{ vendor.render_field(form.is_shipping_required) }}
-                            {{ macros.render_select_multi_field(form.product_attributes, attributes) }}
-                            {{ macros.render_select_field(form.variant_attr_id, attributes) }}
+                            {{ macros.render_field_list(form.values) }}
+                            {{ macros.render_select_multi_field(form.types, product_types) }}
+
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>
@@ -36,5 +35,5 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='build/adminlte/select.js') }}"></script>
+<script src="{{ url_for('static', filename='build/adminlte/attribute.js') }}"></script>
 {% endblock %}

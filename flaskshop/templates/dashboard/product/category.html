@@ -1,6 +1,7 @@
-{% import 'dashboard/adminlte/_macros.html' as macros%}
-{% import 'dashboard/adminlte/_vendor.html' as vendor%}
-{% extends 'dashboard/adminlte/layout.html' %}
+{% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
+{% extends 'dashboard/layout.html' %}
+
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -11,7 +12,7 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %}
-                            Sale</h3>
+                            Category</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -19,10 +20,8 @@
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
-                            {{ macros.render_select_field(form.discount_value_type, discount_types) }}
-                            {{ vendor.render_field(form.discount_value) }}
-                            {{ macros.render_select_multi_field(form.categories, categories) }}
-                            {{ macros.render_select_multi_field(form.products, products) }}
+                            {{ macros.render_select_field(form.parent_id, parents) }}
+                            {{ macros.render_file_field(form.bgimg_file, form.background_img) }}
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>

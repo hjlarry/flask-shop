@@ -1,6 +1,6 @@
-{% import 'dashboard/adminlte/_macros.html' as macros%}
-{% import 'dashboard/adminlte/_vendor.html' as vendor%}
-{% extends 'dashboard/adminlte/layout.html' %}
+{% import 'dashboard/_macros.html' as macros%}
+{% extends 'dashboard/layout.html' %}
+
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -10,19 +10,19 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Edit User</h3>
+                        <h3 class="card-title">Create Dashboard Menu</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form method="POST" action="">
                         <div class="card-body">
                             {{ form.hidden_tag() }}
-                            {{ vendor.render_field(form.username) }}
-                            {{ vendor.render_field(form.email) }}
-                            {{ vendor.render_field(form.password) }}
-                            {{ macros.render_boolean_field(form.is_active) }}
-                            {{ vendor.render_field(form.created_at) }}
-                            {{ vendor.render_field(form.updated_at) }}
+                            {{ macros.render_input_field(form.title) }}
+                            {{ macros.render_input_field(form.order) }}
+                            {{ macros.render_input_field(form.endpoint) }}
+                            {{ macros.render_input_field(form.icon_cls) }}
+                            {{ macros.render_select_field(form.parent_id, parents) }}
+
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -34,4 +34,8 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block tail_js %}
+<script src="{{ url_for('static', filename='build/adminlte/select.js') }}"></script>
 {% endblock %}

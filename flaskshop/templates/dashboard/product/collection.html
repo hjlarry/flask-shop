@@ -1,6 +1,6 @@
-{% import 'dashboard/adminlte/_macros.html' as macros%}
-{% import 'dashboard/adminlte/_vendor.html' as vendor%}
-{% extends 'dashboard/adminlte/layout.html' %}
+{% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
+{% extends 'dashboard/layout.html' %}
 
 {% block body %}
 <section class="content">
@@ -12,17 +12,16 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %}
-                            Variant</h3>
+                            Collection</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form method="POST" action="">
+                    <form method="POST" action="" enctype="multipart/form-data">
                         <div class="card-body">
                             {{ form.hidden_tag() }}
-                            {{ vendor.render_field(form.sku) }}
                             {{ vendor.render_field(form.title) }}
-                            {{ vendor.render_field(form.price_override) }}
-                            {{ vendor.render_field(form.quantity) }}
+                            {{ macros.render_select_multi_field(form.products, products) }}
+                            {{ macros.render_file_field(form.bgimg_file, form.background_img) }}
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>
@@ -32,4 +31,8 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block tail_js %}
+<script src="{{ url_for('static', filename='build/adminlte/collection.js') }}"></script>
 {% endblock %}
