@@ -114,5 +114,5 @@
 {% endblock %}
 
 {% block tail_js %}
-{{ javascript_tag('adminlte/user_detail') | safe }}
+<script src="{{ url_for('static', filename='build/adminlte/user_detail.js') }}"></script>
 {% endblock %}

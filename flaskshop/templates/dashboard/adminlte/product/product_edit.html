@@ -43,5 +43,5 @@
 {% endblock %}
 
 {% block tail_js %}
-{{ javascript_tag('adminlte/product_edit') | safe }}
+<script src="{{ url_for('static', filename='build/adminlte/product_edit.js') }}"></script>
 {% endblock %}

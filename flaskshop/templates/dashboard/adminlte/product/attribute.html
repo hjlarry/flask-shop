@@ -35,5 +35,5 @@
 {% endblock %}
 
 {% block tail_js %}
-{{ javascript_tag('adminlte/attribute') | safe }}
+<script src="{{ url_for('static', filename='build/adminlte/attribute.js') }}"></script>
 {% endblock %}

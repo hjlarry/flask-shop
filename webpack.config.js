@@ -3,7 +3,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
-const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
 const glob = require('glob');
 
 const resolve = path.resolve.bind(path, __dirname);
@@ -14,12 +13,6 @@ const debug = (process.env.NODE_ENV !== 'production');
 // Development asset host (webpack dev server)
 const publicHost = debug ? 'http://localhost:2992' : '';
 const fileLoaderPath = 'file-loader?name=[name].[ext]';
-const rootAssetPath = path.join(__dirname, 'flaskshop', 'assets');
-
-const manifestRevisionPlugin = new ManifestRevisionPlugin(path.join(__dirname, 'flaskshop', 'manifest.json'), {
-  rootAssetPath,
-  ignorePaths: ['/js', '/scss', '/css', '/fonts', '/images'],
-});
 
 const extractCssPlugin = new MiniCssExtractPlugin({
   filename: '[name].css',
@@ -108,7 +101,6 @@ const config = {
     bundleTrackerPlugin,
     extractCssPlugin,
     providePlugin,
-    manifestRevisionPlugin,
   ],
   resolve: {
     alias: {

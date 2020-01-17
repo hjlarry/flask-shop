@@ -36,5 +36,5 @@
 {% endblock %}
 
 {% block tail_js %}
-{{ javascript_tag('adminlte/select') | safe }}
+<script src="{{ url_for('static', filename='build/adminlte/select.js') }}"></script>
 {% endblock %}

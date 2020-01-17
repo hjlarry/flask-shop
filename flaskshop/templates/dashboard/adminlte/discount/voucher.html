@@ -45,5 +45,5 @@
 {% endblock %}
 
 {% block tail_js %}
-{{ javascript_tag('adminlte/voucher') | safe }}
+<script src="{{ url_for('static', filename='build/adminlte/voucher.js') }}"></script>
 {% endblock %}

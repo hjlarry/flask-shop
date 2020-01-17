@@ -1,5 +1,5 @@
 {% block head_tail %}
-{{ stylesheet_tag('adminlte/layout') | safe }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='build/adminlte/layout.css') }}">
 {% endblock %}
 
 
@@ -78,29 +78,20 @@
                         {% endfor %}
                     </ul>
                 </nav>
-                <!-- /.sidebar-menu -->
             </div>
-            <!-- /.sidebar -->
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
-                </div><!-- /.container-fluid -->
+                </div>
             </section>
-            <!-- Main content -->
             {% block body %} {% endblock %}
-            <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
         <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
         </aside>
     </div>
-    <!-- ./wrapper -->
-    {{ javascript_tag('adminlte/layout') | safe }}
+    <script src="{{ url_for('static', filename='build/adminlte/layout.js') }}"></script>
     {% block tail_js %} {% endblock %}
 </body>
 {% endblock %}

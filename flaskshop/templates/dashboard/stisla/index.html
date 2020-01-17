@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Ecommerce Dashboard &mdash; Stisla</title>
 
-    {{ stylesheet_tag('stisla/layout') | safe }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='build/stisla/layout.css') }}">
     <link href="{{ url_for('static', filename='vendor/fontawesome/css/all.min.css') }}" rel="stylesheet">
     <!-- <link href="{{ url_for('static', filename='dashboard/style.css') }}" rel="stylesheet"> -->
 
@@ -936,8 +936,7 @@
         </footer>
       </div>
     </div>
-    {{ javascript_tag('stisla/layout') | safe }}
-
+    <script src="{{ url_for('static', filename='build/stisla/layout.js') }}"></script>
   </body>
 
 </html>

@@ -69,7 +69,7 @@
       </div>
       <div class="navbar__brand container-fluid d-block">
         <div class="container">
-          <div class="row no-gutters">
+          <div class="row no-gutters" style="width:100%">
             <div class="col-8 col-md-4 navbar__logo">
               <div class="menu-icon-mobile d-md-none navbar__brand__menu-toggle closed open">
                 <svg data-src="{{ url_for('static', filename='img/mobile-menu.svg') }}" width="28px"
@@ -261,7 +261,7 @@
     </footer>
     {% endblock %}
     {% block footer_scripts %}
-
+      <script src="{{ url_for('static', filename='build/storefront.js') }}"></script>
     {% endblock footer_scripts %}
   </body>
 

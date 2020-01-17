@@ -839,5 +839,5 @@
 </section>
 {% endblock %}
 {% block tail_js %}
-{{ javascript_tag('adminlte/index') | safe }}
+<script src="{{ url_for('static', filename='build/adminlte/index.js') }}"></script>
 {% endblock %}
