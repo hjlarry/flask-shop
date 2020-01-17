@@ -3,4 +3,4 @@ import './adminlte.min';
 import './customize';
 
 
-import '../../../scss/adminlte.scss';
+import '../../scss/adminlte.scss';
