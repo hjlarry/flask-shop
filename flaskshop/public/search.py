@@ -1,7 +1,7 @@
 from elasticsearch_dsl import Boolean, Document, Integer, Float, Date, Text
 from elasticsearch_dsl.connections import connections
 from elasticsearch.helpers import parallel_bulk
-from elasticsearch.exceptions import NotFoundError
+from elasticsearch.exceptions import NotFoundError, ConflictError
 from flask_sqlalchemy import Pagination
 
 from flaskshop.settings import Config
@@ -99,4 +99,3 @@ class Item(Document):
         s = s if order_by is None else s.sort(order_by)
         rs = s.execute()
         return Pagination(query, page, per_page, rs.hits.total, rs)
-

@@ -12,7 +12,6 @@ WECHAT_LOGIN_URL = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret
 
 class Config(object):
     """Base configuration."""
-
     SECRET_KEY = "thisisashop"
     SERVER_NAME = "localhost.com:5000"
 
@@ -39,7 +38,6 @@ class Config(object):
 
 class ProdConfig(Config):
     """Production configuration."""
-
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = "postgresql://localhost/example"
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
@@ -47,7 +45,6 @@ class ProdConfig(Config):
 
 class DevConfig(Config):
     """Development configuration."""
-
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = (
         "mysql+pymysql://root:root@127.0.0.1:3306/flaskshop?charset=utf8mb4"
