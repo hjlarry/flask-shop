@@ -14,6 +14,7 @@ from .site import (
     dashboard_menus_manage,
     site_pages,
     site_pages_manage,
+    site_config,
 )
 from .product import (
     attributes,
@@ -85,6 +86,7 @@ blueprint.add_url_rule(
 blueprint.add_url_rule(
     "/site_pages/<id>/edit", view_func=site_pages_manage, methods=["GET", "POST"]
 )
+blueprint.add_url_rule("/site_config", view_func=site_config, methods=["GET", "POST"])
 blueprint.add_url_rule("/users", view_func=users)
 blueprint.add_url_rule("/users/<user_id>", view_func=user)
 blueprint.add_url_rule(

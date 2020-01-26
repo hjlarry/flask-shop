@@ -1,10 +1,10 @@
 from flask import render_template, redirect, url_for, request
 
-from flaskshop.public.models import MenuItem, Page
+from flaskshop.public.models import MenuItem, Page, Site
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.product.models import Category, Collection
 from flaskshop.account.utils import admin_required, permission_required, Permission
-from flaskshop.dashboard.forms import DashboardMenuForm, SiteMenuForm, SitePageForm
+from flaskshop.dashboard.forms import DashboardMenuForm, SiteMenuForm, SitePageForm, SiteConfigForm
 
 
 def site_menus():
@@ -126,3 +126,13 @@ def site_pages_manage(id=None):
         page.save()
         return redirect(url_for("dashboard.site_pages"))
     return render_template("site/site_page.html", form=form)
+
+
+def site_config():
+    site = Site.query.first()
+    form = SiteConfigForm(obj=site)
+    if form.validate_on_submit():
+        form.populate_obj(site)
+        site.save()
+        return redirect(url_for("dashboard.site_config"))
+    return render_template("site/site_config.html", form=form)

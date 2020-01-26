@@ -68,6 +68,12 @@ class SitePageForm(FlaskForm):
     submit = SubmitField()
 
 
+class SiteConfigForm(FlaskForm):
+    header_text = StringField(validators=[DataRequired()])
+    description = TextAreaField()
+    submit = SubmitField()
+
+
 class UserForm(FlaskForm):
     username = StringField(validators=[DataRequired()])
     email = StringField(validators=[DataRequired()])
