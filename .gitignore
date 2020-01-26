@@ -48,10 +48,6 @@ env/
 # npm
 node_modules
 
-# webpack-built files
-/flaskshop/static/build/
-/flaskshop/webpack/manifest.json
-
 # mpvue build files
 /mpvue/dist/
 
