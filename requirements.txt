@@ -18,6 +18,7 @@ flask-login==0.4.1
 flask-migrate==2.5.2
 flask-restplus==0.13.0
 flask-sqlalchemy==2.4.1
+flask-wtf==0.14.2
 flask==1.1.1
 idna==2.8
 importlib-metadata==1.4.0 ; python_version < '3.8'

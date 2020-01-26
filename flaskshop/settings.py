@@ -13,7 +13,7 @@ WECHAT_LOGIN_URL = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret
 class Config(object):
     """Base configuration."""
     SECRET_KEY = "thisisashop"
-    SERVER_NAME = "localhost.com:5000"
+    SERVER_NAME = "127.0.0.1:5000"
 
     APP_DIR = Path(__file__).parent  # This directory
     PROJECT_ROOT = APP_DIR.parent
