@@ -150,6 +150,53 @@
     width: 110px;
 }
 
+.activity{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.activity .item{
+    border-radius: .25rem;
+    background: #fff;
+    padding: 10px;
+}
+
+.activity .activity-title{
+    color: #000;
+    font-size: 18px;
+}
+
+.activity span{
+    display: block;
+    color: #6c757d;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.navi-card{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navi-card li{
+    font-size: 18px;
+    display: block;
+    padding:20px;
+}
+.navi-card li:hover{
+    background-color: rgba(0,0,0,.075);
+}
+
+.navi-card a{
+    color: #212529;
+}
+
+.navi-card .right{
+    float: right;
+}
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
