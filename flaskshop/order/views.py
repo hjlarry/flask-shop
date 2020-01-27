@@ -38,14 +38,14 @@ def show(token):
 def ali_pay(token):
     order = Order.query.filter_by(token=token).first()
     payment_no = str(int(time.time())) + str(current_user.id)
-    order_string = zhifubao.send_order(order.token, payment_no, order.total_net)
+    order_string = zhifubao.send_order(order.token, payment_no, order.total)
     customer_ip_address = request.headers.get("X-Forwarded-For", request.remote_addr)
     OrderPayment.create(
         order_id=order.id,
         payment_method="alipay",
         payment_no=payment_no,
         status=PaymentStatusKinds.waiting.value,
-        total=order.total_net,
+        total=order.total,
         customer_ip_address=customer_ip_address,
     )
     return redirect(current_app.config["PURCHASE_URI"] + order_string)

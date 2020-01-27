@@ -245,3 +245,7 @@ class OrderPayment(Model):
         order = Order.get_by_id(self.order_id)
         order.pay_success(payment=self)
 
+    @property
+    def status_name(self):
+        return PaymentStatusKinds(int(self.status)).name
+

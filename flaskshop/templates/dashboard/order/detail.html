@@ -19,8 +19,8 @@
                     <!-- info row -->
                     <div class="row invoice-info">
                         <div class="col-sm-4 invoice-col">
-                            <b>Status:</b> {{order.status}}<br>
-                            <b>Payment Status:</b> {{order.payment.status}}<br>
+                            <b>Status:</b> {{order.status_name}}<br>
+                            <b>Payment Status:</b> {{order.payment.status_name}}<br>
                             <b>Payment Due:</b> {{order.payment.paid_at}}<br>
                             <b>Account:</b> {{order.user}}
                         </div>
@@ -88,7 +88,7 @@
                                 <table class="table">
                                     <tr>
                                         <th style="width:50%">Subtotal:</th>
-                                        <td>${{order.total_net-order.shipping_price_net}}</td>
+                                        <td>${{order.total_net}}</td>
                                     </tr>
                                     <tr>
                                         <th>Shipping:</th>
@@ -96,7 +96,7 @@
                                     </tr>
                                     <tr>
                                         <th>Total:</th>
-                                        <td>${{order.total_net}}</td>
+                                        <td>${{order.total}}</td>
                                     </tr>
                                 </table>
                             </div>

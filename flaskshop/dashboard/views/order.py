@@ -5,12 +5,12 @@ from flaskshop.order.models import Order
 
 def orders():
     page = request.args.get("page", type=int, default=1)
-    pagination = Order.query.paginate(page, 10)
+    pagination = Order.query.order_by(Order.id.desc()).paginate(page, 10)
     props = {
         "id": "ID",
         "identity": "Identity",
-        "status": "Status",
-        "total_net": "Total",
+        "status_name": "Status",
+        "total": "Total",
         "user": "User",
         "created_at": "Created At",
     }
