@@ -125,10 +125,10 @@
             <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary float-right">
                 Alipay
             </a>
-            <a href="{{ url_for('order.test_pay', token=order.token) }}" class="btn btn-primary float-right">
+            <a href="{{ url_for('order.test_pay', token=order.token) }}" class="btn secondary float-right">
                 Pay for test
             </a>
-            <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn secondary float-right">
+            <a href="{{ url_for('order.cancel_order', token=order.token) }}" class="btn danger float-right">
                 Cancel Order
             </a>
         </div>

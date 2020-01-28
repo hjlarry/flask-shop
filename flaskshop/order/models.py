@@ -29,7 +29,7 @@ class Order(Model):
     ship_status = Column(TINYINT())
 
     def __str__(self):
-        return f"#{self.id}"
+        return f"#{self.identity}"
 
     @classmethod
     def create_whole_order(cls, cart, note=None):
@@ -186,7 +186,7 @@ class Order(Model):
 
         db.session.commit()
 
-    def cancel_order(self):
+    def cancel(self):
         self.status = OrderStatusKinds.canceled.value
         db.session.add(self)
 

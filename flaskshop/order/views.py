@@ -15,7 +15,7 @@ from flask_login import login_required, current_user
 from .models import Order, OrderLine, OrderNote, OrderPayment
 from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
-from flaskshop.constant import ShipStatusKinds, PaymentStatusKinds, RefundStatusKinds
+from flaskshop.constant import ShipStatusKinds, PaymentStatusKinds, RefundStatusKinds, OrderStatusKinds
 
 blueprint = Blueprint("order", __name__, url_prefix="/orders")
 
@@ -35,10 +35,15 @@ def show(token):
     return render_template("orders/details.html", order=order)
 
 
+# def create_payment(token, payment_method):
+    
+
 @blueprint.route("/pay/<string:token>/alipay")
 @login_required
 def ali_pay(token):
     order = Order.query.filter_by(token=token).first()
+    if order.status != OrderStatusKinds.unfulfilled.value:
+        abort(403, "This Order Can Not Pay")
     payment_no = str(int(time.time())) + str(current_user.id)
     order_string = zhifubao.send_order(order.token, payment_no, order.total)
     customer_ip_address = request.headers.get("X-Forwarded-For", request.remote_addr)
@@ -72,16 +77,26 @@ def ali_notify():
 @login_required
 def test_pay(token):
     order = Order.query.filter_by(token=token).first()
+    if order.status != OrderStatusKinds.unfulfilled.value:
+        abort(403, "This Order Can Not Pay")
     payment_no = str(int(time.time())) + str(current_user.id)
     customer_ip_address = request.headers.get("X-Forwarded-For", request.remote_addr)
-    payment = OrderPayment.create(
-        order_id=order.id,
-        payment_method="testpay",
-        payment_no=payment_no,
-        status=PaymentStatusKinds.waiting.value,
-        total=order.total,
-        customer_ip_address=customer_ip_address,
-    )
+    payment = OrderPayment.query.filter_by(order_id=order.id).first()
+    if payment:
+        payment.update(
+            payment_method="testpay",
+            payment_no=payment_no,
+            customer_ip_address=customer_ip_address,
+        )
+    else:
+        payment = OrderPayment.create(
+            order_id=order.id,
+            payment_method="testpay",
+            payment_no=payment_no,
+            status=PaymentStatusKinds.waiting.value,
+            total=order.total,
+            customer_ip_address=customer_ip_address,
+        )
     payment.pay_success(paid_at=datetime.now())
     return redirect(url_for("order.payment_success"))
 
@@ -89,6 +104,13 @@ def test_pay(token):
 @login_required
 def payment_success():
     return render_template("orders/checkout_success.html")
+
+@blueprint.route("/cancel/<string:token>")
+@login_required
+def cancel_order(token):
+    order = Order.query.filter_by(token=token).first()
+    order.cancel()
+    return render_template("orders/details.html", order=order)
 
 
 @blueprint.route("/<int:id>/refund", methods=["POST"])
