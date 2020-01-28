@@ -1,3 +1,6 @@
+import time
+from datetime import datetime
+
 from flask import (
     Blueprint,
     render_template,
@@ -8,7 +11,6 @@ from flask import (
     abort,
 )
 from flask_login import login_required, current_user
-import time
 
 from .models import Order, OrderLine, OrderNote, OrderPayment
 from .payment import zhifubao
@@ -64,6 +66,24 @@ def ali_notify():
         order_payment.pay_success(paid_at=data["gmt_payment"])
     return "", 200
 
+
+# for test pay flow 
+@blueprint.route("/pay/<string:token>/testpay")
+@login_required
+def test_pay(token):
+    order = Order.query.filter_by(token=token).first()
+    payment_no = str(int(time.time())) + str(current_user.id)
+    customer_ip_address = request.headers.get("X-Forwarded-For", request.remote_addr)
+    payment = OrderPayment.create(
+        order_id=order.id,
+        payment_method="testpay",
+        payment_no=payment_no,
+        status=PaymentStatusKinds.waiting.value,
+        total=order.total,
+        customer_ip_address=customer_ip_address,
+    )
+    payment.pay_success(paid_at=datetime.now())
+    return redirect(url_for("order.payment_success"))
 
 @blueprint.route("/payment_success")
 @login_required

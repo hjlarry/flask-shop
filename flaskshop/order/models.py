@@ -174,8 +174,9 @@ class Order(Model):
 
     def pay_success(self, payment):
         self.status = OrderStatusKinds.fulfilled.value
-        db.session.add(self)
-        db.session.add(payment)
+        # to resolve another instance with key is already present in this session
+        local_obj = db.session.merge(self)
+        db.session.add(local_obj)
 
         for line in self.lines:
             variant = line.variant
@@ -242,6 +243,7 @@ class OrderPayment(Model):
     def pay_success(self, paid_at):
         self.paid_at = paid_at
         self.status = PaymentStatusKinds.confirmed.value
+        self.save(commit=False)
         order = Order.get_by_id(self.order_id)
         order.pay_success(payment=self)
 
