@@ -90,10 +90,6 @@
         input {
           border-radius: 12px;
         }
-        .btn {
-          height: 3.6rem;
-          padding: $global-padding;
-        }
         .btn-voucher-remove {
           position: relative;
         }
@@ -172,7 +168,6 @@
   &__shipping {
     .btn {
       grid-column-start: 2;
-      width: 100%;
       @include media-breakpoint-down(md) {
         grid-column-start: 1;
       }

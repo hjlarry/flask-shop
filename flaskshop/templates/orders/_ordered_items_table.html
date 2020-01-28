@@ -1,22 +1,5 @@
 {% import '_macros.html' as macros %}
-<div class="order-details__addresses">
-    <div class="row">
-        <div class="col-6">
-            {% if order.is_shipping_required %}
-            <h3>
-                Shipping address
-            </h3>
-            {{ order.shipping_address | safe }}
-            {% endif %}
-        </div>
-        {% if order.is_open %}
-        <div class="col-6">
-            <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary float-right">
-                Pay for order
-            </a></div>
-        {% endif %}
-    </div>
-</div>
+
 <div class="table__header order-details__table-header d-none d-sm-block">
     <div class="row">
         <div class="col-md-8">
@@ -111,8 +94,6 @@
 </div>
 {% endif %}
 
-
-
 <div class="order-details__total">
     <div class="row">
         <div class="col-8 order-details__table-footer">
@@ -125,5 +106,32 @@
                 ${{ order.total  }}
             </p>
         </div>
+    </div>
+</div>
+
+<div class="order-details__addresses">
+    <div class="row">
+        <div class="col-6">
+            {% if order.is_shipping_required %}
+            <h3>
+                Shipping address
+            </h3>
+            {{ order.shipping_address | safe }}
+            {% endif %}
+        </div>
+        {% if order.is_open %}
+        <div class="col-6">
+            <span class="float-right">Please pay before 00:30, else the order will auto closed</span>
+            <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary float-right">
+                Alipay
+            </a>
+            <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary float-right">
+                Pay for test
+            </a>
+            <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn secondary float-right">
+                Cancel Order
+            </a>
+        </div>
+        {% endif %}
     </div>
 </div>

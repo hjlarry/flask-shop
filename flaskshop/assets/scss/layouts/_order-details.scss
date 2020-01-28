@@ -4,6 +4,11 @@
   }
   &__addresses {
     margin-top: $global-margin * 2;
+    .btn {
+        display: block;
+        margin-bottom: 10px;
+        width: 60%;
+    }
   }
   &__product {
     .col-3 {

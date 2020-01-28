@@ -82,6 +82,7 @@
             -${{current_user_cart.discount_amount}}
           </div>
           {% else %}
+
           <form action="{{url_for('checkout.checkout_voucher')}}" method="post">
             {{voucher_form.csrf_token}}
             <div class="form-group input-btn">
