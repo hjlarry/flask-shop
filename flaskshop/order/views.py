@@ -31,7 +31,7 @@ def index():
 def show(token):
     order = Order.query.filter_by(token=token).first()
     if not order.is_self_order:
-        return abort(403)
+        abort(403, "This is not your order!")
     return render_template("orders/details.html", order=order)
 
 
@@ -103,6 +103,8 @@ def payment_success():
 @login_required
 def cancel_order(token):
     order = Order.query.filter_by(token=token).first()
+    if not order.is_self_order:
+        abort(403, "This is not your order!")
     order.cancel()
     return render_template("orders/details.html", order=order)
 

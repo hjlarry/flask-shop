@@ -188,9 +188,9 @@ def products():
     props = {
         "id": "ID",
         "title": "Title",
-        "on_sale": "On Sale",
+        "on_sale_human": "On Sale",
         "sold_count": "Sold Count",
-        "price": "Price",
+        "price_human": "Price",
         "category": "Category",
     }
     context = {

@@ -22,7 +22,7 @@ def users():
         "id": "ID",
         "username": "Username",
         "email": "Email",
-        "is_active": "Is Active",
+        "is_active_human": "Is Active",
     }
     context = {
         "title": "User List",

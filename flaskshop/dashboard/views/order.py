@@ -9,8 +9,8 @@ def orders():
     props = {
         "id": "ID",
         "identity": "Identity",
-        "status_name": "Status",
-        "total": "Total",
+        "status_human": "Status",
+        "total_human": "Total",
         "user": "User",
         "created_at": "Created At",
     }

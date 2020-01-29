@@ -7,15 +7,17 @@
             <div class="col-md-12">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title">{{product.title}}</h5>
-                            <div class="card-tools" style="display: flex;">
-                                <div class="input-group input-group-sm">
-                                    <a href="{{url_for('dashboard.product_edit', id=product.id)}}"
-                                        class="btn btn-primary btn-sm" style="margin-right: 5px;">Edit</a>
-                                    <a data-url="product/{{product.id}}/delete" data-redirect="1"
-                                        class="btn btn-danger btn-sm delete-btn">Delete</a>
-                                </div>
+                        <h3 class="card-title">
+                            <a href="{{url_for('product.show', id=product.id)}}" target="_blank">{{product.title}}</a>
+                        </h3>
+                        <div class="card-tools" style="display: flex;">
+                            <div class="input-group input-group-sm">
+                                <a href="{{url_for('dashboard.product_edit', id=product.id)}}"
+                                    class="btn btn-primary btn-sm" style="margin-right: 5px;">Edit</a>
+                                <a data-url="product/{{product.id}}/delete" data-redirect="1"
+                                    class="btn btn-danger btn-sm delete-btn">Delete</a>
                             </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -34,36 +36,37 @@
                             <div class="col-md-6">
                                 <ul class="list-group mb-3">
                                     <li class="list-group-item">
-                                        <b>On Sale</b> <a
-                                            class="float-right">{{macros.render_boolean(product.on_sale)}}</a>
+                                        <b>On Sale</b> <span
+                                            class="float-right">{{macros.render_boolean(product.on_sale)}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Price</b> <a class="float-right">${{product.price}} /
-                                            ${{product.basic_price}}</a>
+                                        <b>Price</b> <span class="float-right">${{product.price}} /
+                                            ${{product.basic_price}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Rating</b> <a class="float-right">{{product.rating}}</a>
+                                        <b>Rating</b> <span class="float-right">{{product.rating}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Sold Count</b> <a class="float-right">{{product.sold_count}}</a>
+                                        <b>Sold Count</b> <span class="float-right">{{product.sold_count}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Review Count</b> <a class="float-right">{{product.review_count}}</a>
+                                        <b>Review Count</b> <span class="float-right">{{product.review_count}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Category</b> <a class="float-right">{{product.category}}</a>
+                                        <b>Category</b> <span class="float-right">{{product.category}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>ProductType</b> <a class="float-right">{{product.product_type}}</a>
+                                        <b>ProductType</b> <span class="float-right">{{product.product_type}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Created</b> <a class="float-right">{{product.created_at}}</a>
+                                        <b>Created</b> <span class="float-right">{{product.created_at}}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="row">
-                            <p>
+                            <p class="lead">Product Description:</p>
+                            <p class="text-muted well well-sm no-shadow">
                                 {{product.description}}
                             </p>
                         </div>

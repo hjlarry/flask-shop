@@ -85,6 +85,14 @@ class Product(Model):
         return self.basic_price
 
     @property
+    def price_human(self):
+        return "$" + str(self.price)
+
+    @property
+    def on_sale_human(self):
+        return "Y" if self.on_sale else "N"
+
+    @property
     @cache(MC_KEY_PRODUCT_VARIANT.format("{self.id}"))
     def variant(self):
         return ProductVariant.query.filter(ProductVariant.product_id == self.id).all()

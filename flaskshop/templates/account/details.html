@@ -69,11 +69,11 @@
             </div>
             <div class="col-md-2 col-4">
 
-              ${{ order.total }}
+              {{ order.total_human }}
 
             </div>
             <div class="col-md-4 d-none d-md-block">
-              {{ order.status_name }}
+              {{ order.status_human }}
             </div>
             <div class="col-md-1 col-5">
               <a href="{{ order.get_absolute_url() }}" class="float-right link--styled">
@@ -104,7 +104,7 @@
             {{ render_field(form.password) }}
             {{ render_field(form.confirm) }}
 
-            <input type="submit" class="btn primary narrow" value="Change password">
+            <input type="submit" class="btn btn-primary narrow" value="Change password">
           </form>
         </div>
       </div>

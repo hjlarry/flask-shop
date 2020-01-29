@@ -33,7 +33,7 @@ Order {{ order }}
     <div class="col-lg-10 m-auto">
         <h2 class="order-details__header">
             Order: {{ order.token }}<br>
-            Order Status: {{ order.status_name }}
+            Order Status: {{ order.status_human }}
         </h2>
         {% include "orders/_ordered_items_table.html" %}
         <div class="order-notes">

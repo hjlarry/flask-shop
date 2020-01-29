@@ -129,8 +129,12 @@ class Order(Model):
         return self.total_net + self.shipping_price_net - self.discount_amount
 
     @property
-    def status_name(self):
+    def status_human(self):
         return OrderStatusKinds(int(self.status)).name
+
+    @property
+    def total_human(self):
+        return "$" + str(self.total)
 
     @classmethod
     def get_current_user_orders(cls):
@@ -215,6 +219,10 @@ class OrderLine(Model):
     def variant(self):
         return ProductVariant.get_by_id(self.variant_id)
 
+    @property
+    def product_id(self):
+        return self.product_sku.split("-")[0]
+
     def get_total(self):
         return self.unit_price_net * self.quantity
 
@@ -248,6 +256,6 @@ class OrderPayment(Model):
         order.pay_success(payment=self)
 
     @property
-    def status_name(self):
+    def status_human(self):
         return PaymentStatusKinds(int(self.status)).name
 

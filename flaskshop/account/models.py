@@ -48,6 +48,10 @@ class User(Model, UserMixin):
         return UserAddress.query.filter_by(user_id=self.id)
 
     @property
+    def is_active_human(self):
+        return "Y" if self.is_active else "N"
+
+    @property
     def roles(self):
         at_ids = (
             UserRole.query.with_entities(UserRole.role_id)
