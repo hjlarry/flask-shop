@@ -53,3 +53,9 @@ class marshal_with:
             return marshal(resp, self.schema)
 
         return wrapper
+
+# the view func is partital, add wrapper to make it has __name__
+def wrap_partial(fn, *args, **kwargs):
+    partial_func = functools.partial(fn, *args, **kwargs)
+    functools.update_wrapper(partial_func, args[0])
+    return partial_func
