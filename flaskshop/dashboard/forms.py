@@ -53,7 +53,7 @@ class SiteMenuForm(FlaskForm):
     order = IntegerField(default=0)
     url_ = StringField("Url")
     parent_id = SelectField("Parent")
-    site_id = RadioField("Position", choices=[(1, "top"), (2, "bottom")])
+    site_id = RadioField("Position", choices=[(0, "none"), (1, "top"), (2, "bottom")], default=0)
     category_id = SelectField("Category")
     collection_id = SelectField("Collection")
     page_id = SelectField("Page")
@@ -95,14 +95,14 @@ class UserAddressForm(FlaskForm):
 
 
 class AttributeForm(FlaskForm):
-    title = StringField()
+    title = StringField(validators=[DataRequired()])
     values = FieldList(StringField("Value"))
     types = SelectMultipleField("Product Types")
     submit = SubmitField()
 
 
 class CollectionForm(FlaskForm):
-    title = StringField()
+    title = StringField(validators=[DataRequired()])
     products = SelectMultipleField()
     background_img = StringField("Current Image")
     bgimg_file = FileField("Upload")
@@ -110,7 +110,7 @@ class CollectionForm(FlaskForm):
 
 
 class CategoryForm(FlaskForm):
-    title = StringField()
+    title = StringField(validators=[DataRequired()])
     parent_id = SelectField("Parent")
     background_img = StringField("Current Image")
     bgimg_file = FileField("Upload")
@@ -118,7 +118,7 @@ class CategoryForm(FlaskForm):
 
 
 class ProductTypeForm(FlaskForm):
-    title = StringField()
+    title = StringField(validators=[DataRequired()])
     has_variants = BooleanField(default=True)
     is_shipping_required = BooleanField(default=True)
     product_attributes = SelectMultipleField()
@@ -142,28 +142,28 @@ class ProductForm(FlaskForm):
 
 
 class ProductCreateForm(FlaskForm):
-    product_type_id = SelectField("Choose A Product Type")
+    product_type_id = SelectField("Choose A Product Type", default=1)
     submit = SubmitField()
 
 
 class VariantForm(FlaskForm):
-    sku = StringField()
-    title = StringField()
+    sku = IntegerField(validators=[DataRequired()])
+    title = StringField(validators=[DataRequired()])
     price_override = DecimalField(default=0.00)
     quantity = IntegerField(default=0)
     submit = SubmitField()
 
 
 class VoucherForm(FlaskForm):
-    title = StringField()
-    type = SelectField()
-    code = StringField()
+    title = StringField(validators=[DataRequired()])
+    type_ = SelectField(default=1)
+    code = StringField(validators=[DataRequired()])
     usage_limit = IntegerField(
         description="how many times can be used", validators=[optional()]
     )
     used = IntegerField(default=0)
     validity_period = StringField()
-    discount_value_type = SelectField()
+    discount_value_type = SelectField(default=1)
     discount_value = DecimalField(default=0.00)
     limit = IntegerField(validators=[optional()])
     category_id = SelectField(
@@ -174,10 +174,9 @@ class VoucherForm(FlaskForm):
     )
     submit = SubmitField()
 
-
 class SaleForm(FlaskForm):
-    title = StringField()
-    discount_value_type = SelectField()
+    title = StringField(validators=[DataRequired()])
+    discount_value_type = SelectField(default=1)
     discount_value = DecimalField(default=0.00)
     categories = SelectMultipleField("Category")
     products = SelectMultipleField("Product")

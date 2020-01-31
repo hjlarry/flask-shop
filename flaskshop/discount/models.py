@@ -16,7 +16,7 @@ MC_KEY_SALE_PRODUCT_IDS = "discount:sale:{}:product_ids"
 
 class Voucher(Model):
     __tablename__ = "discount_voucher"
-    type = Column(TINYINT())
+    type_ = Column("type", TINYINT())
     title = Column(db.String(255))
     code = Column(db.String(16), unique=True)
     usage_limit = Column(db.Integer())

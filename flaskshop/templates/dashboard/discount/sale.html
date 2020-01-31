@@ -19,7 +19,7 @@
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
-                            {{ macros.render_select_field(form.discount_value_type, discount_types) }}
+                            {{ macros.render_select_field(form.discount_value_type, discount_types, has_zero=false) }}
                             {{ vendor.render_field(form.discount_value) }}
                             {{ macros.render_select_multi_field(form.categories, categories) }}
                             {{ macros.render_select_multi_field(form.products, products) }}

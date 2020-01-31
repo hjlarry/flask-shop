@@ -268,11 +268,12 @@ class Category(Model):
         for product in need_update_products:
             product.category_id = 0
             db.session.add(product)
-        image = current_app.config["STATIC_DIR"] / self.background_img
         db.session.delete(self)
         db.session.commit()
-        if image.exists():
-            image.unlink()
+        if self.background_img:
+            image = current_app.config["STATIC_DIR"] / self.background_img
+            if image.exists():
+                image.unlink()
 
     @staticmethod
     def clear_mc(target):
@@ -667,11 +668,12 @@ class Collection(Model):
         need_del = ProductCollection.query.filter_by(collection_id=self.id).all()
         for item in need_del:
             item.delete(commit=False)
-        image = current_app.config["STATIC_DIR"] / self.background_img
         db.session.delete(self)
         db.session.commit()
-        if image.exists():
-            image.unlink()
+        if self.background_img:
+            image = current_app.config["STATIC_DIR"] / self.background_img
+            if image.exists():
+                image.unlink()
 
 
 class ProductCollection(Model):

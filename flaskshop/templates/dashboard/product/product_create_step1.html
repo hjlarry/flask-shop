@@ -18,7 +18,7 @@
                     <form method="POST" action="">
                         <div class="card-body">
                             {{ form.hidden_tag() }}
-                            {{ macros.render_select_field(form.product_type_id, product_types) }}
+                            {{ macros.render_select_field(form.product_type_id, product_types, has_zero=false) }}
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>

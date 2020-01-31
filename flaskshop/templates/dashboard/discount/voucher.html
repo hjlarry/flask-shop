@@ -23,12 +23,12 @@
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
-                            {{ macros.render_select_field(form.type, voucher_types) }}
+                            {{ macros.render_select_field(form.type_, voucher_types, has_zero=false) }}
                             {{ vendor.render_field(form.code) }}
                             {{ vendor.render_field(form.usage_limit) }}
                             {{ vendor.render_field(form.used) }}
                             {{ macros.render_daterange_field(form.validity_period) }}
-                            {{ macros.render_select_field(form.discount_value_type, discount_types) }}
+                            {{ macros.render_select_field(form.discount_value_type, discount_types, has_zero=false) }}
                             {{ vendor.render_field(form.discount_value) }}
                             {{ vendor.render_field(form.limit) }}
                             {{ macros.render_select_field(form.category_id, categories) }}

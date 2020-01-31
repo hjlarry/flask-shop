@@ -18,7 +18,10 @@ from .views import (
     variant_del,
     product_del,
     sale_del,
+    voucher_del,
     dashboard_menu_del,
+    site_page_del,
+    site_menu_del,
 )
 
 
@@ -87,5 +90,14 @@ dashboard_api.add_url_rule(
     "/sale/<int:id>/delete", view_func=sale_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
+    "/voucher/<int:id>/delete", view_func=voucher_del, methods=["DELETE"]
+)
+dashboard_api.add_url_rule(
     "/dashboard_menus/<int:id>/delete", view_func=dashboard_menu_del, methods=["DELETE"]
+)
+dashboard_api.add_url_rule(
+    "/site_pages/<int:id>/delete", view_func=site_page_del, methods=["DELETE"]
+)
+dashboard_api.add_url_rule(
+    "/site_menus/<int:id>/delete", view_func=site_menu_del, methods=["DELETE"]
 )

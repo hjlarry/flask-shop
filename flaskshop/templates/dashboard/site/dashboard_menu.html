@@ -1,4 +1,5 @@
 {% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
 {% extends 'dashboard/layout.html' %}
 
 {% block body %}
@@ -17,10 +18,10 @@
                     <form method="POST" action="">
                         <div class="card-body">
                             {{ form.hidden_tag() }}
-                            {{ macros.render_input_field(form.title) }}
-                            {{ macros.render_input_field(form.order) }}
-                            {{ macros.render_input_field(form.endpoint) }}
-                            {{ macros.render_input_field(form.icon_cls) }}
+                            {{ vendor.render_field(form.title) }}
+                            {{ vendor.render_field(form.order) }}
+                            {{ vendor.render_field(form.endpoint) }}
+                            {{ vendor.render_field(form.icon_cls) }}
                             {{ macros.render_select_field(form.parent_id, parents) }}
 
                         </div>
