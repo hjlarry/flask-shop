@@ -1,0 +1,120 @@
+{% import 'dashboard/_macros.html' as macros%}
+{% extends 'dashboard/layout.html' %}
+
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+        <h3>Product Settings</h3>
+        <div class="row">
+            <div class="col-4">
+                <a class="info-box-config" href="{{url_for('dashboard.attributes')}}">
+                    <div class="info-box">
+                        <span class="info-box-icon"><i class="fa fa-braille"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Attributes</span>
+                            <span class="progress-description">
+                                Determine attributes used to create product types
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="info-box-config" href="{{url_for('dashboard.product_types')}}">
+                    <div class="info-box">
+                        <span class="info-box-icon"><i class="fa fa-delicious"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Product Types</span>
+                            <span class="progress-description">
+                                Define types of products you sell
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="info-box-config" href="#">
+                    <div class="info-box">
+                        <span class="info-box-icon"><i class="fa fa-ambulance"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Shipping Methods</span>
+                            <span class="progress-description">
+                                Manage how you ship out orders
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <h3>Miscellaneous</h3>
+        <div class="row">
+            <div class="col-4">
+                <a class="info-box-config" href="{{url_for('dashboard.site_pages')}}">
+                    <div class="info-box">
+                        <span class="info-box-icon"><i class="fa fa-sticky-note-o"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Pages</span>
+                            <span class="progress-description">
+                                Manage and add additional pages
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="info-box-config" href="{{url_for('dashboard.site_menus')}}">
+                    <div class="info-box">
+                        <span class="info-box-icon"><i class="fa fa-compass"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Navigations</span>
+                            <span class="progress-description">
+                                Define how users can navigate through your store
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="info-box-config" href="{{url_for('dashboard.dashboard_menus')}}">
+                    <div class="info-box">
+                        <span class="info-box-icon"><i class="fa fa-location-arrow"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Dashboard Navigations</span>
+                            <span class="progress-description">
+                                Define how managers can navigate dashboard
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="info-box-config" href="#">
+                    <div class="info-box">
+                        <span class="info-box-icon"><i class="fa fa-plug"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Plugins</span>
+                            <span class="progress-description">
+                                View and update your plugins and their settings.
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-4">
+                <a class="info-box-config" href="{{url_for('dashboard.site_config')}}">
+                    <div class="info-box">
+                        <span class="info-box-icon"><i class="fa fa-cogs"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Sites Settings</span>
+                            <span class="progress-description">
+                                View and update your site settings
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

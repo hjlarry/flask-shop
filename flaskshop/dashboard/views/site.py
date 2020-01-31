@@ -136,3 +136,7 @@ def site_config():
         site.save()
         return redirect(url_for("dashboard.site_config"))
     return render_template("site/site_config.html", form=form)
+
+
+def config_index():
+    return render_template("site/index.html")

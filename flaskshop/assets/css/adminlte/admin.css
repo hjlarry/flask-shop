@@ -185,3 +185,17 @@
 .navi-card .right{
     float: right;
 }
+
+.progress-description{
+    width: 90%;
+    white-space: normal;
+}
+
+.info-box-config{
+    color: #212529;
+}
+
+.info-box-config .info-box:hover{
+    color: #212529;
+    background-color:rgba(0,0,0,.075);
+}
