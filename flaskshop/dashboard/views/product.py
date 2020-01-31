@@ -33,12 +33,12 @@ def attributes():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "attribute",
+        "identity": "attributes",
     }
     return render_template("list.html", **context)
 
 
-def attribute_manage(id=None):
+def attributes_manage(id=None):
     if id:
         attr = ProductAttribute.get_by_id(id)
         form = AttributeForm(obj=attr)
@@ -67,12 +67,12 @@ def collections():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "collection",
+        "identity": "collections",
     }
     return render_template("list.html", **context)
 
 
-def collection_manage(id=None):
+def collections_manage(id=None):
     if id:
         collection = Collection.get_by_id(id)
         form = CollectionForm(obj=collection)
@@ -111,12 +111,12 @@ def categories():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "category",
+        "identity": "categories",
     }
     return render_template("list.html", **context)
 
 
-def category_manage(id=None):
+def categories_manage(id=None):
     if id:
         category = Category.get_by_id(id)
         form = CategoryForm(obj=category)
@@ -156,12 +156,12 @@ def product_types():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "product_type",
+        "identity": "product_types",
     }
     return render_template("list.html", **context)
 
 
-def product_type_manage(id=None):
+def product_types_manage(id=None):
     if id:
         product_type = ProductType.get_by_id(id)
         form = ProductTypeForm(obj=product_type)

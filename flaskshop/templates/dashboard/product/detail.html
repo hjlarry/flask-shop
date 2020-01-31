@@ -14,7 +14,7 @@
                             <div class="input-group input-group-sm">
                                 <a href="{{url_for('dashboard.product_edit', id=product.id)}}"
                                     class="btn btn-primary btn-sm" style="margin-right: 5px;">Edit</a>
-                                <a data-url="product/{{product.id}}/delete" data-redirect="1"
+                                <a data-url="products/{{product.id}}/delete" data-redirect="1"
                                     class="btn btn-danger btn-sm delete-btn">Delete</a>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                                 <td>
                                     <a href="{{url_for('dashboard.variant_manage', id=item.id)}}"
                                         class="btn btn-primary btn-sm">Edit</a>
-                                    <a data-url="variant/{{item.id}}/delete"
+                                    <a data-url="variants/{{item.id}}/delete"
                                         class="btn btn-danger btn-sm delete-btn">Delete</a>
                                 </td>
                             </tr>

@@ -14,10 +14,10 @@ def vouchers():
     props = {
         "id": "ID",
         "title": "Title",
-        "type_label": "Type",
+        "type_human": "Type",
         "usage_limit": "Usage Limit",
         "used": "Used",
-        "discount_value_type_label": "Discount Type",
+        "discount_value_type_human": "Discount Type",
         "discount_value": "Discount Value",
     }
     context = {
@@ -25,12 +25,12 @@ def vouchers():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "voucher",
+        "identity": "vouchers",
     }
     return render_template("list.html", **context)
 
 
-def voucher_manage(id=None):
+def vouchers_manage(id=None):
     if id:
         voucher = Voucher.get_by_id(id)
         form = VoucherForm(obj=voucher)
@@ -76,12 +76,12 @@ def sales():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "sale",
+        "identity": "sales",
     }
     return render_template("list.html", **context)
 
 
-def sale_manage(id=None):
+def sales_manage(id=None):
     if id:
         sale = Sale.get_by_id(id)
         form = SaleForm(obj=sale)

@@ -69,28 +69,28 @@ dashboard_api.add_url_rule(
     "/users/<int:id>/delete", view_func=user_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
-    "/product_type/<int:id>/delete", view_func=product_type_del, methods=["DELETE"]
+    "/product_types/<int:id>/delete", view_func=product_type_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
-    "/category/<int:id>/delete", view_func=category_del, methods=["DELETE"]
+    "/categories/<int:id>/delete", view_func=category_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
-    "/collection/<int:id>/delete", view_func=collection_del, methods=["DELETE"]
+    "/collections/<int:id>/delete", view_func=collection_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
-    "/attribute/<int:id>/delete", view_func=attribute_del, methods=["DELETE"]
+    "/attributes/<int:id>/delete", view_func=attribute_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
-    "/variant/<int:id>/delete", view_func=variant_del, methods=["DELETE"]
+    "/variants/<int:id>/delete", view_func=variant_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
-    "/product/<int:id>/delete", view_func=product_del, methods=["DELETE"]
+    "/products/<int:id>/delete", view_func=product_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
-    "/sale/<int:id>/delete", view_func=sale_del, methods=["DELETE"]
+    "/sales/<int:id>/delete", view_func=sale_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
-    "/voucher/<int:id>/delete", view_func=voucher_del, methods=["DELETE"]
+    "/vouchers/<int:id>/delete", view_func=voucher_del, methods=["DELETE"]
 )
 dashboard_api.add_url_rule(
     "/dashboard_menus/<int:id>/delete", view_func=dashboard_menu_del, methods=["DELETE"]

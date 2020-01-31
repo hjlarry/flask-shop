@@ -19,13 +19,13 @@ from .site import (
 )
 from .product import (
     attributes,
-    attribute_manage,
+    attributes_manage,
     collections,
-    collection_manage,
+    collections_manage,
     categories,
-    category_manage,
+    categories_manage,
     product_types,
-    product_type_manage,
+    product_types_manage,
     products,
     product_detail,
     product_edit,
@@ -34,7 +34,7 @@ from .product import (
     variant_manage,
 )
 from .order import orders, order_detail
-from .discount import vouchers, voucher_manage, sales, sale_manage
+from .discount import vouchers, vouchers_manage, sales, sales_manage
 
 
 blueprint = Blueprint(
@@ -99,31 +99,31 @@ blueprint.add_url_rule(
 )
 blueprint.add_url_rule("/attributes", view_func=attributes)
 blueprint.add_url_rule(
-    "/attributes/create", view_func=attribute_manage, methods=["GET", "POST"]
+    "/attributes/create", view_func=attributes_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/attributes/<id>/edit", view_func=attribute_manage, methods=["GET", "POST"]
+    "/attributes/<id>/edit", view_func=attributes_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/collections", view_func=collections)
 blueprint.add_url_rule(
-    "/collections/create", view_func=collection_manage, methods=["GET", "POST"]
+    "/collections/create", view_func=collections_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/collections/<id>/edit", view_func=collection_manage, methods=["GET", "POST"]
+    "/collections/<id>/edit", view_func=collections_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/categories", view_func=categories)
 blueprint.add_url_rule(
-    "/categories/create", view_func=category_manage, methods=["GET", "POST"]
+    "/categories/create", view_func=categories_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/categories/<id>/edit", view_func=category_manage, methods=["GET", "POST"]
+    "/categories/<id>/edit", view_func=categories_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/product_types", view_func=product_types)
 blueprint.add_url_rule(
-    "/product_types/create", view_func=product_type_manage, methods=["GET", "POST"]
+    "/product_types/create", view_func=product_types_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/product_types/<id>/edit", view_func=product_type_manage, methods=["GET", "POST"]
+    "/product_types/<id>/edit", view_func=product_types_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/products", view_func=products)
 blueprint.add_url_rule("/products/<id>", view_func=product_detail)
@@ -146,13 +146,13 @@ blueprint.add_url_rule("/orders", view_func=orders)
 blueprint.add_url_rule("/orders/<id>", view_func=order_detail)
 blueprint.add_url_rule("/vouchers", view_func=vouchers)
 blueprint.add_url_rule(
-    "/vouchers/create", view_func=voucher_manage, methods=["GET", "POST"]
+    "/vouchers/create", view_func=vouchers_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule(
-    "/vouchers/<id>/edit", view_func=voucher_manage, methods=["GET", "POST"]
+    "/vouchers/<id>/edit", view_func=vouchers_manage, methods=["GET", "POST"]
 )
 blueprint.add_url_rule("/sales", view_func=sales)
-blueprint.add_url_rule("/sales/create", view_func=sale_manage, methods=["GET", "POST"])
+blueprint.add_url_rule("/sales/create", view_func=sales_manage, methods=["GET", "POST"])
 blueprint.add_url_rule(
-    "/sales/<id>/edit", view_func=sale_manage, methods=["GET", "POST"]
+    "/sales/<id>/edit", view_func=sales_manage, methods=["GET", "POST"]
 )

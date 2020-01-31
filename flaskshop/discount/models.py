@@ -33,11 +33,11 @@ class Voucher(Model):
         return self.title
 
     @property
-    def type_label(self):
-        return VoucherTypeKinds(int(self.type)).name
+    def type_human(self):
+        return VoucherTypeKinds(int(self.type_)).name
 
     @property
-    def discount_value_type_label(self):
+    def discount_value_type_human(self):
         return DiscountValueTypeKinds(int(self.discount_value_type)).name
 
     @property
