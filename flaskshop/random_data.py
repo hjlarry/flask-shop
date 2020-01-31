@@ -128,18 +128,12 @@ DASHBOARD_MENUS = [
     {"title": "ORDERS", "endpoint": "orders", "icon_cls": "fa-cart-arrow-down"},
     {"title": "CUSTOMERS", "endpoint": "users", "icon_cls": "fa-user"},
     {"title": "DISCOUNTS", "icon_cls": "fa-gratipay"},
-    {"title": "CONFIGURATION", "icon_cls": "fa-cog"},
+    {"title": "CONFIGURATION", "endpoint": "config_index", "icon_cls": "fa-cog"},
     {"title": "Products", "endpoint": "products", "parent_id": 1},
     {"title": "Categories", "endpoint": "categories", "parent_id": 1},
     {"title": "Collections", "endpoint": "collections", "parent_id": 1},
     {"title": "Sales", "endpoint": "sales", "parent_id": 4},
-    {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4},
-    {"title": "Attributes", "endpoint": "attributes", "parent_id": 5},
-    {"title": "Product Types", "endpoint": "product_types", "parent_id": 5},
-    {"title": "Pages", "endpoint": "site_pages", "parent_id": 5},
-    {"title": "Navigation", "endpoint": "site_menus", "parent_id": 5},
-    {"title": "Dashboard Navi", "endpoint": "dashboard_menus", "parent_id": 5},
-    {"title": "Site Settings", "endpoint": "site_config", "parent_id": 5},
+    {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4}
 ]
 
 """

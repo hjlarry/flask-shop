@@ -128,12 +128,13 @@ def category_manage(id=None):
         category.title = form.title.data
         category.parent_id = form.parent_id.data
         image = form.bgimg_file.data
-        background_img = image.filename
-        upload_file = current_app.config["UPLOAD_DIR"] / background_img
-        upload_file.write_bytes(image.read())
-        category.background_img = (
-            current_app.config["UPLOAD_FOLDER"] + "/" + background_img
-        )
+        if image:
+            background_img = image.filename
+            upload_file = current_app.config["UPLOAD_DIR"] / background_img
+            upload_file.write_bytes(image.read())
+            category.background_img = (
+                current_app.config["UPLOAD_FOLDER"] + "/" + background_img
+            )
         category.save()
         return redirect(url_for("dashboard.categories"))
     parents = Category.first_level_items()

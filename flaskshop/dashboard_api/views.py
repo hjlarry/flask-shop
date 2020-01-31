@@ -1,3 +1,5 @@
+from functools import partial
+
 from flaskshop.account.models import User
 from flaskshop.product.models import (
     ProductType,
@@ -7,6 +9,8 @@ from flaskshop.product.models import (
     Product,
     ProductVariant,
 )
+from flaskshop.discount.models import Sale
+from flaskshop.dashboard.models import DashboardMenu
 
 from .utils import ApiResult
 
@@ -72,3 +76,18 @@ def product_del(id):
     except Exception as e:
         return ApiResult({"r": 1, "msg": str(e)})
     return ApiResult(dict())
+
+
+def item_del(cls, id):
+    try:
+        item = cls.get_by_id(id)
+        item.delete()
+    except Exception as e:
+        return ApiResult({"r": 1, "msg": str(e)})
+    return ApiResult(dict())
+
+sale_del = partial(item_del, cls=Sale)
+sale_del.__name__ = "sale_del"
+
+dashboard_menu_del = partial(item_del, cls=DashboardMenu)
+dashboard_menu_del.__name__ = "dashboard_menu_del"
