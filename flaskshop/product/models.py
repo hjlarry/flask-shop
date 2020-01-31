@@ -421,6 +421,14 @@ class ProductVariant(Model):
         return f"{self.product} ({str(self)})"
 
     @property
+    def sku_id(self):
+        return self.sku.split("-")[1]
+
+    @sku_id.setter
+    def sku_id(self, data):
+        pass
+
+    @property
     def is_shipping_required(self):
         return self.product.product_type.is_shipping_required
 
@@ -467,6 +475,11 @@ class ProductVariant(Model):
     @classmethod
     def __flush_insert_event__(cls, target):
         super().__flush_insert_event__(target)
+        target.clear_mc(target)
+
+    @classmethod
+    def __flush_after_update_event__(cls, target):
+        super().__flush_after_update_event__(target)
         target.clear_mc(target)
 
     @classmethod

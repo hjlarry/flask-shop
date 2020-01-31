@@ -275,6 +275,7 @@ def variant_manage(id=None):
         product_id = request.args.get("product_id")
         if product_id:
             variant.product_id = product_id
+        variant.sku = str(variant.product_id) + "-" + str(form.sku_id.data)
         variant.save()
         return redirect(url_for("dashboard.product_detail", id=variant.product_id))
     return render_template("product/variant.html", form=form)

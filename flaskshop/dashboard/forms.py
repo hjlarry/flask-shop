@@ -15,7 +15,7 @@ from wtforms import (
     DecimalField,
     DateTimeField,
 )
-from wtforms.validators import DataRequired, optional
+from wtforms.validators import DataRequired, optional, NumberRange
 
 
 class FlaskForm(_FlaskForm):
@@ -147,10 +147,10 @@ class ProductCreateForm(FlaskForm):
 
 
 class VariantForm(FlaskForm):
-    sku = IntegerField(validators=[DataRequired()])
+    sku_id = IntegerField("SKU", validators=[DataRequired(), NumberRange(min=1, max=9999)])
     title = StringField(validators=[DataRequired()])
-    price_override = DecimalField(default=0.00)
-    quantity = IntegerField(default=0)
+    price_override = DecimalField(default=0.00, validators=[NumberRange(min=0)])
+    quantity = IntegerField(default=0, validators=[NumberRange(min=0)])
     submit = SubmitField()
 
 

@@ -16,11 +16,11 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form method="POST" action="">
+                    <form method="POST">
                         <div class="card-body">
                             {{ form.hidden_tag() }}
-                            {{ vendor.render_field(form.sku) }}
                             {{ vendor.render_field(form.title) }}
+                            {{ vendor.render_field(form.sku_id) }}
                             {{ vendor.render_field(form.price_override) }}
                             {{ vendor.render_field(form.quantity) }}
                             <div class="card-footer">
