@@ -33,7 +33,7 @@ from .product import (
     product_create_step2,
     variant_manage,
 )
-from .order import orders, order_detail
+from .order import orders, order_detail, send_order, draft_order
 from .discount import vouchers, vouchers_manage, sales, sales_manage
 
 
@@ -144,6 +144,8 @@ blueprint.add_url_rule(
 )
 blueprint.add_url_rule("/orders", view_func=orders)
 blueprint.add_url_rule("/orders/<id>", view_func=order_detail)
+blueprint.add_url_rule("/orders/<id>/send", view_func=send_order)
+blueprint.add_url_rule("/orders/<id>/draft", view_func=draft_order)
 blueprint.add_url_rule("/vouchers", view_func=vouchers)
 blueprint.add_url_rule(
     "/vouchers/create", view_func=vouchers_manage, methods=["GET", "POST"]

@@ -4,7 +4,6 @@ from uuid import uuid4
 from sqlalchemy.dialects.mysql import TINYINT
 
 from flaskshop.database import Column, Model, db
-from flaskshop.constant import OrderStatusKinds
 from flaskshop.account.models import User, UserAddress
 from flaskshop.product.models import ProductVariant
 from flaskshop.constant import OrderStatusKinds, PaymentStatusKinds

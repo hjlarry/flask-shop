@@ -115,9 +115,21 @@
 
                     <div class="row no-print">
                         <div class="col-12">
-                            <button type="button" class="btn btn-success float-right"><i class="fa fa-credit-card"></i>
-                                Send Order
-                            </button>
+                            {% if order.status_human == "fulfilled" %}
+                            <a class="btn btn-success float-right"
+                                href="{{url_for('dashboard.send_order', id=order.id)}}">
+                                <i class="fa fa-credit-card"></i> Send Order
+                            </a>
+                            {% elif order.status_human == "unfulfilled" %}
+                            <a class="btn btn-danger float-right"
+                                href="{{url_for('dashboard.draft_order', id=order.id)}}">
+                                <i class="fa fa-ban"></i> Draft Order
+                            </a>
+                            {% elif order.status_human == "refunded" %}
+                            <a class="btn btn-success float-right">
+                                <i class="fa fa-binoculars"></i> View Refund
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

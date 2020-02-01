@@ -5,7 +5,7 @@ PaymentStatusKinds = enum.Enum(
     value="PaymentStatus", names="waiting preauth confirmed rejected refunded"
 )
 OrderStatusKinds = enum.Enum(
-    value="OrderStatus", names="draft unfulfilled fulfilled canceled completed refunded"
+    value="OrderStatus", names="draft unfulfilled fulfilled canceled completed refunded shipped"
 )
 RefundStatusKinds = enum.Enum(
     value="RefundStatus", names="pending applied processing successed failed"
