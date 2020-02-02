@@ -125,10 +125,6 @@
                                 href="{{url_for('dashboard.draft_order', id=order.id)}}">
                                 <i class="fa fa-ban"></i> Draft Order
                             </a>
-                            {% elif order.status_human == "refunded" %}
-                            <a class="btn btn-success float-right">
-                                <i class="fa fa-binoculars"></i> View Refund
-                            </a>
                             {% endif %}
                         </div>
                     </div>

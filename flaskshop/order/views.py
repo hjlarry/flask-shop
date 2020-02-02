@@ -15,7 +15,7 @@ from flask_login import login_required, current_user
 from .models import Order, OrderLine, OrderNote, OrderPayment
 from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
-from flaskshop.constant import ShipStatusKinds, PaymentStatusKinds, RefundStatusKinds, OrderStatusKinds
+from flaskshop.constant import ShipStatusKinds, PaymentStatusKinds, OrderStatusKinds
 
 blueprint = Blueprint("order", __name__, url_prefix="/orders")
 
@@ -107,21 +107,6 @@ def cancel_order(token):
         abort(403, "This is not your order!")
     order.cancel()
     return render_template("orders/details.html", order=order)
-
-
-@blueprint.route("/<int:id>/refund", methods=["POST"])
-@login_required
-def request_refund(id):
-    order = Order.get_by_id(id)
-    try:
-        order.can_refund()
-    except Exception as e:
-        return e.args, 422
-    reason = request.get_json()["reason"]
-    extra = order.extra if order.extra else dict()
-    extra["refund_reason"] = reason
-    order.update(refund_status=RefundStatusKinds.applied.value, extra=extra)
-    return "", 200
 
 
 @blueprint.route("/<int:id>/received", methods=["POST"])

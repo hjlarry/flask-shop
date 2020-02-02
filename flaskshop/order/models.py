@@ -24,7 +24,6 @@ class Order(Model):
     status = Column(TINYINT())
     shipping_method_name = Column(db.String(100))
     shipping_method_id = Column(db.Integer())
-    refund_status = Column(TINYINT())
     ship_status = Column(TINYINT())
 
     def __str__(self):

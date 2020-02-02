@@ -2,13 +2,10 @@ import enum
 
 ShipStatusKinds = enum.Enum(value="ShipStatus", names="pending delivered received")
 PaymentStatusKinds = enum.Enum(
-    value="PaymentStatus", names="waiting preauth confirmed rejected refunded"
+    value="PaymentStatus", names="waiting preauth confirmed rejected"
 )
 OrderStatusKinds = enum.Enum(
-    value="OrderStatus", names="draft unfulfilled fulfilled canceled completed refunded shipped"
-)
-RefundStatusKinds = enum.Enum(
-    value="RefundStatus", names="pending applied processing successed failed"
+    value="OrderStatus", names="draft unfulfilled fulfilled canceled completed shipped"
 )
 DiscountValueTypeKinds = enum.Enum(value="DiscountValueType", names="fixed percent")
 VoucherTypeKinds = enum.Enum(
