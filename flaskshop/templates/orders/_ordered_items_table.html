@@ -119,7 +119,7 @@
             {{ order.shipping_address | safe }}
             {% endif %}
         </div>
-        {% if order.is_open %}
+        {% if order.status_human == "unfulfilled" %}
         <div class="col-6">
             <span class="float-right">Please pay before 00:30, else the order will auto closed</span>
             <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary float-right">
@@ -130,6 +130,13 @@
             </a>
             <a href="{{ url_for('order.cancel_order', token=order.token) }}" class="btn danger float-right">
                 Cancel Order
+            </a>
+        </div>
+        {% elif order.status_human == "shipped" %}
+        <div class="col-6">
+            <span class="float-right">this order will auto received after 1 day</span>
+            <a href="{{ url_for('order.receive', token=order.token) }}" class="btn btn-primary float-right">
+                Confirm receipt
             </a>
         </div>
         {% endif %}

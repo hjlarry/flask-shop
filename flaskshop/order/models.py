@@ -147,10 +147,6 @@ class Order(Model):
         return cls.query.filter_by(user_id=user_id).all()
 
     @property
-    def is_open(self):
-        return self.status == OrderStatusKinds.unfulfilled.value
-
-    @property
     def is_shipping_required(self):
         return any(line.is_shipping_required for line in self.lines)
 

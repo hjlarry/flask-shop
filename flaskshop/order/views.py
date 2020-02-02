@@ -109,13 +109,12 @@ def cancel_order(token):
     return render_template("orders/details.html", order=order)
 
 
-@blueprint.route("/<int:id>/received", methods=["POST"])
+@blueprint.route("/receive/<string:token>")
 @login_required
-def received(id):
-    order = Order.get_by_id(id)
-    try:
-        order.can_review()
-    except Exception as e:
-        return e.args, 422
-    order.update(ship_status=ShipStatusKinds.received.value)
-    return "", 200
+def receive(token):
+    order = Order.query.filter_by(token=token).first()
+    order.update(
+        status = OrderStatusKinds.completed.value,
+        ship_status=ShipStatusKinds.received.value,
+        )
+    return render_template("orders/details.html", order=order)
