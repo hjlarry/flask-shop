@@ -23,6 +23,8 @@ services:
   esearch:
     image: elasticsearch:7.5.0
     restart: unless-stopped
+    environment:
+      discovery.type: single-node
     volumes:
       - esearch-data:/usr/share/elasticsearch/data
 

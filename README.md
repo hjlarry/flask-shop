@@ -15,6 +15,8 @@ It havn`t complete yet.
 
 ## Quickstart
 
+### Use python virtual environment
+
 **First, Create a virtual environment**
 ```
 pip3 install virtualenv
@@ -33,9 +35,7 @@ pip3 install -r requirements.txt
 
 **Third, Init db and run**
 ```
-# modify flaskshop/setting.py
-export FLASK_APP=autoapp.py
-export FLASK_DEBUG=1
+# modify .flaskenv and flaskshop/setting.py
 flask db init
 flask db migrate
 flask db upgrade
@@ -48,3 +48,23 @@ If the js files has been modified, you need to:
 npm install
 npm run build
 ```
+
+### Use Docker 
+**First, Build image and run in background**
+```
+docker-compose up -d
+```
+**Second, enter container and add fake data**
+```
+docker-compose exec web sh
+flask createdb
+flask seed
+```
+
+The default admin account is:
+
+username|password|role
+---|---|---
+admin|admin|super administrator
+editor|editor|editor
+op|op|operator

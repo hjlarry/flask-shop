@@ -413,7 +413,7 @@ def create_roles():
 # step17
 def create_admin():
     user = User.create(
-        username="admin", email="hjlarry@163.com", password="admin", is_active=True
+        username="admin", email="admin@163.com", password="admin", is_active=True
     )
     create_fake_address(user.id)
     create_fake_address(user.id)
