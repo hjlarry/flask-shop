@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 """Application configuration."""
+import os
 from pathlib import Path
 
-try:
-    from .local_config import WECHAT_APP_ID, WECHAT_APP_SECRET
-except ImportError:
-    WECHAT_APP_ID, WECHAT_APP_SECRET = "", ""
-
-WECHAT_LOGIN_URL = "https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code"
-
+class LocalConfig:
+    db_uri = "mysql+pymysql://root:root@127.0.0.1:3306/flaskshop?charset=utf8mb4"
+    redis_uri = "redis://localhost:6379"
+    esearch_uri = "localhost"
 
 class Config(object):
     """Base configuration."""
@@ -23,7 +21,7 @@ class Config(object):
     DASHBOARD_TEMPLATE_FOLDER = APP_DIR / "templates" / "dashboard"
 
     BCRYPT_LOG_ROUNDS = 13
-    DEBUG_TB_ENABLED = False  # Disable Debug toolbar
+    DEBUG_TB_ENABLED = False # Disable Debug toolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEBUG_TB_PROFILER_ENABLED = True
 
@@ -31,9 +29,10 @@ class Config(object):
     DATABASE_QUERY_TIMEOUT = 0.1  # log the slow database query, and unit is second
     SQLALCHEMY_RECORD_QUERIES = True
 
-    REDIS_URL = "redis://localhost:6379"
-
-    ES_HOSTS = ["localhost"]
+    # try to get config from docker-compose.yml
+    SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", LocalConfig.db_uri)
+    REDIS_URL = os.getenv("REDIS_URI", LocalConfig.redis_uri)
+    ES_HOSTS = [os.getenv("ESEARCH_URI", LocalConfig.esearch_uri), ]
 
 
 class ProdConfig(Config):
@@ -46,9 +45,6 @@ class ProdConfig(Config):
 class DevConfig(Config):
     """Development configuration."""
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = (
-        "mysql+pymysql://root:root@127.0.0.1:3306/flaskshop?charset=utf8mb4"
-    )
     PURCHASE_URI = "https://openapi.alipaydev.com/gateway.do?"
     DEBUG_TB_ENABLED = True
 

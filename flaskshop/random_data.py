@@ -622,7 +622,7 @@ def create_fake_sale():
 # step30
 def create_vouchers():
     defaults = {
-        "type": VoucherTypeKinds.shipping.value,
+        "type_": VoucherTypeKinds.shipping.value,
         "title": "Free shipping",
         "discount_value_type": DiscountValueTypeKinds.percent.value,
         "discount_value": 100,
@@ -634,7 +634,7 @@ def create_vouchers():
         yield "Shipping voucher already exists"
 
     defaults = {
-        "type": VoucherTypeKinds.value.value,
+        "type_": VoucherTypeKinds.value.value,
         "title": "Big order discount",
         "discount_value_type": DiscountValueTypeKinds.fixed.value,
         "discount_value": 25,

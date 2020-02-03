@@ -1,0 +1,46 @@
+version: "2.1"
+services:
+
+  db:
+     image: mysql:8.0
+     command:
+      - --default_authentication_plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci     
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: unless-stopped
+     environment:
+       MYSQL_ROOT_PASSWORD: root
+       MYSQL_DATABASE: flaskshop
+
+  redis:
+    image: library/redis:5.0-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+  esearch:
+    image: elasticsearch:7.5.0
+    restart: unless-stopped
+    volumes:
+      - esearch-data:/usr/share/elasticsearch/data
+
+  web:
+    build: .
+    depends_on:
+      - db
+      - redis
+      - esearch
+    ports:
+      - "5000:5000"
+    environment:
+      DB_URI: mysql+pymysql://root:root@db:3306/flaskshop?charset=utf8mb4
+      REDIS_URI: redis://redis:6379
+      ESEARCH_URI: esearch
+    restart: unless-stopped
+     
+volumes:
+  db_data:
+  redis-data:
+  esearch-data:

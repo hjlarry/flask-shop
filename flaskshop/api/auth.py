@@ -7,7 +7,10 @@ import requests
 
 from flaskshop.extensions import login_manager
 from flaskshop.account.models import User
-from flaskshop.settings import WECHAT_LOGIN_URL, WECHAT_APP_SECRET, WECHAT_APP_ID
+
+WECHAT_LOGIN_URL = ""
+WECHAT_APP_SECRET = ""
+WECHAT_APP_ID = ""
 
 api = Namespace('user', description='User Login Api')
 parser = api.parser()

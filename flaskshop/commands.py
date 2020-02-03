@@ -22,6 +22,7 @@ from flaskshop.random_data import (
     create_dashboard_menus,
     create_roles,
 )
+from flaskshop.extensions import db
 from flaskshop.corelib.db import rdb
 from flaskshop.public.search import Item
 from flaskshop.product.models import Product
@@ -143,6 +144,13 @@ def urls(url, order):
     for row in rows:
         click.echo(str_template.format(*row[:column_length]))
 
+@click.command()
+@with_appcontext
+def createdb():
+    """ create database tables
+    """
+    db.create_all()
+
 
 @click.command()
 @click.option("--type", default="default", help="which type to seed")
@@ -193,7 +201,7 @@ def seed(type):
 
 @click.command()
 @with_appcontext
-def flushdb():
+def flushrdb():
     """ Clear all redis keys, include cache and propitems.
     """
     rdb.flushdb()
