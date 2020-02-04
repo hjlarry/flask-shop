@@ -1,11 +1,16 @@
 from functools import wraps
+from datetime import datetime
 from flask import Blueprint, render_template, abort, redirect
 from flask_login import login_required, current_user
 
+from flaskshop.extensions import db
 from flaskshop.dashboard.models import DashboardMenu
+from flaskshop.order.models import Order
+from flaskshop.account.models import User
 from flaskshop.account.utils import permission_required
 from flaskshop.settings import Config
 from flaskshop.constant import Permission
+
 from .user import users, user, user_edit, address_edit
 from .site import (
     site_menus,
@@ -61,7 +66,19 @@ def before_request():
 
 @blueprint.route("/")
 def index():
-    return render_template("index.html")
+
+    def get_today_num(model):
+        target = db.cast(datetime.now(), db.DATE)
+        which = db.cast(model.created_at, db.DATE)
+        return model.query.filter(which == target).count()
+
+    context = {
+        "orders_total": Order.query.count(),
+        "orders_today": get_today_num(Order),
+        "users_total": User.query.count(),
+        "users_today": get_today_num(User),
+    }
+    return render_template("index.html", **context)
 
 
 blueprint.add_url_rule("/site_menus", view_func=site_menus)
