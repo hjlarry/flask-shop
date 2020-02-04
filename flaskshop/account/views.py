@@ -43,7 +43,7 @@ def signup():
             username=form.username.data,
             email=form.email.data.lower(),
             password=form.password.data,
-            active=True,
+            is_active=True,
         )
         login_user(user)
         flash("You are signed up.", "success")

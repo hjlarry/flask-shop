@@ -515,7 +515,7 @@ class ProductAttribute(Model):
             .filter_by(product_attribute_id=self.id)
             .all()
         )
-        return ProductType.query.filter(ProductType.id.in_(id for id in at_ids)).all()
+        return ProductType.query.filter(ProductType.id.in_(id for id, in at_ids)).all()
 
     @property
     def types_label(self):
