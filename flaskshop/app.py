@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """The app module, containing the app factory function."""
+import sys
+
 from flask import Flask, render_template
 from werkzeug.wsgi import DispatcherMiddleware
 
@@ -25,17 +27,22 @@ from flaskshop.extensions import (
     bootstrap,
 )
 from flaskshop.settings import ProdConfig
+from flaskshop.plugin.manager import FlaskshopPluginManager
+from flaskshop.plugin.spec import spec
 from flaskshop.utils import log_slow_queries, jinja_global_varibles
 
 
 def create_app(config_object=ProdConfig):
     app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
+    app.pluggy = FlaskshopPluginManager('flaskshop', implprefix='flaskshop_')
+    
     register_extensions(app)
     register_blueprints(app)
     register_errorhandlers(app)
     register_shellcontext(app)
     register_commands(app)
+    load_plugins(app)
     jinja_global_varibles(app)
     log_slow_queries(app)
 
@@ -106,3 +113,11 @@ def register_commands(app):
     app.cli.add_command(commands.seed)
     app.cli.add_command(commands.flushrdb)
     app.cli.add_command(commands.reindex)
+
+
+def load_plugins(app):
+    app.pluggy.add_hookspecs(spec)
+
+    for name, module in sys.modules.items:
+        if name.startswith("flaskshop_"):
+            app.pluggy.register(module)
