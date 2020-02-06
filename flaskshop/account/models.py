@@ -110,4 +110,3 @@ class UserRole(Model):
     __tablename__ = "account_user_role"
     user_id = Column(db.Integer())
     role_id = Column(db.Integer())
-

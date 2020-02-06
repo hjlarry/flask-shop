@@ -52,5 +52,4 @@ node_modules
 /mpvue/dist/
 
 /flaskshop/local_config.py
-/flaskshop/whoosh
 slow_queries.log

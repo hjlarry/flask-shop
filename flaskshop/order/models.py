@@ -137,7 +137,11 @@ class Order(Model):
     @classmethod
     def get_current_user_orders(cls):
         if current_user.is_authenticated:
-            orders = cls.query.filter_by(user_id=current_user.id).order_by(Order.id.desc()).all()
+            orders = (
+                cls.query.filter_by(user_id=current_user.id)
+                .order_by(Order.id.desc())
+                .all()
+            )
         else:
             orders = []
         return orders
@@ -252,4 +256,3 @@ class OrderPayment(Model):
     @property
     def status_human(self):
         return PaymentStatusKinds(int(self.status)).name
-

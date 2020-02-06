@@ -144,6 +144,7 @@ def urls(url, order):
     for row in rows:
         click.echo(str_template.format(*row[:column_length]))
 
+
 @click.command()
 @with_appcontext
 def createdb():

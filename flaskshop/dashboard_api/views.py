@@ -22,6 +22,7 @@ def item_del(cls, id):
         return ApiResult({"r": 1, "msg": str(e)})
     return ApiResult(dict())
 
+
 user_del = wrap_partial(item_del, User)
 product_del = wrap_partial(item_del, Product)
 variant_del = wrap_partial(item_del, ProductVariant)

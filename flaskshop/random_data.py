@@ -133,7 +133,7 @@ DASHBOARD_MENUS = [
     {"title": "Categories", "endpoint": "categories", "parent_id": 1},
     {"title": "Collections", "endpoint": "collections", "parent_id": 1},
     {"title": "Sales", "endpoint": "sales", "parent_id": 4},
-    {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4}
+    {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4},
 ]
 
 """
@@ -646,4 +646,3 @@ def create_vouchers():
         yield f"Voucher #{voucher.id}"
     else:
         yield "Value voucher already exists"
-

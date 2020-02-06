@@ -53,7 +53,9 @@ class SiteMenuForm(FlaskForm):
     order = IntegerField(default=0)
     url_ = StringField("Url")
     parent_id = SelectField("Parent")
-    site_id = RadioField("Position", choices=[(0, "none"), (1, "top"), (2, "bottom")], default=0)
+    site_id = RadioField(
+        "Position", choices=[(0, "none"), (1, "top"), (2, "bottom")], default=0
+    )
     category_id = SelectField("Category")
     collection_id = SelectField("Collection")
     page_id = SelectField("Page")
@@ -147,7 +149,9 @@ class ProductCreateForm(FlaskForm):
 
 
 class VariantForm(FlaskForm):
-    sku_id = IntegerField("SKU", validators=[DataRequired(), NumberRange(min=1, max=9999)])
+    sku_id = IntegerField(
+        "SKU", validators=[DataRequired(), NumberRange(min=1, max=9999)]
+    )
     title = StringField(validators=[DataRequired()])
     price_override = DecimalField(default=0.00, validators=[NumberRange(min=0)])
     quantity = IntegerField(default=0, validators=[NumberRange(min=0)])
@@ -173,6 +177,7 @@ class VoucherForm(FlaskForm):
         "Product", description="when type is product, need to select"
     )
     submit = SubmitField()
+
 
 class SaleForm(FlaskForm):
     title = StringField(validators=[DataRequired()])

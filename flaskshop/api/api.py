@@ -10,19 +10,22 @@ from .auth import CustomSessionInterface
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
 csrf_protect.exempt(blueprint)
 blueprint.session_interface = CustomSessionInterface()
-ALLOWED_PATHS = frozenset(['/api/v1/user/login', '/api/v1/', '/api/v1/swagger.json', '/api/v1/products/'])
+ALLOWED_PATHS = frozenset(
+    ["/api/v1/user/login", "/api/v1/", "/api/v1/swagger.json", "/api/v1/products/"]
+)
 
 
 @blueprint.after_request
 def verify_user(response):
     from .auth import verify_token
-    if request.path in ALLOWED_PATHS or request.method == 'OPTIONS':
+
+    if request.path in ALLOWED_PATHS or request.method == "OPTIONS":
         return response
-    elif 'Authorization' in request.headers:
-        data = verify_token(request.headers['Authorization'])
+    elif "Authorization" in request.headers:
+        data = verify_token(request.headers["Authorization"])
         if data:
             return response
-    return '', 401
+    return "", 401
 
 
 api = Api(blueprint, version="1.0", title="Saleor API", description="A simple API")

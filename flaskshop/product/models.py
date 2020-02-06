@@ -220,7 +220,7 @@ class Category(Model):
 
     @property
     def background_img_url(self):
-        return url_for('static', filename=self.background_img)
+        return url_for("static", filename=self.background_img)
 
     @property
     def products(self):
@@ -639,7 +639,7 @@ class Collection(Model):
 
     @property
     def background_img_url(self):
-        return url_for('static', filename=self.background_img)
+        return url_for("static", filename=self.background_img)
 
     @property
     def products(self):

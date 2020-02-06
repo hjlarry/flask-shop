@@ -256,4 +256,3 @@ class SaleProduct(Model):
     __tablename__ = "discount_sale_product"
     sale_id = Column(db.Integer())
     product_id = Column(db.Integer())
-

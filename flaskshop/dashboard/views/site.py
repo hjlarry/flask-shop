@@ -4,7 +4,12 @@ from flaskshop.public.models import MenuItem, Page, Site
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.product.models import Category, Collection
 from flaskshop.account.utils import admin_required, permission_required, Permission
-from flaskshop.dashboard.forms import DashboardMenuForm, SiteMenuForm, SitePageForm, SiteConfigForm
+from flaskshop.dashboard.forms import (
+    DashboardMenuForm,
+    SiteMenuForm,
+    SitePageForm,
+    SiteConfigForm,
+)
 
 
 def site_menus():

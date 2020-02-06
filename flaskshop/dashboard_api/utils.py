@@ -54,6 +54,7 @@ class marshal_with:
 
         return wrapper
 
+
 # the view func is partital, add wrapper to make it has __name__
 def wrap_partial(fn, *args, **kwargs):
     partial_func = functools.partial(fn, *args, **kwargs)

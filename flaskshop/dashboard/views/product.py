@@ -279,4 +279,3 @@ def variant_manage(id=None):
         variant.save()
         return redirect(url_for("dashboard.product_detail", id=variant.product_id))
     return render_template("product/variant.html", form=form)
-

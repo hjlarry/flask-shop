@@ -33,11 +33,10 @@ from flaskshop.utils import log_slow_queries, jinja_global_varibles
 from flaskshop.discount import views as discount_views
 
 
-
 def create_app(config_object=ProdConfig):
     app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
-    app.pluggy = FlaskshopPluginManager('flaskshop')
+    app.pluggy = FlaskshopPluginManager("flaskshop")
     load_plugins(app)
     app.pluggy.hook.flaskshop_load_blueprints(app=app)
     register_extensions(app)
@@ -124,4 +123,4 @@ def load_plugins(app):
         if name.startswith("flaskshop"):
             app.pluggy.register(module)
 
-    app.pluggy.load_setuptools_entrypoints('flaskshop_plugins')
+    app.pluggy.load_setuptools_entrypoints("flaskshop_plugins")

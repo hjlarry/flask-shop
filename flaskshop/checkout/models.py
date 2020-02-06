@@ -172,4 +172,3 @@ class ShippingMethod(Model):
 
     def __str__(self):
         return self.title + "   $" + str(self.price)
-

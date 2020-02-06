@@ -34,4 +34,3 @@ class DashboardMenu(Model):
             return "#"
         if self.endpoint:
             return url_for("dashboard." + self.endpoint)
-

@@ -3,13 +3,15 @@ from pluggy import HookimplMarker
 
 from .models import *
 
-impl = HookimplMarker('flaskshop')
+impl = HookimplMarker("flaskshop")
+
 
 def hello():
     return "787"
 
+
 @impl
 def flaskshop_load_blueprints(app):
-    discount = Blueprint('discount', __name__)
+    discount = Blueprint("discount", __name__)
     discount.add_url_rule("/he", view_func=hello)
-    app.register_blueprint(discount, url_prefix='/discount')
+    app.register_blueprint(discount, url_prefix="/discount")

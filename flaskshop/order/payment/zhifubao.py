@@ -2,7 +2,6 @@ from alipay import AliPay
 from pathlib import Path
 
 
-
 def get_alipay_string():
     current_dir = Path(__file__).resolve().parent
     app_private_key = current_dir / "app_private_key.pem"

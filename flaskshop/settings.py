@@ -3,15 +3,18 @@
 import os
 from pathlib import Path
 
+
 class LocalConfig:
     db_uri = "mysql+pymysql://root:root@127.0.0.1:3306/flaskshop?charset=utf8mb4"
     redis_uri = "redis://localhost:6379"
     esearch_uri = "localhost"
 
+
 class Config(object):
     """Base configuration."""
+
     SECRET_KEY = "thisisashop"
-    SERVER_NAME = "127.0.0.1:5000"
+    SERVER_NAME = "0.0.0.0:5000"
 
     APP_DIR = Path(__file__).parent  # This directory
     PROJECT_ROOT = APP_DIR.parent
@@ -21,7 +24,7 @@ class Config(object):
     DASHBOARD_TEMPLATE_FOLDER = APP_DIR / "templates" / "dashboard"
 
     BCRYPT_LOG_ROUNDS = 13
-    DEBUG_TB_ENABLED = False # Disable Debug toolbar
+    DEBUG_TB_ENABLED = False  # Disable Debug toolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEBUG_TB_PROFILER_ENABLED = True
 
@@ -32,11 +35,14 @@ class Config(object):
     # try to get config from docker-compose.yml
     SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", LocalConfig.db_uri)
     REDIS_URL = os.getenv("REDIS_URI", LocalConfig.redis_uri)
-    ES_HOSTS = [os.getenv("ESEARCH_URI", LocalConfig.esearch_uri), ]
+    ES_HOSTS = [
+        os.getenv("ESEARCH_URI", LocalConfig.esearch_uri),
+    ]
 
 
 class ProdConfig(Config):
     """Production configuration."""
+
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = "postgresql://localhost/example"
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
@@ -44,6 +50,7 @@ class ProdConfig(Config):
 
 class DevConfig(Config):
     """Development configuration."""
+
     DEBUG = True
     PURCHASE_URI = "https://openapi.alipaydev.com/gateway.do?"
     DEBUG_TB_ENABLED = True
@@ -56,7 +63,7 @@ class TestConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/test"
     BCRYPT_LOG_ROUNDS = (
-        4
-    )  # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
+        4  # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
+    )
     WTF_CSRF_ENABLED = False  # Allows form testing
     PRESERVE_CONTEXT_ON_EXCEPTION = False

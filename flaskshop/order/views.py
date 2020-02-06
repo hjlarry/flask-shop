@@ -84,7 +84,7 @@ def ali_notify():
     return "", 200
 
 
-# for test pay flow 
+# for test pay flow
 @blueprint.route("/pay/<string:token>/testpay")
 @login_required
 def test_pay(token):
@@ -114,7 +114,7 @@ def cancel_order(token):
 def receive(token):
     order = Order.query.filter_by(token=token).first()
     order.update(
-        status = OrderStatusKinds.completed.value,
+        status=OrderStatusKinds.completed.value,
         ship_status=ShipStatusKinds.received.value,
-        )
+    )
     return render_template("orders/details.html", order=order)

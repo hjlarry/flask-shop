@@ -143,4 +143,3 @@ class UnLockedAlchemy(SQLAlchemy):
 
 
 db = UnLockedAlchemy(model_class=BaseModel)
-

@@ -66,7 +66,6 @@ def before_request():
 
 @blueprint.route("/")
 def index():
-
     def get_today_num(model):
         target = db.cast(datetime.now(), db.DATE)
         which = db.cast(model.created_at, db.DATE)

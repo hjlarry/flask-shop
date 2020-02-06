@@ -12,9 +12,9 @@ WECHAT_LOGIN_URL = ""
 WECHAT_APP_SECRET = ""
 WECHAT_APP_ID = ""
 
-api = Namespace('user', description='User Login Api')
+api = Namespace("user", description="User Login Api")
 parser = api.parser()
-parser.add_argument('code', type=str, required=True, help='The code')
+parser.add_argument("code", type=str, required=True, help="The code")
 
 
 def generate_token(user_id):
@@ -57,19 +57,26 @@ def load_user_from_request(request):
         return None
 
 
-@api.route('/login')
+@api.route("/login")
 class UserLogin(Resource):
     @api.doc(parser=parser)
     def post(self):
         args = parser.parse_args()
-        res = requests.get(WECHAT_LOGIN_URL.format(WECHAT_APP_ID, WECHAT_APP_SECRET, args['code'])).json()
-        open_id, session_key = res['openid'], res['session_key']
+        res = requests.get(
+            WECHAT_LOGIN_URL.format(WECHAT_APP_ID, WECHAT_APP_SECRET, args["code"])
+        ).json()
+        open_id, session_key = res["openid"], res["session_key"]
         user = User.query.filter_by(open_id=open_id).first()
         if not user:
-            user = User.create(username=open_id, email=open_id, password=open_id, open_id=open_id,
-                               session_key=session_key)
+            user = User.create(
+                username=open_id,
+                email=open_id,
+                password=open_id,
+                open_id=open_id,
+                session_key=session_key,
+            )
         data = {
-            'token': generate_token(user.id).decode(),
-            'cart_lines': len(user.cart.lines)
+            "token": generate_token(user.id).decode(),
+            "cart_lines": len(user.cart.lines),
         }
         return data
