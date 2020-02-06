@@ -1,31 +1,23 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from flask_login import current_user, login_required
+from pluggy import HookimplMarker
 
 from .models import CartLine, Cart, ShippingMethod
 from .forms import NoteForm, VoucherForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
 from flaskshop.utils import flash_errors
-from flaskshop.order.models import Order, OrderLine, OrderNote
+from flaskshop.order.models import Order
 from flaskshop.discount.models import Voucher
-from flaskshop.constant import OrderStatusKinds
-
-blueprint = Blueprint("checkout", __name__, url_prefix="/checkout")
 
 
-@blueprint.before_request
-@login_required
-def before_request():
-    """The whole blueprint need to login first"""
-    pass
+impl = HookimplMarker("flaskshop")
 
 
-@blueprint.route("/cart")
 def cart_index():
     return render_template("checkout/cart.html")
 
 
-@blueprint.route("/update_cart/<int:id>", methods=["POST"])
 def update_cartline(id):
     # TODO when not enough stock, response ajax error
     line = CartLine.get_by_id(id)
@@ -48,7 +40,6 @@ def update_cartline(id):
     return jsonify(response)
 
 
-@blueprint.route("/shipping", methods=["GET", "POST"])
 def checkout_shipping():
     form = AddressForm(request.form)
     user_address = None
@@ -80,7 +71,6 @@ def checkout_shipping():
     )
 
 
-@blueprint.route("/note", methods=["GET", "POST"])
 def checkout_note():
     form = NoteForm(request.form)
     voucher_form = VoucherForm(request.form)
@@ -111,7 +101,6 @@ def checkout_note():
     )
 
 
-@blueprint.route("/voucher", methods=["POST"])
 def checkout_voucher():
     voucher_form = VoucherForm(request.form)
     if voucher_form.validate_on_submit():
@@ -133,7 +122,6 @@ def checkout_voucher():
         return redirect(url_for("checkout.checkout_note"))
 
 
-@blueprint.route("/voucher/remove", methods=["POST"])
 def checkout_voucher_remove():
     voucher_form = VoucherForm(request.form)
     if voucher_form.validate_on_submit():
@@ -141,3 +129,27 @@ def checkout_voucher_remove():
         cart.voucher_code = None
         cart.save()
         return redirect(url_for("checkout.checkout_note"))
+
+
+@impl
+def flaskshop_load_blueprints(app):
+    bp = Blueprint("checkout", __name__)
+
+    @bp.before_request
+    @login_required
+    def before_request():
+        """The whole blueprint need to login first"""
+        pass
+
+    bp.add_url_rule("/cart", view_func=cart_index)
+    bp.add_url_rule(
+        "/update_cart/<int:id>", view_func=update_cartline, methods=["POST"]
+    )
+    bp.add_url_rule("/shipping", view_func=checkout_shipping, methods=["GET", "POST"])
+    bp.add_url_rule("/note", view_func=checkout_note, methods=["GET", "POST"])
+    bp.add_url_rule("/voucher", view_func=checkout_voucher, methods=["POST"])
+    bp.add_url_rule(
+        "/voucher/remove", view_func=checkout_voucher_remove, methods=["POST"]
+    )
+
+    app.register_blueprint(bp, url_prefix="/checkout")

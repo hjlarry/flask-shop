@@ -1,6 +1,9 @@
 from pluggy import HookimplMarker
 from flask import Blueprint
 
+from .models import Message
+
+
 hookimpl = HookimplMarker("flaskshop")
 
 conversations_bp = Blueprint("conversations_bp", __name__, template_folder="templates")

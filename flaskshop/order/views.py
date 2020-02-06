@@ -11,22 +11,21 @@ from flask import (
     abort,
 )
 from flask_login import login_required, current_user
+from pluggy import HookimplMarker
 
-from .models import Order, OrderLine, OrderNote, OrderPayment
+from .models import Order, OrderPayment
 from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
 from flaskshop.constant import ShipStatusKinds, PaymentStatusKinds, OrderStatusKinds
 
-blueprint = Blueprint("order", __name__, url_prefix="/orders")
+impl = HookimplMarker("flaskshop")
 
 
-@blueprint.route("/")
 @login_required
 def index():
     return redirect(url_for("account.index"))
 
 
-@blueprint.route("/<string:token>")
 @login_required
 def show(token):
     order = Order.query.filter_by(token=token).first()
@@ -63,14 +62,12 @@ def create_payment(token, payment_method):
     return payment
 
 
-@blueprint.route("/pay/<string:token>/alipay")
 @login_required
 def ali_pay(token):
     payment = create_payment(token, "alipay")
     return redirect(current_app.config["PURCHASE_URI"] + payment.order_string)
 
 
-@blueprint.route("/alipay/notify", methods=["POST"])
 @csrf_protect.exempt
 def ali_notify():
     data = request.form.to_dict()
@@ -85,7 +82,6 @@ def ali_notify():
 
 
 # for test pay flow
-@blueprint.route("/pay/<string:token>/testpay")
 @login_required
 def test_pay(token):
     payment = create_payment(token, "testpay")
@@ -93,13 +89,11 @@ def test_pay(token):
     return redirect(url_for("order.payment_success"))
 
 
-@blueprint.route("/payment_success")
 @login_required
 def payment_success():
     return render_template("orders/checkout_success.html")
 
 
-@blueprint.route("/cancel/<string:token>")
 @login_required
 def cancel_order(token):
     order = Order.query.filter_by(token=token).first()
@@ -109,7 +103,6 @@ def cancel_order(token):
     return render_template("orders/details.html", order=order)
 
 
-@blueprint.route("/receive/<string:token>")
 @login_required
 def receive(token):
     order = Order.query.filter_by(token=token).first()
@@ -118,3 +111,17 @@ def receive(token):
         ship_status=ShipStatusKinds.received.value,
     )
     return render_template("orders/details.html", order=order)
+
+
+@impl
+def flaskshop_load_blueprints(app):
+    bp = Blueprint("order", __name__)
+    bp.add_url_rule("/", view_func=index)
+    bp.add_url_rule("/<string:token>", view_func=show)
+    bp.add_url_rule("/pay/<string:token>/alipay", view_func=ali_pay)
+    bp.add_url_rule("/alipay/notify", view_func=ali_notify, methods=["POST"])
+    bp.add_url_rule("/pay/<string:token>/testpay", view_func=test_pay)
+    bp.add_url_rule("/payment_success", view_func=payment_success)
+    bp.add_url_rule("/cancel/<string:token>", view_func=cancel_order)
+    bp.add_url_rule("/receive/<string:token>", view_func=receive)
+    app.register_blueprint(bp, url_prefix="/orders")

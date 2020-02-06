@@ -1,1 +1,1 @@
-from .bp import blueprint
+from . import bp

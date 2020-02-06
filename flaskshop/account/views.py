@@ -2,16 +2,22 @@
 """User views."""
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user, login_user, logout_user
+from pluggy import HookimplMarker
 
 from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm
 from .models import UserAddress, User
 from flaskshop.utils import flash_errors
 from flaskshop.order.models import Order
 
-blueprint = Blueprint("account", __name__, url_prefix="/account")
+impl = HookimplMarker("flaskshop")
 
 
-@blueprint.route("/login", methods=["GET", "POST"])
+def index():
+    form = ChangePasswordForm(request.form)
+    orders = Order.get_current_user_orders()
+    return render_template("account/details.html", form=form, orders=orders)
+
+
 def login():
     """login page."""
     form = LoginForm(request.form)
@@ -25,7 +31,6 @@ def login():
     return render_template("account/login.html", form=form)
 
 
-@blueprint.route("/logout")
 @login_required
 def logout():
     """Logout."""
@@ -34,7 +39,6 @@ def logout():
     return redirect(url_for("public.home"))
 
 
-@blueprint.route("/signup", methods=["GET", "POST"])
 def signup():
     """Register new user."""
     form = RegisterForm(request.form)
@@ -53,14 +57,6 @@ def signup():
     return render_template("account/signup.html", form=form)
 
 
-@blueprint.route("/")
-def index():
-    form = ChangePasswordForm(request.form)
-    orders = Order.get_current_user_orders()
-    return render_template("account/details.html", form=form, orders=orders)
-
-
-@blueprint.route("/setpwd", methods=["POST"])
 def set_password():
     form = ChangePasswordForm(request.form)
     if form.validate_on_submit():
@@ -71,14 +67,12 @@ def set_password():
     return redirect(url_for("account.index"))
 
 
-@blueprint.route("/address")
 def addresses():
     """List addresses."""
     addresses = current_user.addresses
     return render_template("account/addresses.html", addresses=addresses)
 
 
-@blueprint.route("/address/edit", methods=["GET", "POST"])
 def edit_address():
     """Create and edit an address."""
     form = AddressForm(request.form)
@@ -109,9 +103,24 @@ def edit_address():
     )
 
 
-@blueprint.route("/address/<int:id>/delete", methods=["POST"])
 def delete_address(id):
     user_address = UserAddress.get_by_id(id)
     if user_address in current_user.addresses:
         UserAddress.delete(user_address)
     return redirect(url_for("account.index") + "#addresses")
+
+
+@impl
+def flaskshop_load_blueprints(app):
+    bp = Blueprint("account", __name__)
+    bp.add_url_rule("/", view_func=index)
+    bp.add_url_rule("/login", view_func=login, methods=["GET", "POST"])
+    bp.add_url_rule("/logout", view_func=logout)
+    bp.add_url_rule("/signup", view_func=signup, methods=["GET", "POST"])
+    bp.add_url_rule("/setpwd", view_func=set_password, methods=["POST"])
+    bp.add_url_rule("/address", view_func=addresses)
+    bp.add_url_rule("/address/edit", view_func=edit_address, methods=["GET", "POST"])
+    bp.add_url_rule(
+        "/address/<int:id>/delete", view_func=delete_address, methods=["POST"]
+    )
+    app.register_blueprint(bp, url_prefix="/account")

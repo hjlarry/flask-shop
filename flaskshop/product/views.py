@@ -2,16 +2,17 @@
 """Product views."""
 from flask import Blueprint, render_template, request
 from flask_login import login_required
+from pluggy import HookimplMarker
 
 from flaskshop.checkout.models import Cart
 
 from .models import Product, Category, ProductCollection
 from .forms import AddCartForm
 
-blueprint = Blueprint("product", __name__, url_prefix="/products")
+
+impl = HookimplMarker("flaskshop")
 
 
-@blueprint.route("/<int:id>")
 def show(id, form=None):
     product = Product.get_by_id(id)
     if not form:
@@ -19,7 +20,6 @@ def show(id, form=None):
     return render_template("products/details.html", product=product, form=form)
 
 
-@blueprint.route("/<int:id>/add", methods=["POST"])
 @login_required
 def product_add_to_cart(id):
     """ this method return to the show method and use a form instance for display validater errors"""
@@ -31,15 +31,24 @@ def product_add_to_cart(id):
     return show(id, form=form)
 
 
-@blueprint.route("/category/<int:id>")
 def show_category(id):
     page = request.args.get("page", 1, type=int)
     ctx = Category.get_product_by_category(id, page)
     return render_template("category/index.html", **ctx)
 
 
-@blueprint.route("/collection/<int:id>")
 def show_collection(id):
     page = request.args.get("page", 1, type=int)
     ctx = ProductCollection.get_product_by_collection(id, page)
     return render_template("category/index.html", **ctx)
+
+
+@impl
+def flaskshop_load_blueprints(app):
+    bp = Blueprint("product", __name__)
+    bp.add_url_rule("/<int:id>", view_func=show)
+    bp.add_url_rule("/<int:id>/add", view_func=product_add_to_cart, methods=["POST"])
+    bp.add_url_rule("/category/<int:id>", view_func=show_category)
+    bp.add_url_rule("/collection/<int:id>", view_func=show_collection)
+
+    app.register_blueprint(bp, url_prefix="/products")

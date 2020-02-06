@@ -1,8 +1,4 @@
 import os
-from functools import wraps
-
-from flask import request, abort
-from flask_login import current_user, login_required
 
 from flaskshop.extensions import db, login_manager
 from flaskshop.account.utils import admin_required

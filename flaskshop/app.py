@@ -5,18 +5,7 @@ import sys
 from flask import Flask, render_template
 from werkzeug.wsgi import DispatcherMiddleware
 
-from flaskshop import (
-    commands,
-    public,
-    account,
-    product,
-    order,
-    checkout,
-    api,
-    discount,
-    dashboard,
-    dashboard_api,
-)
+from flaskshop import commands
 from flaskshop.extensions import (
     bcrypt,
     csrf_protect,
@@ -30,7 +19,16 @@ from flaskshop.settings import ProdConfig
 from flaskshop.plugin.manager import FlaskshopPluginManager
 from flaskshop.plugin import spec
 from flaskshop.utils import log_slow_queries, jinja_global_varibles
-from flaskshop.discount import views as discount_views
+
+from .account import views as account_view
+from .checkout import views as checkout_view
+from .discount import views as discount_view
+from .public import views as public_view
+from .product import views as product_view
+from .order import views as order_view
+from .dashboard import views as dashboard_view
+from .api import api as api_view
+from .dashboard_api.api_app import dashboard_api
 
 
 def create_app(config_object=ProdConfig):
@@ -38,7 +36,7 @@ def create_app(config_object=ProdConfig):
     app.config.from_object(config_object)
     app.pluggy = FlaskshopPluginManager("flaskshop")
     load_plugins(app)
-    app.pluggy.hook.flaskshop_load_blueprints(app=app)
+
     register_extensions(app)
     register_blueprints(app)
     register_errorhandlers(app)
@@ -47,9 +45,7 @@ def create_app(config_object=ProdConfig):
     jinja_global_varibles(app)
     log_slow_queries(app)
 
-    app.wsgi_app = DispatcherMiddleware(
-        app.wsgi_app, {"/dashboard_api": dashboard_api.api_app.dashboard_api}
-    )
+    app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {"/dashboard_api": dashboard_api})
 
     return app
 
@@ -65,14 +61,7 @@ def register_extensions(app):
 
 
 def register_blueprints(app):
-    app.register_blueprint(public.views.blueprint)
-    app.register_blueprint(account.views.blueprint)
-    app.register_blueprint(product.views.blueprint)
-    app.register_blueprint(order.views.blueprint)
-    app.register_blueprint(checkout.views.blueprint)
-    # app.register_blueprint(discount.views.blueprint)
-    app.register_blueprint(api.api.blueprint)
-    app.register_blueprint(dashboard.views.blueprint)
+    app.pluggy.hook.flaskshop_load_blueprints(app=app)
 
 
 def register_errorhandlers(app):
@@ -94,12 +83,7 @@ def register_shellcontext(app):
 
     def shell_context():
         """Shell context objects."""
-        return {
-            "db": db,
-            "User": account.models.User,
-            "Product": product.models.Product,
-            "Order": order.models.Order,
-        }
+        return {"db": db}
 
     app.shell_context_processor(shell_context)
 
