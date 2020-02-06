@@ -28,21 +28,23 @@ from flaskshop.extensions import (
 )
 from flaskshop.settings import ProdConfig
 from flaskshop.plugin.manager import FlaskshopPluginManager
-from flaskshop.plugin.spec import spec
+from flaskshop.plugin import spec
 from flaskshop.utils import log_slow_queries, jinja_global_varibles
+from flaskshop.discount import views as discount_views
+
 
 
 def create_app(config_object=ProdConfig):
     app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
-    app.pluggy = FlaskshopPluginManager('flaskshop', implprefix='flaskshop_')
-    
+    app.pluggy = FlaskshopPluginManager('flaskshop')
+    load_plugins(app)
+    app.pluggy.hook.flaskshop_load_blueprints(app=app)
     register_extensions(app)
     register_blueprints(app)
     register_errorhandlers(app)
     register_shellcontext(app)
     register_commands(app)
-    load_plugins(app)
     jinja_global_varibles(app)
     log_slow_queries(app)
 
@@ -69,7 +71,7 @@ def register_blueprints(app):
     app.register_blueprint(product.views.blueprint)
     app.register_blueprint(order.views.blueprint)
     app.register_blueprint(checkout.views.blueprint)
-    app.register_blueprint(discount.views.blueprint)
+    # app.register_blueprint(discount.views.blueprint)
     app.register_blueprint(api.api.blueprint)
     app.register_blueprint(dashboard.views.blueprint)
 
@@ -118,6 +120,8 @@ def register_commands(app):
 def load_plugins(app):
     app.pluggy.add_hookspecs(spec)
 
-    for name, module in sys.modules.items:
-        if name.startswith("flaskshop_"):
+    for name, module in sys.modules.items():
+        if name.startswith("flaskshop"):
             app.pluggy.register(module)
+
+    app.pluggy.load_setuptools_entrypoints('flaskshop_plugins')
