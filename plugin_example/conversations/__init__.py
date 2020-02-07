@@ -1,5 +1,5 @@
 from pluggy import HookimplMarker
-from flask import Blueprint
+from flask import Blueprint, render_template
 
 from .models import Message
 
@@ -16,4 +16,4 @@ def flaskshop_load_blueprints(app):
 
 @conversations_bp.route("/hello")
 def hello():
-    return "hello world!"
+    return render_template("message_layout.html")

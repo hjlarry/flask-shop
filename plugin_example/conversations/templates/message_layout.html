@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-3 col-md-2">
+            <div class="sidebar">
+                <ul class="nav sidenav">
+                    <div class="sidenav-btn">
+                        <a href="" class="btn btn-success">New Message</a>
+                    </div>
+                    Inbox
+                </ul>
+            </div><!--/.sidebar -->
+        </div><!--/.col-sm-3 -->
+        <div class="col-sm-9 col-md-10">
+            {% block message_content %}
+            hello world!
+            {% endblock %}
+        </div><!--/.col-sm-9 -->
+    </div><!--/.row -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Reply conversation
+    $('.reply-btn').click(function (event) {
+        event.preventDefault();
+        var message_id = $(this).attr('data-message-id');
+
+        $.get('/conversations/message/' + message_id + '/raw', function(text) {
+            var $contents = $('.flaskbb-editor');
+            $contents.val(($contents.val() + '\n' + text).trim() + '\n');
+            $contents.selectionStart = $contents.selectionEnd = $contents.val().length;
+            $contents[0].scrollTop = $contents[0].scrollHeight;
+            window.location.href = '#content';
+        });
+    });
+</script>
+{% endblock %}
