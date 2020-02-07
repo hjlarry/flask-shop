@@ -205,6 +205,10 @@
     color: #212529;
     background-color:rgba(0,0,0,.075);
 }
+
+.brand-link{
+    height: 64px;
+}
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
