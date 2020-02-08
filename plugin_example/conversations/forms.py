@@ -44,5 +44,6 @@ class ConversationForm(FlaskForm):
             user_id=user_id,
             unread=unread,
         )
-        message = Message(message=self.message.data, user_id=from_user)
-        return conversation.save(message=message)
+        conversation.save()
+        message = Message(message=self.message.data, user_id=from_user, conversation_id=conversation.id)
+        message.save()

@@ -25,7 +25,7 @@ class NewConversation(MethodView):
         form = self.form()
         if "save_message" in request.form and form.validate():
             to_user = User.query.filter_by(username=form.to_user.data).first()
-            shared_id = uuid.uuid4()
+            shared_id = uuid.uuid4().hex
             form.save(
                 from_user=current_user.id,
                 to_user=to_user.id,
@@ -45,7 +45,7 @@ class NewConversation(MethodView):
 
             # this is the shared id between conversations because the messages
             # are saved on both ends
-            shared_id = uuid.uuid4()
+            shared_id = uuid.uuid4().hex
 
             # Save the message in the current users inbox
             form.save(
