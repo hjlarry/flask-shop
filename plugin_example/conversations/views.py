@@ -1,13 +1,27 @@
 import uuid
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from flask.views import MethodView
 from flask_login import login_required, current_user
 
 from flaskshop.account.models import User
 from .forms import ConversationForm
+from .utils import get_message_count
 
 conversations_bp = Blueprint("conversations_bp", __name__, template_folder="templates")
+
+
+def check_message_box_space(redirect_to=None):
+    """Checks the message quota has been exceeded. If thats the case
+    it flashes a message and redirects back to some endpoint.
+
+    :param redirect_to: The endpoint to redirect to. If set to ``None`` it
+                        will redirect to the ``conversations_bp.inbox``
+                        endpoint.
+    """
+    if get_message_count(current_user) >= current_app.config["MESSAGE_QUOTA"]:
+        flash("You cannot send any messages anymore because you have reached your message limit.", "danger")
+        return redirect(redirect_to or url_for("conversations_bp.inbox"))
 
 
 class NewConversation(MethodView):
@@ -39,7 +53,7 @@ class NewConversation(MethodView):
             return redirect(url_for("conversations_bp.drafts"))
 
         if "send_message" in request.form and form.validate():
-            # check_message_box_space()
+            check_message_box_space()
 
             to_user = User.query.filter_by(username=form.to_user.data).first()
 
