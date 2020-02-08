@@ -21,13 +21,9 @@
                 </div>
                 <ul class="list-group list-group-flush text-center">
                     {{ navlink('conversations_bp.inbox', 'Inbox') }}
-                    <li class="list-group-item">
-                        <a href="" >Sent</a>
-                    </li>
+                    {{ navlink('conversations_bp.sent', 'Sent') }}
                     {{ navlink('conversations_bp.drafts', 'Drafts') }}
-                    <li class="list-group-item">
-                        <a href="" >Trash</a>
-                    </li>
+                    {{ navlink('conversations_bp.trash', 'Trash') }}
                 </ul>
             </div><!--/.sidebar -->
         </div><!--/.col-sm-3 -->

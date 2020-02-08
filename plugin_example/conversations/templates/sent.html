@@ -1,0 +1,12 @@
+{% from 'bootstrap/pagination.html' import render_pager %}
+{% extends "message_layout.html" %}
+{% block title %} Sent Messages {% endblock %}
+
+{% block message_content %}
+{% set include_move = True %}
+{% include "conversation_list.html" %}
+{{ render_pager(conversations, url_for("conversations_bp.sent")) }}
+{% endblock %}
+
+
+

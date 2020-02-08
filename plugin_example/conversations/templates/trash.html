@@ -1,0 +1,10 @@
+{% from 'bootstrap/pagination.html' import render_pager %}
+{% extends "message_layout.html" %}
+{% block title %} Trash {% endblock %}
+
+{% block message_content %}
+{% set include_restore = True %}
+{% set include_delete = True %}
+{% include "conversation_list.html" %}
+{{ render_pager(conversations, url_for("conversations_bp.trash")) }}
+{% endblock %}

@@ -13,6 +13,7 @@ from flask.views import MethodView
 from flask_login import login_required, current_user
 
 from flaskshop.account.models import User
+from flaskshop.extensions import db
 from .forms import ConversationForm
 from .models import Conversation
 from .utils import get_message_count
@@ -39,18 +40,20 @@ class Inbox(MethodView):
     decorators = [login_required]
 
     def get(self):
-        page = request.args.get('page', 1, type=int)
+        page = request.args.get("page", 1, type=int)
         # the inbox will display both, the recieved and the sent messages
-        conversations = Conversation.query.filter(
-            Conversation.user_id == current_user.id,
-            Conversation.draft == False,
-            Conversation.trash == False,
-        ).order_by(Conversation.updated_at.desc()).paginate(
-            page, 10, False
+        conversations = (
+            Conversation.query.filter(
+                Conversation.user_id == current_user.id,
+                Conversation.draft == False,
+                Conversation.trash == False,
+            )
+            .order_by(Conversation.updated_at.desc())
+            .paginate(page, 10, False)
         )
 
-        return render_template("inbox.html",
-                               conversations=conversations)
+        return render_template("inbox.html", conversations=conversations)
+
 
 class NewConversation(MethodView):
     decorators = [login_required]
@@ -112,6 +115,27 @@ class NewConversation(MethodView):
         return render_template("message_form.html", form=form)
 
 
+class SentMessages(MethodView):
+    decorators = [login_required]
+
+    def get(self):
+
+        page = request.args.get("page", 1, type=int)
+
+        conversations = (
+            Conversation.query.filter(
+                Conversation.user_id == current_user.id,
+                Conversation.draft == False,
+                Conversation.trash == False,
+                db.not_(Conversation.to_user_id == current_user.id),
+            )
+            .order_by(Conversation.updated_at.desc())
+            .paginate(page, 10, False)
+        )
+
+        return render_template("sent.html", conversations=conversations)
+
+
 class DraftMessages(MethodView):
     decorators = [login_required]
 
@@ -132,9 +156,29 @@ class DraftMessages(MethodView):
         return render_template("drafts.html", conversations=conversations)
 
 
+class TrashedMessages(MethodView):
+    decorators = [login_required]
+
+    def get(self):
+
+        page = request.args.get("page", 1, type=int)
+
+        conversations = (
+            Conversation.query.filter(
+                Conversation.user_id == current_user.id, Conversation.trash == True,
+            )
+            .order_by(Conversation.updated_at.desc())
+            .paginate(page, 10, False)
+        )
+
+        return render_template("trash.html", conversations=conversations)
+
+
 conversations_bp.add_url_rule(
     "/new", view_func=NewConversation.as_view("new_conversation")
 )
 conversations_bp.add_url_rule("/", view_func=Inbox.as_view("index"))
 conversations_bp.add_url_rule("/inbox", view_func=Inbox.as_view("inbox"))
+conversations_bp.add_url_rule("/sent", view_func=SentMessages.as_view("sent"))
 conversations_bp.add_url_rule("/drafts", view_func=DraftMessages.as_view("drafts"))
+conversations_bp.add_url_rule("/trash", view_func=TrashedMessages.as_view("trash"))
