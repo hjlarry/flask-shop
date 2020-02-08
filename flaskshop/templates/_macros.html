@@ -101,3 +101,9 @@
 {% endwith %}
 {% endfor %}
 {% endmacro %}
+
+{% macro navlink(endpoint, name, active='') %}
+<li class="list-group-item {% if endpoint == request.endpoint or endpoint == active or active == True %}active{% endif %}">
+    <a href="{{ url_for(endpoint) }}">{{ name }}</a>
+</li>
+{% endmacro %}

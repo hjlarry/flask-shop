@@ -123,11 +123,13 @@
           </div>
         </div>
       </div>
+      {% block navigation %}
       <div class="navbar__menu container d-block">
         <nav class="navigation">
           {{ macros.menu(site.top_menu_items) }}
         </nav>
       </div>
+      {% endblock %}
     </header>
     {% endblock %}
     <div class="container maincontent">

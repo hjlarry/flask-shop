@@ -1,7 +1,19 @@
-{% extends "base.html" %}
+{% extends "no_nav_base.html" %}
+{% from '_macros.html' import navlink %}
+{% block breadcrumb %}
+<ul class="breadcrumbs list-unstyled">
+  <li>
+    <a href="{{ url_for('public.home') }}">
+      Home
+    </a>
+  </li>
+  <li>Private Message</li>
+</ul>
+{% endblock %}
+
 
 {% block content %}
-    <div class="row">
+    <div class="row container">
         <div class="col-sm-3">
             <div class="card">
                 <div class="card-header">
@@ -14,9 +26,7 @@
                     <li class="list-group-item">
                         <a href="" >Sent</a>
                     </li>
-                    <li class="list-group-item active">
-                        <a href="" >Drafts</a>
-                    </li>
+                    {{ navlink('conversations_bp.drafts', 'Drafts') }}
                     <li class="list-group-item">
                         <a href="" >Trash</a>
                     </li>
