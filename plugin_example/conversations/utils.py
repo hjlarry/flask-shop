@@ -6,6 +6,4 @@ def get_message_count(user):
 
     :param user: The user object.
     """
-    return Conversation.query.filter(
-        Conversation.user_id == user.id
-    ).count()
+    return Conversation.query.filter(Conversation.user_id == user.id).count()

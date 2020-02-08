@@ -1,6 +1,7 @@
 from flaskshop.database import Column, Model, db
 from flaskshop.account.models import User
 
+
 class Message(Model):
     __tablename__ = "conversation_messages"
 
@@ -26,7 +27,11 @@ class Conversation(Model):
 
     @property
     def last_message(self):
-        return Message.query.filter_by(conversation_id=self.id).order_by(Message.id.desc()).first()
+        return (
+            Message.query.filter_by(conversation_id=self.id)
+            .order_by(Message.id.desc())
+            .first()
+        )
 
     @property
     def from_user(self):

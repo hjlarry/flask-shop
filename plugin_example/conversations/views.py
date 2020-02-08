@@ -1,6 +1,14 @@
 import uuid
 
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    flash,
+    redirect,
+    url_for,
+    current_app,
+)
 from flask.views import MethodView
 from flask_login import login_required, current_user
 
@@ -17,11 +25,13 @@ def check_message_box_space(redirect_to=None):
     it flashes a message and redirects back to some endpoint.
 
     :param redirect_to: The endpoint to redirect to. If set to ``None`` it
-                        will redirect to the ``conversations_bp.inbox``
-                        endpoint.
+                        will redirect to the ``conversations_bp.inbox``.
     """
     if get_message_count(current_user) >= current_app.config["MESSAGE_QUOTA"]:
-        flash("You cannot send any messages anymore because you have reached your message limit.", "danger")
+        flash(
+            "You cannot send any messages anymore because you have reached your message limit.",
+            "danger",
+        )
         return redirect(redirect_to or url_for("conversations_bp.inbox"))
 
 
@@ -32,9 +42,7 @@ class NewConversation(MethodView):
     def get(self):
         form = self.form()
         form.to_user.data = request.args.get("to_user")
-        return render_template(
-            "message_form.html", form=form, title="Compose Message"
-        )
+        return render_template("message_form.html", form=form, title="Compose Message")
 
     def post(self):
         form = self.form()
@@ -84,9 +92,7 @@ class NewConversation(MethodView):
             flash("Message sent.", "success")
             return redirect(url_for("conversations_bp.sent"))
 
-        return render_template(
-            "message_form.html", form=form, title="Compose Message"
-        )
+        return render_template("message_form.html", form=form)
 
 
 class DraftMessages(MethodView):
@@ -94,20 +100,22 @@ class DraftMessages(MethodView):
 
     def get(self):
 
-        page = request.args.get('page', 1, type=int)
+        page = request.args.get("page", 1, type=int)
 
-        conversations = Conversation.query. \
-            filter(
+        conversations = (
+            Conversation.query.filter(
                 Conversation.user_id == current_user.id,
                 Conversation.draft == True,
-                Conversation.trash == False
-            ).\
-            order_by(Conversation.updated_at.desc()). \
-            paginate(page, 10, False)
-
-        return render_template(
-            "drafts.html", conversations=conversations
+                Conversation.trash == False,
+            )
+            .order_by(Conversation.updated_at.desc())
+            .paginate(page, 10, False)
         )
 
-conversations_bp.add_url_rule('/new', view_func=NewConversation.as_view("new_conversation"))
-conversations_bp.add_url_rule('/drafts', view_func=DraftMessages.as_view("drafts"))
+        return render_template("drafts.html", conversations=conversations)
+
+
+conversations_bp.add_url_rule(
+    "/new", view_func=NewConversation.as_view("new_conversation")
+)
+conversations_bp.add_url_rule("/drafts", view_func=DraftMessages.as_view("drafts"))

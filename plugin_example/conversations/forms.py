@@ -10,27 +10,21 @@ from .models import Message, Conversation
 
 class ConversationForm(FlaskForm):
     to_user = StringField(
-        "Recipient",
-        validators=[DataRequired(message="A valid username is required.")],
+        "Recipient", validators=[DataRequired(message="A valid username is required.")],
     )
 
     subject = StringField(
-        "Subject",
-        validators=[DataRequired(message="A Subject is required.")],
+        "Subject", validators=[DataRequired(message="A Subject is required.")],
     )
 
     message = TextAreaField(
-        "Message",
-        validators=[DataRequired(message="A message is required.")],
+        "Message", validators=[DataRequired(message="A message is required.")],
     )
-
 
     def validate_to_user(self, field):
         user = User.query.filter_by(username=field.data).first()
         if not user:
-            raise ValidationError(
-                "The username you entered does not " "exist."
-            )
+            raise ValidationError("The username you entered does not " "exist.")
         if user.id == current_user.id:
             raise ValidationError("You cannot send a PM to yourself.")
 
@@ -45,5 +39,9 @@ class ConversationForm(FlaskForm):
             unread=unread,
         )
         conversation.save()
-        message = Message(message=self.message.data, user_id=from_user, conversation_id=conversation.id)
+        message = Message(
+            message=self.message.data,
+            user_id=from_user,
+            conversation_id=conversation.id,
+        )
         message.save()

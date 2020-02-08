@@ -1,6 +1,8 @@
 {% extends "message_layout.html" %}
-{% block message_content %}
 {% from 'bootstrap/form.html' import render_field %}
+{% block title %} Compose Message {% endblock %}
+{% block message_content %}
+
 <form class="form-horizontal" role="form" method="post">
     {{ form.hidden_tag() }}
     <div class="card">
@@ -13,25 +15,18 @@
 
                 {{ render_field(form.to_user, div_class="col-md-6 col-sm-6 col-xs-6") }}
                 {{ render_field(form.subject, div_class="col-md-6 col-sm-6 col-xs-6") }}
-
-                <div class="form-group">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="editor-box">
-                            <div class="editor">
-                                {{ render_field(form.message, div_class="new-message", rows=7, cols=75, placeholder="", **{'data-provide': 'markdown', 'data-autofocus': 'false', 'class': 'flaskbb-editor'}) }}
-                            </div>
-                            <div class="editor-submit">
-                                <div class="float-right">
-                                    <input class="btn btn-success" id="send_message" name="send_message" type="submit" value="Start Conversation">
-                                    <input class="btn btn-info" id="save_message" name="save_message" type="submit" value="Save Conversation">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                {{ render_field(form.message, div_class="col-md-6 col-sm-6 col-xs-6") }}
+                <div id="text-editor">
+                    <p>
+                        {{form.message.data | safe}}
+                    </p>
+                </div>
+                <div class="float-right">
+                    <input class="btn btn-primary narrow" id="send_message" name="send_message" type="submit" value="Start Conversation">
+                    <input class="btn secondary narrow" id="save_message" name="save_message" type="submit" value="Save Conversation">
                 </div>
             </div>
         </div>
     </div>
-    {% include 'editor_help.html' %}
 </form>
 {% endblock %}
