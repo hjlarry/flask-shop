@@ -35,6 +35,23 @@ def check_message_box_space(redirect_to=None):
         return redirect(redirect_to or url_for("conversations_bp.inbox"))
 
 
+class Inbox(MethodView):
+    decorators = [login_required]
+
+    def get(self):
+        page = request.args.get('page', 1, type=int)
+        # the inbox will display both, the recieved and the sent messages
+        conversations = Conversation.query.filter(
+            Conversation.user_id == current_user.id,
+            Conversation.draft == False,
+            Conversation.trash == False,
+        ).order_by(Conversation.updated_at.desc()).paginate(
+            page, 10, False
+        )
+
+        return render_template("inbox.html",
+                               conversations=conversations)
+
 class NewConversation(MethodView):
     decorators = [login_required]
     form = ConversationForm
@@ -118,4 +135,6 @@ class DraftMessages(MethodView):
 conversations_bp.add_url_rule(
     "/new", view_func=NewConversation.as_view("new_conversation")
 )
+conversations_bp.add_url_rule("/", view_func=Inbox.as_view("index"))
+conversations_bp.add_url_rule("/inbox", view_func=Inbox.as_view("inbox"))
 conversations_bp.add_url_rule("/drafts", view_func=DraftMessages.as_view("drafts"))

@@ -20,9 +20,7 @@
                     <a href="{{url_for('conversations_bp.new_conversation')}}" class="btn btn-primary narrow">New Message</a>
                 </div>
                 <ul class="list-group list-group-flush text-center">
-                    <li class="list-group-item">
-                        <a href="" >Inbox</a>
-                    </li>
+                    {{ navlink('conversations_bp.inbox', 'Inbox') }}
                     <li class="list-group-item">
                         <a href="" >Sent</a>
                     </li>
