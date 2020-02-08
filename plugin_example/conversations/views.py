@@ -6,6 +6,7 @@ from flask_login import login_required, current_user
 
 from flaskshop.account.models import User
 from .forms import ConversationForm
+from .models import Conversation
 from .utils import get_message_count
 
 conversations_bp = Blueprint("conversations_bp", __name__, template_folder="templates")
@@ -88,4 +89,25 @@ class NewConversation(MethodView):
         )
 
 
+class DraftMessages(MethodView):
+    decorators = [login_required]
+
+    def get(self):
+
+        page = request.args.get('page', 1, type=int)
+
+        conversations = Conversation.query. \
+            filter(
+                Conversation.user_id == current_user.id,
+                Conversation.draft == True,
+                Conversation.trash == False
+            ).\
+            order_by(Conversation.updated_at.desc()). \
+            paginate(page, 10, False)
+
+        return render_template(
+            "drafts.html", conversations=conversations
+        )
+
 conversations_bp.add_url_rule('/new', view_func=NewConversation.as_view("new_conversation"))
+conversations_bp.add_url_rule('/drafts', view_func=DraftMessages.as_view("drafts"))

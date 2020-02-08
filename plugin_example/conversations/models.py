@@ -1,5 +1,5 @@
 from flaskshop.database import Column, Model, db
-
+from flaskshop.account.models import User
 
 class Message(Model):
     __tablename__ = "conversation_messages"
@@ -23,3 +23,15 @@ class Conversation(Model):
     trash = db.Column(db.Boolean, default=False, nullable=False)
     draft = db.Column(db.Boolean, default=False, nullable=False)
     unread = db.Column(db.Boolean, default=False, nullable=False)
+
+    @property
+    def last_message(self):
+        return Message.query.filter_by(conversation_id=self.id).order_by(Message.id.desc()).first()
+
+    @property
+    def from_user(self):
+        return User.query.filter_by(id=self.from_user_id).first()
+
+    @property
+    def to_user(self):
+        return User.query.filter_by(id=self.to_user_id).first()
