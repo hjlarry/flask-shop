@@ -2,19 +2,29 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-sm-3 col-md-2">
-            <div class="sidebar">
-                <ul class="nav sidenav">
-                    <div class="sidenav-btn">
-                        <a href="" class="btn btn-success">New Message</a>
-                    </div>
-                    Inbox
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-header">
+                    <a href="" class="btn btn-success">New Message</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="" >Inbox</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="" >Sent</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="" >Drafts</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="" >Trash</a>
+                    </li>
                 </ul>
             </div><!--/.sidebar -->
         </div><!--/.col-sm-3 -->
-        <div class="col-sm-9 col-md-10">
+        <div class="col-sm-9">
             {% block message_content %}
-            hello world!
             {% endblock %}
         </div><!--/.col-sm-9 -->
     </div><!--/.row -->

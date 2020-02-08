@@ -18,7 +18,7 @@ class Conversation(Model):
     from_user_id = Column(db.Integer())
     # the user who sent the message
     to_user_id = db.Column(db.Integer())
-    shared_id = db.Column(db.Integer(), unique=True, nullable=False)
+    shared_id = db.Column(db.String(100), unique=True, nullable=False)
     subject = db.Column(db.String(255))
     trash = db.Column(db.Boolean, default=False, nullable=False)
     draft = db.Column(db.Boolean, default=False, nullable=False)
