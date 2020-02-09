@@ -28,7 +28,7 @@
             <div class="col-10 conversation-info">
                 <!-- subject -->
                 <div class="conversation-subject">
-                    <a href="#">
+                    <a href="{{url_for('conversations_bp.view_conversation', conversation_id=conversation.id)}}">
                         {% if conversation.unread %}
                             <strong>{{ conversation.subject }}</strong>
                         {% else %}

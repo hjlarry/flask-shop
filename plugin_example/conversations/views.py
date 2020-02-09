@@ -1,4 +1,5 @@
 import uuid
+from functools import wraps
 
 from flask import (
     Blueprint,
@@ -14,7 +15,7 @@ from flask_login import login_required, current_user
 
 from flaskshop.account.models import User
 from flaskshop.extensions import db
-from .forms import ConversationForm
+from .forms import ConversationForm, MessageForm
 from .models import Conversation
 from .utils import get_message_count
 
@@ -35,6 +36,15 @@ def check_message_box_space(redirect_to=None):
         )
         return redirect(redirect_to or url_for("conversations_bp.inbox"))
 
+def require_message_box_space(f):
+    """Decorator for :func:`check_message_box_space`."""
+    # not sure how this can be done without explicitly providing a decorator
+    # for this
+    @wraps(f)
+    def wrapper(*a, **k):
+        return check_message_box_space() or f(*a, **k)
+
+    return wrapper
 
 class Inbox(MethodView):
     decorators = [login_required]
@@ -54,6 +64,71 @@ class Inbox(MethodView):
 
         return render_template("inbox.html", conversations=conversations)
 
+
+class ViewConversation(MethodView):
+    decorators = [login_required]
+    form = MessageForm
+
+    def get(self, conversation_id):
+        conversation = Conversation.query.filter_by(
+            id=conversation_id, user_id=current_user.id
+        ).first_or_404()
+
+        if conversation.unread:
+            conversation.unread = False
+            conversation.save()
+
+        form = self.form()
+        return render_template("conversation.html",
+                               conversation=conversation, form=form)
+
+    @require_message_box_space
+    def post(self, conversation_id):
+        conversation = Conversation.query.filter_by(
+            id=conversation_id, user_id=current_user.id
+        ).first_or_404()
+
+        form = self.form()
+        if form.validate_on_submit():
+            to_user_id = None
+            # If the current_user is the user who recieved the message
+            # then we have to change the id's a bit.
+            if current_user.id == conversation.to_user_id:
+                to_user_id = conversation.from_user_id
+                to_user = conversation.from_user
+            else:
+                to_user_id = conversation.to_user_id
+                to_user = conversation.to_user
+
+            form.save(conversation=conversation, user_id=current_user.id)
+
+            # save the message in the recievers conversation
+            old_conv = conversation
+            conversation = Conversation.query.filter(
+                Conversation.user_id == to_user_id,
+                Conversation.shared_id == conversation.shared_id
+            ).first()
+
+            # user deleted the conversation, start a new conversation with just
+            # the recieving message
+            if conversation is None:
+                conversation = Conversation(
+                    subject=old_conv.subject,
+                    from_user=current_user,
+                    to_user=to_user,
+                    user_id=to_user_id,
+                    shared_id=old_conv.shared_id
+                )
+                conversation.save()
+
+            form.save(conversation=conversation, user_id=current_user.id,
+                      unread=True)
+
+            return redirect(url_for("conversations_bp.view_conversation",
+                                    conversation_id=old_conv.id))
+
+        return render_template("conversation.html", conversation=conversation,
+                               form=form)
 
 class NewConversation(MethodView):
     decorators = [login_required]
@@ -182,3 +257,4 @@ conversations_bp.add_url_rule("/inbox", view_func=Inbox.as_view("inbox"))
 conversations_bp.add_url_rule("/sent", view_func=SentMessages.as_view("sent"))
 conversations_bp.add_url_rule("/drafts", view_func=DraftMessages.as_view("drafts"))
 conversations_bp.add_url_rule("/trash", view_func=TrashedMessages.as_view("trash"))
+conversations_bp.add_url_rule("/<int:conversation_id>/view", view_func=ViewConversation.as_view("view_conversation"))

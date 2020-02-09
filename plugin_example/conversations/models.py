@@ -9,6 +9,10 @@ class Message(Model):
     user_id = Column(db.Integer(), nullable=False)
     message = Column(db.Text, nullable=False)
 
+    @property
+    def user(self):
+        return User.query.filter_by(id=self.user_id).first()
+
 
 class Conversation(Model):
     __tablename__ = "conversation_dialogue"
@@ -32,6 +36,14 @@ class Conversation(Model):
             .order_by(Message.id.desc())
             .first()
         )
+
+    @property
+    def first_message(self):
+        return Message.query.filter_by(conversation_id=self.id).first()
+
+    @property
+    def messages(self):
+        return Message.query.filter_by(conversation_id=self.id).all()
 
     @property
     def from_user(self):
