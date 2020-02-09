@@ -29,3 +29,7 @@
 @import "layouts/product-list";
 @import "layouts/product-page";
 @import "layouts/styleguide";
+
+.list-group-item.active a{
+    color: #fff;
+}

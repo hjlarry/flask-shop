@@ -7,8 +7,6 @@ import '../scss/storefront.scss';
 import './components/navbar';
 import './components/mycart';
 import './components/sorter';
-// import './components/variant-picker';
-import './components/language-picker';
 import './components/footer';
 import './components/product-filters';
 import './components/address-form';
