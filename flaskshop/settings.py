@@ -39,7 +39,7 @@ class Config(object):
         os.getenv("ESEARCH_URI", LocalConfig.esearch_uri),
     ]
 
-    MESSAGE_QUOTA = 3
+    MESSAGE_QUOTA = 10
 
 
 class ProdConfig(Config):

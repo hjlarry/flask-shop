@@ -8,121 +8,304 @@
     {% set messages = conversation.messages %}
 {% endif %}
 
-<div class="panel conversation-panel">
-    <div class="panel-heading conversation-head">
-        Subject: <strong>{{ conversation.subject }}</strong>
-    </div>
+<style>
+    /*
+ * Component: Direct Chat
+ * ----------------------
+ */
+.direct-chat .card-body {
+  position: relative;
+  overflow-x: hidden;
+  padding: 0;
+}
 
-    <div class="panel-body conversation-body">
-        <div class="conversation-box">
-            {% for message in messages %}
-            <!-- First Comment -->
-            <div class="row conversation-row" id="mid{{message.id}}">
-                {% if current_user.id == message.user_id %}
-                <div class="col-md-2 col-sm-3 col-xs-12">
-                    <div class="conversation-author author">
-                        <!-- Registered User -->
-                        <div class="author-name"><h4><a href="{{ message.user.url }}">{{ message.user.username }}</a></h4></div>
+.direct-chat.chat-pane-open .direct-chat-contacts {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
 
-                        <!-- check if user is online or not -->
-                        {% if message.user %}
-                        <div class="author-online" data-toggle="tooltip" data-placement="top" title="online"></div>
-                        {% else %}
-                        <div class="author-offline" data-toggle="tooltip" data-placement="top" title="offline"></div>
-                        {% endif %}
-                        <div class="author-title"><h5>{{ message.user }}</h5></div>
+.direct-chat-messages {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+  padding: 10px;
+  height: 250px;
+  overflow: auto;
+}
 
-                        {% if message.user.avatar %}
-                            <div class="author-avatar"><img src="{{ message.user.avatar }}" alt="avatar"></div>
-                        {% endif %}
+.direct-chat-msg,
+.direct-chat-text {
+  display: block;
+}
 
-                        <div class="author-registered">Joined: {{ message.user.created_at }}</div>
-                        <div class="author-posts">Posts: {{ message.user.post_count }}</div>
+.direct-chat-msg {
+  margin-bottom: 10px;
+}
 
-                        {% if message.user.website %}
-                        <div class="author-website"><a href="{{ message.user.website }}" rel="nofollow">Website</a></div>
-                        {% endif %}
-                    </div>
+.direct-chat-msg::after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.direct-chat-messages,
+.direct-chat-contacts {
+  transition: transform .5s ease-in-out;
+}
+
+.direct-chat-text {
+  border-radius: 0.3rem;
+  position: relative;
+  padding: 5px 10px;
+  background: #d2d6de;
+  border: 1px solid #d2d6de;
+  margin: 5px 0 0 50px;
+  color: #444;
+}
+
+.direct-chat-text:after, .direct-chat-text:before {
+  position: absolute;
+  right: 100%;
+  top: 15px;
+  border: solid transparent;
+  border-right-color: #d2d6de;
+  content: ' ';
+  height: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+.direct-chat-text:after {
+  border-width: 5px;
+  margin-top: -5px;
+}
+
+.direct-chat-text:before {
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.right .direct-chat-text {
+  margin-right: 50px;
+  margin-left: 0;
+}
+
+.right .direct-chat-text:after, .right .direct-chat-text:before {
+  right: auto;
+  left: 100%;
+  border-right-color: transparent;
+  border-left-color: #d2d6de;
+}
+
+.direct-chat-img {
+  border-radius: 50%;
+  float: left;
+  width: 40px;
+  height: 40px;
+}
+
+.right .direct-chat-img {
+  float: right;
+}
+
+.direct-chat-info {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.875rem;
+}
+
+.direct-chat-name {
+  font-weight: 600;
+}
+
+.direct-chat-timestamp {
+  color: #999;
+}
+
+.direct-chat-contacts-open .direct-chat-contacts {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+.direct-chat-contacts {
+  -webkit-transform: translate(101%, 0);
+  -ms-transform: translate(101%, 0);
+  transform: translate(101%, 0);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 250px;
+  width: 100%;
+  background: #222d32;
+  color: #ffffff;
+  overflow: auto;
+}
+
+.contacts-list > li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin: 0;
+}
+
+.contacts-list > li::after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.contacts-list > li:last-of-type {
+  border-bottom: none;
+}
+
+.contacts-list-img {
+  border-radius: 50%;
+  width: 40px;
+  float: left;
+}
+
+.contacts-list-info {
+  margin-left: 45px;
+  color: #ffffff;
+}
+
+.contacts-list-name,
+.contacts-list-status {
+  display: block;
+}
+
+.contacts-list-name {
+  font-weight: 600;
+}
+
+.contacts-list-status {
+  font-size: 0.875rem;
+}
+
+.contacts-list-date {
+  color: #aaa;
+  font-weight: normal;
+}
+
+.contacts-list-msg {
+  color: #999;
+}
+
+.direct-chat-danger .right > .direct-chat-text {
+  background: #dc3545;
+  border-color: #dc3545;
+  color: #ffffff;
+}
+
+.direct-chat-danger .right > .direct-chat-text:after, .direct-chat-danger .right > .direct-chat-text:before {
+  border-left-color: #dc3545;
+}
+
+.direct-chat-primary .right > .direct-chat-text {
+  background: #007bff;
+  border-color: #007bff;
+  color: #ffffff;
+}
+
+.direct-chat-primary .right > .direct-chat-text:after, .direct-chat-primary .right > .direct-chat-text:before {
+  border-left-color: #007bff;
+}
+
+.direct-chat-warning .right > .direct-chat-text {
+  background: #ffc107;
+  border-color: #ffc107;
+  color: #1F2D3D;
+}
+
+.direct-chat-warning .right > .direct-chat-text:after, .direct-chat-warning .right > .direct-chat-text:before {
+  border-left-color: #ffc107;
+}
+
+.direct-chat-info .right > .direct-chat-text {
+  background: #17a2b8;
+  border-color: #17a2b8;
+  color: #ffffff;
+}
+
+.direct-chat-info .right > .direct-chat-text:after, .direct-chat-info .right > .direct-chat-text:before {
+  border-left-color: #17a2b8;
+}
+
+.direct-chat-success .right > .direct-chat-text {
+  background: #28a745;
+  border-color: #28a745;
+  color: #ffffff;
+}
+
+.direct-chat-success .right > .direct-chat-text:after, .direct-chat-success .right > .direct-chat-text:before {
+  border-left-color: #28a745;
+}
+
+.direct-chat .form-control{
+  height: auto;
+}
+</style>
+
+<div class="card direct-chat direct-chat-primary">
+  <div class="card-header">
+    <h3 class="card-title">Subject: <strong>{{ conversation.subject }}</strong></h3>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <!-- Conversations are loaded here -->
+    <div class="direct-chat-messages">
+      <!-- Message. Default to the left -->
+        {% for message in messages %}
+            {% if current_user.id != message.user_id %}
+              <div class="direct-chat-msg">
+                <div class="direct-chat-info clearfix">
+                  <span class="direct-chat-name float-left">{{ message.user.username }}</span>
+                  <span class="direct-chat-timestamp float-right">{{ message.created_at }}</span>
                 </div>
-                {% endif %}
-                <div class="col-md-10 col-sm-9 col-xs-12">
-                    <div class="conversation-message arrow {% if current_user.id == message.user_id %}left{% else %}right{% endif %}">
-                        <div class="message-box">
-
-                            <div class="text-left message-header">
-                                <time class="conversation-date" datetime="{{ message.created_at }}"><i class="fa fa-clock-o"></i> {{ message.created_at }}</time>
-                            </div>
-
-                            <div class="message-content">
-                                {{ message.message }}
-                            </div>
-
-                            <div class="message-footer">
-                            {% if conversation.draft %}
-                                <p class="text-right"><a href="{{ url_for('conversations_bp.edit_conversation', conversation_id=conversation.id) }}" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> edit</a></p>
-                            {% else %}
-                                <p class="{% if current_user.id == message.user_id %}left{% else %}right{% endif %}"><a href="#" class="btn btn-default btn-sm reply-btn" data-message-id="{{ message.id }}"><i class="fa fa-reply"></i> reply</a></p>
-                            {% endif %}
-                            </div>
-
-                        </div>
-                    </div>
+                <!-- /.direct-chat-info -->
+                <img class="direct-chat-img" src="{{ message.user.avatar }}" alt="message user image">
+                <!-- /.direct-chat-img -->
+                <div class="direct-chat-text">
+                  {{ message.message }}
                 </div>
-                {% if current_user.id != message.user_id %}
-                <div class="col-md-2 col-sm-3 col-xs-12">
-                    <div class="conversation-author author">
-                        {% if message.user_id and message.user %}
-                        <!-- Registered User -->
-                        <div class="author-name"><h4><a href="{{ message.user.url }}">{{ message.user.username }}</a></h4></div>
-
-                        <!-- check if user is online or not -->
-                        {% if message.user %}
-                        <div class="author-online" data-toggle="tooltip" data-placement="top" title="online"></div>
-                        {% else %}
-                        <div class="author-offline" data-toggle="tooltip" data-placement="top" title="offline"></div>
-                        {% endif %}
-                        <div class="author-title"><h5>{{ message.user }}</h5></div>
-
-                        {% if message.user.avatar %}
-                            <div class="author-avatar"><img src="{{ message.user.avatar }}" alt="avatar"></div>
-                        {% endif %}
-
-                        <div class="author-registered">Joined: {{ message.user.created_at }}</div>
-                        <div class="author-posts">Posts: {{ message.user.post_count }}</div>
-                        <div class="author-pm">
-                        <a href="{{ url_for('conversations_bp.new_conversation') }}?to_user={{ message.user.username }}">Message</a>
-                        </div>
-
-                        {% else %}
-                        <div class="author-name"><h4>Deleted User</h4></div>
-                        <div class="author-title"><h5>Guest</h5></div>
-                        {% endif %}
-                    </div>
+                <!-- /.direct-chat-text -->
+              </div>
+            {% endif %}
+            {% if current_user.id == message.user_id %}
+            <div class="direct-chat-msg right">
+                <div class="direct-chat-info clearfix">
+                  <span class="direct-chat-name float-right">{{ message.user.username }}</span>
+                  <span class="direct-chat-timestamp float-left">{{ message.created_at }}</span>
                 </div>
-                {% endif %}
-            </div>
+                <!-- /.direct-chat-info -->
+                <img class="direct-chat-img" src="{{ message.user.avatar }}" alt="message user image">
+                <!-- /.direct-chat-img -->
+                <div class="direct-chat-text">
+                  {{ message.message }}
+                </div>
+                <!-- /.direct-chat-text -->
+              </div>
+            {% endif %}
         {% endfor %}
-        </div>
-    </div>
-</div>
+      <!-- /.direct-chat-msg -->
 
+    </div>
+  </div>
+  <!-- /.card-body -->
 {% if not conversation.draft and conversation.from_user != None and conversation.to_user != None %}
 {% from 'bootstrap/form.html' import render_field %}
-<form class="form" action="#" method="post">
-    {{ form.hidden_tag() }}
-    <div class="row conversation-reply">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="editor-box">
-                <div class="editor">
-                    {{ render_field(form.message, div_class="new-message", rows=7, cols=75, placeholder="", **{'data-provide': 'markdown', 'data-autofocus': 'false', 'class': 'flaskbb-editor'}) }}
-                </div>
-                <div class="editor-submit">
-                    {{ render_field(form.submit, input_class="btn btn-success pull-right") }}
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
+  <div class="card-footer">
+    <form action="#" method="post">
+        {{ form.hidden_tag() }}
+      <div class="input-group">
+        <input type="text" name="message" id="message" placeholder="Type Message ..." class="form-control" required>
+        <span class="input-group-append">
+          <button type="submit" class="btn btn-primary">Send</button>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>
 {% endif %}
-
 {% endblock %}

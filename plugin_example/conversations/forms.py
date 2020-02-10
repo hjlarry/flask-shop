@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import StringField, TextAreaField, ValidationError, SubmitField
+from wtforms import StringField, TextAreaField, ValidationError
 from wtforms.validators import DataRequired
 
 from flaskshop.account.models import User
@@ -50,7 +50,6 @@ class ConversationForm(FlaskForm):
 class MessageForm(FlaskForm):
     message = TextAreaField("Message", validators=[
         DataRequired(message="A message is required.")])
-    submit = SubmitField("Send Message")
 
     def save(self, conversation, user_id, unread=False):
         """Saves the form data to the model.
