@@ -9,6 +9,7 @@ from urllib.parse import urlencode
 
 from flaskshop.public.models import Site
 from flaskshop.checkout.models import Cart
+from flaskshop.plugin.utils import template_hook
 
 
 def flash_errors(form, category="warning"):
@@ -60,5 +61,6 @@ def jinja_global_varibles(app):
         return f"{request.path}?{urlencode(request_get)}"
 
     app.add_template_global(get_sort_by_url, "get_sort_by_url")
+    app.add_template_global(template_hook, "run_hook")
 
     return None

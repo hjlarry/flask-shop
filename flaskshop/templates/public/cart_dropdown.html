@@ -1,7 +1,7 @@
 <div class="container">
   {% if current_user.is_authenticated and current_user_cart and current_user_cart.quantity > 0 %}
   <div id="cart-dropdown-list"
-    class="cart-dropdown__list{% if current_user_cart.lines|length <= 2 %} overflow{% endif %}">
+    class="row cart-dropdown__list{% if current_user_cart.lines|length <= 2 %} overflow{% endif %}">
     {% for line in current_user_cart.lines %}
     <div class="row item">
       <div class="col-md-10">

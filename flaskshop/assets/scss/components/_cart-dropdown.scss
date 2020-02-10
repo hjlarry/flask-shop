@@ -13,6 +13,9 @@
     padding-bottom: $global-padding * 2;
     max-height: 28rem;
   }
+  .row{
+    width: 100%;
+  }
   &__list {
     max-height: 10rem;
     overflow-y: auto;

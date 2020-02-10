@@ -40,6 +40,7 @@
                   </a>
                 </li>
                 {% endif %}
+                {{ run_hook("flaskbb_tpl_user_nav_loggedin_before") }}
                 <li>
                   <a href="{{ url_for('account.index') }}">
                     Your Account</a>

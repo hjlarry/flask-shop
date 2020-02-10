@@ -1,0 +1,21 @@
+{% macro is_active() %}
+{% if request.endpoint.startswith("conversations_bp") %}active{% endif %}
+{% endmacro %}
+
+<li class="dropdown {{ is_active() }}">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <span class="fa fa-envelope fa-fw"></span>Inbox({{ unread_count }})
+    </a>
+    <div class="dropdown-menu">
+        {% for message in unread_messages %}
+            <a class="dropdown-item" href="{{ url_for('conversations_bp.view_conversation', conversation_id=message.id) }}">
+                {{ message.from_user.username }}: {{ message.subject }}
+            </a>
+        {% else %}
+        <a class="dropdown-item" href="#">No unread messages.</a>
+        {% endfor %}
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="{{ url_for('conversations_bp.inbox') }}">Inbox</a>
+      <a class="dropdown-item" href="{{ url_for('conversations_bp.new_conversation') }}">New Message</a>
+    </div>
+</li>
