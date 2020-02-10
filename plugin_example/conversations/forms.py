@@ -48,8 +48,9 @@ class ConversationForm(FlaskForm):
 
 
 class MessageForm(FlaskForm):
-    message = TextAreaField("Message", validators=[
-        DataRequired(message="A message is required.")])
+    message = TextAreaField(
+        "Message", validators=[DataRequired(message="A message is required.")]
+    )
 
     def save(self, conversation, user_id, unread=False):
         """Saves the form data to the model.
@@ -59,7 +60,9 @@ class MessageForm(FlaskForm):
         :param reciever: If the message should also be stored in the recievers
                          inbox.
         """
-        message = Message(message=self.message.data, user_id=user_id, conversation_id=conversation.id)
+        message = Message(
+            message=self.message.data, user_id=user_id, conversation_id=conversation.id
+        )
 
         if unread:
             conversation.unread = True
