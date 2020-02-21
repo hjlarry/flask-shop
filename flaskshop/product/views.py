@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """Product views."""
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, jsonify
 from flask_login import login_required
 from pluggy import HookimplMarker
 
 from flaskshop.checkout.models import Cart
 
-from .models import Product, Category, ProductCollection
+from .models import Product, Category, ProductCollection, ProductVariant
 from .forms import AddCartForm
 
 
@@ -31,6 +31,11 @@ def product_add_to_cart(id):
     return show(id, form=form)
 
 
+def variant_price(id, product_id):
+    variant = ProductVariant.get_by_id(id)
+    return jsonify({"price": float(variant.price), "stock": variant.stock})
+
+
 def show_category(id):
     page = request.args.get("page", 1, type=int)
     ctx = Category.get_product_by_category(id, page)
@@ -47,6 +52,7 @@ def show_collection(id):
 def flaskshop_load_blueprints(app):
     bp = Blueprint("product", __name__)
     bp.add_url_rule("/<int:id>", view_func=show)
+    bp.add_url_rule("/<int:product_id>/api/variant_price/<int:id>", view_func=variant_price)
     bp.add_url_rule("/<int:id>/add", view_func=product_add_to_cart, methods=["POST"])
     bp.add_url_rule("/category/<int:id>", view_func=show_category)
     bp.add_url_rule("/collection/<int:id>", view_func=show_collection)

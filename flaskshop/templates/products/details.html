@@ -77,6 +77,9 @@
         {{product.basic_price}}
       </small>
       {% endif %}
+      <small class="stock">
+
+      </small>
     </h2>
 
     {% if product.on_sale %}
@@ -89,18 +92,15 @@
         <div class="variant-picker__label">{{ form.variant.label.text|safe }}</div>
         <div class="btn-group" data-toggle="buttons">
           {% for item in form.variant -%}
-          {% if loop.first %}
-          <label class="btn btn-secondary variant-picker__option active">
-            {{ item(checked='checked')|safe }} {{ item.label.text|safe }}
-          </label>
-          {% else %}
           <label class="btn btn-secondary variant-picker__option">
             {{ item()|safe }} {{ item.label.text|safe }}
           </label>
-          {% endif %}
           {% endfor %}
-          {# TODO:to fix switch button bug#}
         </div>
+         {% if form.variant.errors %}
+        <div class="is-invalid "></div>
+        <div class="invalid-feedback">Please choose a variant!</div>
+        {% endif %}
       </div>
       {% else %}
       {% for item in form.variant -%}
@@ -147,6 +147,5 @@
     </table>
   </div>
 </div>
-
-
 {% endblock content %}
+
