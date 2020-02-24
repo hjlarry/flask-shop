@@ -2,7 +2,7 @@
 
 
 ## Introduction
-This project is a front page copy of [saleor](https://github.com/mirumee/saleor), but write with flask. 
+This project is a front page copy of [saleor](https://github.com/mirumee/saleor) old version, but write with flask. 
 It havn`t complete yet.
 
 ## ScreenShot
@@ -20,15 +20,16 @@ It havn`t complete yet.
 **First, Create a virtual environment**
 ```
 pip3 install virtualenv
+mkdir ~/.virtualenvs
 mkdir ~/.virtualenvs/flask-shop/ && cd ~/.virtualenvs/flask-shop/
-virtualenv --no-site-packages .
+virtualenv .
 ```
 
 **Second, Clone and Install dependence**
 ```
 git clone https://github.com/hjlarry/flaskshop
 cd flask-shop
-# I use autoenv instead of manual change to virtual env
+# I use autoenv instead of manual active virtual env
 source ~/.virtualenvs/flask-shop/bin/activate
 pip3 install -r requirements.txt
 ```
@@ -36,6 +37,7 @@ pip3 install -r requirements.txt
 **Third, Init db and run**
 ```
 # modify .flaskenv and flaskshop/setting.py
+# make sure the mysql, redis, elesticsearch is running
 flask db init
 flask db migrate
 flask db upgrade
