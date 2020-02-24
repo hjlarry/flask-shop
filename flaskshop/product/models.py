@@ -7,6 +7,7 @@ from sqlalchemy import desc
 from flaskshop.database import Column, Model, db
 from flaskshop.corelib.mc import cache, cache_by_args, rdb
 from flaskshop.corelib.db import PropsItem
+from flaskshop.settings import Config
 
 
 MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
@@ -22,7 +23,6 @@ MC_KEY_CATEGORY_CHILDREN = "product:category:{}:children"
 class Product(Model):
     __tablename__ = "product_product"
     title = Column(db.String(255), nullable=False)
-    description = PropsItem("description")
     on_sale = Column(db.Boolean(), default=True)
     rating = Column(db.DECIMAL(8, 2), default=5.0)
     sold_count = Column(db.Integer(), default=0)
@@ -32,6 +32,9 @@ class Product(Model):
     is_featured = Column(db.Boolean(), default=False)
     product_type_id = Column(db.Integer())
     attributes = Column(MutableDict.as_mutable(db.JSON()))
+    description = Column(db.Text())
+    if Config.USE_REDIS:
+        description = PropsItem("description")
 
     def __str__(self):
         return self.title

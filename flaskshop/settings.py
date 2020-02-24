@@ -14,7 +14,12 @@ class Config(object):
     """Base configuration."""
 
     SECRET_KEY = "thisisashop"
-
+    # Redis
+    # if redis is enabled, it can be used for:
+    #   - cache
+    #   - save product description
+    USE_REDIS = False
+    REDIS_URL = os.getenv("REDIS_URI", LocalConfig.redis_uri)
 
     APP_DIR = Path(__file__).parent  # This directory
     PROJECT_ROOT = APP_DIR.parent
@@ -34,7 +39,7 @@ class Config(object):
 
     # try to get config from docker-compose.yml
     SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", LocalConfig.db_uri)
-    REDIS_URL = os.getenv("REDIS_URI", LocalConfig.redis_uri)
+    
     ES_HOSTS = [
         os.getenv("ESEARCH_URI", LocalConfig.esearch_uri),
     ]

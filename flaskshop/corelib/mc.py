@@ -2,7 +2,7 @@ import inspect
 import functools
 from pickle import UnpicklingError
 
-from flask import request
+from flask import request, current_app
 from sqlalchemy.ext.serializer import loads, dumps
 
 from flaskshop.corelib.db import rdb
@@ -39,6 +39,8 @@ def cache(key_pattern, expire=None):
 
         @functools.wraps(f)
         def _(*a, **kw):
+            if not current_app.config['USE_REDIS']:
+                return f(*a, **kw) 
             key, args = gen_key(*a, **kw)
             if not key:
                 return f(*a, **kw)
@@ -79,6 +81,8 @@ def cache_by_args(key_pattern, expire=None):
 
         @functools.wraps(f)
         def _(*a, **kw):
+            if not current_app.config['USE_REDIS']:
+                return f(*a, **kw) 
             key, args = gen_key(*a, **kw)
             if not key:
                 return f(*a, **kw)
