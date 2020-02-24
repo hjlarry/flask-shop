@@ -3,14 +3,51 @@ from flask import render_template, redirect, url_for, request
 from flaskshop.public.models import MenuItem, Page, Site
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.product.models import Category, Collection
+from flaskshop.checkout.models import ShippingMethod
 from flaskshop.account.utils import admin_required, permission_required, Permission
 from flaskshop.dashboard.forms import (
     DashboardMenuForm,
     SiteMenuForm,
     SitePageForm,
     SiteConfigForm,
+    ShippingMethodForm,
 )
 
+
+def shipping_methods():
+    page = request.args.get("page", type=int, default=1)
+    pagination = ShippingMethod.query.paginate(page, 10)
+    props = {
+        "id": "ID",
+        "title": "Title",
+        "price_human": "Price",
+        "created_at": "Created At",
+    }
+    context = {
+        "title": "Shipping Method",
+        "items": pagination.items,
+        "props": props,
+        "pagination": pagination,
+        "identity": "shipping_methods",
+    }
+    return render_template("list.html", **context)
+
+
+def shipping_methods_manage(id=None):
+    if id:
+        shipping_method = ShippingMethod.get_by_id(id)
+        form = ShippingMethodForm(obj=shipping_method)
+    else:
+        form = ShippingMethodForm()
+    if form.validate_on_submit():
+        if not id:
+            shipping_method = ShippingMethod()
+        form.populate_obj(shipping_method)
+        shipping_method.save()
+        return redirect(url_for("dashboard.shipping_methods"))
+    return render_template(
+        "site/shipping_method.html", form=form
+    )
 
 def site_menus():
     page = request.args.get("page", type=int, default=1)

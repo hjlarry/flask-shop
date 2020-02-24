@@ -189,6 +189,10 @@
     color: #212529;
 }
 
+.info-box-config .info-box{
+    min-height: 100px;
+}
+
 .info-box-config .info-box:hover{
     color: #212529;
     background-color:rgba(0,0,0,.075);

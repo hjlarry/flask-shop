@@ -1,0 +1,34 @@
+{% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
+{% extends 'dashboard/layout.html' %}
+
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">{% if 'edit' in request.path %}Edit{% else %}Create{% endif %}
+                            Shipping Method</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form method="POST" action="">
+                        <div class="card-body">
+                            {{ form.hidden_tag() }}
+                            {{ vendor.render_field(form.title) }}
+                            {{ vendor.render_field(form.price) }}
+                            <div class="card-footer">
+                                {{ macros.render_submit(form.submit) }}
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

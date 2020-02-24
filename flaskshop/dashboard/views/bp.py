@@ -13,6 +13,8 @@ from flaskshop.constant import Permission
 
 from .user import users, user, user_edit, address_edit
 from .site import (
+    shipping_methods,
+    shipping_methods_manage,
     site_menus,
     site_menus_manage,
     dashboard_menus,
@@ -141,6 +143,15 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule(
         "/product_types/<id>/edit",
         view_func=product_types_manage,
+        methods=["GET", "POST"],
+    )
+    bp.add_url_rule("/shipping_methods", view_func=shipping_methods)
+    bp.add_url_rule(
+        "/shipping_methods/create", view_func=shipping_methods_manage, methods=["GET", "POST"]
+    )
+    bp.add_url_rule(
+        "/shipping_methods/<id>/edit",
+        view_func=shipping_methods_manage,
         methods=["GET", "POST"],
     )
     bp.add_url_rule("/products", view_func=products)
