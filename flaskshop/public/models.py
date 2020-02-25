@@ -3,6 +3,7 @@ from flask import url_for
 from flaskshop.database import Column, Model, db
 from flaskshop.corelib.mc import cache, rdb
 from flaskshop.corelib.db import PropsItem
+from flaskshop.settings import Config
 
 MC_KEY_MENU_ITEMS = "public:site:{}:{}"
 MC_KEY_MENU_ITEM_CHILDREN = "public:menuitem:{}:children"
@@ -81,8 +82,10 @@ class Page(Model):
     __tablename__ = "public_page"
     title = Column(db.String(255), nullable=False)
     slug = Column(db.String(255))
-    content = PropsItem("content", "")
+    content = Column(db.Text())
     is_visible = Column(db.Boolean(), default=True)
+    if Config.USE_REDIS:
+        content = PropsItem("content", "")
 
     def get_absolute_url(self):
         identity = self.slug or self.id

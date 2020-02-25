@@ -19,6 +19,7 @@ class Config(object):
     # if redis is enabled, it can be used for:
     #   - cache
     #   - save product description
+    #   - save page content
     USE_REDIS = False
     REDIS_URL = os.getenv("REDIS_URI", LocalConfig.redis_uri)
 

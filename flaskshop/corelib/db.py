@@ -9,6 +9,18 @@ from flaskshop.settings import Config
 
 rdb = Redis.from_url(Config.REDIS_URL)
 
+if not Config.USE_REDIS:
+
+    class Fake:
+        # a fake class to hook when not use redis but clear mc need rdb
+        def __getattr__(self, name):
+            pass
+
+        def delete(self, *args, **kwargs):
+            pass
+
+    rdb = Fake()
+
 
 class PropsMixin:
     @property
