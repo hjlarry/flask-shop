@@ -163,6 +163,7 @@ class ShippingMethodForm(FlaskForm):
     price = DecimalField(default=0.00, validators=[NumberRange(min=0)])
     submit = SubmitField()
 
+
 class VoucherForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     type_ = SelectField(default=1)

@@ -82,6 +82,7 @@
               </a>
             </div>
             <div class="col-2 col-md-5 navbar__search static">
+              {% if current_app.config['USE_ES']  %}
               <div class="d-md-none mobile-search-icon">
                 <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="30" height="30"></svg>
               </div>
@@ -95,7 +96,7 @@
                   Search<svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="18" height="18"></svg>
                 </button>
               </form>
-
+              {% endif %}
             </div>
             <div class="col-2 col-md-3">
               <div class="navbar__brand__cart float-right">

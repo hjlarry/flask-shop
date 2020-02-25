@@ -45,9 +45,8 @@ def shipping_methods_manage(id=None):
         form.populate_obj(shipping_method)
         shipping_method.save()
         return redirect(url_for("dashboard.shipping_methods"))
-    return render_template(
-        "site/shipping_method.html", form=form
-    )
+    return render_template("site/shipping_method.html", form=form)
+
 
 def site_menus():
     page = request.args.get("page", type=int, default=1)

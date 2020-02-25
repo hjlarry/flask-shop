@@ -147,7 +147,9 @@ def flaskshop_load_blueprints(app):
     )
     bp.add_url_rule("/shipping_methods", view_func=shipping_methods)
     bp.add_url_rule(
-        "/shipping_methods/create", view_func=shipping_methods_manage, methods=["GET", "POST"]
+        "/shipping_methods/create",
+        view_func=shipping_methods_manage,
+        methods=["GET", "POST"],
     )
     bp.add_url_rule(
         "/shipping_methods/<id>/edit",

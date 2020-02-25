@@ -4,7 +4,7 @@
 import logging
 from logging.handlers import RotatingFileHandler
 from flask_sqlalchemy import get_debug_queries
-from flask import flash, request
+from flask import flash, request, current_app
 from urllib.parse import urlencode
 
 from flaskshop.public.models import Site
@@ -60,7 +60,7 @@ def jinja_global_varibles(app):
             request_get["sort_by"] = field
         return f"{request.path}?{urlencode(request_get)}"
 
+    app.add_template_global(current_app, "current_app")
     app.add_template_global(get_sort_by_url, "get_sort_by_url")
     app.add_template_global(template_hook, "run_hook")
-
-    return None
+    

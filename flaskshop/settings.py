@@ -14,6 +14,7 @@ class Config(object):
     """Base configuration."""
 
     SECRET_KEY = "thisisashop"
+
     # Redis
     # if redis is enabled, it can be used for:
     #   - cache
@@ -21,6 +22,15 @@ class Config(object):
     USE_REDIS = False
     REDIS_URL = os.getenv("REDIS_URI", LocalConfig.redis_uri)
 
+    # Elasticsearch
+    # if elasticsearch is enabled, the home page will have a search bar
+    # and while add a product, the search index will get update
+    USE_ES = False
+    ES_HOSTS = [
+        os.getenv("ESEARCH_URI", LocalConfig.esearch_uri),
+    ]
+
+    # Dir
     APP_DIR = Path(__file__).parent  # This directory
     PROJECT_ROOT = APP_DIR.parent
     STATIC_DIR = APP_DIR / "static"
@@ -33,16 +43,10 @@ class Config(object):
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEBUG_TB_PROFILER_ENABLED = True
 
+    SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", LocalConfig.db_uri)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATABASE_QUERY_TIMEOUT = 0.1  # log the slow database query, and unit is second
     SQLALCHEMY_RECORD_QUERIES = True
-
-    # try to get config from docker-compose.yml
-    SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", LocalConfig.db_uri)
-    
-    ES_HOSTS = [
-        os.getenv("ESEARCH_URI", LocalConfig.esearch_uri),
-    ]
 
     MESSAGE_QUOTA = 10
 

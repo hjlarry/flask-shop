@@ -179,10 +179,12 @@ class Product(Model):
 
     @classmethod
     def __flush_insert_event__(cls, target):
-        from flaskshop.public.search import Item
-
         super().__flush_insert_event__(target)
-        Item.add(target)
+
+        if current_app.config["USE_ES"]:
+            from flaskshop.public.search import Item
+
+            Item.add(target)
 
     @classmethod
     def __flush_before_update_event__(cls, target):
