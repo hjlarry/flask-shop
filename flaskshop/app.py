@@ -15,7 +15,7 @@ from flaskshop.extensions import (
     migrate,
     bootstrap,
 )
-from flaskshop.settings import ProdConfig
+from flaskshop.settings import Config
 from flaskshop.plugin.manager import FlaskshopPluginManager
 from flaskshop.plugin import spec
 from flaskshop.utils import log_slow_queries, jinja_global_varibles
@@ -31,7 +31,7 @@ from .api import api as api_view
 from .dashboard_api.api_app import dashboard_api
 
 
-def create_app(config_object=ProdConfig):
+def create_app(config_object=Config):
     app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
     app.pluggy = FlaskshopPluginManager("flaskshop")

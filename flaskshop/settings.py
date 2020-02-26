@@ -10,10 +10,9 @@ class LocalConfig:
     esearch_uri = "localhost"
 
 
-class Config(object):
-    """Base configuration."""
+class Config:
 
-    SECRET_KEY = "thisisashop"
+    SECRET_KEY = os.getenv("SECRET_KEY", "thisisashop")
 
     # Redis
     # if redis is enabled, it can be used for:
@@ -31,6 +30,12 @@ class Config(object):
         os.getenv("ESEARCH_URI", LocalConfig.esearch_uri),
     ]
 
+    # SQLALCHEMY
+    SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", LocalConfig.db_uri)
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DATABASE_QUERY_TIMEOUT = 0.1  # log the slow database query, and unit is second
+    SQLALCHEMY_RECORD_QUERIES = True
+
     # Dir
     APP_DIR = Path(__file__).parent  # This directory
     PROJECT_ROOT = APP_DIR.parent
@@ -44,38 +49,4 @@ class Config(object):
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEBUG_TB_PROFILER_ENABLED = True
 
-    SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", LocalConfig.db_uri)
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    DATABASE_QUERY_TIMEOUT = 0.1  # log the slow database query, and unit is second
-    SQLALCHEMY_RECORD_QUERIES = True
-
     MESSAGE_QUOTA = 10
-
-
-class ProdConfig(Config):
-    """Production configuration."""
-
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = "postgresql://localhost/example"
-    DEBUG_TB_ENABLED = False  # Disable Debug toolbar
-
-
-class DevConfig(Config):
-    """Development configuration."""
-
-    DEBUG = True
-    PURCHASE_URI = "https://openapi.alipaydev.com/gateway.do?"
-    DEBUG_TB_ENABLED = True
-
-
-class TestConfig(Config):
-    """Test configuration."""
-
-    TESTING = True
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1:3306/test"
-    BCRYPT_LOG_ROUNDS = (
-        4  # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
-    )
-    WTF_CSRF_ENABLED = False  # Allows form testing
-    PRESERVE_CONTEXT_ON_EXCEPTION = False

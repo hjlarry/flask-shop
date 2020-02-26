@@ -54,3 +54,4 @@ node_modules
 /flaskshop/local_config.py
 slow_queries.log
 migrations/
+.idea/

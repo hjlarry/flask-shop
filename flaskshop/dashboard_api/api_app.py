@@ -29,8 +29,7 @@ def create_app(config):
     return app
 
 
-config = getattr(settings, os.environ.get("CURRENT_CONFIG"), "ProdConfig")
-dashboard_api = create_app(config)
+dashboard_api = create_app(settings.Config)
 
 
 @dashboard_api.errorhandler(ApiException)
