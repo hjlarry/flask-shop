@@ -146,22 +146,7 @@ class NewConversation(MethodView):
 
     def post(self):
         form = self.form()
-        if "save_message" in request.form and form.validate():
-            to_user = User.query.filter_by(username=form.to_user.data).first()
-            shared_id = uuid.uuid4().hex
-            form.save(
-                from_user=current_user.id,
-                to_user=to_user.id,
-                user_id=current_user.id,
-                unread=False,
-                as_draft=True,
-                shared_id=shared_id,
-            )
-
-            flash("Message saved.", "success")
-            return redirect(url_for("conversations_bp.drafts"))
-
-        if "send_message" in request.form and form.validate():
+        if form.validate():
             check_message_box_space()
 
             to_user = User.query.filter_by(username=form.to_user.data).first()
@@ -255,26 +240,6 @@ class SentMessages(MethodView):
         return render_template("sent.html", conversations=conversations)
 
 
-class DraftMessages(MethodView):
-    decorators = [login_required]
-
-    def get(self):
-
-        page = request.args.get("page", 1, type=int)
-
-        conversations = (
-            Conversation.query.filter(
-                Conversation.user_id == current_user.id,
-                Conversation.draft == True,
-                Conversation.trash == False,
-            )
-            .order_by(Conversation.updated_at.desc())
-            .paginate(page, 10, False)
-        )
-
-        return render_template("drafts.html", conversations=conversations)
-
-
 class TrashedMessages(MethodView):
     decorators = [login_required]
 
@@ -299,7 +264,6 @@ conversations_bp.add_url_rule(
 conversations_bp.add_url_rule("/", view_func=Inbox.as_view("index"))
 conversations_bp.add_url_rule("/inbox", view_func=Inbox.as_view("inbox"))
 conversations_bp.add_url_rule("/sent", view_func=SentMessages.as_view("sent"))
-conversations_bp.add_url_rule("/drafts", view_func=DraftMessages.as_view("drafts"))
 conversations_bp.add_url_rule("/trash", view_func=TrashedMessages.as_view("trash"))
 conversations_bp.add_url_rule(
     "/<int:conversation_id>/view",

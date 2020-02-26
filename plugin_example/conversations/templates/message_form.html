@@ -16,14 +16,8 @@
                 {{ render_field(form.to_user, div_class="col-md-6 col-sm-6 col-xs-6") }}
                 {{ render_field(form.subject, div_class="col-md-6 col-sm-6 col-xs-6") }}
                 {{ render_field(form.message, div_class="col-md-6 col-sm-6 col-xs-6") }}
-                <div id="text-editor">
-                    <p>
-                        {{form.message.data | safe}}
-                    </p>
-                </div>
                 <div class="float-right">
                     <input class="btn btn-primary narrow" id="send_message" name="send_message" type="submit" value="Start Conversation">
-                    <input class="btn secondary narrow" id="save_message" name="save_message" type="submit" value="Save Conversation">
                 </div>
             </div>
         </div>
