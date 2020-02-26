@@ -63,4 +63,3 @@ def jinja_global_varibles(app):
     app.add_template_global(current_app, "current_app")
     app.add_template_global(get_sort_by_url, "get_sort_by_url")
     app.add_template_global(template_hook, "run_hook")
-    

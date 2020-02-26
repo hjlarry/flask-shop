@@ -6,12 +6,9 @@ This project is a front page copy of [saleor](https://github.com/mirumee/saleor)
 It havn`t complete yet.
 
 ## ScreenShot
-![ScreenShot](ScreenShot/1.png)
-![ScreenShot](ScreenShot/2.png)
-![ScreenShot](ScreenShot/3.png)
-![ScreenShot](ScreenShot/4.png)
+![ScreenShot](ScreenShot/1.jpg)
 
-
+![ScreenShot](ScreenShot/2.jpg)
 
 ## Quickstart
 
@@ -37,18 +34,11 @@ pip3 install -r requirements.txt
 **Third, Init db and run**
 ```
 # modify .flaskenv and flaskshop/setting.py
-# make sure the mysql, redis, elesticsearch is running
 flask db init
 flask db migrate
 flask db upgrade
 flask seed
 flask run
-```
-
-If the js files has been modified, you need to:
-```
-npm install
-npm run build
 ```
 
 ### Use Docker 
@@ -62,7 +52,7 @@ docker-compose exec web sh
 flask createdb
 flask seed
 ```
-
+### About Config
 The default admin account is:
 
 username|password|role
@@ -70,3 +60,11 @@ username|password|role
 admin|admin|super administrator
 editor|editor|editor
 op|op|operator
+
+If the js files has been modified, you need to:
+```
+npm install
+npm run build
+```
+
+Redis and Elasticsearch is unabled by default, You can enable them for good performence and search ablitity.

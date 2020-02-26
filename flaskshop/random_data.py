@@ -486,6 +486,7 @@ def create_menus():
     page = Page.query.first()
     if page:
         MenuItem.get_or_create(title=page.title, page_id=page.id, parent_id=item.id)
+    MenuItem.get_or_create(title="Style guide", url_="/style", parent_id=item.id)
 
 
 # step20
