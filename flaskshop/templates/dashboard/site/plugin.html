@@ -1,0 +1,46 @@
+{% extends 'dashboard/layout.html' %}
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Manage Plugins</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>Plugin</th>
+                                <th>Info</th>
+                                <th>Operation</th>
+                            </tr>
+                            {% for plugin in plugins %}
+                            <tr>
+                                <td>{{ plugin.name }}</td>
+                                <td>{{ plugin.name }}</td>
+                                <td>
+                                    {% if plugin.enabled %}
+                                    <form method="POST" action="{{url_for('dashboard.plugin_disable', id=plugin.id)}}">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+                                        <button type="submit" class="btn btn-warning">Disable</button>
+                                    </form>
+                                    {% else %}
+                                    <form method="POST" action="{{url_for('dashboard.plugin_enable', id=plugin.id)}}">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+                                        <button type="submit" class="btn btn-primary">Enable</button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div
+    </div>
+</section>
+{% endblock %}
+

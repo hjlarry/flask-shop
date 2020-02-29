@@ -1,9 +1,10 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 
 from flaskshop.public.models import MenuItem, Page, Site
 from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.product.models import Category, Collection
 from flaskshop.checkout.models import ShippingMethod
+from flaskshop.plugin.models import PluginRegistry
 from flaskshop.account.utils import admin_required, permission_required, Permission
 from flaskshop.dashboard.forms import (
     DashboardMenuForm,
@@ -167,6 +168,24 @@ def site_pages_manage(id=None):
         page.save()
         return redirect(url_for("dashboard.site_pages"))
     return render_template("site/site_page.html", form=form)
+
+def plugin_list():
+    plugins = PluginRegistry.query.all()
+    return render_template("site/plugin.html", plugins=plugins)
+
+def plugin_enable(id):
+    plugin = PluginRegistry.get_by_id(id)
+    plugin.enabled = True
+    plugin.save()
+    flash("The plugin is enabled, Please restart flask-shop now!", "success")
+    return redirect(url_for("dashboard.plugin_list"))
+
+def plugin_disable(id):
+    plugin = PluginRegistry.get_by_id(id)
+    plugin.enabled = False
+    plugin.save()
+    flash("The plugin is disabled, Please restart flask-shop now!", "success")
+    return redirect(url_for("dashboard.plugin_list"))
 
 
 def site_config():
