@@ -13,30 +13,20 @@ It havn`t complete yet.
 ## Quickstart
 
 ### Use python virtual environment
-
-**First, Create a virtual environment**
+**First, Clone and Install dependence**
 ```
-pip3 install virtualenv
-mkdir ~/.virtualenvs
-mkdir ~/.virtualenvs/flask-shop/ && cd ~/.virtualenvs/flask-shop/
-virtualenv .
-```
-
-**Second, Clone and Install dependence**
-```
-git clone https://github.com/hjlarry/flaskshop
+git clone https://github.com/hjlarry/flask-shop.git
 cd flask-shop
-# I use autoenv instead of manual active virtual env
-source ~/.virtualenvs/flask-shop/bin/activate
+python3 -m venv .venv
+# on windows, you should run .venv\Scripts\activate.bat 
+source .venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
-**Third, Init db and run**
+**Second, Init db and run**
 ```
 # modify .flaskenv and flaskshop/setting.py
-flask db init
-flask db migrate
-flask db upgrade
+flask createdb
 flask seed
 flask run
 ```

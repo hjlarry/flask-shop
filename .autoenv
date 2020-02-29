@@ -1,3 +1,0 @@
-# export AUTOENV_ENV_FILENAME=.autoenv
-# echo "source `which activate.sh`" >> ~/.zshrc
-source ~/.virtualenvs/flask-shop/bin/activate
