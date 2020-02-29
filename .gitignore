@@ -56,3 +56,4 @@ slow_queries.log
 migrations/
 .idea/
 .venv/
+.vscode/

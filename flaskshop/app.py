@@ -4,6 +4,7 @@ import sys
 
 from flask import Flask, render_template
 from werkzeug.wsgi import DispatcherMiddleware
+from pymysql.err import InternalError
 
 from flaskshop import commands
 from flaskshop.extensions import (
@@ -16,8 +17,8 @@ from flaskshop.extensions import (
     bootstrap,
 )
 from flaskshop.settings import Config
-from flaskshop.plugin.manager import FlaskshopPluginManager
-from flaskshop.plugin import spec
+from flaskshop.plugin import spec, manager
+from flaskshop.plugin.models import PluginRegistry
 from flaskshop.utils import log_slow_queries, jinja_global_varibles
 
 from .account import views as account_view
@@ -34,10 +35,9 @@ from .dashboard_api.api_app import dashboard_api
 def create_app(config_object=Config):
     app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
-    app.pluggy = FlaskshopPluginManager("flaskshop")
-    load_plugins(app)
-
+    app.pluggy = manager.FlaskshopPluginManager("flaskshop")
     register_extensions(app)
+    load_plugins(app)
     register_blueprints(app)
     register_errorhandlers(app)
     register_shellcontext(app)
@@ -108,3 +108,13 @@ def load_plugins(app):
             app.pluggy.register(module)
 
     app.pluggy.load_setuptools_entrypoints("flaskshop_plugins")
+    try:
+        with app.app_context():
+            for name in app.pluggy.external_plugins:
+                plugin,_ = PluginRegistry.get_or_create(name=name)
+                if not plugin.enabled:
+                    app.pluggy.set_blocked(plugin.name)
+    except InternalError:
+        # when db migrate raise this exception
+        pass
+    
