@@ -184,7 +184,7 @@ def plugin_disable(id):
     plugin = PluginRegistry.get_by_id(id)
     plugin.enabled = False
     plugin.save()
-    flash("The plugin is disabled, Please restart flask-shop now!", "success")
+    flash("The plugin is disabled, Please restart flask-shop now!", "info")
     return redirect(url_for("dashboard.plugin_list"))
 
 
@@ -194,6 +194,7 @@ def site_config():
     if form.validate_on_submit():
         form.populate_obj(site)
         site.save()
+        flash("The config has update", "success")
         return redirect(url_for("dashboard.site_config"))
     return render_template("site/site_config.html", form=form)
 
