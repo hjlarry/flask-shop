@@ -4,6 +4,10 @@ setup(
     name="flaskshop-plugin-conversations",
     version="0.1",
     description="A private messaging plugin for FlaskShop",
+    url="https://github.com/hjlarry/flask-shop",
+    author="hjlarry",
+    author_email="hjlarry@163.com",
+    license="MIT",
     packages=find_packages("."),
     entry_points={"flaskshop_plugins": ["conversations = conversations"]},
     classifiers=[

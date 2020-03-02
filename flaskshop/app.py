@@ -111,10 +111,9 @@ def load_plugins(app):
     try:
         with app.app_context():
             for name in app.pluggy.external_plugins:
-                plugin,_ = PluginRegistry.get_or_create(name=name)
+                plugin, _ = PluginRegistry.get_or_create(name=name)
                 if not plugin.enabled:
                     app.pluggy.set_blocked(plugin.name)
     except InternalError:
         # when db migrate raise this exception
         pass
-    

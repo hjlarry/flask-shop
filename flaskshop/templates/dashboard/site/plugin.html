@@ -19,7 +19,12 @@
                             {% for plugin in plugins %}
                             <tr>
                                 <td>{{ plugin.name }}</td>
-                                <td>{{ plugin.name }}</td>
+                                <td>
+                                    <b>Version</b>: {{ plugin.info.get("version") }}<br>
+                                    <b>Summary</b>: {{ plugin.info.get("summary")}}<br>
+                                    <b>Author</b>: {{ plugin.info.get("author")}}<br>
+                                    <b>Homepage</b>: <a href="{{ plugin.info.get("home_page")}}" target="_blank">{{ plugin.info.get("home_page")}}</a><br>
+                                </td>
                                 <td>
                                     {% if plugin.enabled %}
                                     <form method="POST" action="{{url_for('dashboard.plugin_disable', id=plugin.id)}}">

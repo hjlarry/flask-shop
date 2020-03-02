@@ -1,5 +1,7 @@
+import pkg_resources
 from flask import current_app
 from jinja2 import Markup
+from email import message_from_string
 
 
 class TemplateEventResult(list):
@@ -38,3 +40,22 @@ def template_hook(name, silent=True, is_markup=True, **kwargs):
         return Markup(result)
 
     return result
+
+
+def parse_pkg_metadata(dist_name):
+    try:
+        raw_metadata = pkg_resources.get_distribution(dist_name).get_metadata(
+            "METADATA"
+        )
+    except FileNotFoundError:
+        raw_metadata = pkg_resources.get_distribution(dist_name).get_metadata(
+            "PKG-INFO"
+        )
+
+    metadata = {}
+
+    # lets use the Parser from email to parse our metadata :)
+    for key, value in message_from_string(raw_metadata).items():
+        metadata[key.replace("-", "_").lower()] = value
+
+    return metadata
