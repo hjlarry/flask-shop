@@ -9,17 +9,31 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">{{title}}</h3>
-
-                        <div class="card-tools" style="display: flex;">
-                            <div class="input-group input-group-sm">
-                                <input type="text" name="table_search" class="form-control float-right"
-                                    placeholder="Search">
-
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        <h3 class="card-title">Order List</h3>
+                        <div class="card-tools">
+                            <form>
+                            <div class="row">
+                                <div class="form-group col-2">
+                                <select class="form-control" name="status">
+                                    <option value="" disabled selected hidden>Status</option>
+                                    {% for stat in order_stats_kinds%}
+                                    <option value="{{stat.value}}">{{stat.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                                <div class="form-group col-3">
+                                    <input type="text" name="order_number" class="float-right form-control"
+                                        placeholder="Order No.">
+                                </div>
+                                <div class="form-group col-5">
+                                    <input type="text" name="created_at" class="float-right form-control" 
+                                        placeholder="Created At" id="reservation">
+                                </div>
+                                <div class="form-group col-2">
+                                    <button type="submit" class="btn btn-default">Query</button>
                                 </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -57,4 +71,8 @@
     </div><!-- /.container-fluid -->
 </section>
 
+{% endblock %}
+
+{% block tail_js %}
+<script src="{{ url_for('static', filename='build/dashboard/voucher.js') }}"></script>
 {% endblock %}
