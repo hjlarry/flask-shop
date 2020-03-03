@@ -2,10 +2,12 @@ from datetime import datetime
 from flask import Blueprint, render_template
 from flask_login import login_required
 from pluggy import HookimplMarker
+from sqlalchemy import func
 
 from flaskshop.extensions import db
 from flaskshop.dashboard.models import DashboardMenu
-from flaskshop.order.models import Order
+from flaskshop.order.models import Order, OrderLine
+from flaskshop.product.models import Product
 from flaskshop.account.models import User
 from flaskshop.account.utils import permission_required
 from flaskshop.settings import Config
@@ -58,16 +60,29 @@ def index():
     def get_order_status(status):
         return {
             "count": Order.query.filter_by(status=status).count(),
-            "kind":status,
-            }
+            "kind": status,
+        }
+
+    hot_product_ids = (
+        db.session.query(OrderLine.product_id, func.count(OrderLine.product_id))
+        .group_by(OrderLine.product_id)
+        .order_by(func.count(OrderLine.product_id).desc())
+        .all()
+    )
+    top5_products = []
+    for product_id, order_count in hot_product_ids[:5]:
+        p = Product.get_by_id(product_id)
+        p.order_count = order_count
+        top5_products.append(p)
 
     context = {
         "orders_total": Order.query.count(),
         "orders_today": get_today_num(Order),
         "users_total": User.query.count(),
         "users_today": get_today_num(User),
-        "order_unfulfill":get_order_status(OrderStatusKinds.unfulfilled.value),
-        "order_fulfill":get_order_status(OrderStatusKinds.fulfilled.value),
+        "order_unfulfill": get_order_status(OrderStatusKinds.unfulfilled.value),
+        "order_fulfill": get_order_status(OrderStatusKinds.fulfilled.value),
+        "top_products": top5_products,
     }
     return render_template("index.html", **context)
 

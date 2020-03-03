@@ -47,6 +47,7 @@ class Order(Model):
                 quantity=line.quantity,
                 product_name=variant.display_product(),
                 product_sku=variant.sku,
+                product_id=variant.sku.split("-")[0],
                 unit_price_net=variant.price,
                 is_shipping_required=variant.is_shipping_required,
             )
@@ -212,14 +213,11 @@ class OrderLine(Model):
     is_shipping_required = Column(db.Boolean(), default=True)
     order_id = Column(db.Integer())
     variant_id = Column(db.Integer())
+    product_id = Column(db.Integer())
 
     @property
     def variant(self):
         return ProductVariant.get_by_id(self.variant_id)
-
-    @property
-    def product_id(self):
-        return self.product_sku.split("-")[0]
 
     def get_total(self):
         return self.unit_price_net * self.quantity

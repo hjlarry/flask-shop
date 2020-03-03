@@ -577,6 +577,7 @@ def create_order_line(order, discounts):
         order_id=order.id,
         product_name=variant.display_product(),
         product_sku=variant.sku,
+        product_id=variant.sku.split("-")[0],
         is_shipping_required=variant.is_shipping_required,
         quantity=quantity,
         variant_id=variant.id,
