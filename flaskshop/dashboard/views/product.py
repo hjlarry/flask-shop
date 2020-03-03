@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import request, render_template, redirect, url_for, current_app
 from flaskshop.product.models import (
     ProductAttribute,
@@ -185,7 +187,25 @@ def product_types_manage(id=None):
 
 def products():
     page = request.args.get("page", type=int, default=1)
-    pagination = Product.query.paginate(page, 10)
+    query = Product.query
+
+    on_sale = request.args.get("sale", type=int)
+    if on_sale is not None:
+        query = query.filter_by(on_sale=on_sale)
+    category = request.args.get("category", type=int)
+    if category:
+        query = query.filter_by(category_id=category)
+    title = request.args.get("title", type=str)
+    if title:
+        query = query.filter(Product.title.like(f"%{title}%"))
+    created_at = request.args.get("created_at", type=str)
+    if created_at:
+        start_date, end_date = created_at.split("-")
+        start_date = datetime.strptime(start_date.strip(), "%m/%d/%Y")
+        end_date = datetime.strptime(end_date.strip(), "%m/%d/%Y")
+        query = query.filter(Product.created_at.between(start_date, end_date))
+
+    pagination = query.paginate(page, 10)
     props = {
         "id": "ID",
         "title": "Title",
@@ -195,10 +215,10 @@ def products():
         "category": "Category",
     }
     context = {
-        "title": "Product List",
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
+        "categories": Category.query.all(),
     }
     return render_template("product/list.html", **context)
 

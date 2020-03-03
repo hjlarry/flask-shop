@@ -9,21 +9,43 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">{{title}}</h3>
-
-                        <div class="card-tools" style="display: flex;">
-                            <div class="input-group input-group-sm">
-                                <input type="text" name="table_search" class="form-control float-right"
-                                    placeholder="Search">
-
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        <h3 class="card-title" style="line-height: 40px;">Product List  
+                        </h3>
+                        <div style="height:40px;">
+                            <form>
+                            <div class="row">
+                                <div class="form-group col-2">
+                                    <select class="form-control" name="sale">
+                                        <option value="" disabled selected hidden>On Sale</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
                                 </div>
-                                <div class="input-group input-group-sm" style="width:auto;margin-left: 10px;">
-                                    <a href="{{url_for('dashboard.product_create_step1')}}"
-                                        class="btn btn-success btn-sm">Create</a>
+                                <div class="form-group col-2">
+                                    <select class="form-control" name="category">
+                                        <option value="" disabled selected hidden>Category</option>
+                                        {% for c in categories%}
+                                        <option value="{{c.id}}">{{c.title}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
+                                <div class="form-group col-3">
+                                    <input type="text" name="title" class="float-right form-control"
+                                        placeholder="Title">
+                                </div>
+                                <div class="form-group col-3">
+                                    <input type="text" name="created_at" class="float-right form-control" 
+                                        placeholder="Created At" id="reservation">
+                                </div>
+                                <div class="form-group col-1">
+                                    <button type="submit" class="btn btn-default">Query</button>
+                                </div>
+                                <div class="form-group col-1">
+                                <a href="{{url_for('dashboard.product_create_step1')}}"
+                                class="btn btn-success">Create</a>
                             </div>
+                            </div>
+                            </form>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -61,4 +83,8 @@
     </div><!-- /.container-fluid -->
 </section>
 
+{% endblock %}
+
+{% block tail_js %}
+<script src="{{ url_for('static', filename='build/dashboard/voucher.js') }}"></script>
 {% endblock %}
