@@ -40,19 +40,19 @@
                     <div class="card-body p-0">
                         <ul class="navi-card">
                             <li class="item">
-                                <a href="#">
-                                    <span>166 Orders are ready to fulfill</span>
+                                <a href="{{url_for('dashboard.orders', status=order_fulfill.kind)}}">
+                                    <span>{{order_fulfill.count}} Orders are ready to fulfill</span>
                                     <span class="right">></span>
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="#">
-                                    <span>59 Payments to capture</span>
+                                <a href="{{url_for('dashboard.orders', status=order_unfulfill.kind)}}">
+                                    <span>{{order_unfulfill.count}} Payments to capture</span>
                                     <span class="right">></span>
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="#">
+                                <a href="{{url_for('dashboard.products')}}">
                                     <span>No products out of stock</span>
                                     <span class="right">></span>
                                 </a>

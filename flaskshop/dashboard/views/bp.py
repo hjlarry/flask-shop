@@ -9,7 +9,7 @@ from flaskshop.order.models import Order
 from flaskshop.account.models import User
 from flaskshop.account.utils import permission_required
 from flaskshop.settings import Config
-from flaskshop.constant import Permission
+from flaskshop.constant import Permission, OrderStatusKinds
 
 from .user import users, user, user_edit, address_edit
 from .site import (
@@ -55,11 +55,19 @@ def index():
         which = db.cast(model.created_at, db.DATE)
         return model.query.filter(which == target).count()
 
+    def get_order_status(status):
+        return {
+            "count": Order.query.filter_by(status=status).count(),
+            "kind":status,
+            }
+
     context = {
         "orders_total": Order.query.count(),
         "orders_today": get_today_num(Order),
         "users_total": User.query.count(),
         "users_today": get_today_num(User),
+        "order_unfulfill":get_order_status(OrderStatusKinds.unfulfilled.value),
+        "order_fulfill":get_order_status(OrderStatusKinds.fulfilled.value),
     }
     return render_template("index.html", **context)
 
