@@ -254,3 +254,10 @@ class OrderPayment(Model):
     @property
     def status_human(self):
         return PaymentStatusKinds(int(self.status)).name
+
+
+class OrderEvent(Model):
+    __tablename__ = "order_event"
+    order_id = Column(db.Integer())
+    user_id = Column(db.Integer())
+    type_ = Column("type", TINYINT())
