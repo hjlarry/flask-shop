@@ -52,8 +52,8 @@
                                 </a>
                             </li>
                             <li class="item">
-                                <a href="{{url_for('dashboard.products')}}">
-                                    <span>No products out of stock</span>
+                                <a href="{{url_for('dashboard.products', sale=True)}}">
+                                    <span>{{onsale_products_count}} products is on sale</span>
                                     <span class="right">></span>
                                 </a>
                             </li>
@@ -101,30 +101,16 @@
                     <!-- /.card-header -->
                     <div class="card-body p-0">
                         <ul class="activity product-list-in-card pl-2 pr-2">
+                            {% for a in activity %}
                             <li class="item">
-                                <span class="activity-title">Order #232 was placed</span>
-                                <span>5 hours ago</span>
+                                <span class="activity-title">Order #{{a.order_id}} was {{order_events(a.type_).name}}</span>
+                                <span>{{a.created_at}}</span>
                             </li>
+                            {% else %}
                             <li class="item">
-                                <span class="activity-title">Order #231 was placed</span>
-                                <span>9 hours ago</span>
+                                <span class="activity-title">There is no recent activity </span>
                             </li>
-                            <li class="item">
-                                <span class="activity-title">Order #230 was placed</span>
-                                <span>14 hours ago</span>
-                            </li>
-                            <li class="item">
-                                <span class="activity-title">Order #229 was placed</span>
-                                <span>a day ago</span>
-                            </li>
-                            <li class="item">
-                                <span class="activity-title">Order #228 was placed</span>
-                                <span>a day ago</span>
-                            </li>
-                            <li class="item">
-                                <span class="activity-title">Order #227 was placed</span>
-                                <span>2 days ago</span>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <!-- /.card-body -->

@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import request, render_template
 
 from flaskshop.order.models import Order
-from flaskshop.constant import OrderStatusKinds, ShipStatusKinds
+from flaskshop.constant import OrderStatusKinds
 
 
 def orders():
@@ -47,14 +47,11 @@ def order_detail(id):
 
 def send_order(id):
     order = Order.get_by_id(id)
-    order.status = OrderStatusKinds.shipped.value
-    order.ship_status = ShipStatusKinds.delivered.value
-    order.save()
+    order.delivered()
     return render_template("order/detail.html", order=order)
 
 
 def draft_order(id):
     order = Order.get_by_id(id)
-    order.status = OrderStatusKinds.draft.value
-    order.save()
+    order.draft()
     return render_template("order/detail.html", order=order)

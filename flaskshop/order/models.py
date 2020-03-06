@@ -6,7 +6,12 @@ from sqlalchemy.dialects.mysql import TINYINT
 from flaskshop.database import Column, Model, db
 from flaskshop.account.models import User, UserAddress
 from flaskshop.product.models import ProductVariant
-from flaskshop.constant import OrderStatusKinds, PaymentStatusKinds
+from flaskshop.constant import (
+    OrderStatusKinds,
+    PaymentStatusKinds,
+    OrderEvents,
+    ShipStatusKinds,
+)
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.discount.models import Voucher
 
@@ -189,6 +194,12 @@ class Order(Model):
 
         db.session.commit()
 
+        OrderEvent.create(
+            order_id=self.id,
+            user_id=self.user_id,
+            type_=OrderEvents.payment_captured.value,
+        )
+
     def cancel(self):
         self.status = OrderStatusKinds.canceled.value
         db.session.add(self)
@@ -200,8 +211,38 @@ class Order(Model):
 
         db.session.commit()
 
-    def complete_order(self):
+        OrderEvent.create(
+            order_id=self.id,
+            user_id=self.user_id,
+            type_=OrderEvents.order_canceled.value,
+        )
+
+    def complete(self):
         self.update(status=OrderStatusKinds.completed.value)
+        OrderEvent.create(
+            order_id=self.id,
+            user_id=self.user_id,
+            type_=OrderEvents.order_completed.value,
+        )
+
+    def draft(self):
+        self.update(status=OrderStatusKinds.draft.value)
+        OrderEvent.create(
+            order_id=self.id,
+            user_id=self.user_id,
+            type_=OrderEvents.draft_created.value,
+        )
+
+    def delivered(self):
+        self.update(
+            status=OrderStatusKinds.shipped.value,
+            ship_status=ShipStatusKinds.delivered.value,
+        )
+        OrderEvent.create(
+            order_id=self.id,
+            user_id=self.user_id,
+            type_=OrderEvents.order_delivered.value,
+        )
 
 
 class OrderLine(Model):

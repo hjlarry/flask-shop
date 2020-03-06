@@ -9,7 +9,7 @@ OrderStatusKinds = enum.Enum(
 )
 OrderEvents = enum.Enum(
     value="OrderEvents",
-    names="draft_created payment_captured payment_failed order_fully_paid canceled order_delivered",
+    names="draft_created payment_captured payment_failed order_canceled order_delivered order_completed",
 )
 DiscountValueTypeKinds = enum.Enum(value="DiscountValueType", names="fixed percent")
 VoucherTypeKinds = enum.Enum(

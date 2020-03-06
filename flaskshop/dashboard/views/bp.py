@@ -6,12 +6,12 @@ from sqlalchemy import func
 
 from flaskshop.extensions import db
 from flaskshop.dashboard.models import DashboardMenu
-from flaskshop.order.models import Order, OrderLine
+from flaskshop.order.models import Order, OrderLine, OrderEvent
 from flaskshop.product.models import Product
 from flaskshop.account.models import User
 from flaskshop.account.utils import permission_required
 from flaskshop.settings import Config
-from flaskshop.constant import Permission, OrderStatusKinds
+from flaskshop.constant import Permission, OrderStatusKinds, OrderEvents
 
 from .user import users, user, user_edit, address_edit
 from .site import (
@@ -63,6 +63,8 @@ def index():
             "kind": status,
         }
 
+    onsale_products_count = Product.query.filter_by(on_sale=True).count()
+
     hot_product_ids = (
         db.session.query(OrderLine.product_id, func.count(OrderLine.product_id))
         .group_by(OrderLine.product_id)
@@ -75,6 +77,8 @@ def index():
         p.order_count = order_count
         top5_products.append(p)
 
+    activity = OrderEvent.query.order_by(OrderEvent.id.desc()).limit(10)
+
     context = {
         "orders_total": Order.query.count(),
         "orders_today": get_today_num(Order),
@@ -82,7 +86,10 @@ def index():
         "users_today": get_today_num(User),
         "order_unfulfill": get_order_status(OrderStatusKinds.unfulfilled.value),
         "order_fulfill": get_order_status(OrderStatusKinds.fulfilled.value),
+        "onsale_products_count":onsale_products_count,
         "top_products": top5_products,
+        "activity": activity,
+        "order_events":OrderEvents,
     }
     return render_template("index.html", **context)
 
