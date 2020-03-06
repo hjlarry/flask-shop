@@ -7,7 +7,6 @@
             <!-- Left col -->
             <div class="col-md-8">
 
-                <!-- /.card -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="info-box mb-3">
@@ -19,7 +18,7 @@
                                 <span class="info-box-text"><b>{{orders_today}}</b> today and <b>{{orders_total}}</b>
                                     total</span>
                             </div>
-                            <!-- /.info-box-content -->
+                            
                         </div>
                     </div>
                     <!-- /.col -->
@@ -31,7 +30,7 @@
                                 <span class="info-box-text"><b>{{users_today}}</b> new in <b>{{users_total}}</b>
                                     accounts</span>
                             </div>
-                            <!-- /.info-box-content -->
+                            
                         </div>
                     </div>
                     <!-- /.col -->
@@ -74,7 +73,7 @@
                                         alt="Product Image" class="img-size-50">
                                 </div>
                                 <div class="product-info">
-                                    <a href="javascript:void(0)" class="product-title">{{product.title}}
+                                    <a href="{{url_for('dashboard.product_detail', id=product.id)}}" class="product-title">{{product.title}}
                                         <span class="badge badge-info float-right">{{product.price_human}}</span></a>
                                     <span class="product-description">
                                         {{product.description}}
@@ -104,7 +103,7 @@
                             {% for a in activity %}
                             <li class="item">
                                 <span class="activity-title">Order #{{a.order_id}} was {{order_events(a.type_).name}}</span>
-                                <span>{{a.created_at}}</span>
+                                <span>{{a.created_at_human}}</span>
                             </li>
                             {% else %}
                             <li class="item">

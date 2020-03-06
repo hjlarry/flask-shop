@@ -10,6 +10,7 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy, Model, BaseQuery, DefaultMeta, _QueryProperty
 from sqlalchemy import Column, Integer, DateTime, event
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
+import arrow
 
 from flaskshop.corelib.db import PropsItem, PropsMixin
 
@@ -54,6 +55,10 @@ class BaseModel(PropsMixin, Model):
     def to_dict(self):
         columns = self.__table__.columns.keys() + ["kind"]
         return {key: getattr(self, key, None) for key in columns}
+
+    @property
+    def created_at_human(self):
+        return arrow.get(self.created_at).humanize()
 
     @staticmethod
     def _flush_event(mapper, connection, target):
