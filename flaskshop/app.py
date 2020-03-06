@@ -4,7 +4,6 @@ import sys
 
 from flask import Flask, render_template
 from werkzeug.wsgi import DispatcherMiddleware
-from pymysql.err import InternalError
 
 from flaskshop import commands
 from flaskshop.extensions import (
@@ -114,6 +113,6 @@ def load_plugins(app):
                 plugin, _ = PluginRegistry.get_or_create(name=name)
                 if not plugin.enabled:
                     app.pluggy.set_blocked(plugin.name)
-    except InternalError:
-        # when db migrate raise this exception
+    except:
+        # when db migrate raise exception
         pass
