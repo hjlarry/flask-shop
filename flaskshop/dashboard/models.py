@@ -1,10 +1,11 @@
 from flask import url_for, request
 
 from flaskshop.database import Column, Model, db
+from flaskshop.constant import SettingValueType
 
 
 class DashboardMenu(Model):
-    __tablename__ = "public_dashboard"
+    __tablename__ = "management_dashboard"
     title = Column(db.String(255), nullable=False)
     order = Column(db.Integer(), default=0)
     endpoint = Column(db.String(255))
@@ -34,3 +35,14 @@ class DashboardMenu(Model):
             return "#"
         if self.endpoint:
             return url_for("dashboard." + self.endpoint)
+
+
+class Setting(Model):
+    __tablename__ = "management_setting"
+    id = None
+    key = Column(db.String(255), primary_key=True)
+    value = Column(db.PickleType, nullable=False)
+    name = Column(db.String(255), nullable=False)
+    description = Column(db.Text, nullable=False)
+    value_type =  Column(db.Enum(SettingValueType), nullable=False)
+    extra = Column(db.PickleType)

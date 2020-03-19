@@ -16,6 +16,9 @@ VoucherTypeKinds = enum.Enum(
     value="VoucherType", names="product category shipping value"
 )
 
+SettingValueType = enum.Enum(
+    value="SettingValueType", names="string integer float boolean select selectmultiple"
+)
 
 class Permission:
     LOGIN = 0x01
