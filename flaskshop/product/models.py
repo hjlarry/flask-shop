@@ -194,13 +194,13 @@ class Product(Model):
 
     @classmethod
     def __flush_after_update_event__(cls, target):
-        
 
         super().__flush_after_update_event__(target)
         target.clear_mc(target)
         target.clear_category_cache(target)
         if current_app.config["USE_ES"]:
             from flaskshop.public.search import Item
+
             Item.update_item(target)
 
     @classmethod

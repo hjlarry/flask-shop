@@ -20,6 +20,7 @@ SettingValueType = enum.Enum(
     value="SettingValueType", names="string integer float boolean select selectmultiple"
 )
 
+
 class Permission:
     LOGIN = 0x01
     EDITOR = 0x02
@@ -31,3 +32,25 @@ class Permission:
         OPERATOR: ("op", "Operator"),
         ADMINISTER: ("admin", "Super administrator"),
     }
+
+
+SiteDefaultSettings = {
+    "project_title": {
+        "value": "FlaskShop",
+        "value_type": SettingValueType.string,
+        "name": "Project title",
+        "description": "The title of the project.",
+    },
+    "project_subtitle": {
+        "value": "A lightweight e-commerce software in Flask",
+        "value_type": SettingValueType.string,
+        "name": "Project subtitle",
+        "description": "A short description of the project.",
+    },
+    "project_copyright": {
+        "value": "COPYRIGHT © 2009–2019 MIRUMEE SOFTWARE",
+        "value_type": SettingValueType.string,
+        "name": "Project Copyright",
+        "description": "Copyright notice of the Project like '&copy; 2019 FlaskShop'. ",
+    },
+}

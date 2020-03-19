@@ -86,10 +86,10 @@ def index():
         "users_today": get_today_num(User),
         "order_unfulfill": get_order_status(OrderStatusKinds.unfulfilled.value),
         "order_fulfill": get_order_status(OrderStatusKinds.fulfilled.value),
-        "onsale_products_count":onsale_products_count,
+        "onsale_products_count": onsale_products_count,
         "top_products": top5_products,
         "activity": activity,
-        "order_events":OrderEvents,
+        "order_events": OrderEvents,
     }
     return render_template("index.html", **context)
 

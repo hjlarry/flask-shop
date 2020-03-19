@@ -44,5 +44,5 @@ class Setting(Model):
     value = Column(db.PickleType, nullable=False)
     name = Column(db.String(255), nullable=False)
     description = Column(db.Text, nullable=False)
-    value_type =  Column(db.Enum(SettingValueType), nullable=False)
+    value_type = Column(db.Enum(SettingValueType), nullable=False)
     extra = Column(db.PickleType)

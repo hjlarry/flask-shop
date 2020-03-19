@@ -27,7 +27,7 @@
         <div class=" d-none d-md-block container">
           <div class="row">
             <div class="col-6">
-              <p class="text-left">{{ site.header_text }}</p>
+              <p class="text-left">{{ settings['project_title'].value }} - {{ settings['project_subtitle'].value }}</p>
             </div>
             <div class="col-6">
               <ul class="float-right">
@@ -128,7 +128,7 @@
       {% block navigation %}
       <div class="navbar__menu container d-block">
         <nav class="navigation">
-          {{ macros.menu(site.top_menu_items) }}
+          {{ macros.menu(top_menu) }}
         </nav>
       </div>
       {% endblock %}
@@ -155,7 +155,7 @@
       <div class="footer__menus">
         <div class="container">
           <div class="row">
-            {{ macros.footer_menu(site.bottom_menu_items) }}
+            {{ macros.footer_menu(bottom_menu) }}
             <div class="col-md-2 col-6">
               <ul class="menu">
                 <li class="nav-item__dropdown menu__item">
@@ -254,7 +254,7 @@
                 <svg data-src="{{ url_for('static', filename='img/logo-document.svg') }}" width='176px' height='38px' />
               </a>
             </div>
-            <div class="col-8 footer__copy-text">COPYRIGHT © 2009–2019 MIRUMEE SOFTWARE</div>
+            <div class="col-8 footer__copy-text">{{ settings['project_copyright'].value }}</div>
           </div>
         </div>
       </div>
