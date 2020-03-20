@@ -20,7 +20,7 @@ from flaskshop.product.models import (
     Collection,
     ProductCollection,
 )
-from flaskshop.public.models import Site, MenuItem, Page
+from flaskshop.public.models import MenuItem, Page
 from flaskshop.account.models import User, UserAddress, Role, UserRole
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.order.models import Order, OrderLine, OrderPayment
@@ -457,16 +457,6 @@ def create_page():
 
 # step19
 def create_menus():
-    site = Site.query.first()
-    if not site:
-        site = Site.create(
-            header_text="TEST SALEOR - A SAMPLE SHOP",
-            description="sth about this site",
-            top_menu_id=1,
-            bottom_menu_id=2,
-        )
-    site.save()
-
     yield "Created navbar menu"
     categories = Category.query.all()
     for category in categories:
@@ -476,13 +466,13 @@ def create_menus():
 
     yield "Created footer menu"
     collection = Collection.query.first()
-    item, _ = MenuItem.get_or_create(title="Collections", site_id=2)
+    item, _ = MenuItem.get_or_create(title="Collections", position=2)
     for collection in Collection.query.all():
         MenuItem.get_or_create(
             title=collection.title, collection_id=collection.id, parent_id=item.id
         )
 
-    item, _ = MenuItem.get_or_create(title="Saleor", site_id=2)
+    item, _ = MenuItem.get_or_create(title="Saleor", position=2)
     page = Page.query.first()
     if page:
         MenuItem.get_or_create(title=page.title, page_id=page.id, parent_id=item.id)
@@ -494,7 +484,7 @@ def generate_menu_items(category: Category, menu_id=None, parent_id=None):
     menu_item, created = MenuItem.get_or_create(
         title=category.title,
         category_id=category.id,
-        site_id=menu_id,
+        position=menu_id,
         parent_id=parent_id,
     )
 

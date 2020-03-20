@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request, flash
 
-from flaskshop.public.models import MenuItem, Page, Site
+from flaskshop.public.models import MenuItem, Page
 from flaskshop.dashboard.models import DashboardMenu, Setting
 from flaskshop.product.models import Category, Collection
 from flaskshop.checkout.models import ShippingMethod
@@ -10,7 +10,6 @@ from flaskshop.dashboard.forms import (
     DashboardMenuForm,
     SiteMenuForm,
     SitePageForm,
-    SiteConfigForm,
     ShippingMethodForm,
     generate_settings_form,
 )
@@ -57,7 +56,7 @@ def site_menus():
         "id": "ID",
         "title": "Title",
         "order": "Order",
-        "site_id": "Site Id",
+        "position": "Position",
         "parent_id": "Parent Id",
     }
     context = {
@@ -190,17 +189,6 @@ def plugin_disable(id):
     plugin.save()
     flash("The plugin is disabled, Please restart flask-shop now!", "info")
     return redirect(url_for("dashboard.plugin_list"))
-
-
-def site_config():
-    site = Site.query.first()
-    form = SiteConfigForm(obj=site)
-    if form.validate_on_submit():
-        form.populate_obj(site)
-        site.save()
-        flash("The config has update", "success")
-        return redirect(url_for("dashboard.site_config"))
-    return render_template("site/site_config.html", form=form)
 
 
 def site_setting():

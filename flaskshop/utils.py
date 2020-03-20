@@ -7,7 +7,7 @@ from flask_sqlalchemy import get_debug_queries
 from flask import flash, request, current_app
 from urllib.parse import urlencode
 
-from flaskshop.public.models import Site, MenuItem
+from flaskshop.public.models import MenuItem
 from flaskshop.checkout.models import Cart
 from flaskshop.dashboard.models import Setting
 from flaskshop.plugin.utils import template_hook
@@ -56,13 +56,13 @@ def jinja_global_varibles(app):
     @app.context_processor
     def inject_menus():
         top_menu = (
-            MenuItem.query.filter(MenuItem.site_id == 1)
+            MenuItem.query.filter(MenuItem.position == 1)
             .filter(MenuItem.parent_id == 0)
             .order_by(MenuItem.order)
             .all()
         )
         bottom_menu = (
-            MenuItem.query.filter(MenuItem.site_id == 2)
+            MenuItem.query.filter(MenuItem.position == 2)
             .filter(MenuItem.parent_id == 0)
             .order_by(MenuItem.order)
             .all()

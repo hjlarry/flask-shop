@@ -10,31 +10,6 @@ MC_KEY_MENU_ITEM_CHILDREN = "public:menuitem:{}:children"
 MC_KEY_PAGE_ID = "public:page:{}"
 
 
-class Site(Model):
-    __tablename__ = "public_setting"
-    header_text = Column(db.String(255), nullable=False)
-    description = Column(db.Text())
-    top_menu_id = Column(db.Integer())
-    bottom_menu_id = Column(db.Integer())
-
-    @cache(MC_KEY_MENU_ITEMS.format("{self.id}", "{menu_id}"))
-    def get_menu_items(self, menu_id):
-        return (
-            MenuItem.query.filter(MenuItem.site_id == menu_id)
-            .filter(MenuItem.parent_id == 0)
-            .order_by(MenuItem.order)
-            .all()
-        )
-
-    @property
-    def top_menu_items(self):
-        return self.get_menu_items(self.top_menu_id)
-
-    @property
-    def bottom_menu_items(self):
-        return self.get_menu_items(self.bottom_menu_id)
-
-
 class MenuItem(Model):
     __tablename__ = "public_menuitem"
     title = Column(db.String(255), nullable=False)
@@ -42,7 +17,7 @@ class MenuItem(Model):
     url_ = Column("url", db.String(255))
     category_id = Column(db.Integer(), default=0)
     collection_id = Column(db.Integer(), default=0)
-    site_id = Column(db.Integer(), default=0)  # item在site中的位置
+    position = Column(db.Integer(), default=0)  # item在site中的位置, 1是top，2是bottom
     page_id = Column(db.Integer(), default=0)
     parent_id = Column(db.Integer(), default=0)
 

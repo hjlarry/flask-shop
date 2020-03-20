@@ -68,3 +68,6 @@ class Setting(Model):
 
             db.session.add(setting)
         db.session.commit()
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__} {self.key}>"

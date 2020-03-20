@@ -55,9 +55,7 @@ class SiteMenuForm(FlaskForm):
     order = IntegerField(default=0)
     url_ = StringField("Url")
     parent_id = SelectField("Parent")
-    site_id = RadioField(
-        "Position", choices=[(0, "none"), (1, "top"), (2, "bottom")], default=0
-    )
+    position = RadioField(choices=[(0, "none"), (1, "top"), (2, "bottom")], default=0)
     category_id = SelectField("Category")
     collection_id = SelectField("Collection")
     page_id = SelectField("Page")
