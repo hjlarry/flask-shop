@@ -24,6 +24,7 @@ from .site import (
     site_pages,
     site_pages_manage,
     site_config,
+    site_setting,
     plugin_list,
     plugin_enable,
     plugin_disable,
@@ -139,6 +140,7 @@ def flaskshop_load_blueprints(app):
         "/site_pages/<id>/edit", view_func=site_pages_manage, methods=["GET", "POST"]
     )
     bp.add_url_rule("/site_config", view_func=site_config, methods=["GET", "POST"])
+    bp.add_url_rule("/site_setting", view_func=site_setting, methods=["GET", "POST"])
     bp.add_url_rule("/plugin", view_func=plugin_list)
     bp.add_url_rule("/plugin/<id>/enable", view_func=plugin_enable, methods=["POST"])
     bp.add_url_rule("/plugin/<id>/disable", view_func=plugin_disable, methods=["POST"])

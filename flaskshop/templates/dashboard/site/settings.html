@@ -1,0 +1,38 @@
+{% import 'dashboard/_macros.html' as macros%}
+{% import 'dashboard/_vendor.html' as vendor%}
+{% extends 'dashboard/layout.html' %}
+{% block body %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Site Settings</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form method="POST">
+                        <div class="card-body">
+                            {{ form.hidden_tag() }}
+                            {% for field in form %}
+                            {% if field.type in ["StringField", "IntegerField"] %}
+                                {{ vendor.render_field(field) }}   
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

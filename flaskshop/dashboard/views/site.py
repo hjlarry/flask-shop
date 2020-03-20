@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, flash
 
 from flaskshop.public.models import MenuItem, Page, Site
-from flaskshop.dashboard.models import DashboardMenu
+from flaskshop.dashboard.models import DashboardMenu, Setting
 from flaskshop.product.models import Category, Collection
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.plugin.models import PluginRegistry
@@ -12,6 +12,7 @@ from flaskshop.dashboard.forms import (
     SitePageForm,
     SiteConfigForm,
     ShippingMethodForm,
+    generate_settings_form,
 )
 
 
@@ -200,6 +201,34 @@ def site_config():
         flash("The config has update", "success")
         return redirect(url_for("dashboard.site_config"))
     return render_template("site/site_config.html", form=form)
+
+
+def site_setting():
+    settings = Setting.query.all()
+    form = generate_settings_form(settings)()
+
+    old_settings = Setting.get_settings()
+    if request.method == "GET":
+        for key, value in old_settings.items():
+            try:
+                form[key].data = value
+            except (KeyError, ValueError):
+                pass
+
+    if form.validate_on_submit():
+        new_settings = {}
+        for key, value in old_settings.items():
+            try:
+                # check if the value has changed
+                if value == form[key].data:
+                    continue
+                else:
+                    new_settings[key] = form[key].data
+            except KeyError:
+                pass
+        Setting.update(settings=new_settings)
+        flash("Settings saved.", "success")
+    return render_template("site/settings.html", form=form,)
 
 
 def config_index():

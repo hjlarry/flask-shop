@@ -46,3 +46,25 @@ class Setting(Model):
     description = Column(db.Text, nullable=False)
     value_type = Column(db.Enum(SettingValueType), nullable=False)
     extra = Column(db.PickleType)
+
+    @classmethod
+    def get_settings(cls):
+        settings = {}
+        for s in cls.query.all():
+            settings[s.key] = s.value
+        return settings
+
+    @classmethod
+    def update(cls, settings):
+        """Updates the cache and stores the changes in the
+        database.
+        :param settings: A dictionary with setting items.
+        """
+        # update the database
+        for key, value in settings.items():
+            setting = cls.query.filter(Setting.key == key.lower()).first()
+
+            setting.value = value
+
+            db.session.add(setting)
+        db.session.commit()
