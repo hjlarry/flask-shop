@@ -36,7 +36,7 @@
     "jquery-sparkline": "^2.4.0",
     "jquery.cookie": "^1.4.1",
     "jqvmap": "^1.5.1",
-    "lazysizes": "^4.0.4",
+    "lazysizes": "^5.2.1",
     "materialize-css": "^0.100.2",
     "medium-editor": "^5.23.3",
     "mobx": "^5.0.3",
