@@ -1,9 +1,9 @@
-# flask shop
+# Flask Shop - An Amazing Project
 
 
 ## Introduction
-This project is a front page copy of [saleor](https://github.com/mirumee/saleor) old version, but write with flask. 
-It havn`t complete yet.
+This project is a front page copy of [saleor](https://github.com/mirumee/saleor) old version, but written with flask. 
+It hasn't completed yet.
 
 ## ScreenShot
 
