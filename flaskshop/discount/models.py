@@ -60,9 +60,9 @@ class Voucher(Model):
             return cls.generate_code()
 
     def check_available(self, cart=None):
-        if self.start_date and self.start_date > datetime.now():
+        if self.start_date and self.start_date > datetime.date(datetime.now()):
             raise Exception("The voucher code can not use now, please retry later")
-        if self.end_date and self.end_date < datetime.now():
+        if self.end_date and self.end_date < datetime.date(datetime.now()):
             raise Exception("The voucher code has expired")
         if self.usage_limit and self.usage_limit - self.used < 0:
             raise Exception("This voucher code has been used out")
@@ -72,17 +72,17 @@ class Voucher(Model):
         return True
 
     def check_available_by_cart(self, cart):
-        if self.type == VoucherTypeKinds.value.value:
+        if self.type_ == VoucherTypeKinds.value.value:
             if self.limit and cart.subtotal < self.limit:
                 raise Exception(
                     f"The order total amount is not enough({self.limit}) to use this voucher code"
                 )
-        elif self.type == VoucherTypeKinds.shipping.value:
+        elif self.type_ == VoucherTypeKinds.shipping.value:
             if self.limit and cart.shipping_method_price < self.limit:
                 raise Exception(
                     f"The order shipping price is not enough({self.limit}) to use this voucher code"
                 )
-        elif self.type == VoucherTypeKinds.product.value:
+        elif self.type_ == VoucherTypeKinds.product.value:
             product = Product.get_by_id(self.product_id)
             # got any product in cart, should be zero
             if cart.get_product_price(self.product_id) == 0:
@@ -91,7 +91,7 @@ class Voucher(Model):
                 raise Exception(
                     f"The product {product.title} total amount is not enough({self.limit}) to use this voucher code"
                 )
-        elif self.type == VoucherTypeKinds.category.value:
+        elif self.type_ == VoucherTypeKinds.category.value:
             category = Category.get_by_id(self.category_id)
             if cart.get_category_price(self.category_id) == 0:
                 raise Exception(
@@ -107,13 +107,13 @@ class Voucher(Model):
         return cls.query.filter_by(code=code).first()
 
     def get_vouchered_price(self, cart):
-        if self.type == VoucherTypeKinds.value.value:
+        if self.type_ == VoucherTypeKinds.value.value:
             return self.get_voucher_from_price(cart.subtotal)
-        elif self.type == VoucherTypeKinds.shipping.value:
+        elif self.type_ == VoucherTypeKinds.shipping.value:
             return self.get_voucher_from_price(cart.shipping_method_price)
-        elif self.type == VoucherTypeKinds.product.value:
+        elif self.type_ == VoucherTypeKinds.product.value:
             return self.get_voucher_from_price(cart.get_product_price(self.product_id))
-        elif self.type == VoucherTypeKinds.category.value:
+        elif self.type_ == VoucherTypeKinds.category.value:
             return self.get_voucher_from_price(
                 cart.get_category_price(self.category_id)
             )
