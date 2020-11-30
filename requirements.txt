@@ -11,7 +11,7 @@ chardet==3.0.4
 Click==7.0
 cryptography==2.8
 dominate==2.4.0
-elasticsearch==7.5.1
+elasticsearch==7.10.0
 elasticsearch-dsl==7.1.0
 Faker==4.0.0
 Flask==1.1.1
