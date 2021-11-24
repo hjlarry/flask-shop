@@ -5,7 +5,8 @@ from pathlib import Path
 
 
 class LocalConfig:
-    db_uri = "mysql+pymysql://root@127.0.0.1:3306/flaskshop?charset=utf8mb4"
+    #db_uri = "mysql+pymysql://root@127.0.0.1:3306/flaskshop?charset=utf8mb4"
+    db_uri ='postgresql://root:passwd@127.0.0.1:5432/flaskshop'
     redis_uri = "redis://localhost:6379"
     esearch_uri = "localhost"
 
