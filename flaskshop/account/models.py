@@ -15,7 +15,7 @@ class User(Model, UserMixin):
     username = Column(db.String(80), unique=True, nullable=False, comment="user`s name")
     email = Column(db.String(80), unique=True, nullable=False)
     #: The hashed password
-    _password = Column("password", db.String(128))
+    _password = db.Column(db.String, nullable=False)
     nick_name = Column(db.String(255))
     is_active = Column(db.Boolean(), default=False)
     open_id = Column(db.String(80), index=True)
@@ -33,7 +33,7 @@ class User(Model, UserMixin):
 
     @password.setter
     def password(self, value):
-        self._password = bcrypt.generate_password_hash(value)
+        self._password = bcrypt.generate_password_hash(value).decode('UTF-8')
 
     @property
     def avatar(self):
@@ -41,7 +41,7 @@ class User(Model, UserMixin):
 
     def check_password(self, value):
         """Check password."""
-        return bcrypt.check_password_hash(self.password, value)
+        return bcrypt.check_password_hash(self.password.encode('utf-8'), value)
 
     @property
     def addresses(self):
