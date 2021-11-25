@@ -3,7 +3,7 @@ import string
 from datetime import datetime
 from decimal import Decimal
 
-from sqlalchemy.dialects.mysql import TINYINT
+#from sqlalchemy.dialects.mysql import TINYINT
 
 from flaskshop.corelib.mc import cache, rdb
 from flaskshop.database import Column, Model, db
@@ -16,14 +16,14 @@ MC_KEY_SALE_PRODUCT_IDS = "discount:sale:{}:product_ids"
 
 class Voucher(Model):
     __tablename__ = "discount_voucher"
-    type_ = Column("type", TINYINT())
+    type_ = Column("type", db.Integer())
     title = Column(db.String(255))
     code = Column(db.String(16), unique=True)
     usage_limit = Column(db.Integer())
     used = Column(db.Integer(), default=0)
     start_date = Column(db.Date())
     end_date = Column(db.Date())
-    discount_value_type = Column(TINYINT())
+    discount_value_type = Column(db.Integer())
     discount_value = Column(db.DECIMAL(10, 2))
     limit = Column(db.DECIMAL(10, 2))
     category_id = Column(db.Integer())
@@ -129,7 +129,7 @@ class Voucher(Model):
 
 class Sale(Model):
     __tablename__ = "discount_sale"
-    discount_value_type = Column(TINYINT())
+    discount_value_type = Column(db.Integer())
     title = Column(db.String(255))
     discount_value = Column(db.DECIMAL(10, 2))
 
