@@ -9,7 +9,6 @@ from flaskshop.database import Column, Model, db
 from flaskshop.extensions import bcrypt
 from flaskshop.constant import Permission
 
-
 class User(Model, UserMixin):
     __tablename__ = "account_user"
     username = Column(db.String(80), unique=True, nullable=False, comment="user`s name")
