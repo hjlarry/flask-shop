@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import request, render_template
+from flask_babel import gettext
 
 from flaskshop.order.models import Order
 from flaskshop.constant import OrderStatusKinds
@@ -24,12 +25,12 @@ def orders():
         query = query.filter(Order.created_at.between(start_date, end_date))
     pagination = query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "identity": "Identity",
-        "status_human": "Status",
-        "total_human": "Total",
-        "user": "User",
-        "created_at": "Created At",
+        "id": gettext("ID"),
+        "identity": gettext("Identity"),
+        "status_human": gettext("Status"),
+        "total_human": gettext("Total"),
+        "user": gettext("User"),
+        "created_at": gettext("Created At"),
     }
     context = {
         "items": pagination.items,

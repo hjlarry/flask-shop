@@ -32,7 +32,7 @@
                                 {% for th in props.values() %}
                                 <th>{{th}}</th>
                                 {% endfor %}
-                                <th>Operation</th>
+                                <th>{% trans %}Operation{% endtrans %}</th>
                             </tr>
                             {% for item in items %}
                             <tr>
@@ -41,7 +41,7 @@
                                 {% endfor %}
                                 <td>
                                     <a href="{{url_for('dashboard.user', user_id=item.id)}}"
-                                        class="btn btn-info btn-sm">View</a>
+                                        class="btn btn-info btn-sm">{% trans %}View{% endtrans %}</a>
                                 </td>
                             </tr>
                             {% endfor %}

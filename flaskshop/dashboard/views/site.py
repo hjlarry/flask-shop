@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, request, flash
+from flask_babel import gettext
 
 from flaskshop.public.models import MenuItem, Page
 from flaskshop.dashboard.models import DashboardMenu, Setting
@@ -19,17 +20,17 @@ def shipping_methods():
     page = request.args.get("page", type=int, default=1)
     pagination = ShippingMethod.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "price_human": "Price",
-        "created_at": "Created At",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "price_human": gettext("Price"),
+        "created_at": gettext("Created At"),
     }
     context = {
-        "title": "Shipping Method",
+        "title": gettext("Shipping Method"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "shipping_methods",
+        "identity": gettext("shipping_methods"),
     }
     return render_template("list.html", **context)
 
@@ -53,18 +54,18 @@ def site_menus():
     page = request.args.get("page", type=int, default=1)
     pagination = MenuItem.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "order": "Order",
-        "position": "Position",
-        "parent_id": "Parent Id",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "order": gettext("Order"),
+        "position": gettext("Position"),
+        "parent_id": gettext("Parent Id"),
     }
     context = {
-        "title": "Site Menus",
+        "title": gettext("Site Menus"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "site_menus",
+        "identity": gettext("site_menus"),
     }
     return render_template("list.html", **context)
 
@@ -101,19 +102,19 @@ def dashboard_menus():
     page = request.args.get("page", type=int, default=1)
     pagination = DashboardMenu.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "order": "Order",
-        "endpoint": "Endpoint",
-        "icon_cls": "Icon class",
-        "parent_id": "Parent Id",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "order": gettext("Order"),
+        "endpoint": gettext("Endpoint"),
+        "icon_cls": gettext("Icon class"),
+        "parent_id": gettext("Parent Id"),
     }
     context = {
-        "title": "Dashboard Menus",
+        "title": gettext("Dashboard Menus"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "dashboard_menus",
+        "identity": gettext("dashboard_menus"),
     }
     return render_template("list.html", **context)
 
@@ -139,18 +140,18 @@ def site_pages():
     page = request.args.get("page", type=int, default=1)
     pagination = Page.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "slug": "Slug",
-        "url": "Url",
-        "is_visible": "Is Visiable",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "slug": gettext("Slug"),
+        "url": gettext("Url"),
+        "is_visible": gettext("Is Visiable"),
     }
     context = {
-        "title": "Site Pages",
+        "title": gettext("Site Pages"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "site_pages",
+        "identity": gettext("site_pages"),
     }
     return render_template("list.html", **context)
 
@@ -179,7 +180,7 @@ def plugin_enable(id):
     plugin = PluginRegistry.get_by_id(id)
     plugin.enabled = True
     plugin.save()
-    flash("The plugin is enabled, Please restart flask-shop now!", "success")
+    flash(gettext("The plugin is enabled, Please restart flask-shop now!", "success"))
     return redirect(url_for("dashboard.plugin_list"))
 
 
@@ -187,7 +188,7 @@ def plugin_disable(id):
     plugin = PluginRegistry.get_by_id(id)
     plugin.enabled = False
     plugin.save()
-    flash("The plugin is disabled, Please restart flask-shop now!", "info")
+    flash(gettext("The plugin is disabled, Please restart flask-shop now!", "info"))
     return redirect(url_for("dashboard.plugin_list"))
 
 
@@ -215,7 +216,7 @@ def site_setting():
             except KeyError:
                 pass
         Setting.update(settings=new_settings)
-        flash("Settings saved.", "success")
+        flash(gettext("Settings saved."), "success")
     return render_template("site/settings.html", form=form,)
 
 

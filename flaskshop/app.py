@@ -3,6 +3,7 @@
 import sys
 
 from flask import Flask, render_template
+from flask_babel import Babel
 from werkzeug.wsgi import DispatcherMiddleware
 
 from flaskshop import commands
@@ -30,6 +31,7 @@ from .dashboard import views as dashboard_view
 from .api import api as api_view
 from .dashboard_api.api_app import dashboard_api
 
+babel = Babel()
 
 def create_app(config_object=Config):
     app = Flask(__name__.split(".")[0])
@@ -43,11 +45,8 @@ def create_app(config_object=Config):
     register_commands(app)
     jinja_global_varibles(app)
     log_slow_queries(app)
-
     app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {"/dashboard_api": dashboard_api})
-
     return app
-
 
 def register_extensions(app):
     bcrypt.init_app(app)
@@ -57,6 +56,7 @@ def register_extensions(app):
     debug_toolbar.init_app(app)
     migrate.init_app(app, db)
     bootstrap.init_app(app)
+    babel.init_app(app)
 
 
 def register_blueprints(app):

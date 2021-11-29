@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, request
 from sqlalchemy import or_
+from flask_babel import gettext
 
 from flaskshop.account.models import User, UserAddress
 from flaskshop.order.models import Order
@@ -19,13 +20,13 @@ def users():
         )
     pagination = query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "username": "Username",
-        "email": "Email",
-        "is_active_human": "Is Active",
+        "id": gettext("ID"),
+        "username": gettext("Username"),
+        "email": gettext("Email"),
+        "is_active_human": gettext("Is Active"),
     }
     context = {
-        "title": "User List",
+        "title": gettext("User List"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,

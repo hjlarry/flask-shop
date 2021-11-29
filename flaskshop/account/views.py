@@ -3,6 +3,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user, login_user, logout_user
 from pluggy import HookimplMarker
+from flask_babel import gettext
 
 from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm
 from .models import UserAddress, User
@@ -24,7 +25,7 @@ def login():
     if form.validate_on_submit():
         login_user(form.user)
         redirect_url = request.args.get("next") or url_for("public.home")
-        flash("You are log in.", "success")
+        flash(gettext("You are log in."), "success")
         return redirect(redirect_url)
     else:
         flash_errors(form)
@@ -35,7 +36,7 @@ def login():
 def logout():
     """Logout."""
     logout_user()
-    flash("You are logged out.", "info")
+    flash(gettext("You are logged out."), "info")
     return redirect(url_for("public.home"))
 
 
@@ -50,7 +51,7 @@ def signup():
             is_active=True,
         )
         login_user(user)
-        flash("You are signed up.", "success")
+        flash(gettext("You are signed up."), "success")
         return redirect(url_for("public.home"))
     else:
         flash_errors(form)
@@ -61,7 +62,7 @@ def set_password():
     form = ChangePasswordForm(request.form)
     if form.validate_on_submit():
         current_user.update(password=form.password.data)
-        flash("You have changed password.", "success")
+        flash(gettext("You have changed password."), "success")
     else:
         flash_errors(form)
     return redirect(url_for("account.index"))
@@ -88,13 +89,14 @@ def edit_address():
             "address": form.address.data,
             "contact_name": form.contact_name.data,
             "contact_phone": form.contact_phone.data,
+            "user_id": current_user.id
         }
         if address_id:
             UserAddress.update(user_address, **address_data)
-            flash("Success edit address.", "success")
+            flash(gettext("Success edit address."), "success")
         else:
             UserAddress.create(**address_data)
-            flash("Success add address.", "success")
+            flash(gettext("Success add address."), "success")
         return redirect(url_for("account.index") + "#addresses")
     else:
         flash_errors(form)

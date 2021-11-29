@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+from flask_babel import gettext
 
 from flask import (
     Blueprint,
@@ -30,14 +31,14 @@ def index():
 def show(token):
     order = Order.query.filter_by(token=token).first()
     if not order.is_self_order:
-        abort(403, "This is not your order!")
+        abort(403, gettext("This is not your order!"))
     return render_template("orders/details.html", order=order)
 
 
 def create_payment(token, payment_method):
     order = Order.query.filter_by(token=token).first()
     if order.status != OrderStatusKinds.unfulfilled.value:
-        abort(403, "This Order Can Not Pay")
+        abort(403, gettext("This Order Can Not Pay"))
     payment_no = str(int(time.time())) + str(current_user.id)
     customer_ip_address = request.headers.get("X-Forwarded-For", request.remote_addr)
     payment = OrderPayment.query.filter_by(order_id=order.id).first()

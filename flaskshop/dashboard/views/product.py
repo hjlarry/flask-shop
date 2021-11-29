@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import request, render_template, redirect, url_for, current_app
+from flask_babel import gettext
 from flaskshop.product.models import (
     ProductAttribute,
     ProductType,
@@ -25,17 +26,17 @@ def attributes():
     page = request.args.get("page", type=int, default=1)
     pagination = ProductAttribute.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "values_label": "Value",
-        "types_label": "ProductType",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "values_label": gettext("Value"),
+        "types_label": gettext("ProductType"),
     }
     context = {
-        "title": "Product Attribute",
+        "title": gettext("Product Attribute"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "attributes",
+        "identity": gettext("attributes"),
     }
     return render_template("list.html", **context)
 
@@ -63,13 +64,13 @@ def attributes_manage(id=None):
 def collections():
     page = request.args.get("page", type=int, default=1)
     pagination = Collection.query.paginate(page, 10)
-    props = {"id": "ID", "title": "Title", "created_at": "Created At"}
+    props = {"id": gettext("ID"), "title": gettext("Title"), "created_at": gettext("Created At")}
     context = {
-        "title": "Product Collection",
+        "title": gettext("Product Collection"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "collections",
+        "identity": gettext("collections"),
     }
     return render_template("list.html", **context)
 
@@ -103,17 +104,17 @@ def categories():
     page = request.args.get("page", type=int, default=1)
     pagination = Category.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "parent": "Parent",
-        "created_at": "Created At",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "parent": gettext("Parent"),
+        "created_at": gettext("Created At"),
     }
     context = {
-        "title": "Product Category",
+        "title": gettext("Product Category"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "categories",
+        "identity": gettext("categories"),
     }
     return render_template("list.html", **context)
 
@@ -147,18 +148,18 @@ def product_types():
     page = request.args.get("page", type=int, default=1)
     pagination = ProductType.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "has_variants": "Has Variants",
-        "is_shipping_required": "Is Shipping Required",
-        "created_at": "Created At",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "has_variants": gettext("Has Variants"),
+        "is_shipping_required": gettext("Is Shipping Required"),
+        "created_at": gettext("Created At"),
     }
     context = {
-        "title": "Product Type",
+        "title": gettext("Product Type"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "product_types",
+        "identity": gettext("product_types"),
     }
     return render_template("list.html", **context)
 
@@ -207,12 +208,12 @@ def products():
 
     pagination = query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "on_sale_human": "On Sale",
-        "sold_count": "Sold Count",
-        "price_human": "Price",
-        "category": "Category",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "on_sale_human": gettext("On Sale"),
+        "sold_count": gettext("Sold Count"),
+        "price_human": gettext("Price"),
+        "category": gettext("Category"),
     }
     context = {
         "items": pagination.items,

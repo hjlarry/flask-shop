@@ -3,6 +3,7 @@ from flask import Blueprint, render_template
 from flask_login import login_required
 from pluggy import HookimplMarker
 from sqlalchemy import func
+from flask_babel import gettext
 
 from flaskshop.extensions import db
 from flaskshop.dashboard.models import DashboardMenu
