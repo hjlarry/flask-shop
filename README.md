@@ -103,6 +103,7 @@ pybabel compile -d translations
 pybabel extract -F babel.cfg -o messages.pot .
 pybabel update -i messages.pot -d translations -l en_US
 ```
+
 ## Settings
 If you want change default settings create file .flaskenv with content:
 ```

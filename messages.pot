@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-11-29 18:48+0200\n"
+"POT-Creation-Date: 2021-11-29 21:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -889,6 +889,13 @@ msgstr ""
 msgid "Operation"
 msgstr ""
 
+#: flaskshop/templates/dashboard/order/list.html:53
+#: flaskshop/templates/dashboard/product/list.html:67
+#: flaskshop/templates/dashboard/user/detail.html:92
+#: flaskshop/templates/dashboard/user/list.html:44
+msgid "View"
+msgstr ""
+
 #: flaskshop/templates/dashboard/product/detail.html:47
 msgid "Rating"
 msgstr ""
@@ -927,12 +934,6 @@ msgstr ""
 
 #: flaskshop/templates/dashboard/product/list.html:41
 msgid "Query"
-msgstr ""
-
-#: flaskshop/templates/dashboard/product/list.html:67
-#: flaskshop/templates/dashboard/user/detail.html:92
-#: flaskshop/templates/dashboard/user/list.html:44
-msgid "View"
 msgstr ""
 
 #: flaskshop/templates/dashboard/product/product_create_step1.html:14

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-11-29 18:48+0200\n"
-"PO-Revision-Date: 2021-11-29 21:05+0200\n"
+"POT-Creation-Date: 2021-11-29 21:16+0200\n"
+"PO-Revision-Date: 2021-11-29 21:20+0200\n"
 "Last-Translator: \n"
 "Language: bg_BG\n"
 "Language-Team: bg_BG <LL@li.org>\n"
@@ -883,7 +883,7 @@ msgstr "Изпрати поръчка"
 
 #: flaskshop/templates/dashboard/order/detail.html:126
 msgid "Draft Order"
-msgstr "Чернова на поръчка"
+msgstr "Платена"
 
 #: flaskshop/templates/dashboard/order/list.html:10
 msgid "Order List"
@@ -898,6 +898,13 @@ msgstr "Списък с поръчки"
 #: flaskshop/templates/dashboard/user/list.html:35
 msgid "Operation"
 msgstr "Операция"
+
+#: flaskshop/templates/dashboard/order/list.html:53
+#: flaskshop/templates/dashboard/product/list.html:67
+#: flaskshop/templates/dashboard/user/detail.html:92
+#: flaskshop/templates/dashboard/user/list.html:44
+msgid "View"
+msgstr "Покажи"
 
 #: flaskshop/templates/dashboard/product/detail.html:47
 #, fuzzy
@@ -942,12 +949,6 @@ msgstr "Не"
 #: flaskshop/templates/dashboard/product/list.html:41
 msgid "Query"
 msgstr "Заявка"
-
-#: flaskshop/templates/dashboard/product/list.html:67
-#: flaskshop/templates/dashboard/user/detail.html:92
-#: flaskshop/templates/dashboard/user/list.html:44
-msgid "View"
-msgstr "Покажи"
 
 #: flaskshop/templates/dashboard/product/product_create_step1.html:14
 msgid "Create Product Step First"
