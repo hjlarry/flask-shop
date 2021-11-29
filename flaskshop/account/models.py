@@ -9,7 +9,6 @@ from flaskshop.database import Column, Model, db
 from flaskshop.extensions import bcrypt
 from flaskshop.constant import Permission
 
-
 class User(Model, UserMixin):
     __tablename__ = "account_user"
     username = Column(db.String(80), unique=True, nullable=False, comment="user`s name")
@@ -45,7 +44,7 @@ class User(Model, UserMixin):
 
     @property
     def addresses(self):
-        return UserAddress.query.filter_by(user_id=self.id)
+        return UserAddress.query.filter_by(user_id=self.id).all()
 
     @property
     def is_active_human(self):
