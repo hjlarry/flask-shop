@@ -10,7 +10,7 @@
       <a href="/">
         <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px" width="176px"></svg>
       </a>
-      <h1>Style guide</h1>
+      <h1>{% trans %}Style guide{% endtrans %}</h1>
     </div>
   </header>
 {% endblock %}
@@ -20,63 +20,64 @@
     <div class="row">
       <div class="col-md-3 push-md-9">
         <nav class="styleguide__nav">
-          <a href="#typography">Typography</a>
-          <a href="#colors">Colors</a>
-          <a href="#grid">Grid</a>
-          <a href="#responsive">Responsive breakpoints</a>
-          <a href="#helpers">Helper classes</a>
-          <a href="#icons">Icons</a>
-          <a href="#s">Buttons</a>
-          <a href="#forms">Forms</a>
-          <a href="#pagination">Pagination</a>
-          <a href="#breadcrumbs">Breadcrumbs</a>
-          <a href="#notifications">Notifications</a>
-          <a href="#mainnav">Main navigation</a>
-          <a href="#tabs">Tabs</a>
-          <a href="#tables">Tables</a>
-          <a href="#cards">Cards</a>
-          <a href="#product">Product items</a>
-          <a href="#product-gallery">Product gallery</a>
+          <a href="#typography">{% trans %}Typography{% endtrans %}</a>
+          <a href="#colors">{% trans %}Colors{% endtrans %}</a>
+          <a href="#grid">{% trans %}Grid{% endtrans %}</a>
+          <a href="#responsive">{% trans %}Responsive breakpoints{% endtrans %}</a>
+          <a href="#helpers">{% trans %}Helper classes{% endtrans %}</a>
+          <a href="#icons">{% trans %}Icons{% endtrans %}</a>
+          <a href="#s">{% trans %}Buttons{% endtrans %}</a>
+          <a href="#forms">{% trans %}Forms{% endtrans %}</a>
+          <a href="#pagination">{% trans %}Pagination{% endtrans %}</a>
+          <a href="#breadcrumbs">{% trans %}Breadcrumbs{% endtrans %}</a>
+          <a href="#notifications">{% trans %}Notifications{% endtrans %}</a>
+          <a href="#mainnav">{% trans %}Main navigation{% endtrans %}</a>
+          <a href="#tabs">{% trans %}Tabs{% endtrans %}</a>
+          <a href="#tables">{% trans %}Tables{% endtrans %}</a>
+          <a href="#cards">{% trans %}Cards{% endtrans %}</a>
+          <a href="#product">{% trans %}Product items{% endtrans %}</a>
+          <a href="#product-gallery">{% trans %}Product gallery{% endtrans %}</a>
         </nav>
       </div>
       <div class="col-md-9 pull-md-3 styleguide__content">
         <div id="typography" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Typography</h3>
+            <h3 class="styleguide__content__block__title">{% trans %}Typography{% endtrans %}</h3>
             <p>
-              We use Lato fontface in Regular(400), <span class="styleguide__content__block__light">Light(300)</span>
-              and <span class="styleguide__content__block__bold">Bold(700)</span> weights.<br>
-              Lato includes only latin and latin extended characters. For other alphabets the default sans serif font
-              will be used.
+              {% trans %}We use Lato fontface in Regular(400),{% endtrans %} <span class="styleguide__content__block__light">Light(300)</span>
+              {% trans %}and{% endtrans %} <span class="styleguide__content__block__bold">{% trans %}Bold(700){% endtrans %}</span> {% trans %}weights{% endtrans %}.<br>
+              {% trans %}Lato includes only latin and latin extended characters. For other alphabets the default sans serif font
+              will be used.{% endtrans %}
             </p>
-            <p>Click and edit any text below to see how the component looks with different text</p>
-            <p><strong>Headers</strong></p>
+            <p>{% trans %}Click and edit any text below to see how the component looks with different text{% endtrans %}</p>
+            <p><strong>{% trans %}Headers{% endtrans %}</strong></p>
           </div>
-          <div class="styleguide__section">
-            <h1 contenteditable="true">H1 example text</h1>
-            <h2 contenteditable="true">H2 example text</h2>
-            <h3 contenteditable="true">H3 example text (always uppercased)</h3>
+          <div class="styleguide__section">get settings wariable
+
+            <h1 contenteditable="true">{% trans %}H1 example text{% endtrans %}</h1>
+            <h2 contenteditable="true">{% trans %}H2 example text{% endtrans %}</h2>
+            <h3 contenteditable="true">{% trans %}H3 example text (always uppercased){% endtrans %}</h3>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Paragraph</strong></p>
+            <p><strong>{% trans %}Paragraph{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
-            <p contenteditable="true">Saleor is open and free to use. It is not a bait to force you to pay us later and
+            <p contenteditable="true">{% trans %}Saleor is open and free to use. It is not a bait to force you to pay us later and
               we promise to do our bests to fix bugs and improve the code. Some situations however call for a custom
               solution and extra code to be written. Whether you need us to cover an exotic use case or build you a
-              custom e-commerce appliance, our team can help.</p>
+              custom e-commerce appliance, our team can help.{% endtrans %}</p>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Links</strong></p>
+            <p><strong>{% trans %}Links{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
-            <a href="#" contenteditable="true">Link example text</a>
-            <a href="#" class="link--styled" contenteditable="true">Styled link example text</a>
+            <a href="#" contenteditable="true">{% trans %}Link example text{% endtrans %}</a>
+            <a href="#" class="link--styled" contenteditable="true">{% trans %}Styled link example text{% endtrans %}</a>
           </div>
         </div>
         <div id="colors" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Colors</h3>
+            <h3 class="styleguide__content__block__title">{% trans %}Colors{% endtrans %}</h3>
           </div>
           <div class="styleguide__section">
             <div class="row">
@@ -150,8 +151,8 @@
         <div id="grid" class="styleguide__content__block">
           <div class="styleguide__tittle">
             <h3 class="styleguide__content__block__title">Grid</h3>
-            <p>We use <a target="_blank" href="https://v4-alpha.getbootstrap.com/getting-started/introduction/">Bootstrap
-              4</a> responsive grid which is based on a 12 column layout. In most cases we use following combinations:
+            <p>{% trans %}We use{% endtrans %} <a target="_blank" href="https://v4-alpha.getbootstrap.com/getting-started/introduction/">Bootstrap
+              4</a> {% trans %}responsive grid which is based on a 12 column layout. In most cases we use following combinations{% endtrans %}:
             </p>
           </div>
           <div class="styleguide__section">
@@ -194,7 +195,7 @@
         </div>
         <div id="responsive" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Responsive breakpoints</h3>
+            <h3 class="styleguide__content__block__title">{% trans %}Responsive breakpoints{% endtrans %}</h3>
           </div>
           <div class="styleguide__section">
             <div class="table__header">
@@ -202,20 +203,20 @@
                 <div class="col-4">
                 </div>
                 <div class="col-4">
-                  <small>Max container width</small>
+                  <small>{% trans %}Max container width{% endtrans %}</small>
                 </div>
                 <div class="col-4">
-                  <small>Class prefix</small>
+                  <small>{% trans %}Class prefix{% endtrans %}</small>
                 </div>
               </div>
             </div>
             <div class="table__row">
               <div class="row">
                 <div class="col-4">
-                  Extra small<br><576px
+                  {% trans %}Extra small{% endtrans %}<br><576px
                 </div>
                 <div class="col-4">
-                  None (auto)
+                  {% trans %}None (auto){% endtrans %}
                 </div>
                 <div class="col-4">
                   .col-
@@ -225,7 +226,7 @@
             <div class="table__row">
               <div class="row">
                 <div class="col-4">
-                  Small<br>≥576px
+                  {% trans %}Small{% endtrans %}<br>≥576px
                 </div>
                 <div class="col-4">
                   540px
@@ -238,7 +239,7 @@
             <div class="table__row">
               <div class="row">
                 <div class="col-4">
-                  Medium<br>≥768px
+                  {% trans %}Medium{% endtrans %}<br>≥768px
                 </div>
                 <div class="col-4">
                   720px
@@ -251,7 +252,7 @@
             <div class="table__row">
               <div class="row">
                 <div class="col-4">
-                  Large<br>≥992px
+                  {% trans %}Large{% endtrans %}<br>≥992px
                 </div>
                 <div class="col-4">
                   960px
@@ -264,7 +265,7 @@
             <div class="table__row">
               <div class="row">
                 <div class="col-4">
-                  Extra large<br>≥1200px
+                  {% trans %}Extra large{% endtrans %}<br>≥1200px
                 </div>
                 <div class="col-4">
                   1140px
@@ -279,58 +280,58 @@
         <div id="helpers" class="styleguide__content__block">
           <div class="styleguide__tittle">
             <h3 class="styleguide__content__block__title">Helper classes</h3>
-            <p>Storefront templates built with <a target="_blank"
+            <p>{% trans %}Storefront templates built with{% endtrans %} <a target="_blank"
                                                   href="https://v4-alpha.getbootstrap.com/getting-started/introduction/">Bootstrap
-              4</a> framework wich has handful utility classes:</p>
-            <p><strong>Responsive floats</strong></p>
+              4</a> {% trans %}framework wich has handful utility classes{% endtrans %}:</p>
+            <p><strong>{% trans %}Responsive floats{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
             <div>
               <p class="float-left">
-                <code>&lt;div class="float-left"&gt;</code>Float left on all viewport sizes<code>&lt;/div&gt;</code>
+                <code>&lt;div class="float-left"&gt;</code>{% trans %}Float left on all viewport sizes{% endtrans %}<code>&lt;/div&gt;</code>
               </p>
             </div>
             <br>
             <div>
               <p class="float-right">
-                <code>&lt;div class="float-right"&gt;</code>Float right on all viewport sizes<code>&lt;/div&gt;</code>
+                <code>&lt;div class="float-right"&gt;</code>{% trans %}Float right on all viewport sizes{% endtrans %}<code>&lt;/div&gt;</code>
               </p>
             </div>
             <br>
             <div>
               <p class="float-none">
-                <code>&lt;div class="float-none"&gt;</code>Don't float on all viewport sizes<code>&lt;/div&gt;</code>
+                <code>&lt;div class="float-none"&gt;</code>{% trans %}Don't float on all viewport sizes{% endtrans %}<code>&lt;/div&gt;</code>
               </p>
             </div>
             <br>
             <div>
               <p class="float-sm-left">
-                <code>&lt;div class="float-sm-left"&gt;</code>Float left on viewports sized SM (small) or wider<code>&lt;/div&gt;</code>
+                <code>&lt;div class="float-sm-left"&gt;</code>{% trans %}Float left on viewports sized SM (small) or wider{% endtrans %}<code>&lt;/div&gt;</code>
               </p>
             </div>
             <br>
             <div>
               <p class="float-md-right">
-                <code>&lt;div class="float-md-right"&gt;</code>Float right on viewports sized MD (medium) or wider<code>&lt;/div&gt;</code>
+                <code>&lt;div class="float-md-right"&gt;</code>{% trans %}Float right on viewports sized MD (medium) or wider{% endtrans %}<code>&lt;/div&gt;</code>
               </p>
             </div>
             <br>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Responsive utilities</strong></p>
+            <p><strong>{% trans %}Responsive utilities{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
-            <p>The <code>.hidden-*-up</code> classes hide the element when the viewport is at the given breakpoint or
+            <p>{% trans %}The <code>.hidden-*-up</code> classes hide the element when the viewport is at the given breakpoint or
               wider. For example, <code>.hidden-md-up</code> hides an element on medium, large, and extra-large
-              viewports.</p>
-            <p>The <code>.hidden-*-down</code> classes hide the element when the viewport is at the given breakpoint or
+              viewports.{% endtrans %}</p>
+            <p>{% trans %}The <code>.hidden-*-down</code> classes hide the element when the viewport is at the given breakpoint or
               smaller. For example, <code>.hidden-md-down</code> hides an element on extra-small, small, and medium
-              viewports.</p>
+              viewports.{% endtrans %}</p>
           </div>
         </div>
         <div id="icons" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Icons</h3>
+            <h3 class="styleguide__content__block__title">{% trans %}Icons{% endtrans %}</h3>
           </div>
           <div class="styleguide__section">
             <svg data-src="{{ url_for('static', filename='img/cart.svg') }}"></svg>
@@ -347,32 +348,32 @@
         <div id="buttons" class="styleguide__content__block">
           <div class="styleguide__tittle">
             <h3 class="styleguide__content__block__title">Buttons</h3>
-            <p>Click and edit any button below to see how the component looks with different text</p>
+            <p>{% trans %}Click and edit any button below to see how the component looks with different text{% endtrans %}</p>
           </div>
           <div class="styleguide__section">
             <button class="btn primary">
-              <span contenteditable="true">Primary Button (buttons can be really very wide)</span>
+              <span contenteditable="true">{% trans %}Primary Button (buttons can be really very wide){% endtrans %}</span>
             </button>
             <button class="btn secondary">
-              <span contenteditable="true">Secondary Button</span>
+              <span contenteditable="true">{% trans %}Secondary Button{% endtrans %}</span>
             </button>
             <button class="btn danger">
-              <span contenteditable="true">Danger Button</span>
+              <span contenteditable="true">{% trans %}Danger Button{% endtrans %}</span>
             </button>
             <button class="btn primary disabled">
-              <span contenteditable="true">Disabled Button</span>
+              <span contenteditable="true">{% trans %}Disabled Button{% endtrans %}</span>
             </button>
             <button class="btn gray">
-              <span contenteditable="true">Gray Button</span>
+              <span contenteditable="true">{% trans %}Gray Button{% endtrans %}</span>
             </button>
             <button class="btn primary narrow">
-              <span contenteditable="true">Primary Narrow Button</span>
+              <span contenteditable="true">{% trans %}Primary Narrow Button{% endtrans %}</span>
             </button>
             <button class="btn secondary narrow">
-              <span contenteditable="true">Secondary Narrow Button</span>
+              <span contenteditable="true">{% trans %}Secondary Narrow Button{% endtrans %}</span>
             </button>
             <button class="btn danger narrow">
-              <span contenteditable="true">Danger Narrow Button</span>
+              <span contenteditable="true">{% trans %}Danger Narrow Button{% endtrans %}</span>
             </button>
             <div class="home__block1">
               <div class="home--square">
@@ -380,7 +381,7 @@
                   <div class="home--content-wrapper">
                     <div class="home--content-inner">
                       <a class="btn btn-secondary home__button" href="#" onclick="return false;">
-                        <span contenteditable="true">Home page button</span>
+                        <span contenteditable="true">{% trans %}Home page button{% endtrans %}</span>
                       </a>
                     </div>
                   </div>
@@ -391,21 +392,21 @@
         </div>
         <div id="forms" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Forms</h3>
-            <p><strong>Text form</strong></p>
+            <h3 class="styleguide__content__block__title">{% trans %}Forms{% endtrans %}</h3>
+            <p><strong>{% trans %}Text form{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
             <div class="row">
               <div class="col-12 col-md-6">
                 <div class="form-group">
-                  <label class="control-label" contenteditable="true">Given name</label>
+                  <label class="control-label" contenteditable="true">{% trans %}Given name{% endtrans %}</label>
                   <input autocomplete="given-name" class="form-control" maxlength="256" name="first_name" title=""
                          type="text">
                 </div>
               </div>
               <div class="col-12 col-md-6">
                 <div class="form-group">
-                  <label class="control-label" contenteditable="true">Family name</label>
+                  <label class="control-label" contenteditable="true">{% trans %}Family name{% endtrans %}</label>
                   <input autocomplete="family-name" class="form-control" id="id_last_name" maxlength="256"
                          name="last_name" title="" type="text">
                 </div>
@@ -413,26 +414,26 @@
             </div>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Filters</strong></p>
+            <p><strong>{% trans %}Filters{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
             <div class="row">
               <div class="col-lg-4 col-md-6 m-auto">
                 <div class="styleguide__section">
                   <div class="product-filters">
-                    <h3 contenteditable="true">Box Size
+                    <h3 contenteditable="true">{% trans %}Box Size{% endtrans %}
                       <div class="collapse-filters-icon">
                         <svg data-src="{{ url_for('static', filename='img/chevron-up.svg') }}"></svg>
                       </div>
                     </h3>
                     <ul id="box-size">
                       <li class="item"><label><input type="checkbox" name="box-size"><span
-                        contenteditable="true">100g</span></label></li>
+                        contenteditable="true">{% trans %}100g{% endtrans %}</span></label></li>
                       <li class="item"><label><input type="checkbox" name="box-size"><span
-                        contenteditable="true">250g</span></label></li>
+                        contenteditable="true">{% trans %}250g{% endtrans %}</span></label></li>
                       <li class="item"><label><input type="checkbox" name="box-size"><span
-                        contenteditable="true">500g</span></label></li>
-                      <li class="item"><label><input type="checkbox" name="box-size"><span contenteditable="true">Feel free to place here as long option as you want</span></label>
+                        contenteditable="true">{% trans %}500g{% endtrans %}</span></label></li>
+                      <li class="item"><label><input type="checkbox" name="box-size"><span contenteditable="true">{% trans %}Feel free to place here as long option as you want{% endtrans %}</span></label>
                       </li>
                     </ul>
                   </div>
@@ -441,24 +442,24 @@
             </div>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Select</strong></p>
+            <p><strong>{% trans %}Select{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
             <div class="row">
               <div class="col-12">
                 <div class="deliveryform">
                   <select>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option>Option 3</option>
-                    <option>Option 4</option>
+                    <option>{% trans %}Option{% endtrans %} 1</option>
+                    <option>{% trans %}Option{% endtrans %} 2</option>
+                    <option>{% trans %}Option{% endtrans %} 3</option>
+                    <option>{% trans %}Option{% endtrans %} 4</option>
                   </select>
                 </div>
               </div>
             </div>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Number input</strong></p>
+            <p><strong>{% trans %}Number input{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
             <div class="row">
@@ -472,7 +473,7 @@
             </div>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Radio buttons</strong></p>
+            <p><strong>{% trans %}Radio buttons{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
             <div class="row">
@@ -480,20 +481,20 @@
                 <div class="radio">
                   <label>
                     <input type="radio" name="styleguide-radio">
-                    <span contenteditable="true">First option</span>
+                    <span contenteditable="true">{% trans %}First option{% endtrans %}</span>
                   </label>
                 </div>
                 <div class="radio">
                   <label>
                     <input type="radio" name="styleguide-radio">
-                    <span contenteditable="true">Feel free to place here as long text as you want</span>
+                    <span contenteditable="true">{% trans %}Feel free to place here as long text as you want{% endtrans %}</span>
                   </label>
                 </div>
               </div>
             </div>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Input groups</strong></p>
+            <p><strong>{% trans %}Input groups{% endtrans %}</strong></p>
           </div>
           <div class="styleguide__section">
             <div class="row">
@@ -512,29 +513,29 @@
                     <input class="form-control" id="id_discount-voucher" name="discount-voucher" title="" type="text"
                            required="">
                   </div>
-                  <button class="btn secondary narrow" type="submit">Use</button>
+                  <button class="btn secondary narrow" type="submit">{% trans %}Use{% endtrans %}</button>
                 </form>
               </div>
             </div>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Variant picker</strong></p>
+            <p><strong>{% trans %}Variant picker{% endtrans %}</strong></p>
           </div>
           <div class="variant-picker styleguide__section">
             <div class="btn-group" data-toggle="buttons">
               <label class="btn btn-secondary variant-picker__option"><input type="radio" name="4"><span
-                contenteditable="true">100g</span></label>
+                contenteditable="true">{% trans %}100g{% endtrans %}</span></label>
               <label class="btn btn-secondary variant-picker__option" aria-pressed="true"><input type="radio"
                                                                                                  name="5"><span
-                contenteditable="true">250g</span></label>
+                contenteditable="true">{% trans %}250g{% endtrans %}</span></label>
               <label class="btn btn-secondary variant-picker__option active" aria-pressed="true"><input type="radio"
                                                                                                         name="6"><span
-                contenteditable="true">Feel free to place here as long text as you want</span></label>
+                contenteditable="true">{% trans %}Feel free to place here as long text as you want{% endtrans %}</span></label>
             </div>
           </div>
           <div class="styleguide__sub-tittle">
-            <p><strong>Errors</strong></p>
-            <p>Errors are always displayed as a small red text below the form explaining what cause the error.</p>
+            <p><strong>{% trans %}Errors{% endtrans %}</strong></p>
+            <p>{% trans %}Errors are always displayed as a small red text below the form explaining what cause the error.{% endtrans %}</p>
           </div>
           <div class="styleguide__section">
             <div class="row">
@@ -544,39 +545,39 @@
                   <input autocomplete="given-name" class="form-control" id="id_first_name" maxlength="256"
                          name="first_name" title="" type="text">
                   <span class="help-block">
-                  <div class="help-block" contenteditable="true">This field is required</div>
+                  <div class="help-block" contenteditable="true">{% trans %}This field is required{% endtrans %}</div>
                 </span>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-8 col-md-6">
-                <p contenteditable="true">Radio form</p>
+                <p contenteditable="true">{% trans %}Radio form{% endtrans %}</p>
                 <div class="radio">
                   <label>
                     <input type="radio" name="styleguide-radio">
-                    <span contenteditable="true">First option</span>
+                    <span contenteditable="true">{% trans %}First option{% endtrans %}</span>
                   </label>
                 </div>
                 <div class="radio">
                   <label>
                     <input type="radio" name="styleguide-radio">
-                    <span contenteditable="true">Feel free to place here as long text as you want</span>
+                    <span contenteditable="true">{% trans %}Feel free to place here as long text as you want{% endtrans %}</span>
                   </label>
                 </div>
                 <span class="help-block">
-                <div class="help-block" contenteditable="true">This field is required.</div>
+                <div class="help-block" contenteditable="true">{% trans %}This field is required{% endtrans %}.</div>
               </span>
               </div>
               <div class="col-4 col-md-6">
-                <p contenteditable="true">Quantity</p>
+                <p contenteditable="true">{% trans %}Quantity{% endtrans %}</p>
                 <form role="form" class="form-cart form-group">
                   <div class="" tabindex="-1">
                     <input id="id_quantity" max="50" min="1" name="quantity" type="number" value="52" required="">
                   </div>
                 </form>
                 <span class="help-block">
-                <div class="help-block" contenteditable="true">Only 32 remaining in stock.</div>
+                <div class="help-block" contenteditable="true">{% trans %}Only 32 remaining in stock{% endtrans %}.</div>
               </span>
               </div>
             </div>
@@ -584,8 +585,8 @@
         </div>
         <div id="pagination" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Pagination</h3>
-            <p>Click and edit any item below to see how the component looks with different text</p>
+            <h3 class="styleguide__content__block__title">{% trans %}Pagination{% endtrans %}</h3>
+            <p>{% trans %}Click and edit any item below to see how the component looks with different text{% endtrans %}</p>
           </div>
           <ul class="pagination styleguide__section">
             <li class="prev disabled"><a>«</a></li>
@@ -598,7 +599,7 @@
         <div id="breadcrumbs" class="styleguide__content__block">
           <div class="styleguide__tittle">
             <h3 class="styleguide__content__block__title">Breadcrumbs</h3>
-            <p>Click and edit any item below to see how the component looks with different text</p>
+            <p>{% trans %}Click and edit any item below to see how the component looks with different text{% endtrans %}</p>
           </div>
           <ul class="breadcrumbs list-unstyled styleguide__section">
             <li>
@@ -608,40 +609,40 @@
             </li>
             <li>
               <a href="{{ url_for('account.index') }}" contenteditable="true">
-                Your profile
+                {% trans %}Your profile{% endtrans %}
               </a>
             </li>
             <li>
               <a href="#" contenteditable="true">
-                Edit address
+                {% trans %}Edit address{% endtrans %}
               </a>
             </li>
           </ul>
         </div>
         <div id="notifications" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Notifications</h3>
-            <p>Click and edit any item below to see how the component looks with different text</p>
+            <h3 class="styleguide__content__block__title">{% trans %}Notifications{% endtrans %}</h3>
+            <p>{% trans %}Click and edit any item below to see how the component looks with different text{% endtrans %}</p>
           </div>
           <div class="styleguide__section">
             <div class="alert alert-success">
               <button type="button" class="close" aria-hidden="true">&times;</button>
-              <span contenteditable="true">This is Success alert.</span>
+              <span contenteditable="true">{% trans %}This is Success alert{% endtrans %}.</span>
             </div>
             <div class="alert alert-danger">
               <button type="button" class="close" aria-hidden="true">&times;</button>
-              <span contenteditable="true">This is Danger alert.</span>
+              <span contenteditable="true">{% trans %}This is Danger alert{% endtrans %}.</span>
             </div>
             <div class="alert alert-warning">
               <button type="button" class="close" aria-hidden="true">&times;</button>
-              <span contenteditable="true">This is Warning alert. Notifications content is not limited with container width. Place here as many information as you want or need to.</span>
+              <span contenteditable="true">{% trans %}This is Warning alert. Notifications content is not limited with container width. Place here as many information as you want or need to{% endtrans %}.</span>
             </div>
           </div>
         </div>
         <div id="mainnav" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Main navigation</h3>
-            <p>Click and edit any item below to see how the component looks with different text</p>
+            <h3 class="styleguide__content__block__title">{% trans %}Main navigation{% endtrans %}</h3>
+            <p>{% trans %}Click and edit any item below to see how the component looks with different text{% endtrans %}</p>
           </div>
           <nav class="navigation styleguide__section">
             <ul class="nav navbar-nav{% if request.get_full_path == home_url %} no-border{% endif %}">
@@ -658,23 +659,23 @@
         </div>
         <div id="tabs" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Tabs navigation</h3>
+            <h3 class="styleguide__content__block__title">{% trans %}Tabs navigation{% endtrans %}</h3>
           </div>
           <div class="styleguide__section">
             <ul class="nav nav-tabs col-lg-10 m-auto" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#orders" role="tab">
-                  <h3>Recent Orders</h3>
+                  <h3>{% trans %}Recent Orders{% endtrans %}</h3>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#password" role="tab">
-                  <h3>Change password</h3>
+                  <h3>{% trans %}Change password{% endtrans %}</h3>
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#addresses" role="tab">
-                  <h3>Addresses book</h3>
+                  <h3>{% trans %}Addresses book{% endtrans %}</h3>
                 </a>
               </li>
             </ul>
@@ -704,22 +705,22 @@
         <div id="tables" class="styleguide__content__block">
           <div class="styleguide__tittle">
             <h3 class="styleguide__content__block__title">Tables</h3>
-            <p>Click and edit any text below to see how the component looks with different text</p>
+            <p>{% trans %}Click and edit any text below to see how the component looks with different text{% endtrans %}</p>
           </div>
           <div class="styleguide__section">
             <div class="table__header">
               <div class="row">
                 <div class="col-md-2 col-3">
-                  <small contenteditable="true">Order</small>
+                  <small contenteditable="true">{% trans %}Order{% endtrans %}</small>
                 </div>
                 <div class="col-md-4 d-none d-md-block">
-                  <small contenteditable="true">Date</small>
+                  <small contenteditable="true">{% trans %}Date{% endtrans %}</small>
                 </div>
                 <div class="col-md-2 col-4 text-right">
-                  <small contenteditable="true">Summary</small>
+                  <small contenteditable="true">{% trans %}Summary{% endtrans %}</small>
                 </div>
                 <div class="col-md-3 d-none d-md-block">
-                  <small contenteditable="true">Status</small>
+                  <small contenteditable="true">{% trans %}Status{% endtrans %}</small>
                 </div>
                 <div class="col-md-1 col-5"></div>
               </div>
@@ -733,14 +734,14 @@
 
                 </div>
                 <div class="col-md-2 col-4">
-                  <span class="float-right" contenteditable="true">$129.35</span>
+                  <span class="float-right" contenteditable="true">129.35</span>
                 </div>
                 <div class="col-md-3 hidden-sm-down">
-                  <span class="label label-default" contenteditable="true">Payment pending</span>
+                  <span class="label label-default" contenteditable="true">{% trans %}Payment pending{% endtrans %}</span>
                 </div>
                 <div class="col-md-1 col-5">
                   <a href="#" class="float-right link--styled" contenteditable="true">
-                    Details
+                    {% trans %}Details{% endtrans %}
                   </a>
                 </div>
               </div>
@@ -754,14 +755,14 @@
 
                 </div>
                 <div class="col-md-2 col-4">
-                  <span class="float-right" contenteditable="true">$129.35</span>
+                  <span class="float-right" contenteditable="true">129.35</span>
                 </div>
                 <div class="col-md-3 hidden-sm-down">
-                  <span class="label label-success" contenteditable="true">Fully paid</span>
+                  <span class="label label-success" contenteditable="true">{% trans %}Fully paid{% endtrans %}</span>
                 </div>
                 <div class="col-md-1 col-5">
                   <a href="#" class="float-right link--styled" contenteditable="true">
-                    Details
+                   {% trans %}Details{% endtrans %}
                   </a>
                 </div>
               </div>
@@ -771,23 +772,23 @@
         <div id="cards" class="styleguide__content__block">
           <div class="styleguide__tittle">
             <h3 class="styleguide__content__block__title">Cards</h3>
-            <p>Click and edit any text below to see how the component looks with different text</p>
+            <p>{% trans %}Click and edit any text below to see how the component looks with different text{% endtrans %}</p>
           </div>
           <div class="styleguide__section">
             <div class="row">
               <div class="card-deck col-md-6 m-auto">
                 <div class="card card-block">
                   <div class="address-details">
-                    <p contenteditable="true">Mr. Walter C. Brown<br>
-                      49 Featherstone Street<br>
-                      London, EC1Y 8SY
+                    <p contenteditable="true">{% trans %}Mr. Walter C. Brown{% endtrans %}<br>
+                      {% trans %}49 Featherstone Street{% endtrans %}<br>
+                      {% trans %}London, EC1Y 8SY{% endtrans %}
                       <br>
-                      United Kingdom<br>
+                      {% trans %}United Kingdom{% endtrans %}<br>
                     </p>
                   </div>
                   <ul class="icons">
                     <li>
-                      <a href="#" contenteditable="true">Edit</a>
+                      <a href="#" contenteditable="true">{% trans %}Edit{% endtrans %}</a>
                     </li>
                     <li>
                       <a class="delete-icon">
@@ -798,10 +799,10 @@
                   <div class="address-delete none">
                     <form>
                       <button type="submit" class="btn danger narrow float-right" contenteditable="true">
-                        Remove Address
+                        {% trans %}Remove Address{% endtrans %}
                       </button>
                       <a class="btn btn-link cancel float-md-right" contenteditable="true">
-                        Cancel
+                        {% trans %}Cancel{% endtrans %}
                       </a>
                     </form>
                   </div>
@@ -813,7 +814,7 @@
         <div id="product" class="styleguide__content__block">
           <div class="styleguide__tittle">
             <h3 class="styleguide__content__block__title">Products</h3>
-            <p>Click and edit any text below to see how the component looks with different text</p>
+            <p>{% trans %}Click and edit any text below to see how the component looks with different text{% endtrans %}</p>
           </div>
           <div class="styleguide__section">
             <div class="row">
@@ -821,10 +822,10 @@
                 <div class="text-center">
                   <div>
                     <img class="img-responsive" src="{{ url_for('static', filename='img/sample-product.jpg') }}" alt="">
-                    <span class="product-list-item-name" contenteditable="true">Johnson-Brown</span>
+                    <span class="product-list-item-name" contenteditable="true">{% trans %}Johnson-Brown{% endtrans %}</span>
                   </div>
                   <div class="panel-footer">
-                    <span contenteditable="true">$32.13</span>
+                    <span contenteditable="true">32.13</span>
                   </div>
                 </div>
               </div>
@@ -832,14 +833,14 @@
                 <div class="text-center">
                   <div>
                     <img class="img-responsive" src="{{ url_for('static', filename='img/sample-product2.jpg') }}" alt="">
-                    <span class="product-list-item-name" contenteditable="true">Johnson-Brown</span>
+                    <span class="product-list-item-name" contenteditable="true">{% trans %}Johnson-Brown{% endtrans %}</span>
                   </div>
                   <div class="panel-footer">
                     <div class="product-list__sale">
                       <svg data-src="{{ url_for('static', filename='img/sale-bg.svg') }}"></svg>
-                      <span class="product-list__sale__text" contenteditable="true">Sale</span>
+                      <span class="product-list__sale__text" contenteditable="true">{% trans %}Sale{% endtrans %}</span>
                     </div>
-                    <span contenteditable="true">FROM $72.25</span>
+                    <span contenteditable="true">{% trans %}FROM{% endtrans %} 72.25</span>
                   </div>
                 </div>
               </div>
@@ -848,7 +849,7 @@
         </div>
         <div id="product-gallery" class="styleguide__content__block">
           <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Product gallery</h3>
+            <h3 class="styleguide__content__block__title">{% trans %}Product gallery{% endtrans %}</h3>
           </div>
           <div class="styleguide__section">
             <div class="row">

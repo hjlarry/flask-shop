@@ -11,7 +11,7 @@
     </li>
     <li>
         <a href="{{ url_for('account.index') }}">
-            Your profile
+            {% trans %}Your profile{% endtrans %}
         </a>
     </li>
 
@@ -27,14 +27,14 @@
     <div class="col-sm-8 col-lg-6 m-auto">
         <form method="post" novalidate>
             <h2 class="text-center">
-                {% if address_id %}Edit address{% else %}New address{% endif %}
+                {% if address_id %}{% trans %}Edit address{% endtrans %}{% else %}{% trans %}New address{% endtrans %}{% endif %}
             </h2>
             <div class="account__address-edit__form">
                 {% include "account/partials/address_form.html" %}
             </div>
             <p class="text-right">
                 <button type="submit" class="btn btn-primary narrow">
-                    Save changes
+                    {% trans %}Save changes{% endtrans %}
                 </button>
             </p>
         </form>

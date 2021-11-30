@@ -3,7 +3,7 @@
 <html class="no-js">
 
   <head>
-    <title>{% block title %}flask store{% endblock %}</title>
+    <title>{% block title %}{% trans %}flask store{% endtrans %}{% endblock %}</title>
     {% block meta %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,30 +36,30 @@
 
                 <li>
                   <a href="{{ url_for('dashboard.index') }}" target="_blank" rel="noopener">
-                    Dashboard
+                    {% trans %}Dashboard{% endtrans %}
                   </a>
                 </li>
                 {% endif %}
                 {{ run_hook("flaskbb_tpl_user_nav_loggedin_before") }}
                 <li>
                   <a href="{{ url_for('account.index') }}">
-                    Your Account</a>
+                    {% trans %}Your Account{% endtrans %}</a>
                 </li>
 
                 <li>
                   <a href="{{ url_for('account.logout') }}">
-                    Log Out</a>
+                    {% trans %}Log Out{% endtrans %}</a>
                 </li>
 
                 {% else %}
                 <li>
                   <a rel="nofollow" href="{{ url_for('account.signup') }}">
-                    Register
+                    {% trans %}Register{% endtrans %}
                   </a>
                 </li>
                 <li>
                   <a rel="nofollow" href="{{ url_for('account.login') }}">
-                    Log in
+                    {% trans %}Log in{% endtrans %}
                   </a>
                 </li>
                 {% endif %}
@@ -102,7 +102,7 @@
               <div class="navbar__brand__cart float-right">
                 <a rel="nofollow" class="cart__icon" href="{{ url_for('checkout.cart_index') }}">
                   <span class="cart-label d-none d-md-inline-block">
-                    Your Cart
+                    {% trans %}Your Cart{% endtrans %}
                   </span>
                   <div class="navbar__brand__cart__icon">
                     <svg data-src="{{ url_for('static', filename='img/cart.svg') }}" width="24" height="24"></svg>
@@ -161,43 +161,43 @@
                 <li class="nav-item__dropdown menu__item">
                   <a>
                     <strong>
-                      Account
+                      {% trans %}Account{% endtrans %}
                     </strong>
                   </a>
                   <hr />
                 <li>
                   <a rel="nofollow" href="{{ url_for('checkout.cart_index') }}">
-                    Your Cart
+                    {% trans %}Your Cart{% endtrans %}
                   </a>
                 </li>
                 {% if current_user.is_authenticated %}
                 {% if current_user.can_edit() %}
                 <li>
                   <a href="{{ url_for('dashboard.index') }}" target="_blank" rel="noopener">
-                    Dashboard
+                    {% trans %}Dashboard{% endtrans %}
                   </a>
                 </li>
                 {% endif %}
                 <li>
                   <a href="{{ url_for('account.index') }}">
-                    Your account
+                    {% trans %}Your account{% endtrans %}
                   </a>
                 </li>
 
                 <li>
                   <a href="{{ url_for('account.logout') }}">
-                    Log out</a>
+                    {% trans %}Log out{% endtrans %}</a>
                 </li>
 
                 {% else %}
                 <li>
                   <a rel="nofollow" href="{{ url_for('account.signup') }}">
-                    Register
+                    {% trans %}Register{% endtrans %}
                   </a>
                 </li>
                 <li>
                   <a rel="nofollow" href="{{ url_for('account.login') }}">
-                    Log in
+                    {% trans %}Log in{% endtrans %}
                   </a>
                 </li>
                 {% endif %}

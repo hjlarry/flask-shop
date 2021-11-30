@@ -9,17 +9,17 @@ Order {{ order }}
 <ul class="breadcrumbs list-unstyled">
     <li>
         <a href="{{ url_for('public.home') }}">
-            Home
+            {% trans %}Home{% endtrans %}
         </a>
     </li>
     <li>
         <a href="{{ url_for('account.index') }}">
-            Your account
+            {% trans %}Your account{% endtrans %}
         </a>
     </li>
     <li>
         <a href="{{ order.get_absolute_url() }}">
-            Order {{ order }}
+            {% trans %}Order{% endtrans %} {{ order }}
         </a>
     </li>
 </ul>
@@ -32,13 +32,13 @@ Order {{ order }}
 <div class="row order-details">
     <div class="col-lg-10 m-auto">
         <h2 class="order-details__header">
-            Order: {{ order.token }}<br>
-            Order Status: {{ order.status_human }}
+            {% trans %}Order{% endtrans %}: {{ order.token }}<br>
+            {% trans %}Order Status{% endtrans %}: {{ order.status_human }}
         </h2>
         {% include "orders/_ordered_items_table.html" %}
         <div class="order-notes">
             {% if order.notes %}
-            <h2 class="order-notes__header">Your note</h2>
+            <h2 class="order-notes__header">{% trans %}Your note{% endtrans %}</h2>
             {% for note in order.notes %}
             <p>{{ note.content }}</p>
             {% endfor %}

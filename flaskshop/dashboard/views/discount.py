@@ -6,26 +6,26 @@ from flaskshop.discount.models import Voucher, Sale, SaleCategory, SaleProduct
 from flaskshop.product.models import Product, Category
 from flaskshop.dashboard.forms import VoucherForm, SaleForm
 from flaskshop.constant import VoucherTypeKinds, DiscountValueTypeKinds
-
+from flask_babel import gettext
 
 def vouchers():
     page = request.args.get("page", type=int, default=1)
     pagination = Voucher.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "type_human": "Type",
-        "usage_limit": "Usage Limit",
-        "used": "Used",
-        "discount_value_type_human": "Discount Type",
-        "discount_value": "Discount Value",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "type_human": gettext("Type"),
+        "usage_limit": gettext("Usage Limit"),
+        "used": gettext("Used"),
+        "discount_value_type_human": gettext("Discount Type"),
+        "discount_value": gettext("Discount Value"),
     }
     context = {
-        "title": "Voucher",
+        "title": gettext("Voucher"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "vouchers",
+        "identity": gettext("vouchers"),
     }
     return render_template("list.html", **context)
 
@@ -66,17 +66,17 @@ def sales():
     page = request.args.get("page", type=int, default=1)
     pagination = Sale.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "discount_value_type_label": "Discount Type",
-        "discount_value": "Discount Value",
+        "id": gettext("ID"),
+        "title": gettext("Title"),
+        "discount_value_type_label": gettext("Discount Type"),
+        "discount_value": gettext("Discount Value"),
     }
     context = {
-        "title": "Sale",
+        "title": gettext("Sale"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "sales",
+        "identity": gettext("sales"),
     }
     return render_template("list.html", **context)
 

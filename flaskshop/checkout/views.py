@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from flask_login import current_user, login_required
 from pluggy import HookimplMarker
+from flask_babel import gettext, format_currency
+import os
 
 from .models import CartLine, Cart, ShippingMethod
 from .forms import NoteForm, VoucherForm
@@ -35,8 +37,8 @@ def update_cartline(id):
     cart = Cart.query.filter(Cart.user_id == current_user.id).first()
     response["cart"]["numItems"] = cart.update_quantity()
     response["cart"]["numLines"] = len(cart)
-    response["subtotal"] = "$" + str(line.subtotal)
-    response["total"] = "$" + str(cart.total)
+    response["subtotal"] = format_currency(line.subtotal, os.environ['BABEL_CURRENCY'], os.environ['BABEL_DEFAULT_LOCALE'])
+    response["total"] = format_currency(cart.total, os.environ['BABEL_CURRENCY'], os.environ['BABEL_DEFAULT_LOCALE'])
     return jsonify(response)
 
 
@@ -113,7 +115,7 @@ def checkout_voucher():
             except Exception as e:
                 err_msg = str(e)
         else:
-            err_msg = "Your code is not correct"
+            err_msg = gettext("Your code is not correct")
         if err_msg:
             flash(err_msg, "warning")
         else:

@@ -4,17 +4,17 @@
     <div class="row">
         <div class="col-md-8">
             <small>
-                Product
+                {% trans %}Product{% endtrans %}
             </small>
         </div>
         <div class="col-md-2 text-right">
             <small>
-                Quantity
+                {% trans %}Quantity{% endtrans %}
             </small>
         </div>
         <div class="col-md-2 text-right">
             <small>
-                Price
+                {% trans %}Price{% endtrans %}
             </small>
         </div>
     </div>
@@ -49,7 +49,7 @@
     <div class="row">
         <div class="col-8 order-details__table-footer">
             <p>
-                Subtotal
+                {% trans %}Subtotal{% endtrans %}
             </p>
         </div>
         <div class="col-4">
@@ -66,7 +66,7 @@
     <div class="row">
         <div class="col-8 order-details__table-footer">
             <p>
-                Shipping
+                {% trans %}Shipping{% endtrans %}
                 ({{ order.shipping_method_name}})
             </p>
         </div>
@@ -98,7 +98,7 @@
     <div class="row">
         <div class="col-8 order-details__table-footer">
             <div class="total">
-                <h3>Total</h3>
+                <h3>{% trans %}Total{% endtrans %}</h3>
             </div>
         </div>
         <div class="col-4">
@@ -114,29 +114,29 @@
         <div class="col-6">
             {% if order.is_shipping_required %}
             <h3>
-                Shipping address
+                {% trans %}Shipping address{% endtrans %}
             </h3>
             {{ order.shipping_address | safe }}
             {% endif %}
         </div>
         {% if order.status_human == "unfulfilled" %}
         <div class="col-6">
-            <span class="float-right">Please pay before 00:30, else the order will auto closed</span>
+            <span class="float-right">{% trans %}Please pay before 00:30, else the order will auto closed{% endtrans %}</span>
             <a href="{{ url_for('order.ali_pay', token=order.token) }}" class="btn btn-primary float-right">
-                Alipay
+                {% trans %}Alipay{% endtrans %}
             </a>
             <a href="{{ url_for('order.test_pay', token=order.token) }}" class="btn secondary float-right">
-                Pay for test
+                {% trans %}Pay for test{% endtrans %}
             </a>
             <a href="{{ url_for('order.cancel_order', token=order.token) }}" class="btn danger float-right">
-                Cancel Order
+                {% trans %}Cancel Order{% endtrans %}
             </a>
         </div>
         {% elif order.status_human == "shipped" %}
         <div class="col-6">
-            <span class="float-right">this order will auto received after 1 day</span>
+            <span class="float-right">{% trans %}this order will auto received after 1 day{% endtrans %}</span>
             <a href="{{ url_for('order.receive', token=order.token) }}" class="btn btn-primary float-right">
-                Confirm receipt
+                {% trans %}Confirm receipt{% endtrans %}
             </a>
         </div>
         {% endif %}

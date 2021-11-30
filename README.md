@@ -77,6 +77,52 @@ docker-compose exec web sh
 flask createdb
 flask seed
 ```
+
+### Translation localization 
+** Create .pot
+```
+pybabel extract -F babel.cfg -o messages.pot .
+```
+
+**Create new language file**
+
+```
+# Take a look babel.cfg
+pybabel init -i messages.pot -d translations -l en_US
+```
+
+**Compile translations and select language**
+```
+# Select you language from .flaskenv
+pybabel compile -d translations
+```
+
+**Update translations .po
+
+```
+pybabel extract -F babel.cfg -o messages.pot .
+pybabel update -i messages.pot -d translations -l en_US
+```
+
+## Settings
+If you want change default settings create file .flaskenv with content:
+```
+FLASK_APP=autoapp.py
+FLASK_ENV=develop
+FLASK_DEBUG=1
+FLASK_RUN_HOST=0.0.0.0
+FLASK_RUN_PORT=5000
+SECRET_KEY=abcdefgh
+DB_TYPE = postgresql # mysql
+DB_USER = root
+DB_PASSWD = my_passwd
+DB_HOST = 127.0.0.1
+DB_PORT = 5432
+BABEL_DEFAULT_LOCALE = en_US
+BABEL_DEFAULT_TIMEZONE = UTC
+BABEL_TRANSLATION_DIRECTORIES = ../translations
+BABEL_CURRENCY = USD
+``` 
 ### About Config
 The default admin account is:
 

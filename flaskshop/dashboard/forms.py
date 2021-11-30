@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm as _FlaskForm
+from flask_babel import gettext
 from wtforms import (
     StringField,
     IntegerField,
@@ -26,10 +27,10 @@ class FlaskForm(_FlaskForm):
         success = True
         for name, field in self._fields.items():
             if field.type in (
-                "SelectField",
-                "SelectMultipleField",
-                "RadioField",
-                "FieldList",
+                gettext("SelectField"),
+                gettext("SelectMultipleField"),
+                gettext("RadioField"),
+                gettext("FieldList"),
             ):
                 continue
             if extra_validators is not None and name in extra_validators:
@@ -46,7 +47,7 @@ class DashboardMenuForm(FlaskForm):
     order = IntegerField(default=0)
     endpoint = StringField()
     icon_cls = StringField()
-    parent_id = SelectField("Parent")
+    parent_id = SelectField(gettext("Parent"))
     submit = SubmitField()
 
 
@@ -55,10 +56,10 @@ class SiteMenuForm(FlaskForm):
     order = IntegerField(default=0)
     url_ = StringField("Url")
     parent_id = SelectField("Parent")
-    position = RadioField(choices=[(0, "none"), (1, "top"), (2, "bottom")], default=0)
-    category_id = SelectField("Category")
-    collection_id = SelectField("Collection")
-    page_id = SelectField("Page")
+    position = RadioField(choices=[(0, gettext("none")), (1, gettext("top")), (2, gettext("bottom"))], default=0)
+    category_id = SelectField(gettext("Category"))
+    collection_id = SelectField(gettext("Collection"))
+    page_id = SelectField(gettext("Page"))
     submit = SubmitField()
 
 
@@ -98,24 +99,24 @@ class UserAddressForm(FlaskForm):
 
 class AttributeForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
-    values = FieldList(StringField("Value"))
-    types = SelectMultipleField("Product Types")
+    values = FieldList(StringField(gettext("Value")))
+    types = SelectMultipleField(gettext("Product Types"))
     submit = SubmitField()
 
 
 class CollectionForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     products = SelectMultipleField()
-    background_img = StringField("Current Image")
-    bgimg_file = FileField("Upload")
+    background_img = StringField(gettext("Current Image"))
+    bgimg_file = FileField(gettext("Upload"))
     submit = SubmitField()
 
 
 class CategoryForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
-    parent_id = SelectField("Parent")
-    background_img = StringField("Current Image")
-    bgimg_file = FileField("Upload")
+    parent_id = SelectField(gettext("Parent"))
+    background_img = StringField(gettext("Current Image"))
+    bgimg_file = FileField(gettext("Upload"))
     submit = SubmitField()
 
 
@@ -124,7 +125,7 @@ class ProductTypeForm(FlaskForm):
     has_variants = BooleanField(default=True)
     is_shipping_required = BooleanField(default=True)
     product_attributes = SelectMultipleField()
-    variant_attr_id = SelectField("Variant Attributes")
+    variant_attr_id = SelectField(gettext("Variant Attributes"))
     submit = SubmitField()
 
 
@@ -144,13 +145,13 @@ class ProductForm(FlaskForm):
 
 
 class ProductCreateForm(FlaskForm):
-    product_type_id = SelectField("Choose A Product Type", default=1)
+    product_type_id = SelectField(gettext("Choose A Product Type"), default=1)
     submit = SubmitField()
 
 
 class VariantForm(FlaskForm):
     sku_id = IntegerField(
-        "SKU", validators=[DataRequired(), NumberRange(min=1, max=9999)]
+        gettext("SKU"), validators=[DataRequired(), NumberRange(min=1, max=9999)]
     )
     title = StringField(validators=[DataRequired()])
     price_override = DecimalField(default=0.00, validators=[NumberRange(min=0)])
@@ -169,7 +170,7 @@ class VoucherForm(FlaskForm):
     type_ = SelectField(default=1)
     code = StringField(validators=[DataRequired()])
     usage_limit = IntegerField(
-        description="how many times can be used", validators=[optional()]
+        description=gettext("how many times can be used"), validators=[optional()]
     )
     used = IntegerField(default=0)
     validity_period = StringField()
@@ -177,10 +178,10 @@ class VoucherForm(FlaskForm):
     discount_value = DecimalField(default=0.00)
     limit = IntegerField(validators=[optional()])
     category_id = SelectField(
-        "Category", description="when type is category, need to select"
+        gettext("Category"), description=gettext("when type is category, need to select")
     )
     product_id = SelectField(
-        "Product", description="when type is product, need to select"
+        gettext("Product"), description=gettext("when type is product, need to select")
     )
     submit = SubmitField()
 
@@ -189,8 +190,8 @@ class SaleForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     discount_value_type = SelectField(default=1)
     discount_value = DecimalField(default=0.00)
-    categories = SelectMultipleField("Category")
-    products = SelectMultipleField("Product")
+    categories = SelectMultipleField(gettext("Category"))
+    products = SelectMultipleField(gettext("Product"))
     submit = SubmitField()
 
 

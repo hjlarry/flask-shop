@@ -5,14 +5,14 @@
 {% if address %}
 <div class="row">
   <div class="col-md-6">
-    <h3>Shipping address</h3>
+    <h3>{% trans %}Shipping address{% endtrans %}</h3>
     {{ macros.format_address(address) }}
-    <p><a href="{{ url_for('checkout.checkout_shipping') }}">Select other address</a></p>
+    <p><a href="{{ url_for('checkout.checkout_shipping') }}">{% trans %}Select other address{% endtrans %}</a></p>
   </div>
   <div class="col-md-6">
     <h3>Shipping Method</h3>
     {{ shipping_method }}
-    <p><a href="{{ url_for('checkout.checkout_shipping') }}">Select other shipping method</a></p>
+    <p><a href="{{ url_for('checkout.checkout_shipping') }}">{% trans %}Select other shipping method{% endtrans %}</a></p>
   </div>
 </div>
 <hr>

@@ -1,15 +1,17 @@
 
 {% extends "base.html" %}
 
-{% block page_title %}Unauthorized{% endblock %}
+{% block page_title %}{% trans %}Unauthorized{% endtrans %}{% endblock %}
 
 {% block content %}
 <div class="jumbotron">
     <div class="text-center">
         <h1>401</h1>
+        {% trans %}
         <p>You are not authorized to see this page. Please <a href="{{ url_for('account.login')}}">log in</a> or
             <a href="{{ url_for('account.signup') }}">create a new account</a>.
         </p>
+        {% endtrans %}
     </div>
 </div>
 {% endblock %}

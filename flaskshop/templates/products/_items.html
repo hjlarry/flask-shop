@@ -11,7 +11,7 @@
         {% if product.is_discounted %}
         <div class="product-list__sale">
           <svg data-src="{{ url_for('static', filename='img/sale-bg.svg')}}"></svg>
-          <span class="product-list__sale__text">Sale</span>
+          <span class="product-list__sale__text">{% trans %}Sale{% endtrans %}</span>
         </div>
         {% endif %}
       </div>

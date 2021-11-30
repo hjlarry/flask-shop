@@ -6,15 +6,15 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Manage Plugins</h3>
+                        <h3 class="card-title">{% trans %}Manage Plugins{% endtrans %}</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body table-responsive p-0">
                         <table class="table table-hover">
                             <tr>
-                                <th>Plugin</th>
-                                <th>Info</th>
-                                <th>Operation</th>
+                                <th>{% trans %}Plugin{% endtrans %}</th>
+                                <th>{% trans %}Info{% endtrans %}</th>
+                                <th>{% trans %}Operation{% endtrans %}</th>
                             </tr>
                             {% for plugin in plugins %}
                             <tr>
@@ -29,12 +29,12 @@
                                     {% if plugin.enabled %}
                                     <form method="POST" action="{{url_for('dashboard.plugin_disable', id=plugin.id)}}">
                                         <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
-                                        <button type="submit" class="btn btn-warning">Disable</button>
+                                        <button type="submit" class="btn btn-warning">{% trans %}Disable{% endtrans %}</button>
                                     </form>
                                     {% else %}
                                     <form method="POST" action="{{url_for('dashboard.plugin_enable', id=plugin.id)}}">
                                         <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
-                                        <button type="submit" class="btn btn-primary">Enable</button>
+                                        <button type="submit" class="btn btn-primary">{% trans %}Enable{% endtrans %}</button>
                                     </form>
                                     {% endif %}
                                 </td>

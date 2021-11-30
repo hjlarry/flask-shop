@@ -42,7 +42,7 @@
                 <hr />
                 <div>
                     <h3 class="d-md-none filters-toggle">
-                        Filters
+                        {% trans %}Filters{% endtrans %}
                     </h3>
                     <div class="sort-by">
                         <div class="click-area d-none"></div>
@@ -50,9 +50,9 @@
                             <div>
                                 <span>
                                     {% if now_sorted_by == 'title' %}
-                                    Sort by: <b>name</b>
+                                    {% trans %}Sort by{% endtrans %}: <b>name</b>
                                     {% elif now_sorted_by == 'price' %}
-                                    Sort by: <b>price</b>
+                                    {% trans %}Sort by{% endtrans %}: <b>price</b>
                                     {% endif %}
                                 </span>
                                 <div class="sort-order-icon">
@@ -69,20 +69,20 @@
                             <li>
                                 <div class="row">
                                     <div class="col-6">
-                                        Sort by
+                                        {% trans %}Sort by{% endtrans %}
                                         <strong>{{ label }}</strong>
                                     </div>
                                     <div class="col-6">
                                         <div>
                                             <a href="{{ get_sort_by_url(choice) }}">
-                                                <span>ascending</span>
+                                                <span>{% trans %}ascending{% endtrans %}</span>
                                                 <div class="sort-order-icon float-right">
                                                     <img class="lazyload lazypreload"
                                                         data-src="{{ url_for('static', filename='img/arrow-up.svg') }}">
                                                 </div>
                                             </a>
                                             <a href="{{ get_sort_by_url(choice,descending=True) }}">
-                                                <span>descending</span>
+                                                <span>{% trans %}descending{% endtrans %}</span>
                                                 <div class="sort-order-icon float-right">
                                                     <img class="lazyload lazypreload"
                                                         data-src="{{ url_for('static', filename='img/arrow-down.svg') }}">
@@ -116,8 +116,8 @@
                             <div class="col-12">
                                 <svg data-src="{{ url_for('static', filename='img/no-results-bg.svg') }}" width="360"
                                     height="360"></svg>
-                                <p>Sorry, no matches found for your request.</p>
-                                <p>Try again or shop new arrivals.</p>
+                                <p>{% trans %}Sorry, no matches found for your request.{% endtrans %}</p>
+                                <p>{% trans %}Try again or shop new arrivals.{% endtrans %}</p>
                             </div>
                         </div>
                         {% endif %}

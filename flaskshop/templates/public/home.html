@@ -8,10 +8,10 @@
           <div class="home--content">
             <div class="home--content-wrapper">
               <div class="home--content-inner">
-                <h1>Promo & Sale</h1>
-                <h2>from the Northpole</h2>
+                <h1>{% trans %}Promo & Sale{% endtrans %}</h1>
+                <h2>{% trans %}from the Northpole{% endtrans %}</h2>
                 <a class="btn btn-secondary home__button" href="#">
-                  Shop now
+                  {% trans %}Shop now{% endtrans %}
                 </a>
               </div>
             </div>
@@ -25,8 +25,8 @@
           <div class="home--content">
             <div class="home--content-wrapper">
               <div class="home--content-inner">
-                <h1>Size & Colours</h1>
-                <a class="btn btn-secondary home__button" href="#">Shop now</a>
+                <h1>{% trans %}Size & Colours{% endtrans %}</h1>
+                <a class="btn btn-secondary home__button" href="#">{% trans %}Shop now{% endtrans %}</a>
               </div>
             </div>
           </div>
@@ -37,8 +37,8 @@
           <div class="home--content">
             <div class="home--content-wrapper">
               <div class="home--content-inner">
-                <h1>Digital Downloads</h1>
-                <a class="btn btn-secondary home__button" href="#">Shop now</a>
+                <h1>{% trans %}Digital Downloads{% endtrans %}</h1>
+                <a class="btn btn-secondary home__button" href="#">{% trans %}Shop now{% endtrans %}</a>
               </div>
             </div>
           </div>
@@ -47,7 +47,7 @@
     </div>
     {% if products %}
       <div class="home__featured">
-        <h2 class="text-center">Featured products</h2>
+        <h2 class="text-center">{% trans %}Featured products{% endtrans %}</h2>
         <div class="row">
           {% include('products/_items.html') %}
         </div>

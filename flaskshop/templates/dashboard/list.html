@@ -22,7 +22,7 @@
                             </div>
                             <div class="input-group input-group-sm" style="width:auto;margin-left: 10px;">
                                 <a href="{{url_for('dashboard.{}_manage'.format(identity))}}"
-                                    class="btn btn-success btn-sm">Create</a>
+                                    class="btn btn-success btn-sm">{% trans %}Create{% endtrans %}</a>
                             </div>
                         </div>
                     </div>
@@ -42,9 +42,9 @@
                                 {% endfor %}
                                 <td>
                                     <a href="{{url_for('dashboard.{}_manage'.format(identity), id=item.id)}}"
-                                        class="btn btn-primary btn-sm">Edit</a>
+                                        class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a>
                                     <a data-url="{{identity}}/{{item.id}}/delete"
-                                        class="btn btn-danger btn-sm delete-btn">Delete</a>
+                                        class="btn btn-danger btn-sm delete-btn">{% trans %}Delete{% endtrans %}</a>
                                 </td>
                             </tr>
                             {% endfor %}
