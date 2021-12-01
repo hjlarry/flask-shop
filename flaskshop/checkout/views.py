@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from flask_login import current_user, login_required
 from pluggy import HookimplMarker
-from flask_babel import gettext, format_currency
+from flask_babel import lazy_gettext, format_currency
 import os
 
 from .models import CartLine, Cart, ShippingMethod
@@ -115,7 +115,7 @@ def checkout_voucher():
             except Exception as e:
                 err_msg = str(e)
         else:
-            err_msg = gettext("Your code is not correct")
+            err_msg = lazy_gettext("Your code is not correct")
         if err_msg:
             flash(err_msg, "warning")
         else:

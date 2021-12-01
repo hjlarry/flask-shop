@@ -81,7 +81,7 @@ flask seed
 ### Translation localization 
 ** Create .pot
 ```
-pybabel extract -F babel.cfg -o messages.pot .
+pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot .
 ```
 
 **Create new language file**
@@ -100,7 +100,7 @@ pybabel compile -d translations
 **Update translations .po
 
 ```
-pybabel extract -F babel.cfg -o messages.pot .
+pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot .
 pybabel update -i messages.pot -d translations -l en_US
 ```
 
