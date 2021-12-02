@@ -37,6 +37,7 @@ babel = Babel()
 ckeditor = CKEditor()
 migrate = Migrate()
 
+
 def create_app(config_object=Config):
     app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
@@ -63,6 +64,7 @@ def register_extensions(app):
     babel.init_app(app)
     ckeditor.init_app(app)
     migrate.init_app(app, db)
+
 
 def register_blueprints(app):
     app.pluggy.hook.flaskshop_load_blueprints(app=app)

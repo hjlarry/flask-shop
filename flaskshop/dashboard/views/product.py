@@ -36,7 +36,7 @@ def attributes():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "attributes",
+        "identity": gettext("attributes"),
     }
     return render_template("list.html", **context)
 
@@ -70,7 +70,7 @@ def collections():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "collections",
+        "identity": gettext("collections"),
     }
     return render_template("list.html", **context)
 
@@ -114,7 +114,7 @@ def categories():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "categories",
+        "identity": gettext("categories"),
     }
     return render_template("list.html", **context)
 
@@ -159,7 +159,7 @@ def product_types():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": "product_types",
+        "identity": gettext("product_types"),
     }
     return render_template("list.html", **context)
 

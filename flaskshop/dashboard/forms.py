@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm as _FlaskForm
-from flask_babel import lazy_gettext, lazy_gettext
+from flask_babel import lazy_gettext
 from wtforms import (
     StringField,
     IntegerField,
@@ -27,10 +27,10 @@ class FlaskForm(_FlaskForm):
         success = True
         for name, field in self._fields.items():
             if field.type in (
-                "SelectField",
-                "SelectMultipleField",
-                "RadioField",
-                "FieldList",
+                gettext("SelectField"),
+                gettext("SelectMultipleField"),
+                gettext("RadioField"),
+                gettext("FieldList"),
             ):
                 continue
             if extra_validators is not None and name in extra_validators:
@@ -61,6 +61,7 @@ class SiteMenuForm(FlaskForm):
     collection_id = SelectField(lazy_gettext("Collection"))
     page_id = SelectField(lazy_gettext("Page"))
     submit = SubmitField(lazy_gettext('Submit'))
+
 
 
 class SitePageForm(FlaskForm):

@@ -5,6 +5,7 @@ from flask_login import login_required, current_user, login_user, logout_user
 from pluggy import HookimplMarker
 from flask_babel import lazy_gettext
 
+
 from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm
 from .models import UserAddress, User
 from flaskshop.utils import flash_errors

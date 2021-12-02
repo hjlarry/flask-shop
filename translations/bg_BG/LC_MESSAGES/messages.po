@@ -302,6 +302,7 @@ msgstr "горе"
 msgid "bottom"
 msgstr "долу"
 
+
 #: flaskshop/dashboard/forms.py:60 flaskshop/dashboard/forms.py:140
 #: flaskshop/dashboard/forms.py:181 flaskshop/dashboard/forms.py:193
 #: flaskshop/dashboard/views/product.py:216
@@ -379,6 +380,7 @@ msgstr "Стойност"
 #: flaskshop/templates/dashboard/site/index.html:27
 msgid "Product Types"
 msgstr "Тип на продукт"
+
 
 #: flaskshop/dashboard/forms.py:109
 msgid "Products"
@@ -544,6 +546,7 @@ msgstr "ID"
 msgid "Usage Limit"
 msgstr "Лимит за използване"
 
+
 #: flaskshop/dashboard/views/discount.py:20
 #: flaskshop/dashboard/views/discount.py:71
 msgid "Discount Type"
@@ -619,9 +622,11 @@ msgstr "Тип на продукт"
 msgid "Product Attribute"
 msgstr "Атрибут на продукт"
 
+
 #: flaskshop/dashboard/views/product.py:69
 msgid "Product Collection"
 msgstr "Колекция от продукти"
+
 
 #: flaskshop/dashboard/views/product.py:113
 msgid "Product Category"
@@ -646,6 +651,7 @@ msgstr "Вид продукт"
 msgid "Shipping Method"
 msgstr "Метод за доставка"
 
+
 #: flaskshop/dashboard/views/site.py:61 flaskshop/dashboard/views/site.py:110
 msgid "Parent Id"
 msgstr "ID на родител"
@@ -653,6 +659,7 @@ msgstr "ID на родител"
 #: flaskshop/dashboard/views/site.py:64
 msgid "Site Menus"
 msgstr "Меню на сайта"
+
 
 #: flaskshop/dashboard/views/site.py:108
 msgid "Endpoint"
@@ -665,6 +672,7 @@ msgstr "Клас икона"
 #: flaskshop/dashboard/views/site.py:113
 msgid "Dashboard Menus"
 msgstr "Менюта на таблото"
+
 
 #: flaskshop/dashboard/views/site.py:147
 msgid "Is Visiable"
@@ -1182,6 +1190,7 @@ msgstr "Доставка"
 msgid "Discount"
 msgstr "Отстъпка"
 
+
 #: flaskshop/templates/dashboard/order/detail.html:121
 msgid "Send Order"
 msgstr "Изпрати поръчка"
@@ -1193,6 +1202,7 @@ msgstr "Платена"
 #: flaskshop/templates/dashboard/order/list.html:10
 msgid "Order List"
 msgstr "Списък с поръчки"
+
 
 #: flaskshop/templates/dashboard/order/list.html:53
 #: flaskshop/templates/dashboard/product/list.html:67
@@ -1991,6 +2001,7 @@ msgstr ""
 "ширината на контейнера. Поставете тук толкова информация, колкото искате "
 "или трябва"
 
+
 #: flaskshop/templates/public/style_guide.html:662
 msgid "Tabs navigation"
 msgstr "Навигация на табове"
@@ -2054,4 +2065,5 @@ msgstr "ОТ"
 
 #~ msgid "Invalid IP address."
 #~ msgstr "Невалиден IP адрес."
+
 

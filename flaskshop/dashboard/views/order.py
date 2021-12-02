@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from flask import request, render_template
 from flask_babel import lazy_gettext
 

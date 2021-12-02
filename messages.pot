@@ -50,6 +50,7 @@ msgstr ""
 msgid "Email already registered"
 msgstr ""
 
+
 #: flaskshop/account/forms.py:60
 msgid "Username Or Email"
 msgstr ""
@@ -90,7 +91,6 @@ msgstr ""
 msgid "Contact name"
 msgstr ""
 
-#: flaskshop/account/forms.py:130 flaskshop/dashboard/forms.py:96
 #: flaskshop/templates/dashboard/user/detail.html:57
 msgid "Contact Phone"
 msgstr ""
@@ -301,6 +301,7 @@ msgstr ""
 msgid "bottom"
 msgstr ""
 
+
 #: flaskshop/dashboard/forms.py:60 flaskshop/dashboard/forms.py:140
 #: flaskshop/dashboard/forms.py:181 flaskshop/dashboard/forms.py:193
 #: flaskshop/dashboard/views/product.py:216
@@ -406,7 +407,6 @@ msgstr ""
 #: flaskshop/dashboard/forms.py:128
 msgid "Variant Attributes"
 msgstr ""
-
 #: flaskshop/dashboard/forms.py:134
 msgid "Basic Price"
 msgstr ""
@@ -539,9 +539,11 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
+
 #: flaskshop/dashboard/views/discount.py:18
 msgid "Usage Limit"
 msgstr ""
+
 
 #: flaskshop/dashboard/views/discount.py:20
 #: flaskshop/dashboard/views/discount.py:71
@@ -618,9 +620,11 @@ msgstr ""
 msgid "Product Attribute"
 msgstr ""
 
+
 #: flaskshop/dashboard/views/product.py:69
 msgid "Product Collection"
 msgstr ""
+
 
 #: flaskshop/dashboard/views/product.py:113
 msgid "Product Category"
@@ -639,6 +643,7 @@ msgstr ""
 msgid "Product Type"
 msgstr ""
 
+
 #: flaskshop/dashboard/views/site.py:29
 #: flaskshop/templates/dashboard/order/detail.html:35
 #: flaskshop/templates/dashboard/site/shipping_method.html:15
@@ -652,6 +657,7 @@ msgstr ""
 #: flaskshop/dashboard/views/site.py:64
 msgid "Site Menus"
 msgstr ""
+
 
 #: flaskshop/dashboard/views/site.py:108
 msgid "Endpoint"
@@ -1985,4 +1991,3 @@ msgstr ""
 #: flaskshop/templates/public/style_guide.html:843
 msgid "FROM"
 msgstr ""
-
