@@ -7,17 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-11-29 21:16+0200\n"
-"PO-Revision-Date: 2021-11-29 21:20+0200\n"
+"POT-Creation-Date: 2021-12-01 17:58+0200\n"
+"PO-Revision-Date: 2021-12-01 17:40+0200\n"
 "Last-Translator: \n"
 "Language: bg_BG\n"
 "Language-Team: bg_BG <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
-"X-Generator: Poedit 2.2.1\n"
 
 #: flaskshop/account/forms.py:16 flaskshop/dashboard/views/user.py:24
 msgid "Username"
@@ -31,16 +30,16 @@ msgstr "Потребителското име трябва да съдържа �
 msgid "Email"
 msgstr "Имейл"
 
-#: flaskshop/account/forms.py:30 flaskshop/account/forms.py:62
-#: flaskshop/account/forms.py:95
+#: flaskshop/account/forms.py:30 flaskshop/account/forms.py:61
+#: flaskshop/account/forms.py:94 flaskshop/dashboard/forms.py:83
 msgid "Password"
 msgstr "Парола"
 
-#: flaskshop/account/forms.py:33 flaskshop/account/forms.py:97
+#: flaskshop/account/forms.py:33 flaskshop/account/forms.py:96
 msgid "Verify password"
 msgstr "Потвърди парола"
 
-#: flaskshop/account/forms.py:34 flaskshop/account/forms.py:100
+#: flaskshop/account/forms.py:34 flaskshop/account/forms.py:99
 msgid "Passwords must match"
 msgstr "Паролите трябва да са еднакви"
 
@@ -52,47 +51,47 @@ msgstr "Потребителско име вече е регистрирано"
 msgid "Email already registered"
 msgstr "Имейл вече е регистриран"
 
-#: flaskshop/account/forms.py:61
+#: flaskshop/account/forms.py:60
 msgid "Username Or Email"
 msgstr "Потребителско име или имейл"
 
-#: flaskshop/account/forms.py:80
+#: flaskshop/account/forms.py:79
 msgid "Unknown username"
 msgstr "Неизвестно потребителско име"
 
-#: flaskshop/account/forms.py:84 flaskshop/account/forms.py:116
+#: flaskshop/account/forms.py:83 flaskshop/account/forms.py:115
 msgid "Invalid password"
-msgstr "Грешнапарола"
+msgstr "Грешна парола"
 
-#: flaskshop/account/forms.py:88
+#: flaskshop/account/forms.py:87
 msgid "User not activated"
 msgstr "Потребител не е активен"
 
-#: flaskshop/account/forms.py:94
+#: flaskshop/account/forms.py:93
 msgid "Old Password"
 msgstr "Стара парола"
 
-#: flaskshop/account/forms.py:125
+#: flaskshop/account/forms.py:124 flaskshop/dashboard/forms.py:91
 msgid "Province"
 msgstr "Област"
 
-#: flaskshop/account/forms.py:126
+#: flaskshop/account/forms.py:125
 msgid "City"
 msgstr "Град"
 
-#: flaskshop/account/forms.py:127
+#: flaskshop/account/forms.py:126 flaskshop/dashboard/forms.py:93
 msgid "District"
 msgstr "Окръг"
 
-#: flaskshop/account/forms.py:128
+#: flaskshop/account/forms.py:127 flaskshop/dashboard/forms.py:94
 msgid "Address"
 msgstr "Адрес"
 
-#: flaskshop/account/forms.py:129
+#: flaskshop/account/forms.py:128
 msgid "Contact name"
 msgstr "Име за контакт"
 
-#: flaskshop/account/forms.py:131
+#: flaskshop/account/forms.py:130 flaskshop/dashboard/forms.py:96
 #: flaskshop/templates/dashboard/user/detail.html:57
 msgid "Contact Phone"
 msgstr "Телефон за контакт"
@@ -121,34 +120,175 @@ msgstr "Успешно редактиране на адреса."
 msgid "Success add address."
 msgstr "Успешно добавен адрес."
 
+#: flaskshop/api/checkout.py:5
+msgid "Checkout related operations"
+msgstr "Операции, свързани с касата"
+
+#: flaskshop/api/checkout.py:10
+msgid "The checkout cartline id"
+msgstr "Номер на ред"
+
+#: flaskshop/api/checkout.py:11
+msgid "The cart item num"
+msgstr "Брой артикул номер"
+
+#: flaskshop/api/checkout.py:13
+msgid "The cart item title"
+msgstr "Заглавие на артикула в количката"
+
+#: flaskshop/api/checkout.py:16
+msgid "The cart item variant"
+msgstr "Вариант на артикула в количката"
+
+#: flaskshop/api/checkout.py:19
+msgid "The cart item product"
+msgstr "Продукти в количката"
+
+#: flaskshop/api/checkout.py:22
+msgid "The cart item price"
+msgstr "Цената на артикула в количката"
+
+#: flaskshop/api/checkout.py:25
+msgid "The cart item image"
+msgstr "Изображение на артикула в количката"
+
+#: flaskshop/api/product.py:9
+msgid "Products related operations"
+msgstr "Операции, свързани с продукти"
+
+#: flaskshop/api/product.py:11
+msgid "The variant"
+msgstr "Вариант"
+
+#: flaskshop/api/product.py:12
+msgid "The quantity"
+msgstr "Количество"
+
+#: flaskshop/api/product.py:17 flaskshop/api/product.py:39
+#: flaskshop/api/product.py:63
+msgid "The product identifier"
+msgstr "Идентификатор на продукт"
+
+#: flaskshop/api/product.py:18 flaskshop/api/product.py:40
+msgid "The product name"
+msgstr "Продукта няма име"
+
+#: flaskshop/api/product.py:19 flaskshop/api/product.py:41
+msgid "The product description"
+msgstr "Описание на продукт"
+
+#: flaskshop/api/product.py:20 flaskshop/api/product.py:42
+msgid "The product price"
+msgstr "Цена на продукта"
+
+#: flaskshop/api/product.py:21
+msgid "The product first img"
+msgstr "Основна снимка на продукта"
+
+#: flaskshop/api/product.py:27
+msgid "The variant identifier"
+msgstr "Идентификатор на вариант"
+
+#: flaskshop/api/product.py:28
+msgid "The variant sku"
+msgstr "Складов № на варианта"
+
+#: flaskshop/api/product.py:29
+msgid "The variant name"
+msgstr "Име на вариант"
+
+#: flaskshop/api/product.py:30
+msgid "The variant price"
+msgstr "Цена на варианта"
+
+#: flaskshop/api/product.py:32
+msgid "The variant stock"
+msgstr "Продажба на вариант"
+
+#: flaskshop/api/product.py:43
+msgid "The product images"
+msgstr "Снимки на продукта"
+
+#: flaskshop/api/product.py:45
+msgid "The product variant"
+msgstr "Вариантът на продукта"
+
+#: flaskshop/api/product.py:64
+msgid "Product not found"
+msgstr "Продукта не е намерен"
+
 #: flaskshop/checkout/forms.py:6
 msgid "ADD A NOTE TO YOUR ORDER"
 msgstr "ДОБАВЕТЕ БЕЛЕЖКА КЪМ ВАШАТА ПОРЪЧКА"
+
+#: flaskshop/checkout/forms.py:10 flaskshop/dashboard/forms.py:171
+msgid "Code"
+msgstr "Код"
 
 #: flaskshop/checkout/views.py:118
 msgid "Your code is not correct"
 msgstr "Вашият код не е правилен"
 
-#: flaskshop/dashboard/forms.py:30
-msgid "SelectField"
-msgstr "Изберете Поле"
+#: flaskshop/dashboard/forms.py:46 flaskshop/dashboard/forms.py:55
+#: flaskshop/dashboard/forms.py:67 flaskshop/dashboard/forms.py:101
+#: flaskshop/dashboard/forms.py:108 flaskshop/dashboard/forms.py:116
+#: flaskshop/dashboard/forms.py:124 flaskshop/dashboard/forms.py:133
+#: flaskshop/dashboard/forms.py:156 flaskshop/dashboard/forms.py:163
+#: flaskshop/dashboard/forms.py:169 flaskshop/dashboard/forms.py:190
+#: flaskshop/dashboard/views/discount.py:16
+#: flaskshop/dashboard/views/discount.py:70
+#: flaskshop/dashboard/views/product.py:30
+#: flaskshop/dashboard/views/product.py:67
+#: flaskshop/dashboard/views/product.py:108
+#: flaskshop/dashboard/views/product.py:152
+#: flaskshop/dashboard/views/product.py:212
+#: flaskshop/dashboard/views/site.py:24 flaskshop/dashboard/views/site.py:58
+#: flaskshop/dashboard/views/site.py:106 flaskshop/dashboard/views/site.py:144
+#: flaskshop/templates/dashboard/product/detail.html:96
+msgid "Title"
+msgstr "Заглавие"
 
-#: flaskshop/dashboard/forms.py:31
-msgid "SelectMultipleField"
-msgstr "Изберете Множество Полета"
+#: flaskshop/dashboard/forms.py:47 flaskshop/dashboard/forms.py:56
+#: flaskshop/dashboard/views/site.py:59 flaskshop/dashboard/views/site.py:107
+#: flaskshop/templates/account/details.html:47
+#: flaskshop/templates/dashboard/index.html:105
+#: flaskshop/templates/orders/details.html:22
+#: flaskshop/templates/orders/details.html:35
+#: flaskshop/templates/public/style_guide.html:714
+msgid "Order"
+msgstr "Поръчки"
 
-#: flaskshop/dashboard/forms.py:32
-msgid "RadioField"
-msgstr "Радио Поле"
+#: flaskshop/dashboard/forms.py:48
+msgid "End Point"
+msgstr "Крайна"
 
-#: flaskshop/dashboard/forms.py:33
-msgid "FieldList"
-msgstr "Списък с полета"
+#: flaskshop/dashboard/forms.py:49
+msgid "Icon"
+msgstr "Икона"
 
-#: flaskshop/dashboard/forms.py:50 flaskshop/dashboard/forms.py:117
-#: flaskshop/dashboard/views/product.py:109
+#: flaskshop/dashboard/forms.py:50 flaskshop/dashboard/forms.py:58
+#: flaskshop/dashboard/forms.py:117 flaskshop/dashboard/views/product.py:109
 msgid "Parent"
 msgstr "Родител"
+
+#: flaskshop/dashboard/forms.py:51 flaskshop/dashboard/forms.py:63
+#: flaskshop/dashboard/forms.py:71 flaskshop/dashboard/forms.py:77
+#: flaskshop/dashboard/forms.py:87 flaskshop/dashboard/forms.py:97
+#: flaskshop/dashboard/forms.py:104 flaskshop/dashboard/forms.py:112
+#: flaskshop/dashboard/forms.py:120 flaskshop/dashboard/forms.py:129
+#: flaskshop/dashboard/forms.py:144 flaskshop/dashboard/forms.py:149
+#: flaskshop/dashboard/forms.py:159 flaskshop/dashboard/forms.py:165
+#: flaskshop/dashboard/forms.py:186 flaskshop/dashboard/forms.py:195
+msgid "Submit"
+msgstr "Запиши"
+
+#: flaskshop/dashboard/forms.py:57 flaskshop/dashboard/views/site.py:146
+msgid "Url"
+msgstr "Линк"
+
+#: flaskshop/dashboard/forms.py:59 flaskshop/dashboard/views/site.py:60
+msgid "Position"
+msgstr "Позиция"
 
 #: flaskshop/dashboard/forms.py:59
 msgid "none"
@@ -162,8 +302,10 @@ msgstr "горе"
 msgid "bottom"
 msgstr "долу"
 
-#: flaskshop/dashboard/forms.py:60 flaskshop/dashboard/forms.py:181
-#: flaskshop/dashboard/forms.py:193 flaskshop/dashboard/views/product.py:216
+
+#: flaskshop/dashboard/forms.py:60 flaskshop/dashboard/forms.py:140
+#: flaskshop/dashboard/forms.py:181 flaskshop/dashboard/forms.py:193
+#: flaskshop/dashboard/views/product.py:216
 #: flaskshop/templates/dashboard/product/category.html:15
 #: flaskshop/templates/dashboard/product/detail.html:56
 #: flaskshop/templates/dashboard/product/list.html:26
@@ -176,9 +318,59 @@ msgid "Collection"
 msgstr "Колекция"
 
 #: flaskshop/dashboard/forms.py:62
-#: flaskshop/templates/dashboard/site/site_page.html:13
+#: flaskshop/templates/dashboard/site/site_page.html:14
 msgid "Page"
 msgstr "Страница"
+
+#: flaskshop/dashboard/forms.py:68 flaskshop/dashboard/views/site.py:145
+msgid "Slug"
+msgstr "Slug"
+
+#: flaskshop/dashboard/forms.py:69
+msgid "Content"
+msgstr "Съдържание"
+
+#: flaskshop/dashboard/forms.py:70
+msgid "Is Visible"
+msgstr "Видим"
+
+#: flaskshop/dashboard/forms.py:75
+msgid "Header"
+msgstr "Заглавие"
+
+#: flaskshop/dashboard/forms.py:76 flaskshop/dashboard/forms.py:141
+#: flaskshop/templates/products/details.html:135
+msgid "Description"
+msgstr "Описание"
+
+#: flaskshop/dashboard/forms.py:81
+msgid "User Name"
+msgstr "Потребител"
+
+#: flaskshop/dashboard/forms.py:82
+msgid "E-mail"
+msgstr "Имейл"
+
+#: flaskshop/dashboard/forms.py:84
+msgid "Is Activ"
+msgstr "Активен"
+
+#: flaskshop/dashboard/forms.py:85
+msgid "Created at"
+msgstr "Създаден на"
+
+#: flaskshop/dashboard/forms.py:86
+msgid "Updated at"
+msgstr "Актуализиран на"
+
+#: flaskshop/dashboard/forms.py:92
+msgid "Sity"
+msgstr "Град"
+
+#: flaskshop/dashboard/forms.py:95
+#: flaskshop/templates/dashboard/user/detail.html:56
+msgid "Contact Name"
+msgstr "Име за контакт"
 
 #: flaskshop/dashboard/forms.py:102 flaskshop/dashboard/views/product.py:31
 msgid "Value"
@@ -189,6 +381,11 @@ msgstr "Стойност"
 msgid "Product Types"
 msgstr "Тип на продукт"
 
+
+#: flaskshop/dashboard/forms.py:109
+msgid "Products"
+msgstr "Продукти"
+
 #: flaskshop/dashboard/forms.py:110 flaskshop/dashboard/forms.py:118
 msgid "Current Image"
 msgstr "Текущо изображение"
@@ -197,9 +394,58 @@ msgstr "Текущо изображение"
 msgid "Upload"
 msgstr "Качване"
 
+#: flaskshop/dashboard/forms.py:125
+msgid "Has variant"
+msgstr "Има ли варианти"
+
+#: flaskshop/dashboard/forms.py:126
+msgid "Is shipping required"
+msgstr "Изисква ли се доставка"
+
+#: flaskshop/dashboard/forms.py:127
+msgid "Product atributes"
+msgstr "Атрибути"
+
 #: flaskshop/dashboard/forms.py:128
 msgid "Variant Attributes"
 msgstr "Вариантни атрибути"
+
+#: flaskshop/dashboard/forms.py:134
+msgid "Basic Price"
+msgstr "Основна цена"
+
+#: flaskshop/dashboard/forms.py:135 flaskshop/dashboard/views/product.py:213
+#: flaskshop/templates/dashboard/product/detail.html:39
+#: flaskshop/templates/dashboard/product/list.html:19
+msgid "On Sale"
+msgstr "В Продажба"
+
+#: flaskshop/dashboard/forms.py:136
+msgid "Is Featured"
+msgstr "Бъдещ"
+
+#: flaskshop/dashboard/forms.py:137
+#: flaskshop/templates/dashboard/product/detail.html:47
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: flaskshop/dashboard/forms.py:138 flaskshop/dashboard/views/product.py:214
+#: flaskshop/templates/dashboard/product/detail.html:50
+msgid "Sold Count"
+msgstr "Продадено Количество"
+
+#: flaskshop/dashboard/forms.py:139
+#: flaskshop/templates/dashboard/product/detail.html:53
+msgid "Review Count"
+msgstr "Брой прегледи"
+
+#: flaskshop/dashboard/forms.py:142
+msgid "Images"
+msgstr "Снимки"
+
+#: flaskshop/dashboard/forms.py:143
+msgid "Atributes"
+msgstr "Атрибути"
 
 #: flaskshop/dashboard/forms.py:148
 msgid "Choose A Product Type"
@@ -211,9 +457,58 @@ msgstr "Изберете тип на продукт"
 msgid "SKU"
 msgstr "Складов №"
 
+#: flaskshop/dashboard/forms.py:157
+msgid "Price override"
+msgstr "Промени цена"
+
+#: flaskshop/dashboard/forms.py:158 flaskshop/templates/checkout/cart.html:26
+#: flaskshop/templates/dashboard/product/detail.html:97
+#: flaskshop/templates/orders/_ordered_items_table.html:12
+#: flaskshop/templates/public/style_guide.html:573
+msgid "Quantity"
+msgstr "Количество"
+
+#: flaskshop/dashboard/forms.py:164 flaskshop/dashboard/views/product.py:215
+#: flaskshop/dashboard/views/site.py:25
+#: flaskshop/templates/checkout/cart.html:29
+#: flaskshop/templates/dashboard/product/detail.html:43
+#: flaskshop/templates/orders/_ordered_items_table.html:17
+#: flaskshop/templates/products/_filters.html:49
+msgid "Price"
+msgstr "Цена"
+
+#: flaskshop/dashboard/forms.py:170 flaskshop/dashboard/views/discount.py:17
+#: flaskshop/templates/dashboard/product/product_create_step2.html:17
+msgid "Type"
+msgstr "Тип"
+
+#: flaskshop/dashboard/forms.py:172
+msgid "Usage limit"
+msgstr "Лимит за използване"
+
 #: flaskshop/dashboard/forms.py:173
 msgid "how many times can be used"
 msgstr "колко пъти може да се използва"
+
+#: flaskshop/dashboard/forms.py:175 flaskshop/dashboard/views/discount.py:19
+msgid "Used"
+msgstr "Използван"
+
+#: flaskshop/dashboard/forms.py:176
+msgid "Validity Period"
+msgstr "Период на валидност"
+
+#: flaskshop/dashboard/forms.py:177 flaskshop/dashboard/forms.py:191
+msgid "Discount value type"
+msgstr "Тип отстъпка"
+
+#: flaskshop/dashboard/forms.py:178 flaskshop/dashboard/forms.py:192
+msgid "Discount value"
+msgstr "Стойност на отстъпката"
+
+#: flaskshop/dashboard/forms.py:179
+msgid "Limit"
+msgstr "Лимит"
 
 #: flaskshop/dashboard/forms.py:181
 msgid "when type is category, need to select"
@@ -247,30 +542,10 @@ msgstr "когато продукта има тип, трябва да избе�
 msgid "ID"
 msgstr "ID"
 
-#: flaskshop/dashboard/views/discount.py:16
-#: flaskshop/dashboard/views/discount.py:70
-#: flaskshop/dashboard/views/product.py:30
-#: flaskshop/dashboard/views/product.py:67
-#: flaskshop/dashboard/views/product.py:108
-#: flaskshop/dashboard/views/product.py:152
-#: flaskshop/dashboard/views/product.py:212
-#: flaskshop/dashboard/views/site.py:24 flaskshop/dashboard/views/site.py:58
-#: flaskshop/dashboard/views/site.py:106 flaskshop/dashboard/views/site.py:144
-#: flaskshop/templates/dashboard/product/detail.html:96
-msgid "Title"
-msgstr "Заглавие"
-
-#: flaskshop/dashboard/views/discount.py:17
-msgid "Type"
-msgstr "Тип"
-
 #: flaskshop/dashboard/views/discount.py:18
 msgid "Usage Limit"
 msgstr "Лимит за използване"
 
-#: flaskshop/dashboard/views/discount.py:19
-msgid "Used"
-msgstr "Използван"
 
 #: flaskshop/dashboard/views/discount.py:20
 #: flaskshop/dashboard/views/discount.py:71
@@ -347,25 +622,15 @@ msgstr "Тип на продукт"
 msgid "Product Attribute"
 msgstr "Атрибут на продукт"
 
-#: flaskshop/dashboard/views/product.py:39
-msgid "attributes"
-msgstr "атрибути"
 
 #: flaskshop/dashboard/views/product.py:69
 msgid "Product Collection"
 msgstr "Колекция от продукти"
 
-#: flaskshop/dashboard/views/product.py:73
-msgid "collections"
-msgstr "колекции"
 
 #: flaskshop/dashboard/views/product.py:113
 msgid "Product Category"
 msgstr "Категория на продукта"
-
-#: flaskshop/dashboard/views/product.py:117
-msgid "categories"
-msgstr "категории"
 
 #: flaskshop/dashboard/views/product.py:153
 msgid "Has Variants"
@@ -380,52 +645,12 @@ msgstr "Изисква ли се доставка"
 msgid "Product Type"
 msgstr "Вид продукт"
 
-#: flaskshop/dashboard/views/product.py:162
-msgid "product_types"
-msgstr "типове_продукти"
-
-#: flaskshop/dashboard/views/product.py:213
-#: flaskshop/templates/dashboard/product/detail.html:39
-#: flaskshop/templates/dashboard/product/list.html:19
-msgid "On Sale"
-msgstr "В Продажба"
-
-#: flaskshop/dashboard/views/product.py:214
-#: flaskshop/templates/dashboard/product/detail.html:50
-msgid "Sold Count"
-msgstr "Продадено Количество"
-
-#: flaskshop/dashboard/views/product.py:215
-#: flaskshop/dashboard/views/site.py:25
-#: flaskshop/templates/checkout/cart.html:29
-#: flaskshop/templates/dashboard/product/detail.html:43
-#: flaskshop/templates/orders/_ordered_items_table.html:17
-#: flaskshop/templates/products/_filters.html:49
-msgid "Price"
-msgstr "Цена"
-
 #: flaskshop/dashboard/views/site.py:29
 #: flaskshop/templates/dashboard/order/detail.html:35
 #: flaskshop/templates/dashboard/site/shipping_method.html:15
 msgid "Shipping Method"
 msgstr "Метод за доставка"
 
-#: flaskshop/dashboard/views/site.py:33
-msgid "shipping_methods"
-msgstr "методи_за_доставка"
-
-#: flaskshop/dashboard/views/site.py:59 flaskshop/dashboard/views/site.py:107
-#: flaskshop/templates/account/details.html:47
-#: flaskshop/templates/dashboard/index.html:105
-#: flaskshop/templates/orders/details.html:22
-#: flaskshop/templates/orders/details.html:35
-#: flaskshop/templates/public/style_guide.html:714
-msgid "Order"
-msgstr "Поръчки"
-
-#: flaskshop/dashboard/views/site.py:60
-msgid "Position"
-msgstr "Позиция"
 
 #: flaskshop/dashboard/views/site.py:61 flaskshop/dashboard/views/site.py:110
 msgid "Parent Id"
@@ -435,9 +660,6 @@ msgstr "ID на родител"
 msgid "Site Menus"
 msgstr "Меню на сайта"
 
-#: flaskshop/dashboard/views/site.py:68
-msgid "site_menus"
-msgstr "менюта_на_сайта"
 
 #: flaskshop/dashboard/views/site.py:108
 msgid "Endpoint"
@@ -451,17 +673,6 @@ msgstr "Клас икона"
 msgid "Dashboard Menus"
 msgstr "Менюта на таблото"
 
-#: flaskshop/dashboard/views/site.py:117
-msgid "dashboard_menus"
-msgstr "менюта_на_таблото"
-
-#: flaskshop/dashboard/views/site.py:145
-msgid "Slug"
-msgstr "Slug"
-
-#: flaskshop/dashboard/views/site.py:146
-msgid "Url"
-msgstr "Линк"
 
 #: flaskshop/dashboard/views/site.py:147
 msgid "Is Visiable"
@@ -470,10 +681,6 @@ msgstr "Видим"
 #: flaskshop/dashboard/views/site.py:150
 msgid "Site Pages"
 msgstr "Страници на сайта"
-
-#: flaskshop/dashboard/views/site.py:154
-msgid "site_pages"
-msgstr "страници_на_сайта"
 
 #: flaskshop/dashboard/views/site.py:183
 msgid "The plugin is enabled, Please restart flask-shop now!"
@@ -502,6 +709,57 @@ msgstr "Това не е вашата поръчка!"
 #: flaskshop/order/views.py:41
 msgid "This Order Can Not Pay"
 msgstr "Тази поръчка не може да се плати"
+
+#: flaskshop/plugin/conversations/forms.py:13
+msgid "Recipient"
+msgstr "Получател"
+
+#: flaskshop/plugin/conversations/forms.py:13
+msgid "A valid username is required."
+msgstr "Валидно потребителско име е задължително."
+
+#: flaskshop/plugin/conversations/forms.py:17
+#: flaskshop/templates/conversations/conversation.html:252
+msgid "Subject"
+msgstr "Относно"
+
+#: flaskshop/plugin/conversations/forms.py:17
+msgid "A Subject is required."
+msgstr "Заглавието е задължително."
+
+#: flaskshop/plugin/conversations/forms.py:21
+#: flaskshop/plugin/conversations/forms.py:52
+msgid "Message"
+msgstr "Съобщение"
+
+#: flaskshop/plugin/conversations/forms.py:21
+#: flaskshop/plugin/conversations/forms.py:52
+msgid "A message is required."
+msgstr "Съобщение е задължително."
+
+#: flaskshop/plugin/conversations/forms.py:27
+msgid "The username you entered does not exist."
+msgstr "Потребителското име, което сте въвели, не съществува."
+
+#: flaskshop/plugin/conversations/forms.py:29
+msgid "You cannot send a PM to yourself."
+msgstr "Не можете да изпратите ЛС на себе си."
+
+#: flaskshop/plugin/conversations/views.py:37
+msgid ""
+"You cannot send any messages anymore because you have reached your "
+"message limit."
+msgstr ""
+"Вече не можете да изпращате никакви съобщения, защото сте достигнали "
+"лимита си за съобщения."
+
+#: flaskshop/plugin/conversations/views.py:148
+msgid "Compose Message"
+msgstr "Създай съобщение"
+
+#: flaskshop/plugin/conversations/views.py:180
+msgid "Message sent."
+msgstr "Съобщението е изпратено."
 
 #: flaskshop/templates/base.html:6
 msgid "flask store"
@@ -627,7 +885,7 @@ msgstr "Потребителя няма поръчки."
 #: flaskshop/templates/dashboard/product/variant.html:14
 #: flaskshop/templates/dashboard/site/shipping_method.html:14
 #: flaskshop/templates/dashboard/site/site_menu.html:14
-#: flaskshop/templates/dashboard/site/site_page.html:13
+#: flaskshop/templates/dashboard/site/site_page.html:14
 #: flaskshop/templates/dashboard/user/detail.html:31
 #: flaskshop/templates/dashboard/user/detail.html:67
 #: flaskshop/templates/public/style_guide.html:791
@@ -645,7 +903,6 @@ msgid "Cancel"
 msgstr "Отказ"
 
 #: flaskshop/templates/account/details.html:148
-#, fuzzy
 msgid "New Address"
 msgstr "Нов адрес"
 
@@ -673,13 +930,6 @@ msgstr "Кошница"
 #: flaskshop/templates/checkout/cart.html:15
 msgid "Product has been removed from cart"
 msgstr "Продукта беше премахнат от кошницата"
-
-#: flaskshop/templates/checkout/cart.html:26
-#: flaskshop/templates/dashboard/product/detail.html:97
-#: flaskshop/templates/orders/_ordered_items_table.html:12
-#: flaskshop/templates/public/style_guide.html:573
-msgid "Quantity"
-msgstr "Количество"
 
 #: flaskshop/templates/checkout/cart.html:75
 #: flaskshop/templates/checkout/details.html:3
@@ -745,6 +995,65 @@ msgstr "Метод за доставка"
 #: flaskshop/templates/checkout/shipping.html:60
 msgid "Continue"
 msgstr "Продължи"
+
+#: flaskshop/templates/conversations/_inject_navlink.html:7
+#: flaskshop/templates/conversations/_inject_navlink.html:18
+#: flaskshop/templates/conversations/inbox.html:3
+msgid "Inbox"
+msgstr "Входящи"
+
+#: flaskshop/templates/conversations/_inject_navlink.html:15
+msgid "No unread messages"
+msgstr "Няма непрочетени съобщения"
+
+#: flaskshop/templates/conversations/_inject_navlink.html:19
+msgid "New Message"
+msgstr "Ново съобщение"
+
+#: flaskshop/templates/conversations/conversation.html:304
+msgid "Send"
+msgstr "Изпрати"
+
+#: flaskshop/templates/conversations/conversation_list.html:14
+msgid "Conversations"
+msgstr "Разговори"
+
+#: flaskshop/templates/conversations/conversation_list.html:48
+msgid "From"
+msgstr "От"
+
+#: flaskshop/templates/conversations/conversation_list.html:52
+#: flaskshop/templates/conversations/conversation_list.html:59
+msgid "Deleted User"
+msgstr "Изтрит потребител"
+
+#: flaskshop/templates/conversations/conversation_list.html:55
+msgid "to"
+msgstr "до"
+
+#: flaskshop/templates/conversations/conversation_list.html:61
+msgid "on"
+msgstr "на"
+
+#: flaskshop/templates/conversations/conversation_list.html:98
+msgid "edit"
+msgstr "редактирай"
+
+#: flaskshop/templates/conversations/conversation_list.html:108
+msgid "No conversations found."
+msgstr "Няма намерени разговори."
+
+#: flaskshop/templates/conversations/message_form.html:3
+msgid " Compose Message"
+msgstr " Създай съобщение"
+
+#: flaskshop/templates/conversations/sent.html:3
+msgid "Sent Messages"
+msgstr "Изпрати съобщение"
+
+#: flaskshop/templates/conversations/trash.html:3
+msgid "Trash"
+msgstr "Кошче"
 
 #: flaskshop/templates/dashboard/index.html:17
 msgid "Sales"
@@ -818,9 +1127,20 @@ msgstr "Сайт"
 #: flaskshop/templates/dashboard/product/variant.html:14
 #: flaskshop/templates/dashboard/site/shipping_method.html:14
 #: flaskshop/templates/dashboard/site/site_menu.html:14
-#: flaskshop/templates/dashboard/site/site_page.html:13
+#: flaskshop/templates/dashboard/site/site_page.html:14
 msgid "Create"
 msgstr "Създай"
+
+#: flaskshop/templates/dashboard/list.html:36
+#: flaskshop/templates/dashboard/order/list.html:44
+#: flaskshop/templates/dashboard/product/detail.html:99
+#: flaskshop/templates/dashboard/product/list.html:58
+#: flaskshop/templates/dashboard/site/plugin.html:17
+#: flaskshop/templates/dashboard/user/detail.html:58
+#: flaskshop/templates/dashboard/user/detail.html:84
+#: flaskshop/templates/dashboard/user/list.html:35
+msgid "Operation"
+msgstr "Операция"
 
 #: flaskshop/templates/dashboard/list.html:47
 #: flaskshop/templates/dashboard/product/detail.html:18
@@ -830,17 +1150,14 @@ msgid "Delete"
 msgstr "Изтрий"
 
 #: flaskshop/templates/dashboard/order/detail.html:23
-#, fuzzy
 msgid "Payment Status"
-msgstr "Плащания за получаване"
+msgstr "Статус на плащане"
 
 #: flaskshop/templates/dashboard/order/detail.html:24
-#, fuzzy
 msgid "Payment Due"
-msgstr "Плащания за получаване"
+msgstr "Чака плащане"
 
 #: flaskshop/templates/dashboard/order/detail.html:29
-#, fuzzy
 msgid "Shipping Address"
 msgstr "Адрес за доставка"
 
@@ -853,19 +1170,16 @@ msgid "Unit Price"
 msgstr "Цена на брой"
 
 #: flaskshop/templates/dashboard/order/detail.html:53
-#, fuzzy
 msgid "Subtotal)"
 msgstr "Междинна сума"
 
 #: flaskshop/templates/dashboard/order/detail.html:81
-#, fuzzy
 msgid "Payment Method"
 msgstr "Метод за доставка"
 
 #: flaskshop/templates/dashboard/order/detail.html:82
-#, fuzzy
 msgid "Order Note"
-msgstr "Вашата бележка"
+msgstr "Бележка към поръчка"
 
 #: flaskshop/templates/dashboard/order/detail.html:96
 #: flaskshop/templates/orders/_ordered_items_table.html:69
@@ -873,9 +1187,9 @@ msgid "Shipping"
 msgstr "Доставка"
 
 #: flaskshop/templates/dashboard/order/detail.html:101
-#, fuzzy
 msgid "Discount"
-msgstr "Тип отстъпка"
+msgstr "Отстъпка"
+
 
 #: flaskshop/templates/dashboard/order/detail.html:121
 msgid "Send Order"
@@ -889,15 +1203,6 @@ msgstr "Платена"
 msgid "Order List"
 msgstr "Списък с поръчки"
 
-#: flaskshop/templates/dashboard/order/list.html:44
-#: flaskshop/templates/dashboard/product/detail.html:99
-#: flaskshop/templates/dashboard/product/list.html:58
-#: flaskshop/templates/dashboard/site/plugin.html:17
-#: flaskshop/templates/dashboard/user/detail.html:58
-#: flaskshop/templates/dashboard/user/detail.html:84
-#: flaskshop/templates/dashboard/user/list.html:35
-msgid "Operation"
-msgstr "Операция"
 
 #: flaskshop/templates/dashboard/order/list.html:53
 #: flaskshop/templates/dashboard/product/list.html:67
@@ -906,29 +1211,17 @@ msgstr "Операция"
 msgid "View"
 msgstr "Покажи"
 
-#: flaskshop/templates/dashboard/product/detail.html:47
-#, fuzzy
-msgid "Rating"
-msgstr "Операция"
-
-#: flaskshop/templates/dashboard/product/detail.html:53
-msgid "Review Count"
-msgstr "Брой прегледи"
-
 #: flaskshop/templates/dashboard/product/detail.html:62
-#, fuzzy
 msgid "Created"
-msgstr "Създай"
+msgstr "Създаден на"
 
 #: flaskshop/templates/dashboard/product/detail.html:68
-#, fuzzy
 msgid "Product Description"
-msgstr "Колекция от продукти"
+msgstr "Описание на продукт"
 
 #: flaskshop/templates/dashboard/product/detail.html:83
-#, fuzzy
 msgid "Variants"
-msgstr "Вариант"
+msgstr "Има варианти"
 
 #: flaskshop/templates/dashboard/product/detail.html:98
 msgid "PriceOverride"
@@ -1074,10 +1367,6 @@ msgstr "Адреси"
 msgid "Orders"
 msgstr "Поръчки"
 
-#: flaskshop/templates/dashboard/user/detail.html:56
-msgid "Contact Name"
-msgstr "Име за контакт"
-
 #: flaskshop/templates/dashboard/user/detail.html:72
 msgid "This user have not add address"
 msgstr "Този потребител не е добавил адрес"
@@ -1093,6 +1382,26 @@ msgstr "Редактирай потребител"
 #: flaskshop/templates/dashboard/user/edit_addr.html:13
 msgid "Edit User Address"
 msgstr "Редактирай адрес на потребител"
+
+#: flaskshop/templates/errors/404.html:4
+msgid "Page Not Found"
+msgstr "Страницата не е намерена"
+
+#: flaskshop/templates/errors/404.html:10
+msgid "Sorry, that page doesn't exist."
+msgstr "За съжаление тази страница не съществува."
+
+#: flaskshop/templates/errors/404.html:11
+msgid "Want to"
+msgstr "Искам да"
+
+#: flaskshop/templates/errors/404.html:11
+msgid "go home"
+msgstr "към начало"
+
+#: flaskshop/templates/errors/404.html:11
+msgid "instead"
+msgstr "вместо"
 
 #: flaskshop/templates/orders/_ordered_items_table.html:124
 msgid "Please pay before 00:30, else the order will auto closed"
@@ -1171,10 +1480,6 @@ msgstr "В момента този продукт е"
 #: flaskshop/templates/products/details.html:131
 msgid "unavailable"
 msgstr "недостъпен"
-
-#: flaskshop/templates/products/details.html:135
-msgid "Description"
-msgstr "Описание"
 
 #: flaskshop/templates/products/product_list_base.html:45
 #: flaskshop/templates/public/style_guide.html:417
@@ -1291,7 +1596,7 @@ msgstr "№ Страница"
 
 #: flaskshop/templates/public/style_guide.html:32
 msgid "Breadcrumbs"
-msgstr ""
+msgstr "Трохи"
 
 #: flaskshop/templates/public/style_guide.html:33
 #: flaskshop/templates/public/style_guide.html:624
@@ -1334,16 +1639,16 @@ msgstr "и"
 
 #: flaskshop/templates/public/style_guide.html:48
 msgid "Bold(700)"
-msgstr ""
+msgstr "Удебелен(700)"
 
 #: flaskshop/templates/public/style_guide.html:48
 msgid "weights"
-msgstr ""
+msgstr "ширина"
 
 #: flaskshop/templates/public/style_guide.html:49
 msgid ""
-"Lato includes only latin and latin extended characters. For other alphabets "
-"the default sans serif font\n"
+"Lato includes only latin and latin extended characters. For other "
+"alphabets the default sans serif font\n"
 "              will be used."
 msgstr ""
 "Lato включва само латински и латински разширени знаци. За други азбуки "
@@ -1355,8 +1660,8 @@ msgstr ""
 #: flaskshop/templates/public/style_guide.html:775
 #: flaskshop/templates/public/style_guide.html:817
 msgid ""
-"Click and edit any text below to see how the component looks with different "
-"text"
+"Click and edit any text below to see how the component looks with "
+"different text"
 msgstr ""
 "Щракнете и редактирайте всеки текст по-долу, за да видите как изглежда "
 "компонентът с различен текст"
@@ -1385,18 +1690,18 @@ msgstr "Параграф"
 msgid ""
 "Saleor is open and free to use. It is not a bait to force you to pay us "
 "later and\n"
-"              we promise to do our bests to fix bugs and improve the code. "
-"Some situations however call for a custom\n"
-"              solution and extra code to be written. Whether you need us to "
-"cover an exotic use case or build you a\n"
+"              we promise to do our bests to fix bugs and improve the "
+"code. Some situations however call for a custom\n"
+"              solution and extra code to be written. Whether you need us "
+"to cover an exotic use case or build you a\n"
 "              custom e-commerce appliance, our team can help."
 msgstr ""
-"Saleor е отворен и безплатен за използване. Не е стръв, за да ви принудим да "
-"ни платите по-късно и\n"
-"обещаваме да направим всичко възможно, за да коригираме грешки и да подобрим "
-"кода. Някои ситуации обаче изискват необичайни\n"
-" решение и допълнителен код за писане. Независимо дали имате нужда от нас, "
-"за да покрием екзотичен сайт или да  ви изградим\n"
+"Saleor е отворен и безплатен за използване. Не е стръв, за да ви принудим"
+" да ни платите по-късно и\n"
+"обещаваме да направим всичко възможно, за да коригираме грешки и да "
+"подобрим кода. Някои ситуации обаче изискват необичайни\n"
+" решение и допълнителен код за писане. Независимо дали имате нужда от "
+"нас, за да покрием екзотичен сайт или да  ви изградим\n"
 "персонализиран електронен магазин, нашият екип може да помогне."
 
 #: flaskshop/templates/public/style_guide.html:71
@@ -1417,11 +1722,11 @@ msgstr "Използваме"
 
 #: flaskshop/templates/public/style_guide.html:155
 msgid ""
-"responsive grid which is based on a 12 column layout. In most cases we use "
-"following combinations"
+"responsive grid which is based on a 12 column layout. In most cases we "
+"use following combinations"
 msgstr ""
-"адаптивна мрежа, която се основава на оформление от 12 колони. В повечето "
-"случаи използваме следните комбинации"
+"адаптивна мрежа, която се основава на оформление от 12 колони. В повечето"
+" случаи използваме следните комбинации"
 
 #: flaskshop/templates/public/style_guide.html:206
 msgid "Max container width"
@@ -1493,28 +1798,28 @@ msgstr "Отзивчиви помощни програми"
 
 #: flaskshop/templates/public/style_guide.html:324
 msgid ""
-"The <code>.hidden-*-up</code> classes hide the element when the viewport is "
-"at the given breakpoint or\n"
+"The <code>.hidden-*-up</code> classes hide the element when the viewport "
+"is at the given breakpoint or\n"
 "              wider. For example, <code>.hidden-md-up</code> hides an "
 "element on medium, large, and extra-large\n"
 "              viewports."
 msgstr ""
-"Класовете <code>.hidden-*-up</code> скриват елемента, когато изгледът е в "
-"дадена точка на прекъсване или\n"
-"               по-широк. Например <code>.hidden-md-up</code> скрива елемент "
-"на среден, голям и изключително голям\n"
+"Класовете <code>.hidden-*-up</code> скриват елемента, когато изгледът е в"
+" дадена точка на прекъсване или\n"
+"               по-широк. Например <code>.hidden-md-up</code> скрива "
+"елемент на среден, голям и изключително голям\n"
 "               изгледи."
 
 #: flaskshop/templates/public/style_guide.html:327
 msgid ""
-"The <code>.hidden-*-down</code> classes hide the element when the viewport "
-"is at the given breakpoint or\n"
-"              smaller. For example, <code>.hidden-md-down</code> hides an "
-"element on extra-small, small, and medium\n"
+"The <code>.hidden-*-down</code> classes hide the element when the "
+"viewport is at the given breakpoint or\n"
+"              smaller. For example, <code>.hidden-md-down</code> hides an"
+" element on extra-small, small, and medium\n"
 "              viewports."
 msgstr ""
-"Класовете <code>.hidden-*-down</code> скриват елемента, когато изгледът е в "
-"дадена точка на прекъсване или\n"
+"Класовете <code>.hidden-*-down</code> скриват елемента, когато изгледът е"
+" в дадена точка на прекъсване или\n"
 "               по-малък. Например <code>.hidden-md-down</code> скрива "
 "елемент на изключително малък, малък и среден\n"
 "               изгледи."
@@ -1596,7 +1901,8 @@ msgstr "500г"
 #: flaskshop/templates/public/style_guide.html:436
 msgid "Feel free to place here as long option as you want"
 msgstr ""
-"Чувствайте се свободни да поставите тук толкова дълга опция, колкото искате"
+"Чувствайте се свободни да поставите тук толкова дълга опция, колкото "
+"искате"
 
 #: flaskshop/templates/public/style_guide.html:445
 msgid "Select"
@@ -1627,7 +1933,8 @@ msgstr "Първи вариант"
 #: flaskshop/templates/public/style_guide.html:565
 msgid "Feel free to place here as long text as you want"
 msgstr ""
-"Чувствайте се свободни да поставите тук толкова дълъг текст, колкото искате"
+"Чувствайте се свободни да поставите тук толкова дълъг текст, колкото "
+"искате"
 
 #: flaskshop/templates/public/style_guide.html:497
 msgid "Input groups"
@@ -1647,11 +1954,11 @@ msgstr "Грешки"
 
 #: flaskshop/templates/public/style_guide.html:538
 msgid ""
-"Errors are always displayed as a small red text below the form explaining "
-"what cause the error."
+"Errors are always displayed as a small red text below the form explaining"
+" what cause the error."
 msgstr ""
-"Грешките винаги се показват като малък червен текст под формуляра, обясняващ "
-"причината за грешката."
+"Грешките винаги се показват като малък червен текст под формуляра, "
+"обясняващ причината за грешката."
 
 #: flaskshop/templates/public/style_guide.html:548
 #: flaskshop/templates/public/style_guide.html:569
@@ -1671,8 +1978,8 @@ msgstr "Остават само 32 броя на склад"
 #: flaskshop/templates/public/style_guide.html:625
 #: flaskshop/templates/public/style_guide.html:645
 msgid ""
-"Click and edit any item below to see how the component looks with different "
-"text"
+"Click and edit any item below to see how the component looks with "
+"different text"
 msgstr ""
 "Щракнете и редактирайте всеки елемент по-долу, за да видите как изглежда "
 "компонентът с различен текст"
@@ -1687,11 +1994,13 @@ msgstr "Това е предупреждение за опасност"
 
 #: flaskshop/templates/public/style_guide.html:638
 msgid ""
-"This is Warning alert. Notifications content is not limited with container "
-"width. Place here as many information as you want or need to"
+"This is Warning alert. Notifications content is not limited with "
+"container width. Place here as many information as you want or need to"
 msgstr ""
-"Това е Предупреждение. Съдържанието на известия не е ограничено с ширината "
-"на контейнера. Поставете тук толкова информация, колкото искате или трябва"
+"Това е Предупреждение. Съдържанието на известия не е ограничено с "
+"ширината на контейнера. Поставете тук толкова информация, колкото искате "
+"или трябва"
+
 
 #: flaskshop/templates/public/style_guide.html:662
 msgid "Tabs navigation"
@@ -1730,256 +2039,31 @@ msgstr "Тест-Браун"
 msgid "FROM"
 msgstr "ОТ"
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/config_vars.py:15
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/config_vars.py:18
-msgid "Config"
-msgstr "Конфигурация"
+#~ msgid "Config"
+#~ msgstr "Конфигурация"
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/headers.py:37
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/headers.py:40
-msgid "HTTP Headers"
-msgstr "HTTP заглавки"
+#~ msgid "HTTP Headers"
+#~ msgstr "HTTP заглавки"
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/logger.py:87
-msgid "Logging"
-msgstr "Логове"
+#~ msgid "Logging"
+#~ msgstr "Логове"
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/logger.py:95
-msgid "Log Messages"
-msgstr "Лог съобщения"
+#~ msgid "Log Messages"
+#~ msgstr "Лог съобщения"
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/request_vars.py:16
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/request_vars.py:19
-msgid "Request Vars"
-msgstr "Иска променлива"
+#~ msgid "Request Vars"
+#~ msgstr "Иска променлива"
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/route_list.py:16
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/route_list.py:19
-msgid "Route List"
-msgstr "Списък с пътища"
+#~ msgid "Route List"
+#~ msgstr "Списък с пътища"
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/sqlalchemy.py:90
-msgid "SQLAlchemy"
-msgstr ""
+#~ msgid "Versions"
+#~ msgstr "Версия"
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/sqlalchemy.py:101
-msgid "SQLAlchemy queries"
-msgstr ""
+#~ msgid "This field is required."
+#~ msgstr "Полето е задължително."
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/template.py:53
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/template.py:59
-msgid "Templates"
-msgstr "Шаблони"
+#~ msgid "Invalid IP address."
+#~ msgstr "Невалиден IP адрес."
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:36
-msgid "Time"
-msgstr "Час"
 
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:49
-msgid "Resource Usage"
-msgstr "Използвани ресурси"
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:81
-msgid "User CPU time"
-msgstr "Потребителскопроцесорно време"
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:82
-msgid "System CPU time"
-msgstr "Системно процесорно време"
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:83
-msgid "Total CPU time"
-msgstr "Общо процесорно време"
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:84
-msgid "Elapsed time"
-msgstr "Изминалото време"
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:85
-msgid "Context switches"
-msgstr "Превключватели на контекста"
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/versions.py:28
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/versions.py:37
-msgid "Versions"
-msgstr "Версия"
-
-#: venv/lib/python3.7/site-packages/flask_wtf/file.py:51
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:205
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:245
-msgid "This field is required."
-msgstr "Полето е задължително."
-
-#: venv/lib/python3.7/site-packages/flask_wtf/file.py:85
-msgid "File does not have an approved extension: {extensions}"
-msgstr "Файлът няма одобрено разширение: {extensions}"
-
-#: venv/lib/python3.7/site-packages/flask_wtf/file.py:90
-msgid "File does not have an approved extension."
-msgstr "Файлът няма одобрено разширение."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:58
-#, python-format
-msgid "Invalid field name '%s'."
-msgstr "Невалидно име на поле '%s'."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:66
-#, python-format
-msgid "Field must be equal to %(other_name)s."
-msgstr "Полето трябва да е равно на %(other_name)s."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:99
-#, python-format
-msgid "Field must be at least %(min)d character long."
-msgid_plural "Field must be at least %(min)d characters long."
-msgstr[0] "Полето трябва да е с дължина поне %(min)d знак."
-msgstr[1] "Полето трябва да съдържа поне %(min)d знака."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:102
-#, python-format
-msgid "Field cannot be longer than %(max)d character."
-msgid_plural "Field cannot be longer than %(max)d characters."
-msgstr[0] "Полето не може да бъде по-дълго от %(max)d знак."
-msgstr[1] "Полето не може да бъде по-дълго от %(max)d знакa."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:105
-#, python-format
-msgid "Field must be between %(min)d and %(max)d characters long."
-msgstr "Полето трябва да е между %(min)d и %(max)d знака."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:141
-#, python-format
-msgid "Number must be at least %(min)s."
-msgstr "Числото трябва да бъде най-малко %(min)s."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:143
-#, python-format
-msgid "Number must be at most %(max)s."
-msgstr "Числото трябва да бъде най-много %(max)s."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:145
-#, python-format
-msgid "Number must be between %(min)s and %(max)s."
-msgstr "Числото трябва да е между %(min)s и %(max)s."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:277
-msgid "Invalid input."
-msgstr "Невалидни данни."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:311
-msgid "Invalid email address."
-msgstr "Невалиден майл."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:352
-msgid "Invalid IP address."
-msgstr "Невалидно IP."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:403
-msgid "Invalid Mac address."
-msgstr "Невалиден MAC."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:432
-msgid "Invalid URL."
-msgstr "Невалиден Линк."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:452
-msgid "Invalid UUID."
-msgstr "Невалиден UUID."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:482
-#, python-format
-msgid "Invalid value, must be one of: %(values)s."
-msgstr "Невалидна стойност, трябва да бъде една от: %(values)s."
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:514
-#, python-format
-msgid "Invalid value, can't be any of: %(values)s."
-msgstr "Невалидна стойност, не може да бъде нито една от: %(values)s."
-
-#: venv/lib/python3.7/site-packages/wtforms/csrf/core.py:98
-#: venv/lib/python3.7/site-packages/wtforms/ext/csrf/form.py:47
-msgid "Invalid CSRF Token"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/csrf/session.py:61
-#: venv/lib/python3.7/site-packages/wtforms/ext/csrf/session.py:58
-msgid "CSRF token missing"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/csrf/session.py:69
-#: venv/lib/python3.7/site-packages/wtforms/ext/csrf/session.py:66
-msgid "CSRF failed"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/csrf/session.py:74
-#: venv/lib/python3.7/site-packages/wtforms/ext/csrf/session.py:71
-msgid "CSRF token expired"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:87
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:164
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:166
-#: venv/lib/python3.7/site-packages/wtforms/ext/django/fields.py:95
-#: venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py:125
-#: venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py:127
-#: venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py:180
-#: venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py:185
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:475
-msgid "Not a valid choice"
-msgstr "Невалиден избор"
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:185
-msgid "Not a valid list"
-msgstr "Не е в списъка с валидни"
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:204
-msgid "Not a valid integer list"
-msgstr "Липсва в списъка със чила"
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/dateutil/fields.py:63
-msgid "Please input a date/time value"
-msgstr "Моля вкарайте дата и час"
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/dateutil/fields.py:75
-#: venv/lib/python3.7/site-packages/wtforms/ext/dateutil/fields.py:83
-msgid "Invalid date/time input"
-msgstr "Невалидна дата и час"
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:468
-msgid "Invalid Choice: could not coerce"
-msgstr "Невалиден избор: не може да се избере"
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:501
-msgid "Invalid choice(s): one or more data inputs could not be coerced"
-msgstr ""
-"Невалиден избор(и): едно или повече въвеждане на данни не може да бъде "
-"принудено"
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:508
-#, python-format
-msgid "'%(value)s' is not a valid choice for this field"
-msgstr "'%(value)s' не е валиден избор за това поле"
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:591
-msgid "Not a valid integer value"
-msgstr "Не е валидна целочислена стойност"
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:657
-msgid "Not a valid decimal value"
-msgstr "Не е валидна десетична стойност"
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:684
-msgid "Not a valid float value"
-msgstr "Невалидна стойност с плаваща запетая"
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:745
-msgid "Not a valid datetime value"
-msgstr "Не е валидна стойност за дата и час"
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:762
-msgid "Not a valid date value"
-msgstr "Не е валидна стойност на датата"
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:779
-msgid "Not a valid time value"
-msgstr "Не е валидна времева стойност"

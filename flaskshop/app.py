@@ -5,6 +5,8 @@ import sys
 from flask import Flask, render_template
 from flask_babel import Babel
 from werkzeug.wsgi import DispatcherMiddleware
+from flask_ckeditor import CKEditor
+from flask_migrate import Migrate
 
 from flaskshop import commands
 from flaskshop.extensions import (
@@ -32,6 +34,9 @@ from .api import api as api_view
 from .dashboard_api.api_app import dashboard_api
 
 babel = Babel()
+ckeditor = CKEditor()
+migrate = Migrate()
+
 
 def create_app(config_object=Config):
     app = Flask(__name__.split(".")[0])
@@ -57,6 +62,8 @@ def register_extensions(app):
     migrate.init_app(app, db)
     bootstrap.init_app(app)
     babel.init_app(app)
+    ckeditor.init_app(app)
+    migrate.init_app(app, db)
 
 
 def register_blueprints(app):

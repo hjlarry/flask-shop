@@ -71,3 +71,13 @@ class Setting(Model):
 
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.key}>"
+
+# class Mail_Templates(Model):
+#     __tablename__ = "management_mail_templates"
+#     title = Column(db.String(255), nullable=False)
+#     content = Column(db.Text(), nullable=False)
+#     collection_id = Column(db.Integer(), ullable=True)
+#     pages_id = Column(db.Integer(), True)
+#
+#     def __str__(self):
+#         return self.title

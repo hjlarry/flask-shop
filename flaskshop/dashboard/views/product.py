@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask import request, render_template, redirect, url_for, current_app
-from flask_babel import gettext
+from flask_babel import lazy_gettext
 from flaskshop.product.models import (
     ProductAttribute,
     ProductType,
@@ -26,13 +26,13 @@ def attributes():
     page = request.args.get("page", type=int, default=1)
     pagination = ProductAttribute.query.paginate(page, 10)
     props = {
-        "id": gettext("ID"),
-        "title": gettext("Title"),
-        "values_label": gettext("Value"),
-        "types_label": gettext("ProductType"),
+        "id": lazy_gettext("ID"),
+        "title": lazy_gettext("Title"),
+        "values_label": lazy_gettext("Value"),
+        "types_label": lazy_gettext("ProductType"),
     }
     context = {
-        "title": gettext("Product Attribute"),
+        "title": lazy_gettext("Product Attribute"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
@@ -64,9 +64,9 @@ def attributes_manage(id=None):
 def collections():
     page = request.args.get("page", type=int, default=1)
     pagination = Collection.query.paginate(page, 10)
-    props = {"id": gettext("ID"), "title": gettext("Title"), "created_at": gettext("Created At")}
+    props = {"id": lazy_gettext("ID"), "title": lazy_gettext("Title"), "created_at": lazy_gettext("Created At")}
     context = {
-        "title": gettext("Product Collection"),
+        "title": lazy_gettext("Product Collection"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
@@ -104,13 +104,13 @@ def categories():
     page = request.args.get("page", type=int, default=1)
     pagination = Category.query.paginate(page, 10)
     props = {
-        "id": gettext("ID"),
-        "title": gettext("Title"),
-        "parent": gettext("Parent"),
-        "created_at": gettext("Created At"),
+        "id": lazy_gettext("ID"),
+        "title": lazy_gettext("Title"),
+        "parent": lazy_gettext("Parent"),
+        "created_at": lazy_gettext("Created At"),
     }
     context = {
-        "title": gettext("Product Category"),
+        "title": lazy_gettext("Product Category"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
@@ -148,14 +148,14 @@ def product_types():
     page = request.args.get("page", type=int, default=1)
     pagination = ProductType.query.paginate(page, 10)
     props = {
-        "id": gettext("ID"),
-        "title": gettext("Title"),
-        "has_variants": gettext("Has Variants"),
-        "is_shipping_required": gettext("Is Shipping Required"),
-        "created_at": gettext("Created At"),
+        "id": lazy_gettext("ID"),
+        "title": lazy_gettext("Title"),
+        "has_variants": lazy_gettext("Has Variants"),
+        "is_shipping_required": lazy_gettext("Is Shipping Required"),
+        "created_at": lazy_gettext("Created At"),
     }
     context = {
-        "title": gettext("Product Type"),
+        "title": lazy_gettext("Product Type"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
@@ -208,12 +208,12 @@ def products():
 
     pagination = query.paginate(page, 10)
     props = {
-        "id": gettext("ID"),
-        "title": gettext("Title"),
-        "on_sale_human": gettext("On Sale"),
-        "sold_count": gettext("Sold Count"),
-        "price_human": gettext("Price"),
-        "category": gettext("Category"),
+        "id": lazy_gettext("ID"),
+        "title": lazy_gettext("Title"),
+        "on_sale_human": lazy_gettext("On Sale"),
+        "sold_count": lazy_gettext("Sold Count"),
+        "price_human": lazy_gettext("Price"),
+        "category": lazy_gettext("Category"),
     }
     context = {
         "items": pagination.items,
@@ -273,7 +273,7 @@ def product_create_step2():
     if form.validate_on_submit():
         product = Product(product_type_id=product_type_id)
         product = _save_product(product, form)
-        product.generate_variants()
+        #product.generate_variants()
         return redirect(url_for("dashboard.product_detail", id=product.id))
     return render_template(
         "product/product_create_step2.html",

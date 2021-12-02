@@ -16,7 +16,6 @@ class LocalConfig:
     elif db_type == u'mysql':
         db_uri = "mysql+pymysql://{user}:{passwd}@{host}:{port}/{db_name}?charset=utf8mb4".format(
             user=user,passwd=passwd, host=host, port=port, db_name=db_name)
-    db_uri ='postgresql://root:passwd@127.0.0.1:5432/flaskshop'
     redis_uri = "redis://localhost:6379"
     esearch_uri = "localhost"
 

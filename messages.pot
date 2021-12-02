@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-11-29 21:16+0200\n"
+"POT-Creation-Date: 2021-12-01 17:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,16 +29,16 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: flaskshop/account/forms.py:30 flaskshop/account/forms.py:62
-#: flaskshop/account/forms.py:95
+#: flaskshop/account/forms.py:30 flaskshop/account/forms.py:61
+#: flaskshop/account/forms.py:94 flaskshop/dashboard/forms.py:83
 msgid "Password"
 msgstr ""
 
-#: flaskshop/account/forms.py:33 flaskshop/account/forms.py:97
+#: flaskshop/account/forms.py:33 flaskshop/account/forms.py:96
 msgid "Verify password"
 msgstr ""
 
-#: flaskshop/account/forms.py:34 flaskshop/account/forms.py:100
+#: flaskshop/account/forms.py:34 flaskshop/account/forms.py:99
 msgid "Passwords must match"
 msgstr ""
 
@@ -50,47 +50,47 @@ msgstr ""
 msgid "Email already registered"
 msgstr ""
 
-#: flaskshop/account/forms.py:61
+
+#: flaskshop/account/forms.py:60
 msgid "Username Or Email"
 msgstr ""
 
-#: flaskshop/account/forms.py:80
+#: flaskshop/account/forms.py:79
 msgid "Unknown username"
 msgstr ""
 
-#: flaskshop/account/forms.py:84 flaskshop/account/forms.py:116
+#: flaskshop/account/forms.py:83 flaskshop/account/forms.py:115
 msgid "Invalid password"
 msgstr ""
 
-#: flaskshop/account/forms.py:88
+#: flaskshop/account/forms.py:87
 msgid "User not activated"
 msgstr ""
 
-#: flaskshop/account/forms.py:94
+#: flaskshop/account/forms.py:93
 msgid "Old Password"
 msgstr ""
 
-#: flaskshop/account/forms.py:125
+#: flaskshop/account/forms.py:124 flaskshop/dashboard/forms.py:91
 msgid "Province"
 msgstr ""
 
-#: flaskshop/account/forms.py:126
+#: flaskshop/account/forms.py:125
 msgid "City"
 msgstr ""
 
-#: flaskshop/account/forms.py:127
+#: flaskshop/account/forms.py:126 flaskshop/dashboard/forms.py:93
 msgid "District"
 msgstr ""
 
-#: flaskshop/account/forms.py:128
+#: flaskshop/account/forms.py:127 flaskshop/dashboard/forms.py:94
 msgid "Address"
 msgstr ""
 
-#: flaskshop/account/forms.py:129
+#: flaskshop/account/forms.py:128
 msgid "Contact name"
 msgstr ""
 
-#: flaskshop/account/forms.py:131
 #: flaskshop/templates/dashboard/user/detail.html:57
 msgid "Contact Phone"
 msgstr ""
@@ -119,33 +119,174 @@ msgstr ""
 msgid "Success add address."
 msgstr ""
 
+#: flaskshop/api/checkout.py:5
+msgid "Checkout related operations"
+msgstr ""
+
+#: flaskshop/api/checkout.py:10
+msgid "The checkout cartline id"
+msgstr ""
+
+#: flaskshop/api/checkout.py:11
+msgid "The cart item num"
+msgstr ""
+
+#: flaskshop/api/checkout.py:13
+msgid "The cart item title"
+msgstr ""
+
+#: flaskshop/api/checkout.py:16
+msgid "The cart item variant"
+msgstr ""
+
+#: flaskshop/api/checkout.py:19
+msgid "The cart item product"
+msgstr ""
+
+#: flaskshop/api/checkout.py:22
+msgid "The cart item price"
+msgstr ""
+
+#: flaskshop/api/checkout.py:25
+msgid "The cart item image"
+msgstr ""
+
+#: flaskshop/api/product.py:9
+msgid "Products related operations"
+msgstr ""
+
+#: flaskshop/api/product.py:11
+msgid "The variant"
+msgstr ""
+
+#: flaskshop/api/product.py:12
+msgid "The quantity"
+msgstr ""
+
+#: flaskshop/api/product.py:17 flaskshop/api/product.py:39
+#: flaskshop/api/product.py:63
+msgid "The product identifier"
+msgstr ""
+
+#: flaskshop/api/product.py:18 flaskshop/api/product.py:40
+msgid "The product name"
+msgstr ""
+
+#: flaskshop/api/product.py:19 flaskshop/api/product.py:41
+msgid "The product description"
+msgstr ""
+
+#: flaskshop/api/product.py:20 flaskshop/api/product.py:42
+msgid "The product price"
+msgstr ""
+
+#: flaskshop/api/product.py:21
+msgid "The product first img"
+msgstr ""
+
+#: flaskshop/api/product.py:27
+msgid "The variant identifier"
+msgstr ""
+
+#: flaskshop/api/product.py:28
+msgid "The variant sku"
+msgstr ""
+
+#: flaskshop/api/product.py:29
+msgid "The variant name"
+msgstr ""
+
+#: flaskshop/api/product.py:30
+msgid "The variant price"
+msgstr ""
+
+#: flaskshop/api/product.py:32
+msgid "The variant stock"
+msgstr ""
+
+#: flaskshop/api/product.py:43
+msgid "The product images"
+msgstr ""
+
+#: flaskshop/api/product.py:45
+msgid "The product variant"
+msgstr ""
+
+#: flaskshop/api/product.py:64
+msgid "Product not found"
+msgstr ""
+
 #: flaskshop/checkout/forms.py:6
 msgid "ADD A NOTE TO YOUR ORDER"
+msgstr ""
+
+#: flaskshop/checkout/forms.py:10 flaskshop/dashboard/forms.py:171
+msgid "Code"
 msgstr ""
 
 #: flaskshop/checkout/views.py:118
 msgid "Your code is not correct"
 msgstr ""
 
-#: flaskshop/dashboard/forms.py:30
-msgid "SelectField"
+#: flaskshop/dashboard/forms.py:46 flaskshop/dashboard/forms.py:55
+#: flaskshop/dashboard/forms.py:67 flaskshop/dashboard/forms.py:101
+#: flaskshop/dashboard/forms.py:108 flaskshop/dashboard/forms.py:116
+#: flaskshop/dashboard/forms.py:124 flaskshop/dashboard/forms.py:133
+#: flaskshop/dashboard/forms.py:156 flaskshop/dashboard/forms.py:163
+#: flaskshop/dashboard/forms.py:169 flaskshop/dashboard/forms.py:190
+#: flaskshop/dashboard/views/discount.py:16
+#: flaskshop/dashboard/views/discount.py:70
+#: flaskshop/dashboard/views/product.py:30
+#: flaskshop/dashboard/views/product.py:67
+#: flaskshop/dashboard/views/product.py:108
+#: flaskshop/dashboard/views/product.py:152
+#: flaskshop/dashboard/views/product.py:212
+#: flaskshop/dashboard/views/site.py:24 flaskshop/dashboard/views/site.py:58
+#: flaskshop/dashboard/views/site.py:106 flaskshop/dashboard/views/site.py:144
+#: flaskshop/templates/dashboard/product/detail.html:96
+msgid "Title"
 msgstr ""
 
-#: flaskshop/dashboard/forms.py:31
-msgid "SelectMultipleField"
+#: flaskshop/dashboard/forms.py:47 flaskshop/dashboard/forms.py:56
+#: flaskshop/dashboard/views/site.py:59 flaskshop/dashboard/views/site.py:107
+#: flaskshop/templates/account/details.html:47
+#: flaskshop/templates/dashboard/index.html:105
+#: flaskshop/templates/orders/details.html:22
+#: flaskshop/templates/orders/details.html:35
+#: flaskshop/templates/public/style_guide.html:714
+msgid "Order"
 msgstr ""
 
-#: flaskshop/dashboard/forms.py:32
-msgid "RadioField"
+#: flaskshop/dashboard/forms.py:48
+msgid "End Point"
 msgstr ""
 
-#: flaskshop/dashboard/forms.py:33
-msgid "FieldList"
+#: flaskshop/dashboard/forms.py:49
+msgid "Icon"
 msgstr ""
 
-#: flaskshop/dashboard/forms.py:50 flaskshop/dashboard/forms.py:117
-#: flaskshop/dashboard/views/product.py:109
+#: flaskshop/dashboard/forms.py:50 flaskshop/dashboard/forms.py:58
+#: flaskshop/dashboard/forms.py:117 flaskshop/dashboard/views/product.py:109
 msgid "Parent"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:51 flaskshop/dashboard/forms.py:63
+#: flaskshop/dashboard/forms.py:71 flaskshop/dashboard/forms.py:77
+#: flaskshop/dashboard/forms.py:87 flaskshop/dashboard/forms.py:97
+#: flaskshop/dashboard/forms.py:104 flaskshop/dashboard/forms.py:112
+#: flaskshop/dashboard/forms.py:120 flaskshop/dashboard/forms.py:129
+#: flaskshop/dashboard/forms.py:144 flaskshop/dashboard/forms.py:149
+#: flaskshop/dashboard/forms.py:159 flaskshop/dashboard/forms.py:165
+#: flaskshop/dashboard/forms.py:186 flaskshop/dashboard/forms.py:195
+msgid "Submit"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:57 flaskshop/dashboard/views/site.py:146
+msgid "Url"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:59 flaskshop/dashboard/views/site.py:60
+msgid "Position"
 msgstr ""
 
 #: flaskshop/dashboard/forms.py:59
@@ -160,8 +301,10 @@ msgstr ""
 msgid "bottom"
 msgstr ""
 
-#: flaskshop/dashboard/forms.py:60 flaskshop/dashboard/forms.py:181
-#: flaskshop/dashboard/forms.py:193 flaskshop/dashboard/views/product.py:216
+
+#: flaskshop/dashboard/forms.py:60 flaskshop/dashboard/forms.py:140
+#: flaskshop/dashboard/forms.py:181 flaskshop/dashboard/forms.py:193
+#: flaskshop/dashboard/views/product.py:216
 #: flaskshop/templates/dashboard/product/category.html:15
 #: flaskshop/templates/dashboard/product/detail.html:56
 #: flaskshop/templates/dashboard/product/list.html:26
@@ -174,8 +317,58 @@ msgid "Collection"
 msgstr ""
 
 #: flaskshop/dashboard/forms.py:62
-#: flaskshop/templates/dashboard/site/site_page.html:13
+#: flaskshop/templates/dashboard/site/site_page.html:14
 msgid "Page"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:68 flaskshop/dashboard/views/site.py:145
+msgid "Slug"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:69
+msgid "Content"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:70
+msgid "Is Visible"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:75
+msgid "Header"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:76 flaskshop/dashboard/forms.py:141
+#: flaskshop/templates/products/details.html:135
+msgid "Description"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:81
+msgid "User Name"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:82
+msgid "E-mail"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:84
+msgid "Is Activ"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:85
+msgid "Created at"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:86
+msgid "Updated at"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:92
+msgid "Sity"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:95
+#: flaskshop/templates/dashboard/user/detail.html:56
+msgid "Contact Name"
 msgstr ""
 
 #: flaskshop/dashboard/forms.py:102 flaskshop/dashboard/views/product.py:31
@@ -187,6 +380,10 @@ msgstr ""
 msgid "Product Types"
 msgstr ""
 
+#: flaskshop/dashboard/forms.py:109
+msgid "Products"
+msgstr ""
+
 #: flaskshop/dashboard/forms.py:110 flaskshop/dashboard/forms.py:118
 msgid "Current Image"
 msgstr ""
@@ -195,8 +392,56 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
+#: flaskshop/dashboard/forms.py:125
+msgid "Has variant"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:126
+msgid "Is shipping required"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:127
+msgid "Product atributes"
+msgstr ""
+
 #: flaskshop/dashboard/forms.py:128
 msgid "Variant Attributes"
+msgstr ""
+#: flaskshop/dashboard/forms.py:134
+msgid "Basic Price"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:135 flaskshop/dashboard/views/product.py:213
+#: flaskshop/templates/dashboard/product/detail.html:39
+#: flaskshop/templates/dashboard/product/list.html:19
+msgid "On Sale"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:136
+msgid "Is Featured"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:137
+#: flaskshop/templates/dashboard/product/detail.html:47
+msgid "Rating"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:138 flaskshop/dashboard/views/product.py:214
+#: flaskshop/templates/dashboard/product/detail.html:50
+msgid "Sold Count"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:139
+#: flaskshop/templates/dashboard/product/detail.html:53
+msgid "Review Count"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:142
+msgid "Images"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:143
+msgid "Atributes"
 msgstr ""
 
 #: flaskshop/dashboard/forms.py:148
@@ -209,8 +454,57 @@ msgstr ""
 msgid "SKU"
 msgstr ""
 
+#: flaskshop/dashboard/forms.py:157
+msgid "Price override"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:158 flaskshop/templates/checkout/cart.html:26
+#: flaskshop/templates/dashboard/product/detail.html:97
+#: flaskshop/templates/orders/_ordered_items_table.html:12
+#: flaskshop/templates/public/style_guide.html:573
+msgid "Quantity"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:164 flaskshop/dashboard/views/product.py:215
+#: flaskshop/dashboard/views/site.py:25
+#: flaskshop/templates/checkout/cart.html:29
+#: flaskshop/templates/dashboard/product/detail.html:43
+#: flaskshop/templates/orders/_ordered_items_table.html:17
+#: flaskshop/templates/products/_filters.html:49
+msgid "Price"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:170 flaskshop/dashboard/views/discount.py:17
+#: flaskshop/templates/dashboard/product/product_create_step2.html:17
+msgid "Type"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:172
+msgid "Usage limit"
+msgstr ""
+
 #: flaskshop/dashboard/forms.py:173
 msgid "how many times can be used"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:175 flaskshop/dashboard/views/discount.py:19
+msgid "Used"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:176
+msgid "Validity Period"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:177 flaskshop/dashboard/forms.py:191
+msgid "Discount value type"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:178 flaskshop/dashboard/forms.py:192
+msgid "Discount value"
+msgstr ""
+
+#: flaskshop/dashboard/forms.py:179
+msgid "Limit"
 msgstr ""
 
 #: flaskshop/dashboard/forms.py:181
@@ -245,30 +539,11 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: flaskshop/dashboard/views/discount.py:16
-#: flaskshop/dashboard/views/discount.py:70
-#: flaskshop/dashboard/views/product.py:30
-#: flaskshop/dashboard/views/product.py:67
-#: flaskshop/dashboard/views/product.py:108
-#: flaskshop/dashboard/views/product.py:152
-#: flaskshop/dashboard/views/product.py:212
-#: flaskshop/dashboard/views/site.py:24 flaskshop/dashboard/views/site.py:58
-#: flaskshop/dashboard/views/site.py:106 flaskshop/dashboard/views/site.py:144
-#: flaskshop/templates/dashboard/product/detail.html:96
-msgid "Title"
-msgstr ""
-
-#: flaskshop/dashboard/views/discount.py:17
-msgid "Type"
-msgstr ""
 
 #: flaskshop/dashboard/views/discount.py:18
 msgid "Usage Limit"
 msgstr ""
 
-#: flaskshop/dashboard/views/discount.py:19
-msgid "Used"
-msgstr ""
 
 #: flaskshop/dashboard/views/discount.py:20
 #: flaskshop/dashboard/views/discount.py:71
@@ -345,24 +620,14 @@ msgstr ""
 msgid "Product Attribute"
 msgstr ""
 
-#: flaskshop/dashboard/views/product.py:39
-msgid "attributes"
-msgstr ""
 
 #: flaskshop/dashboard/views/product.py:69
 msgid "Product Collection"
 msgstr ""
 
-#: flaskshop/dashboard/views/product.py:73
-msgid "collections"
-msgstr ""
 
 #: flaskshop/dashboard/views/product.py:113
 msgid "Product Category"
-msgstr ""
-
-#: flaskshop/dashboard/views/product.py:117
-msgid "categories"
 msgstr ""
 
 #: flaskshop/dashboard/views/product.py:153
@@ -378,51 +643,11 @@ msgstr ""
 msgid "Product Type"
 msgstr ""
 
-#: flaskshop/dashboard/views/product.py:162
-msgid "product_types"
-msgstr ""
-
-#: flaskshop/dashboard/views/product.py:213
-#: flaskshop/templates/dashboard/product/detail.html:39
-#: flaskshop/templates/dashboard/product/list.html:19
-msgid "On Sale"
-msgstr ""
-
-#: flaskshop/dashboard/views/product.py:214
-#: flaskshop/templates/dashboard/product/detail.html:50
-msgid "Sold Count"
-msgstr ""
-
-#: flaskshop/dashboard/views/product.py:215
-#: flaskshop/dashboard/views/site.py:25
-#: flaskshop/templates/checkout/cart.html:29
-#: flaskshop/templates/dashboard/product/detail.html:43
-#: flaskshop/templates/orders/_ordered_items_table.html:17
-#: flaskshop/templates/products/_filters.html:49
-msgid "Price"
-msgstr ""
 
 #: flaskshop/dashboard/views/site.py:29
 #: flaskshop/templates/dashboard/order/detail.html:35
 #: flaskshop/templates/dashboard/site/shipping_method.html:15
 msgid "Shipping Method"
-msgstr ""
-
-#: flaskshop/dashboard/views/site.py:33
-msgid "shipping_methods"
-msgstr ""
-
-#: flaskshop/dashboard/views/site.py:59 flaskshop/dashboard/views/site.py:107
-#: flaskshop/templates/account/details.html:47
-#: flaskshop/templates/dashboard/index.html:105
-#: flaskshop/templates/orders/details.html:22
-#: flaskshop/templates/orders/details.html:35
-#: flaskshop/templates/public/style_guide.html:714
-msgid "Order"
-msgstr ""
-
-#: flaskshop/dashboard/views/site.py:60
-msgid "Position"
 msgstr ""
 
 #: flaskshop/dashboard/views/site.py:61 flaskshop/dashboard/views/site.py:110
@@ -433,9 +658,6 @@ msgstr ""
 msgid "Site Menus"
 msgstr ""
 
-#: flaskshop/dashboard/views/site.py:68
-msgid "site_menus"
-msgstr ""
 
 #: flaskshop/dashboard/views/site.py:108
 msgid "Endpoint"
@@ -449,28 +671,12 @@ msgstr ""
 msgid "Dashboard Menus"
 msgstr ""
 
-#: flaskshop/dashboard/views/site.py:117
-msgid "dashboard_menus"
-msgstr ""
-
-#: flaskshop/dashboard/views/site.py:145
-msgid "Slug"
-msgstr ""
-
-#: flaskshop/dashboard/views/site.py:146
-msgid "Url"
-msgstr ""
-
 #: flaskshop/dashboard/views/site.py:147
 msgid "Is Visiable"
 msgstr ""
 
 #: flaskshop/dashboard/views/site.py:150
 msgid "Site Pages"
-msgstr ""
-
-#: flaskshop/dashboard/views/site.py:154
-msgid "site_pages"
 msgstr ""
 
 #: flaskshop/dashboard/views/site.py:183
@@ -499,6 +705,55 @@ msgstr ""
 
 #: flaskshop/order/views.py:41
 msgid "This Order Can Not Pay"
+msgstr ""
+
+#: flaskshop/plugin/conversations/forms.py:13
+msgid "Recipient"
+msgstr ""
+
+#: flaskshop/plugin/conversations/forms.py:13
+msgid "A valid username is required."
+msgstr ""
+
+#: flaskshop/plugin/conversations/forms.py:17
+#: flaskshop/templates/conversations/conversation.html:252
+msgid "Subject"
+msgstr ""
+
+#: flaskshop/plugin/conversations/forms.py:17
+msgid "A Subject is required."
+msgstr ""
+
+#: flaskshop/plugin/conversations/forms.py:21
+#: flaskshop/plugin/conversations/forms.py:52
+msgid "Message"
+msgstr ""
+
+#: flaskshop/plugin/conversations/forms.py:21
+#: flaskshop/plugin/conversations/forms.py:52
+msgid "A message is required."
+msgstr ""
+
+#: flaskshop/plugin/conversations/forms.py:27
+msgid "The username you entered does not exist."
+msgstr ""
+
+#: flaskshop/plugin/conversations/forms.py:29
+msgid "You cannot send a PM to yourself."
+msgstr ""
+
+#: flaskshop/plugin/conversations/views.py:37
+msgid ""
+"You cannot send any messages anymore because you have reached your "
+"message limit."
+msgstr ""
+
+#: flaskshop/plugin/conversations/views.py:148
+msgid "Compose Message"
+msgstr ""
+
+#: flaskshop/plugin/conversations/views.py:180
+msgid "Message sent."
 msgstr ""
 
 #: flaskshop/templates/base.html:6
@@ -625,7 +880,7 @@ msgstr ""
 #: flaskshop/templates/dashboard/product/variant.html:14
 #: flaskshop/templates/dashboard/site/shipping_method.html:14
 #: flaskshop/templates/dashboard/site/site_menu.html:14
-#: flaskshop/templates/dashboard/site/site_page.html:13
+#: flaskshop/templates/dashboard/site/site_page.html:14
 #: flaskshop/templates/dashboard/user/detail.html:31
 #: flaskshop/templates/dashboard/user/detail.html:67
 #: flaskshop/templates/public/style_guide.html:791
@@ -669,13 +924,6 @@ msgstr ""
 
 #: flaskshop/templates/checkout/cart.html:15
 msgid "Product has been removed from cart"
-msgstr ""
-
-#: flaskshop/templates/checkout/cart.html:26
-#: flaskshop/templates/dashboard/product/detail.html:97
-#: flaskshop/templates/orders/_ordered_items_table.html:12
-#: flaskshop/templates/public/style_guide.html:573
-msgid "Quantity"
 msgstr ""
 
 #: flaskshop/templates/checkout/cart.html:75
@@ -741,6 +989,65 @@ msgstr ""
 
 #: flaskshop/templates/checkout/shipping.html:60
 msgid "Continue"
+msgstr ""
+
+#: flaskshop/templates/conversations/_inject_navlink.html:7
+#: flaskshop/templates/conversations/_inject_navlink.html:18
+#: flaskshop/templates/conversations/inbox.html:3
+msgid "Inbox"
+msgstr ""
+
+#: flaskshop/templates/conversations/_inject_navlink.html:15
+msgid "No unread messages"
+msgstr ""
+
+#: flaskshop/templates/conversations/_inject_navlink.html:19
+msgid "New Message"
+msgstr ""
+
+#: flaskshop/templates/conversations/conversation.html:304
+msgid "Send"
+msgstr ""
+
+#: flaskshop/templates/conversations/conversation_list.html:14
+msgid "Conversations"
+msgstr ""
+
+#: flaskshop/templates/conversations/conversation_list.html:48
+msgid "From"
+msgstr ""
+
+#: flaskshop/templates/conversations/conversation_list.html:52
+#: flaskshop/templates/conversations/conversation_list.html:59
+msgid "Deleted User"
+msgstr ""
+
+#: flaskshop/templates/conversations/conversation_list.html:55
+msgid "to"
+msgstr ""
+
+#: flaskshop/templates/conversations/conversation_list.html:61
+msgid "on"
+msgstr ""
+
+#: flaskshop/templates/conversations/conversation_list.html:98
+msgid "edit"
+msgstr ""
+
+#: flaskshop/templates/conversations/conversation_list.html:108
+msgid "No conversations found."
+msgstr ""
+
+#: flaskshop/templates/conversations/message_form.html:3
+msgid " Compose Message"
+msgstr ""
+
+#: flaskshop/templates/conversations/sent.html:3
+msgid "Sent Messages"
+msgstr ""
+
+#: flaskshop/templates/conversations/trash.html:3
+msgid "Trash"
 msgstr ""
 
 #: flaskshop/templates/dashboard/index.html:17
@@ -815,8 +1122,19 @@ msgstr ""
 #: flaskshop/templates/dashboard/product/variant.html:14
 #: flaskshop/templates/dashboard/site/shipping_method.html:14
 #: flaskshop/templates/dashboard/site/site_menu.html:14
-#: flaskshop/templates/dashboard/site/site_page.html:13
+#: flaskshop/templates/dashboard/site/site_page.html:14
 msgid "Create"
+msgstr ""
+
+#: flaskshop/templates/dashboard/list.html:36
+#: flaskshop/templates/dashboard/order/list.html:44
+#: flaskshop/templates/dashboard/product/detail.html:99
+#: flaskshop/templates/dashboard/product/list.html:58
+#: flaskshop/templates/dashboard/site/plugin.html:17
+#: flaskshop/templates/dashboard/user/detail.html:58
+#: flaskshop/templates/dashboard/user/detail.html:84
+#: flaskshop/templates/dashboard/user/list.html:35
+msgid "Operation"
 msgstr ""
 
 #: flaskshop/templates/dashboard/list.html:47
@@ -879,29 +1197,11 @@ msgstr ""
 msgid "Order List"
 msgstr ""
 
-#: flaskshop/templates/dashboard/order/list.html:44
-#: flaskshop/templates/dashboard/product/detail.html:99
-#: flaskshop/templates/dashboard/product/list.html:58
-#: flaskshop/templates/dashboard/site/plugin.html:17
-#: flaskshop/templates/dashboard/user/detail.html:58
-#: flaskshop/templates/dashboard/user/detail.html:84
-#: flaskshop/templates/dashboard/user/list.html:35
-msgid "Operation"
-msgstr ""
-
 #: flaskshop/templates/dashboard/order/list.html:53
 #: flaskshop/templates/dashboard/product/list.html:67
 #: flaskshop/templates/dashboard/user/detail.html:92
 #: flaskshop/templates/dashboard/user/list.html:44
 msgid "View"
-msgstr ""
-
-#: flaskshop/templates/dashboard/product/detail.html:47
-msgid "Rating"
-msgstr ""
-
-#: flaskshop/templates/dashboard/product/detail.html:53
-msgid "Review Count"
 msgstr ""
 
 #: flaskshop/templates/dashboard/product/detail.html:62
@@ -1060,10 +1360,6 @@ msgstr ""
 msgid "Orders"
 msgstr ""
 
-#: flaskshop/templates/dashboard/user/detail.html:56
-msgid "Contact Name"
-msgstr ""
-
 #: flaskshop/templates/dashboard/user/detail.html:72
 msgid "This user have not add address"
 msgstr ""
@@ -1078,6 +1374,26 @@ msgstr ""
 
 #: flaskshop/templates/dashboard/user/edit_addr.html:13
 msgid "Edit User Address"
+msgstr ""
+
+#: flaskshop/templates/errors/404.html:4
+msgid "Page Not Found"
+msgstr ""
+
+#: flaskshop/templates/errors/404.html:10
+msgid "Sorry, that page doesn't exist."
+msgstr ""
+
+#: flaskshop/templates/errors/404.html:11
+msgid "Want to"
+msgstr ""
+
+#: flaskshop/templates/errors/404.html:11
+msgid "go home"
+msgstr ""
+
+#: flaskshop/templates/errors/404.html:11
+msgid "instead"
 msgstr ""
 
 #: flaskshop/templates/orders/_ordered_items_table.html:124
@@ -1154,10 +1470,6 @@ msgstr ""
 
 #: flaskshop/templates/products/details.html:131
 msgid "unavailable"
-msgstr ""
-
-#: flaskshop/templates/products/details.html:135
-msgid "Description"
 msgstr ""
 
 #: flaskshop/templates/products/product_list_base.html:45
@@ -1679,256 +1991,3 @@ msgstr ""
 #: flaskshop/templates/public/style_guide.html:843
 msgid "FROM"
 msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/config_vars.py:15
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/config_vars.py:18
-msgid "Config"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/headers.py:37
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/headers.py:40
-msgid "HTTP Headers"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/logger.py:87
-msgid "Logging"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/logger.py:95
-msgid "Log Messages"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/request_vars.py:16
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/request_vars.py:19
-msgid "Request Vars"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/route_list.py:16
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/route_list.py:19
-msgid "Route List"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/sqlalchemy.py:90
-msgid "SQLAlchemy"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/sqlalchemy.py:101
-msgid "SQLAlchemy queries"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/template.py:53
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/template.py:59
-msgid "Templates"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:36
-msgid "Time"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:49
-msgid "Resource Usage"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:81
-msgid "User CPU time"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:82
-msgid "System CPU time"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:83
-msgid "Total CPU time"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:84
-msgid "Elapsed time"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/timer.py:85
-msgid "Context switches"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/versions.py:28
-#: venv/lib/python3.7/site-packages/flask_debugtoolbar/panels/versions.py:37
-msgid "Versions"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_wtf/file.py:51
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:205
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:245
-msgid "This field is required."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_wtf/file.py:85
-msgid "File does not have an approved extension: {extensions}"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/flask_wtf/file.py:90
-msgid "File does not have an approved extension."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:58
-#, python-format
-msgid "Invalid field name '%s'."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:66
-#, python-format
-msgid "Field must be equal to %(other_name)s."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:99
-#, python-format
-msgid "Field must be at least %(min)d character long."
-msgid_plural "Field must be at least %(min)d characters long."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:102
-#, python-format
-msgid "Field cannot be longer than %(max)d character."
-msgid_plural "Field cannot be longer than %(max)d characters."
-msgstr[0] ""
-msgstr[1] ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:105
-#, python-format
-msgid "Field must be between %(min)d and %(max)d characters long."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:141
-#, python-format
-msgid "Number must be at least %(min)s."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:143
-#, python-format
-msgid "Number must be at most %(max)s."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:145
-#, python-format
-msgid "Number must be between %(min)s and %(max)s."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:277
-msgid "Invalid input."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:311
-msgid "Invalid email address."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:352
-msgid "Invalid IP address."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:403
-msgid "Invalid Mac address."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:432
-msgid "Invalid URL."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:452
-msgid "Invalid UUID."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:482
-#, python-format
-msgid "Invalid value, must be one of: %(values)s."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/validators.py:514
-#, python-format
-msgid "Invalid value, can't be any of: %(values)s."
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/csrf/core.py:98
-#: venv/lib/python3.7/site-packages/wtforms/ext/csrf/form.py:47
-msgid "Invalid CSRF Token"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/csrf/session.py:61
-#: venv/lib/python3.7/site-packages/wtforms/ext/csrf/session.py:58
-msgid "CSRF token missing"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/csrf/session.py:69
-#: venv/lib/python3.7/site-packages/wtforms/ext/csrf/session.py:66
-msgid "CSRF failed"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/csrf/session.py:74
-#: venv/lib/python3.7/site-packages/wtforms/ext/csrf/session.py:71
-msgid "CSRF token expired"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:87
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:164
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:166
-#: venv/lib/python3.7/site-packages/wtforms/ext/django/fields.py:95
-#: venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py:125
-#: venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py:127
-#: venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py:180
-#: venv/lib/python3.7/site-packages/wtforms/ext/sqlalchemy/fields.py:185
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:475
-msgid "Not a valid choice"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:185
-msgid "Not a valid list"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/appengine/fields.py:204
-msgid "Not a valid integer list"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/dateutil/fields.py:63
-msgid "Please input a date/time value"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/ext/dateutil/fields.py:75
-#: venv/lib/python3.7/site-packages/wtforms/ext/dateutil/fields.py:83
-msgid "Invalid date/time input"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:468
-msgid "Invalid Choice: could not coerce"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:501
-msgid "Invalid choice(s): one or more data inputs could not be coerced"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:508
-#, python-format
-msgid "'%(value)s' is not a valid choice for this field"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:591
-msgid "Not a valid integer value"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:657
-msgid "Not a valid decimal value"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:684
-msgid "Not a valid float value"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:745
-msgid "Not a valid datetime value"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:762
-msgid "Not a valid date value"
-msgstr ""
-
-#: venv/lib/python3.7/site-packages/wtforms/fields/core.py:779
-msgid "Not a valid time value"
-msgstr ""
-

@@ -18,6 +18,7 @@ Faker==4.0.0
 Flask==1.1.1
 Flask-Babel==2.0.0
 Flask-Bcrypt==0.7.1
+Flask-CKEditor==0.4.6
 Flask-DebugToolbar==0.10.1
 Flask-Login==0.4.1
 Flask-Mail==0.9.1

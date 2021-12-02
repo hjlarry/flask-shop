@@ -1,6 +1,7 @@
 {% import 'dashboard/_macros.html' as macros%}
 {% import 'dashboard/_vendor.html' as vendor%}
 {% extends 'dashboard/layout.html' %}
+{{ ckeditor.load(custom_url=url_for('static', filename='ckeditor/ckeditor.js')) }}
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -15,17 +16,17 @@
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form method="POST" action="">
+
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
                             {{ vendor.render_field(form.slug) }}
-                            {{ macros.render_boolean_field(form.is_visible, 'Show') }}
-                            {{ vendor.render_field(form.content) }}
+                            {{ macros.render_boolean_field(form.is_visible, '') }}
                             <div id="text-editor">
                                 <p>
-                                    {{form.content.data | safe}}
+                                    {{ ckeditor.create(name='content', value=form.content.data | safe) }}
                                 </p>
-                            </div>
+                            </>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
@@ -40,5 +41,5 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='build/dashboard/sitepage.js') }}"></script>
+<script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
 {% endblock %}

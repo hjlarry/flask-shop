@@ -3,7 +3,6 @@ from flask import Blueprint, render_template
 from flask_login import login_required
 from pluggy import HookimplMarker
 from sqlalchemy import func
-from flask_babel import gettext
 
 from flaskshop.extensions import db
 from flaskshop.dashboard.models import DashboardMenu
@@ -13,7 +12,7 @@ from flaskshop.account.models import User
 from flaskshop.account.utils import permission_required
 from flaskshop.settings import Config
 from flaskshop.constant import Permission, OrderStatusKinds, OrderEvents
-
+from .mail import mails
 from .user import users, user, user_edit, address_edit
 from .site import (
     shipping_methods,
@@ -228,4 +227,5 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule("/sales", view_func=sales)
     bp.add_url_rule("/sales/create", view_func=sales_manage, methods=["GET", "POST"])
     bp.add_url_rule("/sales/<id>/edit", view_func=sales_manage, methods=["GET", "POST"])
+    bp.add_url_rule("/mails", view_func=mails)# TODO: e-mail to user, create mail template, send promotion and product
     app.register_blueprint(bp, url_prefix="/dashboard")

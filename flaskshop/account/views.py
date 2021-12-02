@@ -3,7 +3,8 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user, login_user, logout_user
 from pluggy import HookimplMarker
-from flask_babel import gettext
+from flask_babel import lazy_gettext
+
 
 from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm
 from .models import UserAddress, User
@@ -25,7 +26,7 @@ def login():
     if form.validate_on_submit():
         login_user(form.user)
         redirect_url = request.args.get("next") or url_for("public.home")
-        flash(gettext("You are log in."), "success")
+        flash(lazy_gettext("You are log in."), "success")
         return redirect(redirect_url)
     else:
         flash_errors(form)
@@ -36,7 +37,7 @@ def login():
 def logout():
     """Logout."""
     logout_user()
-    flash(gettext("You are logged out."), "info")
+    flash(lazy_gettext("You are logged out."), "info")
     return redirect(url_for("public.home"))
 
 
@@ -51,7 +52,7 @@ def signup():
             is_active=True,
         )
         login_user(user)
-        flash(gettext("You are signed up."), "success")
+        flash(lazy_gettext("You are signed up."), "success")
         return redirect(url_for("public.home"))
     else:
         flash_errors(form)
@@ -62,7 +63,7 @@ def set_password():
     form = ChangePasswordForm(request.form)
     if form.validate_on_submit():
         current_user.update(password=form.password.data)
-        flash(gettext("You have changed password."), "success")
+        flash(lazy_gettext("You have changed password."), "success")
     else:
         flash_errors(form)
     return redirect(url_for("account.index"))
@@ -93,10 +94,10 @@ def edit_address():
         }
         if address_id:
             UserAddress.update(user_address, **address_data)
-            flash(gettext("Success edit address."), "success")
+            flash(lazy_gettext("Success edit address."), "success")
         else:
             UserAddress.create(**address_data)
-            flash(gettext("Success add address."), "success")
+            flash(lazy_gettext("Success add address."), "success")
         return redirect(url_for("account.index") + "#addresses")
     else:
         flash_errors(form)
