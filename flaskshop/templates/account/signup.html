@@ -7,17 +7,17 @@
   <div class="row login">
     <div class="col-md-6 login__register">
       <div class="login__register-link">
-        <h3>Already have an account?</h3>
+        <h3>{% trans %}Already have an account?{% endtrans %}</h3>
         <img class="signup-img lazyload lazypreload" data-src="{{ url_for('static', filename='img/login-bg.png') }}">
         <p><a rel="nofollow" href="{{ url_for('account.login') }}" class="btn secondary narrow">
-            Log in
+            {% trans %}Log in{% endtrans %}
           </a></p>
       </div>
     </div>
     <div class="col-md-6 login__form">
       <form method="post" action="" id="registerForm">
         <fieldset>
-          <h3>Create an account</h3>
+          <h3>{% trans %}Create an account){% enntrans %}</h3>
           {{ form.csrf_token }}
           {{ render_field(form.username) }}
           {{ render_field(form.email) }}
@@ -25,7 +25,7 @@
           {{ render_field(form.confirm) }}
         </fieldset>
         <button type="submit" class="btn btn-primary narrow">
-          Create an account
+          {% trans %}Create an account{% endtrans %}
         </button>
       </form>
     </div>

@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, request, flash
+from flask_babel import lazy_gettext
 
 from flaskshop.public.models import MenuItem, Page
 from flaskshop.dashboard.models import DashboardMenu, Setting
@@ -19,13 +20,13 @@ def shipping_methods():
     page = request.args.get("page", type=int, default=1)
     pagination = ShippingMethod.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "price_human": "Price",
-        "created_at": "Created At",
+        "id": lazy_gettext("ID"),
+        "title": lazy_gettext("Title"),
+        "price_human": lazy_gettext("Price"),
+        "created_at": lazy_gettext("Created At"),
     }
     context = {
-        "title": "Shipping Method",
+        "title": lazy_gettext("Shipping Method"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
@@ -53,14 +54,14 @@ def site_menus():
     page = request.args.get("page", type=int, default=1)
     pagination = MenuItem.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "order": "Order",
-        "position": "Position",
-        "parent_id": "Parent Id",
+        "id": lazy_gettext("ID"),
+        "title": lazy_gettext("Title"),
+        "order": lazy_gettext("Order"),
+        "position": lazy_gettext("Position"),
+        "parent_id": lazy_gettext("Parent Id"),
     }
     context = {
-        "title": "Site Menus",
+        "title": lazy_gettext("Site Menus"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
@@ -101,15 +102,15 @@ def dashboard_menus():
     page = request.args.get("page", type=int, default=1)
     pagination = DashboardMenu.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "order": "Order",
-        "endpoint": "Endpoint",
-        "icon_cls": "Icon class",
-        "parent_id": "Parent Id",
+        "id": lazy_gettext("ID"),
+        "title": lazy_gettext("Title"),
+        "order": lazy_gettext("Order"),
+        "endpoint": lazy_gettext("Endpoint"),
+        "icon_cls": lazy_gettext("Icon class"),
+        "parent_id": lazy_gettext("Parent Id"),
     }
     context = {
-        "title": "Dashboard Menus",
+        "title": lazy_gettext("Dashboard Menus"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
@@ -139,14 +140,14 @@ def site_pages():
     page = request.args.get("page", type=int, default=1)
     pagination = Page.query.paginate(page, 10)
     props = {
-        "id": "ID",
-        "title": "Title",
-        "slug": "Slug",
-        "url": "Url",
-        "is_visible": "Is Visiable",
+        "id": lazy_gettext("ID"),
+        "title": lazy_gettext("Title"),
+        "slug": lazy_gettext("Slug"),
+        "url": lazy_gettext("Url"),
+        "is_visible": lazy_gettext("Is Visiable"),
     }
     context = {
-        "title": "Site Pages",
+        "title": lazy_gettext("Site Pages"),
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
@@ -179,7 +180,7 @@ def plugin_enable(id):
     plugin = PluginRegistry.get_by_id(id)
     plugin.enabled = True
     plugin.save()
-    flash("The plugin is enabled, Please restart flask-shop now!", "success")
+    flash(lazy_gettext("The plugin is enabled, Please restart flask-shop now!"), "success")
     return redirect(url_for("dashboard.plugin_list"))
 
 
@@ -187,7 +188,7 @@ def plugin_disable(id):
     plugin = PluginRegistry.get_by_id(id)
     plugin.enabled = False
     plugin.save()
-    flash("The plugin is disabled, Please restart flask-shop now!", "info")
+    flash(lazy_gettext("The plugin is disabled, Please restart flask-shop now!"), "info")
     return redirect(url_for("dashboard.plugin_list"))
 
 
@@ -215,7 +216,7 @@ def site_setting():
             except KeyError:
                 pass
         Setting.update(settings=new_settings)
-        flash("Settings saved.", "success")
+        flash(lazy_gettext("Settings saved."), "success")
     return render_template("site/settings.html", form=form,)
 
 

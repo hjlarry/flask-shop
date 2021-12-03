@@ -57,3 +57,5 @@ migrations/
 .idea/
 .venv/
 .vscode/
+/venv/
+/women_shop_empty.backup

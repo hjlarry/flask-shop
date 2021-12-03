@@ -1,47 +1,48 @@
 from flask_restplus import Namespace, Resource, fields
 from flask_login import current_user
 from flask import request
+from flask_babel import lazy_gettext
 
 from flaskshop.product.models import Product
 from flaskshop.checkout.models import Cart
 
-api = Namespace("products", description="Products related operations")
+api = Namespace("products", description=lazy_gettext("Products related operations"))
 parser = api.parser()
-parser.add_argument("variant_id", type=int, required=True, help="The variant")
-parser.add_argument("quantity", type=int, required=True, help="The quantity")
+parser.add_argument("variant_id", type=int, required=True, help=lazy_gettext("The variant"))
+parser.add_argument("quantity", type=int, required=True, help=lazy_gettext("The quantity"))
 
 product_list = api.model(
     "ProductList",
     {
-        "id": fields.Integer(required=True, description="The product identifier"),
-        "title": fields.String(required=True, description="The product name"),
-        "description": fields.String(description="The product description"),
-        "price": fields.String(description="The product price"),
-        "first_img": fields.String(description="The product first img"),
+        "id": fields.Integer(required=True, description=lazy_gettext("The product identifier")),
+        "title": fields.String(required=True, description=lazy_gettext("The product name")),
+        "description": fields.String(description=lazy_gettext("The product description")),
+        "price": fields.String(description=lazy_gettext("The product price")),
+        "first_img": fields.String(description=lazy_gettext("The product first img")),
     },
 )
 variant = api.model(
     "Variant",
     {
-        "id": fields.Integer(required=True, description="The variant identifier"),
-        "sku": fields.String(required=True, description="The variant sku"),
-        "title": fields.String(required=True, description="The variant name"),
-        "price": fields.String(required=True, description="The variant price"),
+        "id": fields.Integer(required=True, description=lazy_gettext("The variant identifier")),
+        "sku": fields.String(required=True, description=lazy_gettext("The variant sku")),
+        "title": fields.String(required=True, description=lazy_gettext("The variant name")),
+        "price": fields.String(required=True, description=lazy_gettext("The variant price")),
         "stock": fields.String(
-            required=True, description="The variant stock", attribute="quantity"
+            required=True, description=lazy_gettext("The variant stock"), attribute="quantity"
         ),
     },
 )
 product_detail = api.model(
     "ProductDetail",
     {
-        "id": fields.Integer(required=True, description="The product identifier"),
-        "title": fields.String(required=True, description="The product name"),
-        "description": fields.String(description="The product description"),
-        "price": fields.String(description="The product price"),
-        "images": fields.List(fields.String, description="The product images"),
+        "id": fields.Integer(required=True, description=lazy_gettext("The product identifier")),
+        "title": fields.String(required=True, description=lazy_gettext("The product name")),
+        "description": fields.String(description=lazy_gettext("The product description")),
+        "price": fields.String(description=lazy_gettext("The product price")),
+        "images": fields.List(fields.String, description=lazy_gettext("The product images")),
         "variant": fields.List(
-            fields.Nested(variant), description="The product variant"
+            fields.Nested(variant), description=lazy_gettext("The product variant")
         ),
     },
 )
@@ -59,8 +60,8 @@ class ProductList(Resource):
 
 
 @api.route("/<int:id>")
-@api.param("id", "The product identifier")
-@api.response(404, "Product not found")
+@api.param("id", lazy_gettext("The product identifier"))
+@api.response(404, lazy_gettext("Product not found"))
 class ProductDetail(Resource):
     @api.doc("get_product")
     @api.marshal_with(product_detail)

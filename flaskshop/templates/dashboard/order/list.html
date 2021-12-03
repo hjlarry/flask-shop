@@ -7,13 +7,13 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title" style="line-height: 30px;">Order List</h3>
+                        <h3 class="card-title" style="line-height: 30px;">{% trans %}Order List{% endtrans %}</h3>
                         <div class="card-tools">
                             <form>
                             <div class="row">
                                 <div class="form-group col-2">
                                 <select class="form-control" name="status">
-                                    <option value="" disabled selected hidden>Status</option>
+                                    <option value="" disabled selected hidden>{% trans %}Status{% endtrans %}</option>
                                     {% for stat in order_stats_kinds%}
                                     <option value="{{stat.value}}">{{stat.name}}</option>
                                     {% endfor %}
@@ -41,7 +41,7 @@
                                 {% for th in props.values() %}
                                 <th>{{th}}</th>
                                 {% endfor %}
-                                <th>Operation</th>
+                                <th>{% trans %}Operation{% endtrans %}</th>
                             </tr>
                             {% for item in items %}
                             <tr>
@@ -50,7 +50,7 @@
                                 {% endfor %}
                                 <td>
                                     <a href="{{url_for('dashboard.order_detail', id=item.id)}}"
-                                        class="btn btn-info btn-sm">View</a>
+                                        class="btn btn-info btn-sm">{% trans %}View{% endtrans %}</a>
                                 </td>
                             </tr>
                             {% endfor %}

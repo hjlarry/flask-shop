@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}Checkout{% endblock %}
+{% block title %}{% trans %}Checkout{% endtrans %}{% endblock %}
 
 {% block header %}
 <div class="container-fluid navbar__login">
   <div class="container">
-    <p>Easy and secure!</p>
+    <p>{% trans %}Easy and secure!{% endtrans %}</p>
   </div>
 </div>
 <header class="checkout__header">
@@ -13,7 +13,7 @@
     <a href="{{ url_for('public.home') }}">
       <svg data-src="{{ url_for('static', filename='img/logo-document.svg') }}" height="48px" width="176px"></svg>
     </a>
-    <h1>Checkout</h1>
+    <h1>{% trans %}Checkout{% endtrans %}</h1>
   </div>
 </header>
 {% endblock %}
@@ -44,7 +44,7 @@
       {% endfor %}
       <div class="row checkout__review__section">
         <div class="col-8">
-          <p>Subtotal</p>
+          <p>{% trans %}Subtotal{% endtrans %}</p>
         </div>
         <div class="col-4">
           <p class="float-right">
@@ -54,7 +54,7 @@
       </div>
       <div class="row checkout__review__section">
         <div class="col-8">
-          <p>Shipment</p>
+          <p>{% trans %}Shipment{% endtrans %}</p>
         </div>
         <div class="col-4">
           <p class="float-right">
@@ -69,13 +69,13 @@
       {% if voucher_form %}
       <div class="row checkout__review__section">
         <div class="col-12">
-          <h3>Promo code</h3>
+          <h3>{% trans %}Promo code{% endtrans %}</h3>
           {% if current_user_cart.voucher_code %}
           <form action="{{url_for('checkout.checkout_voucher_remove')}}" method="post" class="float-left input-btn">
             {{voucher_form.csrf_token}}
             <span>{{ current_user_cart.voucher.title }}</span>
             <button type="submit" class="btn btn-link btn-voucher-remove" aria-label=Remove">
-              (Remove)
+              {% trans %}Remove{% endtrans %}
             </button>
           </form>
           <div class="float-right">
@@ -98,7 +98,7 @@
       {% endif %}
       <div class="row checkout__review__section">
         <div class="col-8">
-          <h3>Total</h3>
+          <h3>{% trans %}Total{% endtrans %}</h3>
         </div>
         <div class="col-4">
           <h3 class="float-right">${{ current_user_cart.total }}</h3>
