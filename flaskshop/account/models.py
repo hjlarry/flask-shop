@@ -68,13 +68,16 @@ class User(Model, UserMixin):
         if not self.roles:
             return False
         all_perms = reduce(or_, map(lambda x: x.permissions, self.roles))
-        return all_perms & permissions == permissions
+        return all_perms >= permissions
 
     def can_admin(self):
         return self.can(Permission.ADMINISTER)
 
     def can_edit(self):
         return self.can(Permission.EDITOR)
+
+    def can_op(self):
+        return self.can(Permission.OPERATOR)
 
 
 class UserAddress(Model):
@@ -89,7 +92,7 @@ class UserAddress(Model):
 
     @property
     def full_address(self):
-        return f"{self.province}{self.city}{self.district}<br>{self.address}<br>{self.contact_name}<br>{self.contact_phone}"
+        return f"{self.province}<br>{self.city}<br>{self.district}<br>{self.address}<br>{self.contact_name}<br>{self.contact_phone}"
 
     @hybrid_property
     def user(self):
@@ -103,7 +106,6 @@ class Role(Model):
     __tablename__ = "account_role"
     name = Column(db.String(80), unique=True)
     permissions = Column(db.Integer(), default=Permission.LOGIN)
-
 
 class UserRole(Model):
     __tablename__ = "account_user_role"

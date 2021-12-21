@@ -1,6 +1,6 @@
 {% from 'bootstrap/pagination.html' import render_pager %}
 {% extends "message_layout.html" %}
-{% block title %} Trash {% endblock %}
+{% block title %} {% trans %}Trash{% endtrans %} {% endblock %}
 
 {% block message_content %}
 {% set include_restore = True %}

@@ -1,4 +1,5 @@
 import enum
+from flask_babel import lazy_gettext
 
 ShipStatusKinds = enum.Enum(value="ShipStatus", names="pending delivered received")
 PaymentStatusKinds = enum.Enum(
@@ -26,11 +27,12 @@ class Permission:
     EDITOR = 0x02
     OPERATOR = 0x04
     ADMINISTER = 0xFF
+
     PERMISSION_MAP = {
-        LOGIN: ("login", "Login user"),
-        EDITOR: ("editor", "Editor"),
-        OPERATOR: ("op", "Operator"),
-        ADMINISTER: ("admin", "Super administrator"),
+        LOGIN: ("login", lazy_gettext("Login user")),
+        EDITOR: ("editor", lazy_gettext("Editor")),
+        OPERATOR: ("op", lazy_gettext("Operator")),
+        ADMINISTER: ("admin", lazy_gettext("Super administrator")),
     }
 
 

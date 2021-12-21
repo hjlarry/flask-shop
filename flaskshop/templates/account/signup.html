@@ -17,7 +17,7 @@
     <div class="col-md-6 login__form">
       <form method="post" action="" id="registerForm">
         <fieldset>
-          <h3>{% trans %}Create an account){% enntrans %}</h3>
+          <h3>{% trans %}Create an account{% endtrans %}</h3>
           {{ form.csrf_token }}
           {{ render_field(form.username) }}
           {{ render_field(form.email) }}

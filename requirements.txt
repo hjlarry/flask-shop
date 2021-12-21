@@ -26,7 +26,6 @@ Flask-Migrate==2.5.2
 flask-restplus==0.13.0
 Flask-SQLAlchemy==2.4.1
 Flask-WTF==0.14.2
--e git+https://github.com/hjlarry/flask-shop.git@18a7265832cf0004bb52e52d9bb5a2dc7eeedca1#egg=flaskshop_plugin_conversations&subdirectory=plugin_example
 idna==2.8
 importlib-metadata==1.5.0
 itsdangerous==1.1.0
@@ -36,7 +35,6 @@ libgravatar==0.2.3
 Mako==1.1.1
 MarkupSafe==1.1.1
 phonenumbers==8.11.3
-pkg_resources==0.0.0
 pluggy==0.13.1
 psycopg2-binary==2.9.2
 pycparser==2.19

@@ -59,3 +59,4 @@ migrations/
 .vscode/
 /venv/
 /women_shop_empty.backup
+/.flaskenv

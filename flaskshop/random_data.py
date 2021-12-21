@@ -2,6 +2,7 @@ import itertools
 import random
 import unicodedata
 from uuid import uuid4
+import os
 
 from faker import Factory
 from faker.providers import BaseProvider
@@ -134,6 +135,8 @@ DASHBOARD_MENUS = [
     {"title": "Collections", "endpoint": "collections", "parent_id": 1},
     {"title": "Sales", "endpoint": "sales", "parent_id": 4},
     {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4},
+    # {"title": "Custumers", "endpoint": "users", "parent_id": 3},
+    #{"title": "E-mail", "endpoint": "mails", "parent_id": 3},
 ]
 
 """
@@ -413,21 +416,21 @@ def create_roles():
 # step17
 def create_admin():
     user = User.create(
-        username="admin", email="admin@163.com", password="admin", is_active=True
+        username="admin", email="localhost", password=os.getenv('DB_PASSWD', '123456'), is_active=True
     )
-    create_fake_address(user.id)
-    create_fake_address(user.id)
-    create_fake_address(user.id)
+    # create_fake_address(user.id)
+    # create_fake_address(user.id)
+    # create_fake_address(user.id)
     UserRole.create(user_id=user.id, role_id=4)
     yield f"Admin {user.username} created"
-    user = User.create(username="op", email="op@163.com", password="op", is_active=True)
-    UserRole.create(user_id=user.id, role_id=3)
-    yield f"Admin {user.username} created"
-    user = User.create(
-        username="editor", email="editor@163.com", password="editor", is_active=True
-    )
-    UserRole.create(user_id=user.id, role_id=2)
-    yield f"Admin {user.username} created"
+    # user = User.create(username="op", email="op@163.com", password="op", is_active=True)
+    # UserRole.create(user_id=user.id, role_id=3)
+    # yield f"Admin {user.username} created"
+    # user = User.create(
+    #     username="editor", email="editor@163.com", password="editor", is_active=True
+    # )
+    # UserRole.create(user_id=user.id, role_id=2)
+    # yield f"Admin {user.username} created"
 
 
 """

@@ -1,6 +1,6 @@
 {% from 'bootstrap/pagination.html' import render_pager %}
 {% extends "message_layout.html" %}
-{% block title %} Sent Messages {% endblock %}
+{% block title %} {% trans %}Sent Messages{% endtrans %} {% endblock %}
 
 {% block message_content %}
 {% set include_move = True %}
