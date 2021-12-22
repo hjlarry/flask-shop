@@ -3,17 +3,24 @@
   <fieldset>
     {{ form.csrf_token }}
     {{ render_field(form.username) }}
-    {{ render_field(form.password) }}
+    {% if not reset %}
+      {{ render_field(form.password) }}
+    {% endif %}
   </fieldset>
   <div class="row login__btn-group">
     <div class="col-sm-12">
       <button class="btn btn-primary narrow" type="submit">
-        {% trans %}Log in{% endtrans %}
+        {% if not reset %}
+          {% trans %}Log in{% endtrans %}
+        {% else %}
+            {% trans %}Reset Password{% endtrans %}
+        {% endif %}
       </button>
-      <a rel="nofollow" class="link--styled" href="">
-        {% trans %}Forgot password?{% endtrans %}
-      </a>
-
+      {% if not reset %}
+        <a rel="nofollow" class="link--styled" href="{{ url_for('account.resetpwd') }}">
+          {% trans %}Forgot password?{% endtrans %}
+        </a>
+      {% endif %}
       <hr>
       <div class="row">
         <div class="col-sm-6 col-md-12 col-xl-6">

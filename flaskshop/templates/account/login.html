@@ -17,7 +17,11 @@
         </div>
       </div>
       <div class="col-md-6 login__form">
-        <h3>{% trans %}Log in{% endtrans %}</h3>
+        {% if not reset %}
+          <h3>{% trans %}Log in{% endtrans %}</h3>
+        {% else %}
+            <h3>{% trans %}Reset Password{% endtrans %}</h3>
+        {% endif %}
         {% include "account/partials/login_form.html" %}
       </div>
     </div>
