@@ -3,6 +3,16 @@
 <html class="no-js">
 
   <head>
+    {% if config.GA_MEASUREMENT_ID %}
+      <script async src="https://www.googletagmanager.com/gtag/js?id={{ config.GA_MEASUREMENT_ID }}"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '{{ config.GA_MEASUREMENT_ID }}');
+      </script>
+    {% endif %}
     <title>{% block title %}{% trans %}flask store{% endtrans %}{% endblock %}</title>
     {% block meta %}
     <meta charset="utf-8">
@@ -17,7 +27,6 @@
     {% endblock meta %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='build/storefront.css') }}">
     {% block stylesheet %}{% endblock stylesheet %}
-
   </head>
 
   <body>
