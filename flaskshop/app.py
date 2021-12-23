@@ -7,6 +7,8 @@ from flask_babel import Babel
 from werkzeug.wsgi import DispatcherMiddleware
 from flask_ckeditor import CKEditor
 from flask_migrate import Migrate
+from flask_mail import Mail
+
 
 from flaskshop import commands
 from flaskshop.extensions import (
@@ -36,7 +38,7 @@ from .dashboard_api.api_app import dashboard_api
 babel = Babel()
 ckeditor = CKEditor()
 migrate = Migrate()
-
+mail = Mail()
 
 def create_app(config_object=Config):
     app = Flask(__name__.split(".")[0])
@@ -64,6 +66,7 @@ def register_extensions(app):
     babel.init_app(app)
     ckeditor.init_app(app)
     migrate.init_app(app, db)
+    mail.init_app(app)
 
 
 def register_blueprints(app):

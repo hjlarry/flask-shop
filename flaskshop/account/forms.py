@@ -6,8 +6,9 @@ from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp
 from flask_babel import lazy_gettext
 
-from .models import User
 
+from .models import User
+from flask_babel import lazy_gettext,lazy_gettext
 
 class RegisterForm(FlaskForm):
     """Register form."""
@@ -54,6 +55,33 @@ class RegisterForm(FlaskForm):
             return False
         return True
 
+class ResetPasswd(FlaskForm):
+    '''Password reset'''
+    username = StringField(lazy_gettext("Email"), validators=[DataRequired()])
+
+    def __init__(self, *args, **kwargs):
+        """Create instance."""
+        super(ResetPasswd, self).__init__(*args, **kwargs)
+        self.user = None
+
+    def validate(self):
+        """Validate the form."""
+        initial_validation = super(ResetPasswd, self).validate()
+        if not initial_validation:
+            return False
+
+        if "@" in self.username.data:
+            self.user = User.query.filter_by(email=self.username.data).first()
+            if not self.user:
+                self.username.errors.append(lazy_gettext("Unknown username"))
+                return False
+            if not self.user.is_active:
+                self.username.errors.append(lazy_gettext("User not activated"))
+                return False
+        else:
+            self.username.errors.append(lazy_gettext("Invalid"))
+            return False
+        return True
 
 class LoginForm(FlaskForm):
     """Login form."""

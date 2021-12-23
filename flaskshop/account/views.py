@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 """User views."""
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
 from flask_login import login_required, current_user, login_user, logout_user
+from flask_mail import Message
 from pluggy import HookimplMarker
 from flask_babel import lazy_gettext
+import random
+import string
 
-
-from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm
+from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm, ResetPasswd
 from .models import UserAddress, User
 from flaskshop.utils import flash_errors
 from flaskshop.order.models import Order
@@ -32,6 +34,32 @@ def login():
         flash_errors(form)
     return render_template("account/login.html", form=form)
 
+def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+def resetpwd():
+
+    '''Reset user password'''
+    form = ResetPasswd(request.form)
+
+    if form.validate_on_submit():
+        flash(lazy_gettext("Check your e-mail."), "success")
+        user = User.query.filter_by(email=form.username.data).first()
+        new_passwd =id_generator()
+        body =  render_template("account/reser_passwd_mail.html", new_passwd=new_passwd)
+        msg = Message(lazy_gettext("Reset Password"),
+                      recipients=[form.username.data])
+        msg.body = lazy_gettext('''We cannot simply send you your old password.\n 
+        A unique password has been generated for you. Change the password after logging in.\n
+        New Password is: %s''' % new_passwd)
+        msg.html = body
+        mail = current_app.extensions.get("mail")
+        mail.send(msg)
+        user.update(password=new_passwd)
+        return redirect(url_for("account.login"))
+    else:
+        flash_errors(form)
+    return render_template("account/login.html", form=form, reset=True)
 
 @login_required
 def logout():
@@ -118,6 +146,7 @@ def flaskshop_load_blueprints(app):
     bp = Blueprint("account", __name__)
     bp.add_url_rule("/", view_func=index)
     bp.add_url_rule("/login", view_func=login, methods=["GET", "POST"])
+    bp.add_url_rule("/resetpwd", view_func=resetpwd, methods=["GET", "POST"])
     bp.add_url_rule("/logout", view_func=logout)
     bp.add_url_rule("/signup", view_func=signup, methods=["GET", "POST"])
     bp.add_url_rule("/setpwd", view_func=set_password, methods=["POST"])

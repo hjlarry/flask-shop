@@ -7,16 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-12-01 17:58+0200\n"
-"PO-Revision-Date: 2021-12-01 17:40+0200\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2021-12-03 20:57+0200\n"
+"PO-Revision-Date: 2021-12-21 21:05+0200\n"
+"Last-Translator: dedal <grigor.kolev@gmail.com>\n"
 "Language: bg_BG\n"
 "Language-Team: bg_BG <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+"X-Generator: Poedit 2.2.1\n"
+
 
 #: flaskshop/account/forms.py:16 flaskshop/dashboard/views/user.py:24
 msgid "Username"
@@ -98,11 +100,12 @@ msgstr "Телефон за контакт"
 
 #: flaskshop/account/views.py:28
 msgid "You are log in."
-msgstr "Вие сте влезли."
+msgstr "Успешно влизане."
 
 #: flaskshop/account/views.py:39
 msgid "You are logged out."
-msgstr "Вие сте извлезли."
+msgstr "Излязохте успешно."
+
 
 #: flaskshop/account/views.py:54
 msgid "You are signed up."
@@ -302,7 +305,6 @@ msgstr "горе"
 msgid "bottom"
 msgstr "долу"
 
-
 #: flaskshop/dashboard/forms.py:60 flaskshop/dashboard/forms.py:140
 #: flaskshop/dashboard/forms.py:181 flaskshop/dashboard/forms.py:193
 #: flaskshop/dashboard/views/product.py:216
@@ -380,7 +382,6 @@ msgstr "Стойност"
 #: flaskshop/templates/dashboard/site/index.html:27
 msgid "Product Types"
 msgstr "Тип на продукт"
-
 
 #: flaskshop/dashboard/forms.py:109
 msgid "Products"
@@ -546,7 +547,6 @@ msgstr "ID"
 msgid "Usage Limit"
 msgstr "Лимит за използване"
 
-
 #: flaskshop/dashboard/views/discount.py:20
 #: flaskshop/dashboard/views/discount.py:71
 msgid "Discount Type"
@@ -622,11 +622,9 @@ msgstr "Тип на продукт"
 msgid "Product Attribute"
 msgstr "Атрибут на продукт"
 
-
 #: flaskshop/dashboard/views/product.py:69
 msgid "Product Collection"
 msgstr "Колекция от продукти"
-
 
 #: flaskshop/dashboard/views/product.py:113
 msgid "Product Category"
@@ -651,7 +649,6 @@ msgstr "Вид продукт"
 msgid "Shipping Method"
 msgstr "Метод за доставка"
 
-
 #: flaskshop/dashboard/views/site.py:61 flaskshop/dashboard/views/site.py:110
 msgid "Parent Id"
 msgstr "ID на родител"
@@ -659,7 +656,6 @@ msgstr "ID на родител"
 #: flaskshop/dashboard/views/site.py:64
 msgid "Site Menus"
 msgstr "Меню на сайта"
-
 
 #: flaskshop/dashboard/views/site.py:108
 msgid "Endpoint"
@@ -672,7 +668,6 @@ msgstr "Клас икона"
 #: flaskshop/dashboard/views/site.py:113
 msgid "Dashboard Menus"
 msgstr "Менюта на таблото"
-
 
 #: flaskshop/dashboard/views/site.py:147
 msgid "Is Visiable"
@@ -710,57 +705,6 @@ msgstr "Това не е вашата поръчка!"
 msgid "This Order Can Not Pay"
 msgstr "Тази поръчка не може да се плати"
 
-#: flaskshop/plugin/conversations/forms.py:13
-msgid "Recipient"
-msgstr "Получател"
-
-#: flaskshop/plugin/conversations/forms.py:13
-msgid "A valid username is required."
-msgstr "Валидно потребителско име е задължително."
-
-#: flaskshop/plugin/conversations/forms.py:17
-#: flaskshop/templates/conversations/conversation.html:252
-msgid "Subject"
-msgstr "Относно"
-
-#: flaskshop/plugin/conversations/forms.py:17
-msgid "A Subject is required."
-msgstr "Заглавието е задължително."
-
-#: flaskshop/plugin/conversations/forms.py:21
-#: flaskshop/plugin/conversations/forms.py:52
-msgid "Message"
-msgstr "Съобщение"
-
-#: flaskshop/plugin/conversations/forms.py:21
-#: flaskshop/plugin/conversations/forms.py:52
-msgid "A message is required."
-msgstr "Съобщение е задължително."
-
-#: flaskshop/plugin/conversations/forms.py:27
-msgid "The username you entered does not exist."
-msgstr "Потребителското име, което сте въвели, не съществува."
-
-#: flaskshop/plugin/conversations/forms.py:29
-msgid "You cannot send a PM to yourself."
-msgstr "Не можете да изпратите ЛС на себе си."
-
-#: flaskshop/plugin/conversations/views.py:37
-msgid ""
-"You cannot send any messages anymore because you have reached your "
-"message limit."
-msgstr ""
-"Вече не можете да изпращате никакви съобщения, защото сте достигнали "
-"лимита си за съобщения."
-
-#: flaskshop/plugin/conversations/views.py:148
-msgid "Compose Message"
-msgstr "Създай съобщение"
-
-#: flaskshop/plugin/conversations/views.py:180
-msgid "Message sent."
-msgstr "Съобщението е изпратено."
-
 #: flaskshop/templates/base.html:6
 msgid "flask store"
 msgstr "магазин"
@@ -786,7 +730,8 @@ msgstr "Регистрирай"
 #: flaskshop/templates/account/login.html:3
 #: flaskshop/templates/account/login.html:20
 #: flaskshop/templates/account/partials/login_form.html:11
-#: flaskshop/templates/base.html:62 flaskshop/templates/base.html:200
+#: flaskshop/templates/account/signup.html:13 flaskshop/templates/base.html:62
+#: flaskshop/templates/base.html:200
 msgid "Log in"
 msgstr "Вход"
 
@@ -830,6 +775,7 @@ msgstr "Запази промени"
 #: flaskshop/templates/checkout/cart.html:7
 #: flaskshop/templates/orders/details.html:12
 #: flaskshop/templates/public/page.html:13
+#: plugin_example/conversations/templates/message_layout.html:7
 msgid "Home"
 msgstr "Начало"
 
@@ -843,6 +789,7 @@ msgid "Recent Orders"
 msgstr "Последни поръчки"
 
 #: flaskshop/templates/account/details.html:29
+#: flaskshop/templates/account/details.html:107
 #: flaskshop/templates/public/style_guide.html:673
 msgid "Change password"
 msgstr "Промени парола"
@@ -909,6 +856,15 @@ msgstr "Нов адрес"
 #: flaskshop/templates/account/login.html:10
 msgid "Don't have an account yet?"
 msgstr "Още нямате профил?"
+
+#: flaskshop/templates/account/signup.html:10
+msgid "Already have an account?"
+msgstr "Още нямате профил?"
+
+#: flaskshop/templates/account/signup.html:20
+#: flaskshop/templates/account/signup.html:28
+msgid "Create an account"
+msgstr "Създай акаунт"
 
 #: flaskshop/templates/account/partials/login_form.html:14
 msgid "Forgot password?"
@@ -995,65 +951,6 @@ msgstr "Метод за доставка"
 #: flaskshop/templates/checkout/shipping.html:60
 msgid "Continue"
 msgstr "Продължи"
-
-#: flaskshop/templates/conversations/_inject_navlink.html:7
-#: flaskshop/templates/conversations/_inject_navlink.html:18
-#: flaskshop/templates/conversations/inbox.html:3
-msgid "Inbox"
-msgstr "Входящи"
-
-#: flaskshop/templates/conversations/_inject_navlink.html:15
-msgid "No unread messages"
-msgstr "Няма непрочетени съобщения"
-
-#: flaskshop/templates/conversations/_inject_navlink.html:19
-msgid "New Message"
-msgstr "Ново съобщение"
-
-#: flaskshop/templates/conversations/conversation.html:304
-msgid "Send"
-msgstr "Изпрати"
-
-#: flaskshop/templates/conversations/conversation_list.html:14
-msgid "Conversations"
-msgstr "Разговори"
-
-#: flaskshop/templates/conversations/conversation_list.html:48
-msgid "From"
-msgstr "От"
-
-#: flaskshop/templates/conversations/conversation_list.html:52
-#: flaskshop/templates/conversations/conversation_list.html:59
-msgid "Deleted User"
-msgstr "Изтрит потребител"
-
-#: flaskshop/templates/conversations/conversation_list.html:55
-msgid "to"
-msgstr "до"
-
-#: flaskshop/templates/conversations/conversation_list.html:61
-msgid "on"
-msgstr "на"
-
-#: flaskshop/templates/conversations/conversation_list.html:98
-msgid "edit"
-msgstr "редактирай"
-
-#: flaskshop/templates/conversations/conversation_list.html:108
-msgid "No conversations found."
-msgstr "Няма намерени разговори."
-
-#: flaskshop/templates/conversations/message_form.html:3
-msgid " Compose Message"
-msgstr " Създай съобщение"
-
-#: flaskshop/templates/conversations/sent.html:3
-msgid "Sent Messages"
-msgstr "Изпрати съобщение"
-
-#: flaskshop/templates/conversations/trash.html:3
-msgid "Trash"
-msgstr "Кошче"
 
 #: flaskshop/templates/dashboard/index.html:17
 msgid "Sales"
@@ -1190,7 +1087,6 @@ msgstr "Доставка"
 msgid "Discount"
 msgstr "Отстъпка"
 
-
 #: flaskshop/templates/dashboard/order/detail.html:121
 msgid "Send Order"
 msgstr "Изпрати поръчка"
@@ -1202,7 +1098,6 @@ msgstr "Платена"
 #: flaskshop/templates/dashboard/order/list.html:10
 msgid "Order List"
 msgstr "Списък с поръчки"
-
 
 #: flaskshop/templates/dashboard/order/list.html:53
 #: flaskshop/templates/dashboard/product/list.html:67
@@ -1405,9 +1300,7 @@ msgstr "вместо"
 
 #: flaskshop/templates/orders/_ordered_items_table.html:124
 msgid "Please pay before 00:30, else the order will auto closed"
-msgstr ""
-"Моля, платете преди 00:30, в противен случай поръчката ще бъде затворена "
-"автоматично"
+msgstr "Моля, платете преди 00:30, в противен случай поръчката ще бъде затворена автоматично"
 
 #: flaskshop/templates/orders/_ordered_items_table.html:126
 msgid "Alipay"
@@ -1544,6 +1437,10 @@ msgstr "Предопреждение!"
 msgid "You are previewing a page that is not visible."
 msgstr "Преглеждате страница, която не се вижда."
 
+#: flaskshop/templates/public/search_result.html:3
+msgid "Search results"
+msgstr "Търси резултати"
+
 #: flaskshop/templates/public/search_result.html:21
 msgid "Search"
 msgstr "Търсене"
@@ -1647,24 +1544,18 @@ msgstr "ширина"
 
 #: flaskshop/templates/public/style_guide.html:49
 msgid ""
-"Lato includes only latin and latin extended characters. For other "
-"alphabets the default sans serif font\n"
+"Lato includes only latin and latin extended characters. For other alphabets the default sans serif font\n"
 "              will be used."
 msgstr ""
-"Lato включва само латински и латински разширени знаци. За други азбуки "
-"шрифтът без засечки по подразбиране\n"
+"Lato включва само латински и латински разширени знаци. За други азбуки шрифтът без засечки по подразбиране\n"
 "               ще бъде използван."
 
 #: flaskshop/templates/public/style_guide.html:52
 #: flaskshop/templates/public/style_guide.html:708
 #: flaskshop/templates/public/style_guide.html:775
 #: flaskshop/templates/public/style_guide.html:817
-msgid ""
-"Click and edit any text below to see how the component looks with "
-"different text"
-msgstr ""
-"Щракнете и редактирайте всеки текст по-долу, за да видите как изглежда "
-"компонентът с различен текст"
+msgid "Click and edit any text below to see how the component looks with different text"
+msgstr "Щракнете и редактирайте всеки текст по-долу, за да видите как изглежда компонентът с различен текст"
 
 #: flaskshop/templates/public/style_guide.html:53
 msgid "Headers"
@@ -1688,20 +1579,14 @@ msgstr "Параграф"
 
 #: flaskshop/templates/public/style_guide.html:65
 msgid ""
-"Saleor is open and free to use. It is not a bait to force you to pay us "
-"later and\n"
-"              we promise to do our bests to fix bugs and improve the "
-"code. Some situations however call for a custom\n"
-"              solution and extra code to be written. Whether you need us "
-"to cover an exotic use case or build you a\n"
+"Saleor is open and free to use. It is not a bait to force you to pay us later and\n"
+"              we promise to do our bests to fix bugs and improve the code. Some situations however call for a custom\n"
+"              solution and extra code to be written. Whether you need us to cover an exotic use case or build you a\n"
 "              custom e-commerce appliance, our team can help."
 msgstr ""
-"Saleor е отворен и безплатен за използване. Не е стръв, за да ви принудим"
-" да ни платите по-късно и\n"
-"обещаваме да направим всичко възможно, за да коригираме грешки и да "
-"подобрим кода. Някои ситуации обаче изискват необичайни\n"
-" решение и допълнителен код за писане. Независимо дали имате нужда от "
-"нас, за да покрием екзотичен сайт или да  ви изградим\n"
+"Saleor е отворен и безплатен за използване. Не е стръв, за да ви принудим да ни платите по-късно и\n"
+"обещаваме да направим всичко възможно, за да коригираме грешки и да подобрим кода. Някои ситуации обаче изискват необичайни\n"
+" решение и допълнителен код за писане. Независимо дали имате нужда от нас, за да покрием екзотичен сайт или да  ви изградим\n"
 "персонализиран електронен магазин, нашият екип може да помогне."
 
 #: flaskshop/templates/public/style_guide.html:71
@@ -1721,12 +1606,8 @@ msgid "We use"
 msgstr "Използваме"
 
 #: flaskshop/templates/public/style_guide.html:155
-msgid ""
-"responsive grid which is based on a 12 column layout. In most cases we "
-"use following combinations"
-msgstr ""
-"адаптивна мрежа, която се основава на оформление от 12 колони. В повечето"
-" случаи използваме следните комбинации"
+msgid "responsive grid which is based on a 12 column layout. In most cases we use following combinations"
+msgstr "адаптивна мрежа, която се основава на оформление от 12 колони. В повечето случаи използваме следните комбинации"
 
 #: flaskshop/templates/public/style_guide.html:206
 msgid "Max container width"
@@ -1798,39 +1679,28 @@ msgstr "Отзивчиви помощни програми"
 
 #: flaskshop/templates/public/style_guide.html:324
 msgid ""
-"The <code>.hidden-*-up</code> classes hide the element when the viewport "
-"is at the given breakpoint or\n"
-"              wider. For example, <code>.hidden-md-up</code> hides an "
-"element on medium, large, and extra-large\n"
+"The <code>.hidden-*-up</code> classes hide the element when the viewport is at the given breakpoint or\n"
+"              wider. For example, <code>.hidden-md-up</code> hides an element on medium, large, and extra-large\n"
 "              viewports."
 msgstr ""
-"Класовете <code>.hidden-*-up</code> скриват елемента, когато изгледът е в"
-" дадена точка на прекъсване или\n"
-"               по-широк. Например <code>.hidden-md-up</code> скрива "
-"елемент на среден, голям и изключително голям\n"
+"Класовете <code>.hidden-*-up</code> скриват елемента, когато изгледът е в дадена точка на прекъсване или\n"
+"               по-широк. Например <code>.hidden-md-up</code> скрива елемент на среден, голям и изключително голям\n"
 "               изгледи."
 
 #: flaskshop/templates/public/style_guide.html:327
 msgid ""
-"The <code>.hidden-*-down</code> classes hide the element when the "
-"viewport is at the given breakpoint or\n"
-"              smaller. For example, <code>.hidden-md-down</code> hides an"
-" element on extra-small, small, and medium\n"
+"The <code>.hidden-*-down</code> classes hide the element when the viewport is at the given breakpoint or\n"
+"              smaller. For example, <code>.hidden-md-down</code> hides an element on extra-small, small, and medium\n"
 "              viewports."
 msgstr ""
-"Класовете <code>.hidden-*-down</code> скриват елемента, когато изгледът е"
-" в дадена точка на прекъсване или\n"
-"               по-малък. Например <code>.hidden-md-down</code> скрива "
-"елемент на изключително малък, малък и среден\n"
+"Класовете <code>.hidden-*-down</code> скриват елемента, когато изгледът е в дадена точка на прекъсване или\n"
+"               по-малък. Например <code>.hidden-md-down</code> скрива елемент на изключително малък, малък и среден\n"
 "               изгледи."
 
 #: flaskshop/templates/public/style_guide.html:351
-msgid ""
-"Click and edit any button below to see how the component looks with "
-"different text"
-msgstr ""
-"Щракнете и редактирайте който и да е бутон по-долу, за да видите как "
-"изглежда компонентът с различен текст"
+msgid "Click and edit any button below to see how the component looks with different text"
+msgstr "Щракнете и редактирайте който и да е бутон по-долу, за да видите как изглежда компонентът с различен текст"
+
 
 #: flaskshop/templates/public/style_guide.html:355
 msgid "Primary Button (buttons can be really very wide)"
@@ -1900,9 +1770,7 @@ msgstr "500г"
 
 #: flaskshop/templates/public/style_guide.html:436
 msgid "Feel free to place here as long option as you want"
-msgstr ""
-"Чувствайте се свободни да поставите тук толкова дълга опция, колкото "
-"искате"
+msgstr "Чувствайте се свободни да поставите тук толкова дълга опция, колкото искате"
 
 #: flaskshop/templates/public/style_guide.html:445
 msgid "Select"
@@ -1932,9 +1800,7 @@ msgstr "Първи вариант"
 #: flaskshop/templates/public/style_guide.html:533
 #: flaskshop/templates/public/style_guide.html:565
 msgid "Feel free to place here as long text as you want"
-msgstr ""
-"Чувствайте се свободни да поставите тук толкова дълъг текст, колкото "
-"искате"
+msgstr "Чувствайте се свободни да поставите тук толкова дълъг текст, колкото искате"
 
 #: flaskshop/templates/public/style_guide.html:497
 msgid "Input groups"
@@ -1953,12 +1819,9 @@ msgid "Errors"
 msgstr "Грешки"
 
 #: flaskshop/templates/public/style_guide.html:538
-msgid ""
-"Errors are always displayed as a small red text below the form explaining"
-" what cause the error."
-msgstr ""
-"Грешките винаги се показват като малък червен текст под формуляра, "
-"обясняващ причината за грешката."
+msgid "Errors are always displayed as a small red text below the form explaining what cause the error."
+msgstr "Грешките винаги се показват като малък червен текст под формуляра, обясняващ причината за грешката."
+
 
 #: flaskshop/templates/public/style_guide.html:548
 #: flaskshop/templates/public/style_guide.html:569
@@ -1977,12 +1840,9 @@ msgstr "Остават само 32 броя на склад"
 #: flaskshop/templates/public/style_guide.html:602
 #: flaskshop/templates/public/style_guide.html:625
 #: flaskshop/templates/public/style_guide.html:645
-msgid ""
-"Click and edit any item below to see how the component looks with "
-"different text"
-msgstr ""
-"Щракнете и редактирайте всеки елемент по-долу, за да видите как изглежда "
-"компонентът с различен текст"
+msgid "Click and edit any item below to see how the component looks with different text"
+msgstr "Щракнете и редактирайте всеки елемент по-долу, за да видите как изглежда компонентът с различен текст"
+
 
 #: flaskshop/templates/public/style_guide.html:630
 msgid "This is Success alert"
@@ -1993,14 +1853,8 @@ msgid "This is Danger alert"
 msgstr "Това е предупреждение за опасност"
 
 #: flaskshop/templates/public/style_guide.html:638
-msgid ""
-"This is Warning alert. Notifications content is not limited with "
-"container width. Place here as many information as you want or need to"
-msgstr ""
-"Това е Предупреждение. Съдържанието на известия не е ограничено с "
-"ширината на контейнера. Поставете тук толкова информация, колкото искате "
-"или трябва"
-
+msgid "This is Warning alert. Notifications content is not limited with container width. Place here as many information as you want or need to"
+msgstr "Това е Предупреждение. Съдържанието на известия не е ограничено с ширината на контейнера. Поставете тук толкова информация, колкото искате или трябва"
 
 #: flaskshop/templates/public/style_guide.html:662
 msgid "Tabs navigation"
@@ -2039,31 +1893,110 @@ msgstr "Тест-Браун"
 msgid "FROM"
 msgstr "ОТ"
 
-#~ msgid "Config"
-#~ msgstr "Конфигурация"
+#: plugin_example/conversations/forms.py:14
+msgid "Recipient"
+msgstr "Получател"
 
-#~ msgid "HTTP Headers"
-#~ msgstr "HTTP заглавки"
+#: plugin_example/conversations/forms.py:14
+msgid "A valid username is required."
+msgstr "Невалидно потребителско име "
 
-#~ msgid "Logging"
-#~ msgstr "Логове"
+#: plugin_example/conversations/forms.py:18
+#: plugin_example/conversations/templates/conversation.html:252
+msgid "Subject"
+msgstr "Заглавие"
 
-#~ msgid "Log Messages"
-#~ msgstr "Лог съобщения"
+#: plugin_example/conversations/forms.py:18
+msgid "A Subject is required."
+msgstr "Заглавие е задължително"
 
-#~ msgid "Request Vars"
-#~ msgstr "Иска променлива"
+#: plugin_example/conversations/forms.py:22
+#: plugin_example/conversations/forms.py:53
+msgid "Message"
+msgstr "Снимки"
 
-#~ msgid "Route List"
-#~ msgstr "Списък с пътища"
+#: plugin_example/conversations/forms.py:22
+#: plugin_example/conversations/forms.py:53
+msgid "A message is required."
+msgstr "Съобщение е задължително"
 
-#~ msgid "Versions"
-#~ msgstr "Версия"
+#: plugin_example/conversations/forms.py:28
+msgid "The username you entered does not exist."
+msgstr "Потребителят не съществува"
 
-#~ msgid "This field is required."
-#~ msgstr "Полето е задължително."
+#: plugin_example/conversations/forms.py:30
+msgid "You cannot send a PM to yourself."
+msgstr "Ме може да изпращате до себе си"
 
-#~ msgid "Invalid IP address."
-#~ msgstr "Невалиден IP адрес."
+#: plugin_example/conversations/views.py:34
+msgid "You cannot send any messages anymore because you have reached your message limit."
+msgstr "Не може да изпращате съобщения, достигнали сте вашия лимит"
 
+#: plugin_example/conversations/templates/message_form.html:3
+#: plugin_example/conversations/views.py:145
+msgid "Compose Message"
+msgstr "Напиши съобщение"
 
+#: plugin_example/conversations/views.py:177
+msgid "Message sent."
+msgstr "Съобщението е изпратено."
+
+#: plugin_example/conversations/templates/_inject_navlink.html:7
+#: plugin_example/conversations/templates/_inject_navlink.html:18
+#: plugin_example/conversations/templates/inbox.html:3
+msgid "Inbox"
+msgstr "Входящи"
+
+#: plugin_example/conversations/templates/_inject_navlink.html:15
+msgid "No unread messages."
+msgstr "Няма непрочетени."
+
+#: plugin_example/conversations/templates/_inject_navlink.html:19
+#: plugin_example/conversations/templates/message_layout.html:20
+msgid "New Message"
+msgstr "Ново съобщение"
+
+#: plugin_example/conversations/templates/conversation.html:304
+msgid "Send"
+msgstr "Използван"
+
+#: plugin_example/conversations/templates/conversation_list.html:14
+msgid "Conversations"
+msgstr "Операция"
+
+#: plugin_example/conversations/templates/conversation_list.html:52
+#: plugin_example/conversations/templates/conversation_list.html:59
+msgid "Deleted User"
+msgstr "Изтрит потребител"
+
+#: plugin_example/conversations/templates/conversation_list.html:73
+msgid "trash"
+msgstr "изтрити"
+
+#: plugin_example/conversations/templates/conversation_list.html:82
+msgid "delete"
+msgstr "изтрий"
+
+#: plugin_example/conversations/templates/conversation_list.html:91
+msgid "restore"
+msgstr "възстанови"
+
+#: plugin_example/conversations/templates/conversation_list.html:98
+msgid "edit"
+msgstr "Редактирай"
+
+#: plugin_example/conversations/templates/conversation_list.html:108
+msgid "No conversations found."
+msgstr "Няма намерени разговори"
+
+#: plugin_example/conversations/templates/message_layout.html:10
+msgid "Private Message"
+msgstr "Лично съобщение"
+
+#: plugin_example/conversations/templates/sent.html:3
+msgid "Sent Messages"
+msgstr "Текущо изображение"
+
+#: plugin_example/conversations/templates/trash.html:3
+msgid "Trash"
+msgstr "Изтрити"

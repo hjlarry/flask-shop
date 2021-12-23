@@ -57,7 +57,6 @@ migrations/
 .idea/
 .venv/
 .vscode/
-.flaskenv
-/flaskshop/women_shop_empty.backup
 /venv/
+/women_shop_empty.backup
 /.flaskenv

@@ -72,3 +72,19 @@ class Config:
     BABEL_DEFAULT_TIMEZONE = os.getenv('BABEL_DEFAULT_TIMEZONE', 'UTC')
     BABEL_TRANSLATION_DIRECTORIES = os.getenv('BABEL_TRANSLATION_DIRECTORIES', '../translations')
     BABEL_CURRENCY = os.getenv('BABEL_CURRENCY', 'USD')
+
+    MAIL_SERVER = os.getenv("MAIL_SERVER", 'localhost')
+    MAIL_PORT = os.getenv("MAIL_PORT", 25)
+    MAIL_TLS = os.getenv("MAIL_TLS", True)
+    if MAIL_TLS:
+        MAIL_USE_TLS = True
+        MAIL_USE_SSL = False
+    else:
+        MAIL_USE_TLS = False
+        MAIL_USE_SSL = True
+    MAIL_DEBUG = DEBUG_TB_ENABLED
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME", '')
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", '')
+    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", '')
+    GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", '')
+

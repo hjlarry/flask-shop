@@ -23,6 +23,21 @@
 <button onclick="window.history.go(-1); return false;" class="btn btn-default float-right">Cancel</button>
 {% endmacro %}
 
+
+{% macro render_select_field_role(role, has_zero=true) %}
+    <div class="form-group">
+        <label>{{ role.label.text }}</label>
+        <select class="form-control select2" style="width: 100%;" name="{{ role.label.text }}">
+            {% if has_zero %}
+                <option value="0">None</option>
+            {% endif %}
+            {% for item, data in role.choices %}
+                <option value="{{ item }}">{{ data }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endmacro %}
+
 {% macro render_select_field(field, items, has_zero=true) %}
 {% set label_id = field.label.field_id %}
 <div class="form-group">

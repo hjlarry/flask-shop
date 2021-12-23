@@ -4,7 +4,7 @@
 
 <li class="dropdown {{ is_active() }}">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <span class="fa fa-envelope fa-fw"></span>Inbox({{ unread_count }})
+        <span class="fa fa-envelope fa-fw"></span>{% trans %}Inbox{% endtrans %}({{ unread_count }})
     </a>
     <div class="dropdown-menu">
         {% for message in unread_messages %}
@@ -12,10 +12,10 @@
                 {{ message.from_user.username }}: {{ message.subject }}
             </a>
         {% else %}
-        <a class="dropdown-item" href="#">No unread messages.</a>
+        <a class="dropdown-item" href="#">{% trans %}No unread messages.{% endtrans %}</a>
         {% endfor %}
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="{{ url_for('conversations_bp.inbox') }}">Inbox</a>
-      <a class="dropdown-item" href="{{ url_for('conversations_bp.new_conversation') }}">New Message</a>
+      <a class="dropdown-item" href="{{ url_for('conversations_bp.inbox') }}">{% trans %}Inbox{% endtrans %}</a>
+      <a class="dropdown-item" href="{{ url_for('conversations_bp.new_conversation') }}">{% trans %}New Message{% endtrans %}</a>
     </div>
 </li>

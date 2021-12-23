@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-12-01 17:58+0200\n"
+"POT-Creation-Date: 2021-12-03 20:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,7 +50,6 @@ msgstr ""
 msgid "Email already registered"
 msgstr ""
 
-
 #: flaskshop/account/forms.py:60
 msgid "Username Or Email"
 msgstr ""
@@ -91,6 +90,7 @@ msgstr ""
 msgid "Contact name"
 msgstr ""
 
+#: flaskshop/account/forms.py:130 flaskshop/dashboard/forms.py:96
 #: flaskshop/templates/dashboard/user/detail.html:57
 msgid "Contact Phone"
 msgstr ""
@@ -301,7 +301,6 @@ msgstr ""
 msgid "bottom"
 msgstr ""
 
-
 #: flaskshop/dashboard/forms.py:60 flaskshop/dashboard/forms.py:140
 #: flaskshop/dashboard/forms.py:181 flaskshop/dashboard/forms.py:193
 #: flaskshop/dashboard/views/product.py:216
@@ -407,6 +406,7 @@ msgstr ""
 #: flaskshop/dashboard/forms.py:128
 msgid "Variant Attributes"
 msgstr ""
+
 #: flaskshop/dashboard/forms.py:134
 msgid "Basic Price"
 msgstr ""
@@ -620,11 +620,9 @@ msgstr ""
 msgid "Product Attribute"
 msgstr ""
 
-
 #: flaskshop/dashboard/views/product.py:69
 msgid "Product Collection"
 msgstr ""
-
 
 #: flaskshop/dashboard/views/product.py:113
 msgid "Product Category"
@@ -643,7 +641,6 @@ msgstr ""
 msgid "Product Type"
 msgstr ""
 
-
 #: flaskshop/dashboard/views/site.py:29
 #: flaskshop/templates/dashboard/order/detail.html:35
 #: flaskshop/templates/dashboard/site/shipping_method.html:15
@@ -657,7 +654,6 @@ msgstr ""
 #: flaskshop/dashboard/views/site.py:64
 msgid "Site Menus"
 msgstr ""
-
 
 #: flaskshop/dashboard/views/site.py:108
 msgid "Endpoint"
@@ -707,55 +703,6 @@ msgstr ""
 msgid "This Order Can Not Pay"
 msgstr ""
 
-#: flaskshop/plugin/conversations/forms.py:13
-msgid "Recipient"
-msgstr ""
-
-#: flaskshop/plugin/conversations/forms.py:13
-msgid "A valid username is required."
-msgstr ""
-
-#: flaskshop/plugin/conversations/forms.py:17
-#: flaskshop/templates/conversations/conversation.html:252
-msgid "Subject"
-msgstr ""
-
-#: flaskshop/plugin/conversations/forms.py:17
-msgid "A Subject is required."
-msgstr ""
-
-#: flaskshop/plugin/conversations/forms.py:21
-#: flaskshop/plugin/conversations/forms.py:52
-msgid "Message"
-msgstr ""
-
-#: flaskshop/plugin/conversations/forms.py:21
-#: flaskshop/plugin/conversations/forms.py:52
-msgid "A message is required."
-msgstr ""
-
-#: flaskshop/plugin/conversations/forms.py:27
-msgid "The username you entered does not exist."
-msgstr ""
-
-#: flaskshop/plugin/conversations/forms.py:29
-msgid "You cannot send a PM to yourself."
-msgstr ""
-
-#: flaskshop/plugin/conversations/views.py:37
-msgid ""
-"You cannot send any messages anymore because you have reached your "
-"message limit."
-msgstr ""
-
-#: flaskshop/plugin/conversations/views.py:148
-msgid "Compose Message"
-msgstr ""
-
-#: flaskshop/plugin/conversations/views.py:180
-msgid "Message sent."
-msgstr ""
-
 #: flaskshop/templates/base.html:6
 msgid "flask store"
 msgstr ""
@@ -781,7 +728,8 @@ msgstr ""
 #: flaskshop/templates/account/login.html:3
 #: flaskshop/templates/account/login.html:20
 #: flaskshop/templates/account/partials/login_form.html:11
-#: flaskshop/templates/base.html:62 flaskshop/templates/base.html:200
+#: flaskshop/templates/account/signup.html:13 flaskshop/templates/base.html:62
+#: flaskshop/templates/base.html:200
 msgid "Log in"
 msgstr ""
 
@@ -825,6 +773,7 @@ msgstr ""
 #: flaskshop/templates/checkout/cart.html:7
 #: flaskshop/templates/orders/details.html:12
 #: flaskshop/templates/public/page.html:13
+#: plugin_example/conversations/templates/message_layout.html:7
 msgid "Home"
 msgstr ""
 
@@ -838,6 +787,7 @@ msgid "Recent Orders"
 msgstr ""
 
 #: flaskshop/templates/account/details.html:29
+#: flaskshop/templates/account/details.html:107
 #: flaskshop/templates/public/style_guide.html:673
 msgid "Change password"
 msgstr ""
@@ -903,6 +853,15 @@ msgstr ""
 
 #: flaskshop/templates/account/login.html:10
 msgid "Don't have an account yet?"
+msgstr ""
+
+#: flaskshop/templates/account/signup.html:10
+msgid "Already have an account?"
+msgstr ""
+
+#: flaskshop/templates/account/signup.html:20
+#: flaskshop/templates/account/signup.html:28
+msgid "Create an account"
 msgstr ""
 
 #: flaskshop/templates/account/partials/login_form.html:14
@@ -989,65 +948,6 @@ msgstr ""
 
 #: flaskshop/templates/checkout/shipping.html:60
 msgid "Continue"
-msgstr ""
-
-#: flaskshop/templates/conversations/_inject_navlink.html:7
-#: flaskshop/templates/conversations/_inject_navlink.html:18
-#: flaskshop/templates/conversations/inbox.html:3
-msgid "Inbox"
-msgstr ""
-
-#: flaskshop/templates/conversations/_inject_navlink.html:15
-msgid "No unread messages"
-msgstr ""
-
-#: flaskshop/templates/conversations/_inject_navlink.html:19
-msgid "New Message"
-msgstr ""
-
-#: flaskshop/templates/conversations/conversation.html:304
-msgid "Send"
-msgstr ""
-
-#: flaskshop/templates/conversations/conversation_list.html:14
-msgid "Conversations"
-msgstr ""
-
-#: flaskshop/templates/conversations/conversation_list.html:48
-msgid "From"
-msgstr ""
-
-#: flaskshop/templates/conversations/conversation_list.html:52
-#: flaskshop/templates/conversations/conversation_list.html:59
-msgid "Deleted User"
-msgstr ""
-
-#: flaskshop/templates/conversations/conversation_list.html:55
-msgid "to"
-msgstr ""
-
-#: flaskshop/templates/conversations/conversation_list.html:61
-msgid "on"
-msgstr ""
-
-#: flaskshop/templates/conversations/conversation_list.html:98
-msgid "edit"
-msgstr ""
-
-#: flaskshop/templates/conversations/conversation_list.html:108
-msgid "No conversations found."
-msgstr ""
-
-#: flaskshop/templates/conversations/message_form.html:3
-msgid " Compose Message"
-msgstr ""
-
-#: flaskshop/templates/conversations/sent.html:3
-msgid "Sent Messages"
-msgstr ""
-
-#: flaskshop/templates/conversations/trash.html:3
-msgid "Trash"
 msgstr ""
 
 #: flaskshop/templates/dashboard/index.html:17
@@ -1535,6 +1435,10 @@ msgstr ""
 msgid "You are previewing a page that is not visible."
 msgstr ""
 
+#: flaskshop/templates/public/search_result.html:3
+msgid "Search results"
+msgstr ""
+
 #: flaskshop/templates/public/search_result.html:21
 msgid "Search"
 msgstr ""
@@ -1991,3 +1895,114 @@ msgstr ""
 #: flaskshop/templates/public/style_guide.html:843
 msgid "FROM"
 msgstr ""
+
+#: plugin_example/conversations/forms.py:14
+msgid "Recipient"
+msgstr ""
+
+#: plugin_example/conversations/forms.py:14
+msgid "A valid username is required."
+msgstr ""
+
+#: plugin_example/conversations/forms.py:18
+#: plugin_example/conversations/templates/conversation.html:252
+msgid "Subject"
+msgstr ""
+
+#: plugin_example/conversations/forms.py:18
+msgid "A Subject is required."
+msgstr ""
+
+#: plugin_example/conversations/forms.py:22
+#: plugin_example/conversations/forms.py:53
+msgid "Message"
+msgstr ""
+
+#: plugin_example/conversations/forms.py:22
+#: plugin_example/conversations/forms.py:53
+msgid "A message is required."
+msgstr ""
+
+#: plugin_example/conversations/forms.py:28
+msgid "The username you entered does not exist."
+msgstr ""
+
+#: plugin_example/conversations/forms.py:30
+msgid "You cannot send a PM to yourself."
+msgstr ""
+
+#: plugin_example/conversations/views.py:34
+msgid ""
+"You cannot send any messages anymore because you have reached your "
+"message limit."
+msgstr ""
+
+#: plugin_example/conversations/templates/message_form.html:3
+#: plugin_example/conversations/views.py:145
+msgid "Compose Message"
+msgstr ""
+
+#: plugin_example/conversations/views.py:177
+msgid "Message sent."
+msgstr ""
+
+#: plugin_example/conversations/templates/_inject_navlink.html:7
+#: plugin_example/conversations/templates/_inject_navlink.html:18
+#: plugin_example/conversations/templates/inbox.html:3
+msgid "Inbox"
+msgstr ""
+
+#: plugin_example/conversations/templates/_inject_navlink.html:15
+msgid "No unread messages."
+msgstr ""
+
+#: plugin_example/conversations/templates/_inject_navlink.html:19
+#: plugin_example/conversations/templates/message_layout.html:20
+msgid "New Message"
+msgstr ""
+
+#: plugin_example/conversations/templates/conversation.html:304
+msgid "Send"
+msgstr ""
+
+#: plugin_example/conversations/templates/conversation_list.html:14
+msgid "Conversations"
+msgstr ""
+
+#: plugin_example/conversations/templates/conversation_list.html:52
+#: plugin_example/conversations/templates/conversation_list.html:59
+msgid "Deleted User"
+msgstr ""
+
+#: plugin_example/conversations/templates/conversation_list.html:73
+msgid "trash"
+msgstr ""
+
+#: plugin_example/conversations/templates/conversation_list.html:82
+msgid "delete"
+msgstr ""
+
+#: plugin_example/conversations/templates/conversation_list.html:91
+msgid "restore"
+msgstr ""
+
+#: plugin_example/conversations/templates/conversation_list.html:98
+msgid "edit"
+msgstr ""
+
+#: plugin_example/conversations/templates/conversation_list.html:108
+msgid "No conversations found."
+msgstr ""
+
+#: plugin_example/conversations/templates/message_layout.html:10
+msgid "Private Message"
+msgstr ""
+
+#: plugin_example/conversations/templates/sent.html:3
+msgid "Sent Messages"
+msgstr ""
+
+#: plugin_example/conversations/templates/trash.html:3
+msgid "Trash"
+msgstr ""
+

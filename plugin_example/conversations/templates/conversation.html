@@ -249,7 +249,7 @@
 
 <div class="card direct-chat direct-chat-primary">
   <div class="card-header">
-    <h3 class="card-title">Subject: <strong>{{ conversation.subject }}</strong></h3>
+    <h3 class="card-title">{% trans %}Subject{% endtrans %}: <strong>{{ conversation.subject }}</strong></h3>
   </div>
   <!-- /.card-header -->
   <div class="card-body">
@@ -301,7 +301,7 @@
       <div class="input-group">
         <input type="text" name="message" id="message" placeholder="Type Message ..." class="form-control" required>
         <span class="input-group-append">
-          <button type="submit" class="btn btn-primary">Send</button>
+          <button type="submit" class="btn btn-primary">{% trans %}Send{% endtrans %}</button>
         </span>
       </div>
     </form>

@@ -1,5 +1,7 @@
 from flask_wtf import FlaskForm as _FlaskForm
-from flask_babel import lazy_gettext
+from flask_babel import lazy_gettext, lazy_gettext
+from flaskshop.constant import Permission
+
 from wtforms import (
     StringField,
     IntegerField,
@@ -63,7 +65,6 @@ class SiteMenuForm(FlaskForm):
     submit = SubmitField(lazy_gettext('Submit'))
 
 
-
 class SitePageForm(FlaskForm):
     title = StringField(lazy_gettext('Title'), validators=[DataRequired()])
     slug = StringField(lazy_gettext('Slug'))
@@ -83,6 +84,7 @@ class UserForm(FlaskForm):
     email = StringField(lazy_gettext('E-mail'), validators=[DataRequired()])
     password = PasswordField(lazy_gettext('Password'))
     is_active = BooleanField(lazy_gettext('Is Activ'))
+    role = SelectField(lazy_gettext("Role"), coerce=str, choices=list(Permission.PERMISSION_MAP.values()))
     created_at = DateTimeField(lazy_gettext('Created at'))
     updated_at = DateTimeField(lazy_gettext('Updated at'))
     submit = SubmitField(lazy_gettext('Submit'))
@@ -140,7 +142,7 @@ class ProductForm(FlaskForm):
     review_count = IntegerField(lazy_gettext('Review Count'), default=0)
     category_id = SelectField(lazy_gettext('Category'))
     description = TextAreaField(lazy_gettext('Description'))
-    images = FieldList(StringField(lazy_gettext('Images')))  # TODO 限制图片数量
+    images = FieldList(StringField(lazy_gettext('Images')))  # TODO Add max image count
     attributes = FieldList( SelectField(lazy_gettext('Atributes')))
     submit = SubmitField(lazy_gettext('Submit'))
 

@@ -45,7 +45,7 @@ def error_handler(error):
     if hasattr(error, "name"):
         status = error.code
         if status == 403:
-            msg = "无权限"
+            msg = "forbidden"
         else:
             msg = error.name
     else:
