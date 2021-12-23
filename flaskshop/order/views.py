@@ -1,7 +1,6 @@
 import time
 from datetime import datetime
 from flask_babel import lazy_gettext
-
 from flask import (
     Blueprint,
     render_template,

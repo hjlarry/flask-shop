@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from flask_login import current_user
 from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp
+from flask_babel import lazy_gettext
 
 
 from .models import User
@@ -147,7 +148,6 @@ class ChangePasswordForm(FlaskForm):
 
 class AddressForm(FlaskForm):
     """Address form."""
-
     province = StringField(lazy_gettext("Province"), validators=[DataRequired()])
     city = StringField(lazy_gettext("City"), validators=[DataRequired()])
     district = StringField(lazy_gettext("District"), validators=[DataRequired()])

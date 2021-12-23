@@ -14,6 +14,7 @@ from flaskshop.account.utils import permission_required
 from flaskshop.settings import Config
 from flaskshop.constant import Permission, OrderStatusKinds, OrderEvents
 # from .mail import mails
+
 from .user import users, user, user_edit, address_edit
 from .site import (
     shipping_methods,

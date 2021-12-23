@@ -19,6 +19,7 @@ msgstr ""
 "Generated-By: Babel 2.9.1\n"
 "X-Generator: Poedit 2.2.1\n"
 
+
 #: flaskshop/account/forms.py:16 flaskshop/dashboard/views/user.py:24
 msgid "Username"
 msgstr "Потребителско име"
@@ -104,6 +105,7 @@ msgstr "Успешно влизане."
 #: flaskshop/account/views.py:39
 msgid "You are logged out."
 msgstr "Излязохте успешно."
+
 
 #: flaskshop/account/views.py:54
 msgid "You are signed up."
@@ -1699,6 +1701,7 @@ msgstr ""
 msgid "Click and edit any button below to see how the component looks with different text"
 msgstr "Щракнете и редактирайте който и да е бутон по-долу, за да видите как изглежда компонентът с различен текст"
 
+
 #: flaskshop/templates/public/style_guide.html:355
 msgid "Primary Button (buttons can be really very wide)"
 msgstr "Основен бутон (бутоните могат да бъдат наистина много широки)"
@@ -1819,6 +1822,7 @@ msgstr "Грешки"
 msgid "Errors are always displayed as a small red text below the form explaining what cause the error."
 msgstr "Грешките винаги се показват като малък червен текст под формуляра, обясняващ причината за грешката."
 
+
 #: flaskshop/templates/public/style_guide.html:548
 #: flaskshop/templates/public/style_guide.html:569
 msgid "This field is required"
@@ -1838,6 +1842,7 @@ msgstr "Остават само 32 броя на склад"
 #: flaskshop/templates/public/style_guide.html:645
 msgid "Click and edit any item below to see how the component looks with different text"
 msgstr "Щракнете и редактирайте всеки елемент по-долу, за да видите как изглежда компонентът с различен текст"
+
 
 #: flaskshop/templates/public/style_guide.html:630
 msgid "This is Success alert"

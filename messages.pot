@@ -539,9 +539,11 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
+
 #: flaskshop/dashboard/views/discount.py:18
 msgid "Usage Limit"
 msgstr ""
+
 
 #: flaskshop/dashboard/views/discount.py:20
 #: flaskshop/dashboard/views/discount.py:71

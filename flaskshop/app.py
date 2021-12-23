@@ -9,6 +9,7 @@ from flask_ckeditor import CKEditor
 from flask_migrate import Migrate
 from flask_mail import Mail
 
+
 from flaskshop import commands
 from flaskshop.extensions import (
     bcrypt,
@@ -66,6 +67,7 @@ def register_extensions(app):
     ckeditor.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
+
 
 def register_blueprints(app):
     app.pluggy.hook.flaskshop_load_blueprints(app=app)

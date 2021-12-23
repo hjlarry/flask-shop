@@ -71,7 +71,7 @@ class Setting(Model):
 
     def __repr__(self):
         return f"<{self.__class__.__name__} {self.key}>"
-#
+
 # class Mail_Templates(Model):
 #     __tablename__ = "management_mail_templates"
 #     title = Column(db.String(255), nullable=False)
