@@ -79,7 +79,7 @@ flask seed
 ```
 
 ### Translation localization 
-** Create .pot
+**Create .pot**
 ```
 pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot .
 ```
@@ -97,7 +97,7 @@ pybabel init -i messages.pot -d translations -l en_US
 pybabel compile -d translations
 ```
 
-**Update translations .po
+**Update translations .pot**
 
 ```
 pybabel extract -F babel.cfg -k lazy_gettext -o messages.pot .
