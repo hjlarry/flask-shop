@@ -11,19 +11,19 @@
                  data-src="{{ url_for('static', filename='img/confirm-order-bg.png') }}"
                  srcset="{{ url_for('static', filename='img/confirm-order-bg.png') }} 1x, {{ url_for('static', filename='img/confirm-order-bg2x.png') }} %} 2x">
             <h1>
-                Thank you for your <a href="{{ url_for('account.index') }}">order</a>!
+                {% trans %}Thank you for your{% endtrans %} <a href="{{ url_for('account.index') }}">{% trans %}order{% endtrans %}</a>!
             </h1>
 
             <p>
-                We've sent a confirmation email with details to <span>{{ current_user.email }}</span>.<br>
-                In case of any problems or questions please contact us.
+                {% trans %}We've sent a confirmation email with details to{% endtrans %} <span>{{ current_user.email }}</span>.<br>
+                {% trans %}In case of any problems or questions please contact us{% endtrans %}.
             </p>
         </div>
         <div class="m-auto">
             <img class="checkout-pirate lazyload lazypreload" data-src="{{ url_for('static', filename='img/checkout-bg.png') }}"
                  srcset="">
             <p><a href="{{ url_for('public.home') }}" class="btn secondary">
-                Continue shopping
+                {% trans %}Continue shopping{% endtrans %}
             </a></p>
         </div>
     </div>

@@ -1,18 +1,18 @@
 {% extends "no_nav_base.html" %}
 
-{% block title %}Your cart{% endblock %}
+{% block title %}{% trans %}Your cart{% endtrans %}{% endblock %}
 
 {% block breadcrumb %}
 <ul class="breadcrumbs list-unstyled">
-    <li><a href="{{ url_for('public.home') }}">Home</a></li>
-    <li><a rel="nofollow" href="">Cart</a></li>
+    <li><a href="{{ url_for('public.home') }}">{% trans %}Home{% endtrans %}</a></li>
+    <li><a rel="nofollow" href="">{% trans %}Cart{% endtrans %}</a></li>
 </ul>
 {% endblock breadcrumb %}
 
 
 {% block content %}
 <div class="alert alert-success remove-product-alert d-none">
-    Product has been removed from cart
+    {% trans %}Product has been removed from cart{% endtrans %}
     <button type="button" class="close close-msg" aria-hidden="true">&times;</button>
 </div>
 <div class="cart">
@@ -20,13 +20,13 @@
     <div class="table__header d-none d-md-block">
         <div class="row">
             <div class="col-md-7">
-                <small>Product</small>
+                <small>{% trans %}Product{% endtrans %}</small>
             </div>
             <div class="col-md-3">
-                <small>Quantity</small>
+                <small>{% trans %}Quantity{% endtrans %}</small>
             </div>
             <div class="col-md-2 text-right">
-                <small>Price</small>
+                <small>{% trans %}Price{% endtrans %}</small>
             </div>
         </div>
     </div>
@@ -72,15 +72,15 @@
         <div class="col-md-12">
             <a href="{% if current_user_cart.is_shipping_required %}{{ url_for('checkout.checkout_shipping') }}{% else %}{{ url_for('checkout.checkout_note') }}{% endif %}"
                 class="btn btn-primary float-right cart__submit">
-                Checkout
+                {% trans %}Checkout{% endtrans %}
             </a>
         </div>
     </div>
     {% else %}
     <div class="cart__empty">
         <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/empty-cart-bg.png') }}">
-        <h2>There are no products in your shopping cart.</h2>
-        <a href="{{ url_for('public.home') }}" class="btn btn-primary">Check out our sales</a>
+        <h2>{% trans %}There are no products in your shopping cart.{% endtrans %}</h2>
+        <a href="{{ url_for('public.home') }}" class="btn btn-primary">{% trans %}Check out our sales{% endtrans %}</a>
     </div>
     {% endif %}
 </div>

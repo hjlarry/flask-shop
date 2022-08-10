@@ -194,6 +194,7 @@ def seed(type):
             "voucher": create_vouchers,
             "dashboard": create_dashboard_menus,
             "role": create_roles,
+            "create_admin": create_admin,
         }
         fn = create_dict[type]
         for msg in fn():

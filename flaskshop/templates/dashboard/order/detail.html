@@ -11,7 +11,7 @@
                         <div class="col-12">
                             <h4>
                                 <i class="fa fa-globe"></i> {{order.token}}
-                                <small class="float-right">Created At: {{order.created_at}}</small>
+                                <small class="float-right">{% trans %}Created At{% endtrans %}: {{order.created_at}}</small>
                             </h4>
                         </div>
                         <!-- /.col -->
@@ -19,20 +19,20 @@
                     <!-- info row -->
                     <div class="row invoice-info">
                         <div class="col-sm-4 invoice-col">
-                            <b>Status:</b> {{order.status_human}}<br>
-                            <b>Payment Status:</b> {{order.payment.status_human}}<br>
-                            <b>Payment Due:</b> {{order.payment.paid_at}}<br>
-                            <b>Account:</b> {{order.user}}
+                            <b>{% trans %}Status{% endtrans %}:</b> {{order.status_human}}<br>
+                            <b>{% trans %}Payment Status{% endtrans %}:</b> {{order.payment.status_human}}<br>
+                            <b>{% trans %}Payment Due{% endtrans %}:</b> {{order.payment.paid_at}}<br>
+                            <b>{% trans %}Account{% endtrans %}:</b> {{order.user}}
                         </div>
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
-                            <strong>Shipping Address</strong>
+                            <strong>{% trans %}Shipping Address{% endtrans %}</strong>
                             <address>
                                 {{order.shipping_address | safe}}
                             </address>
                         </div>
                         <div class="col-sm-4 invoice-col">
-                            <strong>Shipping Method</strong>
+                            <strong>{% trans %}Shipping Method{% endtrans %}</strong>
                             <address>
                                 {{order.shipping_method_name}} (${{order.shipping_price_net}})
                             </address>
@@ -46,11 +46,11 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Qty</th>
-                                        <th>Product</th>
-                                        <th>SKU</th>
-                                        <th>Unit Price</th>
-                                        <th>Subtotal</th>
+                                        <th>{% trans %}Qty{% endtrans %}</th>
+                                        <th>{% trans %}Product{% endtrans %}</th>
+                                        <th>{% trans %}SKU{% endtrans %}</th>
+                                        <th>{% trans %}Unit Price{% endtrans %}</th>
+                                        <th>{% trans %}Subtotal){% endtrans %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,8 +78,8 @@
                     <div class="row">
                         <!-- accepted payments column -->
                         <div class="col-6">
-                            <p class="lead">Payment Method: {{order.payment.payment_method}}</p>
-                            <p class="lead">Order Note:</p>
+                            <p class="lead">{% trans %}Payment Method{% endtrans %}: {{order.payment.payment_method}}</p>
+                            <p class="lead">{% trans %}Order Note{% endtrans %}:</p>
                             <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
                                 {{order.note}}
                             </p>
@@ -89,21 +89,21 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
-                                        <th style="width:50%">Subtotal:</th>
+                                        <th style="width:50%">{% trans %}Subtotal{% endtrans %}:</th>
                                         <td>${{order.total_net}}</td>
                                     </tr>
                                     <tr>
-                                        <th>Shipping:</th>
+                                        <th>{% trans %}Shipping{% endtrans %}:</th>
                                         <td>${{order.shipping_price_net}}</td>
                                     </tr>
 
                                     <tr>
-                                        <th>Discount:</th>
+                                        <th>{% trans %}Discount{% endtrans %}:</th>
                                         <td>-${{ order.discount_amount  }}({{ order.discount_name }})</td>
                                     </tr>
 
                                     <tr>
-                                        <th>Total:</th>
+                                        <th>{% trans %}Total{% endtrans %}:</th>
                                         <td>${{order.total}}</td>
                                     </tr>
                                 </table>
@@ -118,12 +118,12 @@
                             {% if order.status_human == "fulfilled" %}
                             <a class="btn btn-success float-right"
                                 href="{{url_for('dashboard.send_order', id=order.id)}}">
-                                <i class="fa fa-credit-card"></i> Send Order
+                                <i class="fa fa-credit-card"></i> {% trans %}Send Order{% endtrans %}
                             </a>
                             {% elif order.status_human == "unfulfilled" %}
                             <a class="btn btn-danger float-right"
                                 href="{{url_for('dashboard.draft_order', id=order.id)}}">
-                                <i class="fa fa-ban"></i> Draft Order
+                                <i class="fa fa-ban"></i>{% trans %}Draft Order{% endtrans %}
                             </a>
                             {% endif %}
                         </div>

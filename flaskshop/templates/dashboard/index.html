@@ -14,9 +14,9 @@
                                     class="fa fa-shopping-cart"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Sales</span>
-                                <span class="info-box-text"><b>{{orders_today}}</b> today and <b>{{orders_total}}</b>
-                                    total</span>
+                                <span class="info-box-text">{% trans %}Sales{% endtrans %}</span>
+                                <span class="info-box-text"><b>{{orders_today}}</b> {% trans %}today and{% endtrans %} <b>{{orders_total}}</b>
+                                    {% trans %}total{% endtrans %}</span>
                             </div>
                             
                         </div>
@@ -26,9 +26,9 @@
                         <div class="info-box mb-3">
                             <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-users"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Members</span>
-                                <span class="info-box-text"><b>{{users_today}}</b> new in <b>{{users_total}}</b>
-                                    accounts</span>
+                                <span class="info-box-text">{% trans %}Members{% endtrans %}</span>
+                                <span class="info-box-text"><b>{{users_today}}</b> {% trans %}new in{% endtrans %} <b>{{users_total}}</b>
+                                    {% trans %}accounts{% endtrans %}</span>
                             </div>
                             
                         </div>
@@ -40,19 +40,19 @@
                         <ul class="navi-card">
                             <li class="item">
                                 <a href="{{url_for('dashboard.orders', status=order_fulfill.kind)}}">
-                                    <span>{{order_fulfill.count}} Orders are ready to fulfill</span>
+                                    <span>{{order_fulfill.count}} {% trans %}Orders are ready to fulfill{% endtrans %}</span>
                                     <span class="right">></span>
                                 </a>
                             </li>
                             <li class="item">
                                 <a href="{{url_for('dashboard.orders', status=order_unfulfill.kind)}}">
-                                    <span>{{order_unfulfill.count}} Payments to capture</span>
+                                    <span>{{order_unfulfill.count}} {% trans %}Payments to capture{% endtrans %}</span>
                                     <span class="right">></span>
                                 </a>
                             </li>
                             <li class="item">
                                 <a href="{{url_for('dashboard.products', sale=True)}}">
-                                    <span>{{onsale_products_count}} products is on sale</span>
+                                    <span>{{onsale_products_count}} {% trans %}products is on sale{% endtrans %}</span>
                                     <span class="right">></span>
                                 </a>
                             </li>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Top Products</h3>
+                        <h3 class="card-title">{% trans %}Top Products{% endtrans %}</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body p-0">
@@ -79,7 +79,7 @@
                                         {{product.description}}
                                     </span>
                                     <span class="product-description">
-                                        {{product.order_count}} Ordered
+                                        {{product.order_count}} {% trans %}Ordered{% endtrans %}
                                     </span>
                                 </div>
                             </li>
@@ -95,19 +95,19 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Activity</h3>
+                        <h3 class="card-title">{% trans %}Activity{% endtrans %}</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body p-0">
                         <ul class="activity product-list-in-card pl-2 pr-2">
                             {% for a in activity %}
                             <li class="item">
-                                <span class="activity-title">Order #{{a.order_id}} was {{order_events(a.type_).name}}</span>
+                                <span class="activity-title">{% trans %}Order{% endtrans %} #{{a.order_id}} {% trans %}was{% endtrans %} {{order_events(a.type_).name}}</span>
                                 <span>{{a.created_at_human}}</span>
                             </li>
                             {% else %}
                             <li class="item">
-                                <span class="activity-title">There is no recent activity </span>
+                                <span class="activity-title">{% trans %}There is no recent activity{% endtrans %} </span>
                             </li>
                             {% endfor %}
                         </ul>

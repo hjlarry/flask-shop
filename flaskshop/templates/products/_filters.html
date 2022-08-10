@@ -46,7 +46,7 @@
 
         <div class="filter-section" aria-expanded="true">
           <div class="filter-section__header">
-            <h3>Price</h3>
+            <h3>{% trans %}Price{% endtrans %}</h3>
             <div class="filter-section__icon">
               <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/chevron-up.svg') }}">
             </div>
@@ -61,11 +61,11 @@
         </div>
         {% if clear_filter %}
         <a href="{{ object.get_absolute_url() }}">
-          <span class="clear-filters text-uppercase">Clear filters</span>
+          <span class="clear-filters text-uppercase">{% trans %}Clear filters{% endtrans %}</span>
         </a>
         {% endif %}
 
-        <button class="btn btn-primary" type="submit">Update</button>
+        <button class="btn btn-primary" type="submit">{% trans %}Update{% endtrans %}</button>
       </form>
     </div>
   </div>

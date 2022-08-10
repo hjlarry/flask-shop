@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="float-left">
-                    <span class="fa fa-comment"></span>Conversations
+                    <span class="fa fa-comment"></span>{% trans %}Conversations{% endtrans %}
                 </div>
             </div>
         </div>
@@ -49,14 +49,14 @@
                     {% if conversation.from_user %}
                         <a href="#">{{ conversation.from_user.username }}</a>
                     {% else %}
-                        Deleted User
+                        {% trans %}Deleted User{% endtrans %}
                     {% endif %}
 
                     to
                     {% if conversation.to_user %}
                         <a href="#">{{ conversation.to_user.username }}</a>
                     {% else %}
-                        Deleted User
+                        {% trans %}Deleted User{% endtrans %}
                     {% endif %}
                     on {{ conversation.last_message.created_at }}
                 </div>
@@ -70,7 +70,7 @@
                     <form class="inline-form float-right" method="POST" action="{{url_for('conversations_bp.move_conversation', conversation_id=conversation.id)}}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                         <button type="submit" class="btn btn-info btn-xs" title="Move to Trash" data-toggle="tooltip" data-placement="top">
-                            trash
+                            {% trans %}trash{% endtrans %}
                         </button>
                     </form>
                     {% endif %}
@@ -79,7 +79,7 @@
                     <form class="inline-form float-right" method="POST" action="{{url_for('conversations_bp.delete_conversation', conversation_id=conversation.id)}}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                         <button type="submit" class="btn btn-danger btn-xs" title="Delete this conversation" data-toggle="tooltip" data-placement="top">
-                            delete
+                            {% trans %}delete{% endtrans %}
                         </button>
                     </form>
                     {% endif %}
@@ -88,14 +88,14 @@
                     <form class="inline-form float-right" method="POST" action="{{url_for('conversations_bp.restore_conversation', conversation_id=conversation.id)}}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                         <button type="submit" class="btn btn-success btn-xs" title="Restore this conversation" data-toggle="tooltip" data-placement="top">
-                            restore
+                            {% trans %}restore{% endtrans %}
                         </button>
                     </form>
                     {% endif %}
 
                     {% if include_edit %}
                     <a class="btn btn-success btn-xs float-right" alt="Edit" title="Edit this conversation" href="#" data-toggle="tooltip" data-placement="top">
-                        edit
+                        {% trans %}edit{% endtrans %}
                     </a>
                     {% endif %}
                 </div>
@@ -105,7 +105,7 @@
         {% else %}
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-               No conversations found.
+               {% trans %}No conversations found.{% endtrans %}
             </div>
         </div>
         {% endfor %}
