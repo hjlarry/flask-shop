@@ -9,13 +9,12 @@ from flaskshop.database import Column, Model, db
 from flaskshop.extensions import bcrypt
 from flaskshop.constant import Permission
 
-
 class User(Model, UserMixin):
     __tablename__ = "account_user"
     username = Column(db.String(80), unique=True, nullable=False, comment="user`s name")
     email = Column(db.String(80), unique=True, nullable=False)
     #: The hashed password
-    _password = Column("password", db.String(128))
+    _password = db.Column(db.String, nullable=False)
     nick_name = Column(db.String(255))
     is_active = Column(db.Boolean(), default=False)
     open_id = Column(db.String(80), index=True)
@@ -33,7 +32,7 @@ class User(Model, UserMixin):
 
     @password.setter
     def password(self, value):
-        self._password = bcrypt.generate_password_hash(value)
+        self._password = bcrypt.generate_password_hash(value).decode('UTF-8')
 
     @property
     def avatar(self):
@@ -41,11 +40,11 @@ class User(Model, UserMixin):
 
     def check_password(self, value):
         """Check password."""
-        return bcrypt.check_password_hash(self.password, value)
+        return bcrypt.check_password_hash(self.password.encode('utf-8'), value)
 
     @property
     def addresses(self):
-        return UserAddress.query.filter_by(user_id=self.id)
+        return UserAddress.query.filter_by(user_id=self.id).all()
 
     @property
     def is_active_human(self):
@@ -69,13 +68,16 @@ class User(Model, UserMixin):
         if not self.roles:
             return False
         all_perms = reduce(or_, map(lambda x: x.permissions, self.roles))
-        return all_perms & permissions == permissions
+        return all_perms >= permissions
 
     def can_admin(self):
         return self.can(Permission.ADMINISTER)
 
     def can_edit(self):
         return self.can(Permission.EDITOR)
+
+    def can_op(self):
+        return self.can(Permission.OPERATOR)
 
 
 class UserAddress(Model):
@@ -90,7 +92,7 @@ class UserAddress(Model):
 
     @property
     def full_address(self):
-        return f"{self.province}{self.city}{self.district}<br>{self.address}<br>{self.contact_name}<br>{self.contact_phone}"
+        return f"{self.province}<br>{self.city}<br>{self.district}<br>{self.address}<br>{self.contact_name}<br>{self.contact_phone}"
 
     @hybrid_property
     def user(self):
@@ -104,7 +106,6 @@ class Role(Model):
     __tablename__ = "account_role"
     name = Column(db.String(80), unique=True)
     permissions = Column(db.Integer(), default=Permission.LOGIN)
-
 
 class UserRole(Model):
     __tablename__ = "account_user_role"

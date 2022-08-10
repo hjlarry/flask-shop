@@ -99,7 +99,7 @@
         </div>
          {% if form.variant.errors %}
         <div class="is-invalid "></div>
-        <div class="invalid-feedback">Please choose a variant!</div>
+        <div class="invalid-feedback">{% trans %}Please choose a variant!{% endtrans %}</div>
         {% endif %}
       </div>
       {% else %}
@@ -116,7 +116,7 @@
 
       <div class="form-group product__info__button">
         <button class="btn btn-primary" type="submit">
-          Add to cart
+          {% trans %}Add to cart{% endtrans %}
         </button>
       </div>
     </form>
@@ -128,11 +128,11 @@
 
     {% else %}
     <p class="alert alert-warning">
-      This product is currently <strong>unavailable</strong>.
+      {% trans %}This product is currently{% endtrans %} <strong>{% trans %}unavailable{% endtrans %}</strong>.
     </p>
     {% endif %}
     <div class="product__info__description">
-      <h3>Description</h3>
+      <h3>{% trans %}Description{% endtrans %}</h3>
       <hr>
       {{ product.description|safe }}
     </div>

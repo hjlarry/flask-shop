@@ -1,6 +1,6 @@
 import uuid
 from functools import wraps
-
+from flask_babel import lazy_gettext
 from flask import (
     Blueprint,
     render_template,
@@ -31,8 +31,8 @@ def check_message_box_space(redirect_to=None):
     """
     if get_message_count(current_user) >= current_app.config["MESSAGE_QUOTA"]:
         flash(
-            "You cannot send any messages anymore because you have reached your message limit.",
-            "danger",
+            lazy_gettext("You cannot send any messages anymore because you have reached your message limit.",
+            "danger"),
         )
         return redirect(redirect_to or url_for("conversations_bp.inbox"))
 
@@ -142,7 +142,7 @@ class NewConversation(MethodView):
     def get(self):
         form = self.form()
         form.to_user.data = request.args.get("to_user")
-        return render_template("message_form.html", form=form, title="Compose Message")
+        return render_template("message_form.html", form=form, title=lazy_gettext("Compose Message"))
 
     def post(self):
         form = self.form()
@@ -174,7 +174,7 @@ class NewConversation(MethodView):
             )
             # invalidate_cache(to_user)
 
-            flash("Message sent.", "success")
+            flash(lazy_gettext("Message sent."), "success")
             return redirect(url_for("conversations_bp.sent"))
 
         return render_template("message_form.html", form=form)

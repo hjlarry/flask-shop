@@ -5,11 +5,12 @@
   <div class="row">
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
       <div class="panel-head">
-        <h2>Shipping address</h2>
+        <h2>{% trans %}Shipping address{% endtrans %}</h2>
         <br>
       </div>
+
       {% for address in current_user.addresses %}
-      <div class="radio address_hide col-6 float-left">
+      <div class="radio address_hide">
         <label>
           <input type="radio" name="address_sel" value="{{ address.id }}" id="address_{{ address.id }}"
             {% if loop.first %}checked{%endif%}>
@@ -23,20 +24,22 @@
       <div class="radio address_show col-12 float-left">
         <label>
           <input type="radio" name="address_sel" value="new" id="address_new">
-          Enter a new address
+          {% trans %}Enter a new address{% endtrans %}
         </label>
       </div>
 
 
       <div class="checkout__new-address">
-        {% include "account/partials/address_form.html" %}
+        <div class="address_show col-12 float-left">
+          {% include "account/partials/address_form.html" %}
+        </div>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" style="width: 100%;">
       <div>
-        <h2>Shipping method</h2>
+        <h2>{% trans %}Shipping method{% endtrans %}</h2>
         <br>
       </div>
       {% for method in shipping_methods %}
@@ -54,7 +57,7 @@
   </div>
   <p class="text-md-right">
     <button type="submit" class="btn btn-primary">
-      Continue
+      {% trans %}Continue{% endtrans %}
     </button>
   </p>
 </form>

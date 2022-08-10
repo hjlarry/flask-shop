@@ -28,9 +28,9 @@
                         </ul>
 
                         <a href="{{url_for('dashboard.user_edit', user_id=user.id)}}"
-                            class="btn btn-primary btn-block"><b>Edit</b></a>
+                            class="btn btn-primary btn-block"><b>{% trans %}Edit{% endtrans %}</b></a>
                         <a class="btn btn-danger btn-block delete-btn"
-                            data-url="users/{{user.id}}/delete"><b>Delete</b></a>
+                            data-url="users/{{user.id}}/delete"><b>{% trans %}Delete{% endtrans %}</b></a>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -42,8 +42,8 @@
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
                             <li class="nav-item"><a class="nav-link active" href="#address"
-                                    data-toggle="tab">Addresses</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#order" data-toggle="tab">Orders</a></li>
+                                    data-toggle="tab">{% trans %}Addresses{% endtrans %}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#order" data-toggle="tab">{% trans %}Orders{% endtrans %}</a></li>
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
@@ -52,10 +52,10 @@
                                 {% if addresses|list|length > 0 %}
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th style="width: 10px">ID</th>
-                                        <th>Contact Name</th>
-                                        <th>Contact Phone</th>
-                                        <th style="width: 40px">Operation</th>
+                                        <th style="width: 10px">{% trans %}ID{% endtrans %}</th>
+                                        <th>{% trans %}Contact Name{% endtrans %}</th>
+                                        <th>{% trans %}Contact Phone{% endtrans %}</th>
+                                        <th style="width: 40px">{% trans %}Operation{% endtrans %}</th>
                                     </tr>
                                     {% for address in addresses %}
                                     <tr>
@@ -64,12 +64,12 @@
                                         <td>{{address.contact_phone}}</td>
                                         <td style="text-align:center"><a
                                                 href="{{url_for('dashboard.address_edit', id=address.id)}}"
-                                                class="btn btn-primary btn-sm">Edit</a></td>
+                                                class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a></td>
                                     </tr>
                                     {% endfor %}
                                 </table>
                                 {% else %}
-                                <h6 class="card-title">This user have not add address</h6>
+                                <h6 class="card-title">{% trans %}This user have not add address{% endtrans %}</h6>
                                 {% endif %}
                             </div>
                             <!-- /.tab-pane -->
@@ -77,11 +77,11 @@
                                 {% if orders|list|length > 0 %}
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Status</th>
-                                        <th>Total</th>
-                                        <th>Created At</th>
-                                        <th style="width: 40px">Operation</th>
+                                        <th>{% trans %}ID{% endtrans %}</th>
+                                        <th>{% trans %}Status{% endtrans %}</th>
+                                        <th>{% trans %}Total{% endtrans %}</th>
+                                        <th>{% trans %}Created At{% endtrans %}</th>
+                                        <th style="width: 40px">{% trans %}Operation{% endtrans %}</th>
                                     </tr>
                                     {% for order in orders %}
                                     <tr>
@@ -89,14 +89,14 @@
                                         <td>{{order.status}}</td>
                                         <td>{{order.total_net}}</td>
                                         <td>{{order.created_at}}</td>
-                                        <td style="text-align:center"><a href="" class="btn btn-info btn-sm">View</a>
+                                        <td style="text-align:center"><a href="/dashboard/orders/{{order.id}}" class="btn btn-info btn-sm">{% trans %}View{% endtrans %}</a>
                                         </td>
                                     </tr>
                                     {% endfor %}
 
                                 </table>
                                 {% else %}
-                                <h6 class="card-title">This user have not create orders</h6>
+                                <h6 class="card-title">{% trans %}This user have not create orders{% endtrans %}</h6>
                                 {% endif %}
                             </div>
                             <!-- /.tab-pane -->

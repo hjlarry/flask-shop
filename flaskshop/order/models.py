@@ -1,7 +1,7 @@
 from flask import url_for
 from flask_login import current_user
 from uuid import uuid4
-from sqlalchemy.dialects.mysql import TINYINT
+#from sqlalchemy.dialects.mysql import TINYINT
 
 from flaskshop.database import Column, Model, db
 from flaskshop.account.models import User, UserAddress
@@ -26,10 +26,10 @@ class Order(Model):
     discount_name = Column(db.String(100))
     voucher_id = Column(db.Integer())
     shipping_price_net = Column(db.DECIMAL(10, 2))
-    status = Column(TINYINT())
+    status = Column(db.Integer())
     shipping_method_name = Column(db.String(100))
     shipping_method_id = Column(db.Integer())
-    ship_status = Column(TINYINT())
+    ship_status = Column(db.Integer())
 
     def __str__(self):
         return f"#{self.identity}"
@@ -275,7 +275,7 @@ class OrderNote(Model):
 class OrderPayment(Model):
     __tablename__ = "order_payment"
     order_id = Column(db.Integer())
-    status = Column(TINYINT)
+    status = Column(db.Integer)
     total = Column(db.DECIMAL(10, 2))
     delivery = Column(db.DECIMAL(10, 2))
     description = Column(db.Text())
@@ -301,4 +301,4 @@ class OrderEvent(Model):
     __tablename__ = "order_event"
     order_id = Column(db.Integer())
     user_id = Column(db.Integer())
-    type_ = Column("type", TINYINT())
+    type_ = Column("type", db.Integer())

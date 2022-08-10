@@ -13,9 +13,9 @@
                         <div class="card-tools" style="display: flex;">
                             <div class="input-group input-group-sm">
                                 <a href="{{url_for('dashboard.product_edit', id=product.id)}}"
-                                    class="btn btn-primary btn-sm" style="margin-right: 5px;">Edit</a>
+                                    class="btn btn-primary btn-sm" style="margin-right: 5px;">{% trans %}Edit{% endtrans %}</a>
                                 <a data-url="products/{{product.id}}/delete" data-redirect="1"
-                                    class="btn btn-danger btn-sm delete-btn">Delete</a>
+                                    class="btn btn-danger btn-sm delete-btn">{% trans %}Delete{% endtrans %}</a>
                             </div>
                         </div>
                     </div>
@@ -36,36 +36,36 @@
                             <div class="col-md-6">
                                 <ul class="list-group mb-3">
                                     <li class="list-group-item">
-                                        <b>On Sale</b> <span
+                                        <b>{% trans %}On Sale{% endtrans %}</b> <span
                                             class="float-right">{{macros.render_boolean(product.on_sale)}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Price</b> <span class="float-right">${{product.price}} /
+                                        <b>{% trans %}Price{% endtrans %}</b> <span class="float-right">${{product.price}} /
                                             ${{product.basic_price}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Rating</b> <span class="float-right">{{product.rating}}</span>
+                                        <b>{% trans %}Rating{% endtrans %}</b> <span class="float-right">{{product.rating}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Sold Count</b> <span class="float-right">{{product.sold_count}}</span>
+                                        <b>{% trans %}Sold Count{% endtrans %}</b> <span class="float-right">{{product.sold_count}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Review Count</b> <span class="float-right">{{product.review_count}}</span>
+                                        <b>{% trans %}Review Count{% endtrans %}</b> <span class="float-right">{{product.review_count}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Category</b> <span class="float-right">{{product.category}}</span>
+                                        <b>{% trans %}Category{% endtrans %}</b> <span class="float-right">{{product.category}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>ProductType</b> <span class="float-right">{{product.product_type}}</span>
+                                        <b>{% trans %}ProductType{% endtrans %}</b> <span class="float-right">{{product.product_type}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        <b>Created</b> <span class="float-right">{{product.created_at}}</span>
+                                        <b>{% trans %}Created{% endtrans %}</b> <span class="float-right">{{product.created_at}}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="row">
-                            <p class="lead">Product Description:</p>
+                            <p class="lead">{% trans %}Product Description{% endtrans %}:</p>
                             <p class="text-muted well well-sm no-shadow">
                                 {{product.description}}
                             </p>
@@ -80,23 +80,23 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="m-0">Variants</h5>
+                        <h5 class="m-0">{% trans %}Variants{% endtrans %}</h5>
                         <div class="card-tools" style="display: flex;">
                             <div class="input-group input-group-sm">
                                 <a href="{{url_for('dashboard.variant_manage', product_id=product.id)}}"
-                                    class="btn btn-success btn-sm">Create</a>
+                                    class="btn btn-success btn-sm">{% trans %}Create{% endtrans %}</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <table class="table table-hover">
                             <tr>
-                                <th>ID</th>
-                                <th>SKU</th>
-                                <th>Title</th>
-                                <th>Quantity</th>
-                                <th>PriceOverride</th>
-                                <th>Operation</th>
+                                <th>{% trans %}ID{% endtrans %}</th>
+                                <th>{% trans %}SKU{% endtrans %}</th>
+                                <th>{% trans %}Title{% endtrans %}</th>
+                                <th>{% trans %}Quantity{% endtrans %}</th>
+                                <th>{% trans %}PriceOverride{% endtrans %}</th>
+                                <th>{% trans %}Operation{% endtrans %}</th>
                             </tr>
                             {% for item in product.variant %}
                             <tr>
@@ -107,9 +107,9 @@
                                 <td>{{item.price_override}}</td>
                                 <td>
                                     <a href="{{url_for('dashboard.variant_manage', id=item.id)}}"
-                                        class="btn btn-primary btn-sm">Edit</a>
+                                        class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a>
                                     <a data-url="variants/{{item.id}}/delete"
-                                        class="btn btn-danger btn-sm delete-btn">Delete</a>
+                                        class="btn btn-danger btn-sm delete-btn">{% trans %}Delete{% endtrans %}</a>
                                 </td>
                             </tr>
                             {% endfor %}
