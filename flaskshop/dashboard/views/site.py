@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, request, flash
-from flask_babel import lazy_gettext
+from flask_babel import lazy_gettext, gettext
 
 from flaskshop.public.models import MenuItem, Page
 from flaskshop.dashboard.models import DashboardMenu, Setting
