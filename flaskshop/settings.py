@@ -2,14 +2,16 @@
 """Application configuration."""
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
+load_dotenv()
 class LocalConfig:
     db_type = os.getenv('DB_TYPE', 'mysql')
     user = os.getenv('DB_USER', 'root')
-    passwd = os.getenv('DB_PASSWD', '123456')
+    passwd = os.getenv('DB_PASSWD', 'secret')
     host = os.getenv('DB_HOST', '127.0.0.1')
     port = os.getenv('DB_PORT', 3306)
-    db_name = os.getenv('DB_NAME', 'flaskshop')
+    db_name = os.getenv('DB_NAME', 'db')
     if db_type == 'postgresql':
         db_uri = 'postgresql://{user}:{passwd}@{host}:{port}/{db_name}'.format(
             user=user, passwd=passwd, host=host, port=port, db_name=db_name)
@@ -22,7 +24,7 @@ class LocalConfig:
 
 class Config:
 
-    SECRET_KEY = os.getenv("SECRET_KEY", "thisisashop")
+    SECRET_KEY = os.getenv("SECRET_KEY", "Ensure you set a secret key, this is important!")
 
     # Redis
     # if redis is enabled, it can be used for:
@@ -58,7 +60,7 @@ class Config:
     PURCHASE_URI = os.getenv('PURCHASE_URI', '')
 
     BCRYPT_LOG_ROUNDS = 13
-    DEBUG_TB_ENABLED = False # os.getenv("FLASK_DEBUG", False)  # Disable Debug toolbar
+    DEBUG_TB_ENABLED = os.getenv("FLASK_DEBUG", False)
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEBUG_TB_PROFILER_ENABLED = True
 
