@@ -56,7 +56,6 @@ slow_queries.log
 migrations/
 .idea/
 .venv/
-.vscode/
 /venv/
 /women_shop_empty.backup
-/.flaskenv
+/.env
