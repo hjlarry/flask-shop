@@ -8,6 +8,7 @@ from flaskshop.dashboard.forms import VoucherForm, SaleForm
 from flaskshop.constant import VoucherTypeKinds, DiscountValueTypeKinds
 from flask_babel import lazy_gettext
 
+
 def vouchers():
     page = request.args.get("page", type=int, default=1)
     pagination = Voucher.query.paginate(page, 10)

@@ -40,6 +40,7 @@ ckeditor = CKEditor()
 migrate = Migrate()
 mail = Mail()
 
+
 def create_app(config_object=Config):
     app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
@@ -54,6 +55,7 @@ def create_app(config_object=Config):
     log_slow_queries(app)
     app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {"/dashboard_api": dashboard_api})
     return app
+
 
 def register_extensions(app):
     bcrypt.init_app(app)

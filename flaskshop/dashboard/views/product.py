@@ -64,7 +64,11 @@ def attributes_manage(id=None):
 def collections():
     page = request.args.get("page", type=int, default=1)
     pagination = Collection.query.paginate(page, 10)
-    props = {"id": lazy_gettext("ID"), "title": lazy_gettext("Title"), "created_at": lazy_gettext("Created At")}
+    props = {
+        "id": lazy_gettext("ID"),
+        "title": lazy_gettext("Title"),
+        "created_at": lazy_gettext("Created At"),
+    }
     context = {
         "title": lazy_gettext("Product Collection"),
         "items": pagination.items,
@@ -273,7 +277,7 @@ def product_create_step2():
     if form.validate_on_submit():
         product = Product(product_type_id=product_type_id)
         product = _save_product(product, form)
-        #product.generate_variants()
+        # product.generate_variants()
         return redirect(url_for("dashboard.product_detail", id=product.id))
     return render_template(
         "product/product_create_step2.html",

@@ -8,7 +8,7 @@ from flask_babel import lazy_gettext
 
 
 from .models import User
-from flask_babel import lazy_gettext,lazy_gettext
+
 
 class RegisterForm(FlaskForm):
     """Register form."""
@@ -20,19 +20,25 @@ class RegisterForm(FlaskForm):
             Length(min=3, max=25),
             Regexp(
                 "^[a-zA-Z0-9]*$",
-                message=lazy_gettext("The username should contain only a-z, A-Z and 0-9."),
+                message=lazy_gettext(
+                    "The username should contain only a-z, A-Z and 0-9."
+                ),
             ),
         ],
     )
     email = StringField(
-        lazy_gettext("Email"), validators=[DataRequired(), Email(), Length(min=6, max=40)]
+        lazy_gettext("Email"),
+        validators=[DataRequired(), Email(), Length(min=6, max=40)],
     )
     password = PasswordField(
         lazy_gettext("Password"), validators=[DataRequired(), Length(min=6, max=40)]
     )
     confirm = PasswordField(
         lazy_gettext("Verify password"),
-        [DataRequired(), EqualTo("password", message=lazy_gettext("Passwords must match"))],
+        [
+            DataRequired(),
+            EqualTo("password", message=lazy_gettext("Passwords must match")),
+        ],
     )
 
     def __init__(self, *args, **kwargs):
@@ -55,8 +61,10 @@ class RegisterForm(FlaskForm):
             return False
         return True
 
+
 class ResetPasswd(FlaskForm):
-    '''Password reset'''
+    """Password reset"""
+
     username = StringField(lazy_gettext("Email"), validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
@@ -83,9 +91,13 @@ class ResetPasswd(FlaskForm):
             return False
         return True
 
+
 class LoginForm(FlaskForm):
     """Login form."""
-    username = StringField(lazy_gettext("Username Or Email"), validators=[DataRequired()])
+
+    username = StringField(
+        lazy_gettext("Username Or Email"), validators=[DataRequired()]
+    )
     password = PasswordField(lazy_gettext("Password"), validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
@@ -118,7 +130,9 @@ class LoginForm(FlaskForm):
 
 
 class ChangePasswordForm(FlaskForm):
-    old_password = PasswordField(lazy_gettext("Old Password"), validators=[DataRequired()])
+    old_password = PasswordField(
+        lazy_gettext("Old Password"), validators=[DataRequired()]
+    )
     password = PasswordField(lazy_gettext("Password"), validators=[DataRequired()])
     confirm = PasswordField(
         lazy_gettext("Verify password"),
@@ -148,13 +162,17 @@ class ChangePasswordForm(FlaskForm):
 
 class AddressForm(FlaskForm):
     """Address form."""
+
     province = StringField(lazy_gettext("Province"), validators=[DataRequired()])
     city = StringField(lazy_gettext("City"), validators=[DataRequired()])
     district = StringField(lazy_gettext("District"), validators=[DataRequired()])
     address = StringField(lazy_gettext("Address"), validators=[DataRequired()])
-    contact_name = StringField(lazy_gettext("Contact name"), validators=[DataRequired()])
+    contact_name = StringField(
+        lazy_gettext("Contact name"), validators=[DataRequired()]
+    )
     contact_phone = StringField(
-        lazy_gettext("Contact Phone"), validators=[DataRequired(), Length(min=10, max=13)]
+        lazy_gettext("Contact Phone"),
+        validators=[DataRequired(), Length(min=10, max=13)],
     )
 
     def __init__(self, *args, **kwargs):

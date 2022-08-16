@@ -22,7 +22,7 @@ def show(id, form=None):
 
 @login_required
 def product_add_to_cart(id):
-    """ this method return to the show method and use a form instance for display validater errors"""
+    """this method return to the show method and use a form instance for display validater errors"""
     product = Product.get_by_id(id)
     form = AddCartForm(request.form, product=product)
 

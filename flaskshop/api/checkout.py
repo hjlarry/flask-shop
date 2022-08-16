@@ -7,22 +7,29 @@ api = Namespace("checkout", description=lazy_gettext("Checkout related operation
 cart = api.model(
     "CartLine",
     {
-        "id": fields.Integer(required=True, description=lazy_gettext("The checkout cartline id")),
-        "quantity": fields.Integer(required=True, description=lazy_gettext("The cart item num")),
+        "id": fields.Integer(
+            required=True, description=lazy_gettext("The checkout cartline id")
+        ),
+        "quantity": fields.Integer(
+            required=True, description=lazy_gettext("The cart item num")
+        ),
         "title": fields.String(
-            description=lazy_gettext("The cart item title"), attribute="variant.product.title"
+            description=lazy_gettext("The cart item title"),
+            attribute="variant.product.title",
         ),
         "variant": fields.String(
             description=lazy_gettext("The cart item variant"), attribute="variant.title"
         ),
         "product_id": fields.Integer(
-            description=lazy_gettext("The cart item product"), attribute="variant.product.id"
+            description=lazy_gettext("The cart item product"),
+            attribute="variant.product.id",
         ),
         "price": fields.Float(
             description=lazy_gettext("The cart item price"), attribute="variant.price"
         ),
         "first_img": fields.String(
-            description=lazy_gettext("The cart item image"), attribute="variant.product.first_img"
+            description=lazy_gettext("The cart item image"),
+            attribute="variant.product.first_img",
         ),
     },
 )

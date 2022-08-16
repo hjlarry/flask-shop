@@ -3,7 +3,6 @@ from flask import Blueprint, render_template
 from flask_login import login_required
 from pluggy import HookimplMarker
 from sqlalchemy import func
-from flask_babel import lazy_gettext
 
 from flaskshop.extensions import db
 from flaskshop.dashboard.models import DashboardMenu
@@ -13,6 +12,7 @@ from flaskshop.account.models import User
 from flaskshop.account.utils import permission_required
 from flaskshop.settings import Config
 from flaskshop.constant import Permission, OrderStatusKinds, OrderEvents
+
 # from .mail import mails
 
 from .user import users, user, user_edit, address_edit

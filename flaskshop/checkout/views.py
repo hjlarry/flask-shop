@@ -37,8 +37,12 @@ def update_cartline(id):
     cart = Cart.query.filter(Cart.user_id == current_user.id).first()
     response["cart"]["numItems"] = cart.update_quantity()
     response["cart"]["numLines"] = len(cart)
-    response["subtotal"] = format_currency(line.subtotal, os.environ['BABEL_CURRENCY'], os.environ['BABEL_DEFAULT_LOCALE'])
-    response["total"] = format_currency(cart.total, os.environ['BABEL_CURRENCY'], os.environ['BABEL_DEFAULT_LOCALE'])
+    response["subtotal"] = format_currency(
+        line.subtotal, os.environ["BABEL_CURRENCY"], os.environ["BABEL_DEFAULT_LOCALE"]
+    )
+    response["total"] = format_currency(
+        cart.total, os.environ["BABEL_CURRENCY"], os.environ["BABEL_DEFAULT_LOCALE"]
+    )
     return jsonify(response)
 
 

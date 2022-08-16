@@ -1,7 +1,6 @@
 from flask import url_for
 from flask_login import current_user
 from uuid import uuid4
-#from sqlalchemy.dialects.mysql import TINYINT
 
 from flaskshop.database import Column, Model, db
 from flaskshop.account.models import User, UserAddress

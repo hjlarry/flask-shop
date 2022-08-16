@@ -54,14 +54,17 @@ def user_edit(user_id):
         form.populate_obj(user)
         user.save()
         selected_role = request.form.get(form.role.label.text)
-        if selected_role != '0':
-            selected_role = Role.query.filter(Role.name==selected_role).first()
-            user_role = UserRole.query.filter(UserRole.user_id == current_user.id, UserRole.role_id >= selected_role.id).first()
-            user_role = Role.query.filter(Role.id==user_role.role_id).first()
+        if selected_role != "0":
+            selected_role = Role.query.filter(Role.name == selected_role).first()
+            user_role = UserRole.query.filter(
+                UserRole.user_id == current_user.id,
+                UserRole.role_id >= selected_role.id,
+            ).first()
+            user_role = Role.query.filter(Role.id == user_role.role_id).first()
             if selected_role.permissions > user_role.permissions:
-                flash('You have no access rights', "warning")
+                flash("You have no access rights", "warning")
             else:
-                UserRole.query.filter(UserRole.user_id==user.id).delete()
+                UserRole.query.filter(UserRole.user_id == user.id).delete()
                 UserRole.create(user_id=user.id, role_id=selected_role.id)
         return redirect(url_for("dashboard.user", user_id=user_id))
     return render_template("user/edit.html", form=form)
