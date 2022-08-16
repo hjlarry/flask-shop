@@ -1,5 +1,3 @@
-import os
-
 from flaskshop.extensions import db, login_manager
 from flaskshop.account.utils import admin_required
 from flaskshop import settings

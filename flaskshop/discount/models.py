@@ -3,8 +3,6 @@ import string
 from datetime import datetime
 from decimal import Decimal
 
-#from sqlalchemy.dialects.mysql import TINYINT
-
 from flaskshop.corelib.mc import cache, rdb
 from flaskshop.database import Column, Model, db
 from flaskshop.constant import VoucherTypeKinds, DiscountValueTypeKinds

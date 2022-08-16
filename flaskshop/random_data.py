@@ -136,7 +136,7 @@ DASHBOARD_MENUS = [
     {"title": "Sales", "endpoint": "sales", "parent_id": 4},
     {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4},
     # {"title": "Custumers", "endpoint": "users", "parent_id": 3},
-    #{"title": "E-mail", "endpoint": "mails", "parent_id": 3},
+    # {"title": "E-mail", "endpoint": "mails", "parent_id": 3},
 ]
 
 """
@@ -195,6 +195,7 @@ def get_email(first_name, last_name):
 """
 Fake for products data
 """
+
 
 # step1
 def create_products_by_schema(
@@ -372,11 +373,13 @@ def create_fake_collection(placeholder_dir, collection_data):
 """
 Fake for account data
 """
+
+
 # step13
 def create_users(how_many=10):
     for dummy in range(how_many):
         user = create_fake_user()
-        address = create_fake_address(user_id=user.id)
+        create_fake_address(user_id=user.id)
         yield f"User: {user.email}"
 
 
@@ -416,7 +419,10 @@ def create_roles():
 # step17
 def create_admin():
     user = User.create(
-        username="admin", email="localhost", password=os.getenv('DB_PASSWD', '123456'), is_active=True
+        username="admin",
+        email="localhost",
+        password=os.getenv("DB_PASSWD", "123456"),
+        is_active=True,
     )
     # create_fake_address(user.id)
     # create_fake_address(user.id)
@@ -436,6 +442,7 @@ def create_admin():
 """
 Fake for public data
 """
+
 
 # step18
 def create_page():
@@ -517,6 +524,8 @@ def create_dashboard_menus():
 """
 Fake for order data
 """
+
+
 # step23
 def create_orders(how_many=10):
     discounts = None
@@ -594,6 +603,7 @@ def create_payment(order):
 """
 Fake for voucher
 """
+
 
 # step28
 def create_product_sales(how_many=5):

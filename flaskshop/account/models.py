@@ -9,6 +9,7 @@ from flaskshop.database import Column, Model, db
 from flaskshop.extensions import bcrypt
 from flaskshop.constant import Permission
 
+
 class User(Model, UserMixin):
     __tablename__ = "account_user"
     username = Column(db.String(80), unique=True, nullable=False, comment="user`s name")
@@ -32,7 +33,7 @@ class User(Model, UserMixin):
 
     @password.setter
     def password(self, value):
-        self._password = bcrypt.generate_password_hash(value).decode('UTF-8')
+        self._password = bcrypt.generate_password_hash(value).decode("UTF-8")
 
     @property
     def avatar(self):
@@ -40,7 +41,7 @@ class User(Model, UserMixin):
 
     def check_password(self, value):
         """Check password."""
-        return bcrypt.check_password_hash(self.password.encode('utf-8'), value)
+        return bcrypt.check_password_hash(self.password.encode("utf-8"), value)
 
     @property
     def addresses(self):
@@ -106,6 +107,7 @@ class Role(Model):
     __tablename__ = "account_role"
     name = Column(db.String(80), unique=True)
     permissions = Column(db.Integer(), default=Permission.LOGIN)
+
 
 class UserRole(Model):
     __tablename__ = "account_user_role"

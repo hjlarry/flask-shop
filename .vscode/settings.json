@@ -4,5 +4,4 @@
   "python.linting.enabled": true,
   "python.formatting.provider": "black",
   "python.terminal.activateEnvironment": true,
-  "python.pythonPath": ".venv/bin/python"
 }

@@ -12,7 +12,7 @@ BUILTIN_TYPES = (int, bytes, str, float, bool)
 
 
 def gen_key_factory(key_pattern, arg_names, defaults):
-    args = dict(zip(arg_names[-len(defaults) :], defaults)) if defaults else {}
+    args = dict(zip(arg_names[-len(defaults) :], defaults)) if defaults else {}  # noqa
 
     if callable(key_pattern):
         names = inspect.getargspec(key_pattern)[0]
