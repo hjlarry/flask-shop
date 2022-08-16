@@ -1,18 +1,19 @@
-version: "2.1"
+version: "3.8"
 services:
-
   db:
-     image: mysql:8.0
-     command:
-      - --default_authentication_plugin=mysql_native_password
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-     volumes:
-       - db_data:/var/lib/mysql
-     restart: unless-stopped
-     environment:
-       MYSQL_ROOT_PASSWORD: root
-       MYSQL_DATABASE: flaskshop
+    image: postgres:12
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME:-db}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWD:-secret}
+      PGDATABASE: ${DB_NAME:-db}
+      PGUSER: ${DB_USER:-postgres}
+      PGPASSWORD: ${DB_PASSWD:-secret}
+    ports:
+      - 127.0.0.1:${DB_PORT:-5432}:5432
 
   redis:
     image: library/redis:5.0-alpine
@@ -21,8 +22,14 @@ services:
       - redis-data:/data
 
   esearch:
-    image: elasticsearch:7.5.0
+    image: elasticsearch:8.3.3
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2048m
+        reservations:
+          memory: 100m
     environment:
       discovery.type: single-node
     volumes:
@@ -35,11 +42,9 @@ services:
       - redis
       - esearch
     ports:
-      - 127.0.0.1:5051:5000
+      - 127.0.0.1:${LOCAL_WEB_PORT:-5000}:5000
     environment:
-      DB_URI: mysql+pymysql://root:root@db:3306/flaskshop?charset=utf8mb4
-      REDIS_URI: redis://redis:6379
-      ESEARCH_URI: esearch
+      DB_HOST: db
     restart: unless-stopped
 
 volumes:
