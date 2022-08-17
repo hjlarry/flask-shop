@@ -91,7 +91,7 @@ class UserForm(FlaskForm):
     username = StringField(lazy_gettext("User Name"), validators=[DataRequired()])
     email = StringField(lazy_gettext("E-mail"), validators=[DataRequired()])
     password = PasswordField(lazy_gettext("Password"))
-    is_active = BooleanField(lazy_gettext("Is Activ"))
+    is_active = BooleanField(lazy_gettext("Is Active"))
     role = SelectField(
         lazy_gettext("Role"),
         coerce=str,
@@ -104,7 +104,7 @@ class UserForm(FlaskForm):
 
 class UserAddressForm(FlaskForm):
     province = StringField(lazy_gettext("Province"))
-    city = StringField(lazy_gettext("Sity"))
+    city = StringField(lazy_gettext("City"))
     district = StringField(lazy_gettext("District"))
     address = StringField(lazy_gettext("Address"))
     contact_name = StringField(lazy_gettext("Contact Name"))

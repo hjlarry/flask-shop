@@ -34,7 +34,7 @@ def flaskshop_load_blueprints(app):
                 return response
         return "", 401
 
-    api = Api(bp, version="1.0", title="Saleor API", description="A simple API")
+    api = Api(bp, version="1.0", title="Simple2B Store API", description="A simple API")
 
     @api.errorhandler
     def default_error_handler(error):

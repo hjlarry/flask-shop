@@ -376,7 +376,7 @@ Fake for account data
 
 
 # step13
-def create_users(how_many=10):
+def create_users(how_many=5):
     for dummy in range(how_many):
         user = create_fake_user()
         create_fake_address(user_id=user.id)
@@ -419,24 +419,13 @@ def create_roles():
 # step17
 def create_admin():
     user = User.create(
-        username="admin",
-        email="localhost",
-        password=os.getenv("DB_PASSWD", "123456"),
+        username=os.getenv("ADMIN_USER", "admin"),
+        email=os.getenv("ADMIN_EMAIL", "localhost"),
+        password=os.getenv("ADMIN_PASSWD", "admin"),
         is_active=True,
     )
-    # create_fake_address(user.id)
-    # create_fake_address(user.id)
-    # create_fake_address(user.id)
     UserRole.create(user_id=user.id, role_id=4)
     yield f"Admin {user.username} created"
-    # user = User.create(username="op", email="op@163.com", password="op", is_active=True)
-    # UserRole.create(user_id=user.id, role_id=3)
-    # yield f"Admin {user.username} created"
-    # user = User.create(
-    #     username="editor", email="editor@163.com", password="editor", is_active=True
-    # )
-    # UserRole.create(user_id=user.id, role_id=2)
-    # yield f"Admin {user.username} created"
 
 
 """
@@ -447,12 +436,11 @@ Fake for public data
 # step18
 def create_page():
     content = """
-    <h2 align="center">AN OPENSOURCE STOREFRONT PLATFORM FOR PERFECTIONISTS</h2>
+    <h2 align="center">PERFECT FLASK STORE FOR YOUR BUSINESS</h2>
     <h3 align="center">WRITTEN IN PYTHON, BEST SERVED AS A BESPOKE, HIGH-PERFORMANCE E-COMMERCE SOLUTION</h3>
     <p><br></p>
-    <p><img src="http://getsaleor.com/images/main-pic.svg"></p>
     <p style="text-align: center;">
-        <a href="https://github.com/mirumee/saleor/">Get Saleor</a> today!
+        Visit <a href="https://www.simple2b.net/">Simple2B</a> today!
     </p>
     """
     page_data = {

@@ -1,4 +1,7 @@
+<!DOCTYPE html>
+
 {% block head_tail %}
+<title>{% block title %}{% trans %}Simple2B Store | Dashboard{% endtrans %}{% endblock %}</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='build/dashboard/layout.css') }}">
 {% endblock %}
 

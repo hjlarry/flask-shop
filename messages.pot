@@ -704,7 +704,11 @@ msgid "This Order Can Not Pay"
 msgstr ""
 
 #: flaskshop/templates/base.html:6
-msgid "flask store"
+msgid "Simple2B Store"
+msgstr ""
+
+#: flaskshop/templates/dashboard/layout.html:4
+msgid "Simple2B Store | Dashboard"
 msgstr ""
 
 #: flaskshop/templates/base.html:39 flaskshop/templates/base.html:177
