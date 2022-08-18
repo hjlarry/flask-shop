@@ -15,8 +15,8 @@ class LocalConfig:
     port = os.getenv("LOCAL_DB_PORT", 3306)
     db_name = os.getenv("DB_NAME", "db")
     if db_type == "postgresql":
-        db_uri = "postgresql://{user}:{passwd}@{host}:{port}/{db_name}".format(
-            user=user, passwd=passwd, host=host, port=port, db_name=db_name
+        db_uri = "postgresql://{user}:{passwd}@{host}:5432/{db_name}".format(
+            user=user, passwd=passwd, host=host, db_name=db_name
         )
     elif db_type == "mysql":
         db_uri = "mysql+pymysql://{user}:{passwd}@{host}:{port}/{db_name}?charset=utf8mb4".format(
