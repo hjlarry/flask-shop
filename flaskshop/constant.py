@@ -38,21 +38,21 @@ class Permission:
 
 SiteDefaultSettings = {
     "project_title": {
-        "value": "FlaskShop",
+        "value": "Simple2B Store",
         "value_type": SettingValueType.string,
         "name": "Project title",
         "description": "The title of the project.",
     },
     "project_subtitle": {
-        "value": "A lightweight e-commerce software in Flask",
+        "value": "",
         "value_type": SettingValueType.string,
         "name": "Project subtitle",
         "description": "A short description of the project.",
     },
     "project_copyright": {
-        "value": "COPYRIGHT © 2009–2019 MIRUMEE SOFTWARE",
+        "value": "Copyright © 2020–2022 Simple2B Agency",
         "value_type": SettingValueType.string,
         "name": "Project Copyright",
-        "description": "Copyright notice of the Project like '&copy; 2019 FlaskShop'. ",
+        "description": "Copyright notice of the Project like '&copy; 2020 Simple2B'.",
     },
 }

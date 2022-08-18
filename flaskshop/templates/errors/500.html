@@ -1,14 +1,13 @@
-
-{% extends "layout.html" %}
+{% extends "base.html" %}
 
 {% block page_title %}{% trans %}Server error{% endtrans %}{% endblock %}
 
 {% block content %}
 <div class="jumbotron">
     <div class="text-center">
-        <h1>500</h1>
-        {% endtrans %}
-        <p>Sorry, something went wrong on our system. Don't panic, we are fixing it! Please try again later.</p>
+        <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/500.svg') }}">
+        {% trans %}
+        <h2>Sorry, something went wrong on our system. Don't panic, we are fixing it! Please try again later.</h2>
         {% endtrans %}
     </div>
 </div>

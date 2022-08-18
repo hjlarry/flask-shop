@@ -6,7 +6,7 @@ from flask_sqlalchemy import Pagination
 
 from flaskshop.settings import Config
 
-connections.create_connection(hosts=Config.ES_HOSTS)
+connections.create_connection(hosts=Config.ES_HOSTS, http_auth=None)
 
 SERACH_FIELDS = ["title^10", "description^5"]
 

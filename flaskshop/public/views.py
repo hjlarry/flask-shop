@@ -28,7 +28,7 @@ def style():
 
 
 def favicon():
-    return send_from_directory("static", "favicon-32x32.png")
+    return send_from_directory("static", "favicon.ico")
 
 
 def search():
