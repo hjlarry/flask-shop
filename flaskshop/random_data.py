@@ -21,7 +21,7 @@ from flaskshop.product.models import (
     Collection,
     ProductCollection,
 )
-from flaskshop.public.models import MenuItem, Page
+from flaskshop.public.models import MenuItem
 from flaskshop.account.models import User, UserAddress, Role, UserRole
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.order.models import Order, OrderLine, OrderPayment
@@ -135,7 +135,6 @@ DASHBOARD_MENUS = [
     {"title": "Collections", "endpoint": "collections", "parent_id": 1},
     {"title": "Sales", "endpoint": "sales", "parent_id": 4},
     {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4},
-    # {"title": "Custumers", "endpoint": "users", "parent_id": 3},
     # {"title": "E-mail", "endpoint": "mails", "parent_id": 3},
 ]
 
@@ -433,26 +432,6 @@ Fake for public data
 """
 
 
-# step18
-def create_page():
-    content = """
-    <h2 align="center">PERFECT FLASK STORE FOR YOUR BUSINESS</h2>
-    <h3 align="center">WRITTEN IN PYTHON, BEST SERVED AS A BESPOKE, HIGH-PERFORMANCE E-COMMERCE SOLUTION</h3>
-    <p><br></p>
-    <p style="text-align: center;">
-        Visit <a href="https://www.simple2b.net/">Simple2B</a> today!
-    </p>
-    """
-    page_data = {
-        "content": content,
-        "title": "About",
-        "is_visible": True,
-        "slug": "about",
-    }
-    page, _ = Page.get_or_create(**page_data)
-    yield f"Page {page.title} created"
-
-
 # step19
 def create_menus():
     yield "Created navbar menu"
@@ -461,20 +440,25 @@ def create_menus():
         if not category.parent_id:
             for msg in generate_menu_items(category, menu_id=1):
                 yield msg
-
-    yield "Created footer menu"
-    collection = Collection.query.first()
-    item, _ = MenuItem.get_or_create(title="Collections", position=2)
-    for collection in Collection.query.all():
+    collections = Collection.query.all()
+    item, _ = MenuItem.get_or_create(title="Collections", position=1)
+    for collection in collections:
         MenuItem.get_or_create(
             title=collection.title, collection_id=collection.id, parent_id=item.id
         )
 
-    item, _ = MenuItem.get_or_create(title="Saleor", position=2)
-    page = Page.query.first()
-    if page:
-        MenuItem.get_or_create(title=page.title, page_id=page.id, parent_id=item.id)
-    MenuItem.get_or_create(title="Style guide", url_="/style", parent_id=item.id)
+    yield "Created footer menu"
+    item, _ = MenuItem.get_or_create(title="Contacts", url_="#", position=2)
+    store_phone = os.getenv("STORE_PHONE", "+1-541-754-3010")
+    store_email = os.getenv("STORE_EMAIL", "example@simple2b.net")
+    MenuItem.get_or_create(
+        title=store_phone,
+        url_=f"tel:{store_phone}",
+        parent_id=item.id,
+    )
+    MenuItem.get_or_create(
+        title=store_email, url_=f"mailto:{store_email}", parent_id=item.id
+    )
 
 
 # step20
