@@ -13,41 +13,45 @@ services:
       PGUSER: ${DB_USER:-postgres}
       PGPASSWORD: ${DB_PASSWD:-secret}
     ports:
-      - 127.0.0.1:${DB_PORT:-5432}:5432
+      - 127.0.0.1:${LOCAL_DB_PORT:-5432}:5432
 
   redis:
     image: library/redis:5.0-alpine
     restart: unless-stopped
     volumes:
       - redis-data:/data
+    # ports:
+    #   - 127.0.0.1:${LOCAL_REDIS_PORT:-6379}:6379
 
-  esearch:
+  es:
     image: elasticsearch:8.3.3
     restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 2048m
-        reservations:
-          memory: 100m
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     environment:
       discovery.type: single-node
     volumes:
-      - esearch-data:/usr/share/elasticsearch/data
+      - es-data:/usr/share/elasticsearch/data
+    # ports:
+    #   - 127.0.0.1:${LOCAL_ES_PORT:-9200}:9200
 
   web:
     build: .
     depends_on:
       - db
       - redis
-      - esearch
+      - es
     ports:
       - 127.0.0.1:${LOCAL_WEB_PORT:-5000}:5000
     environment:
       DB_HOST: db
+      REDIS_URI: redis://redis:6379
+      ESEARCH_URI: http://es:9200
     restart: unless-stopped
 
 volumes:
   db_data:
   redis-data:
-  esearch-data:
+  es-data:
