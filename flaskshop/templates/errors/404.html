@@ -6,8 +6,8 @@
 {% block content %}
 <div class="jumbotron">
     <div class="text-center">
-        <h1>404</h1>
-        <p>{% trans %}Sorry, that page doesn't exist.{% endtrans %}</p>
+        <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/404.svg') }}">
+        <h2>{% trans %}Sorry, that page doesn't exist.{% endtrans %}</h2>
         <p>{% trans %}Want to{% endtrans %} <a href="{{ url_for('public.home') }}">{% trans %}go home{% endtrans %}</a> {% trans %}instead{% endtrans %}?</p>
     </div>
 </div>
