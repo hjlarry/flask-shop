@@ -7,7 +7,11 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy, Model, BaseQuery, DefaultMeta, _QueryProperty
+from flask_babel import Babel
+from flask_ckeditor import CKEditor
+from flask_migrate import Migrate
+from flask_mail import Mail
+from flask_sqlalchemy import SQLAlchemy, Model, DefaultMeta, _QueryProperty
 from sqlalchemy import Column, Integer, DateTime, event
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 import arrow
@@ -20,6 +24,9 @@ login_manager = LoginManager()
 migrate = Migrate(compare_type=True)
 debug_toolbar = DebugToolbarExtension()
 bootstrap = Bootstrap()
+babel = Babel()
+ckeditor = CKEditor()
+mail = Mail()
 
 
 class BaseModel(PropsMixin, Model):
