@@ -14,7 +14,7 @@ class User(Model, UserMixin):
     username = Column(db.String(80), unique=True, nullable=False, comment="user`s name")
     email = Column(db.String(80), unique=True, nullable=False)
     #: The hashed password
-    _password = db.Column(db.String, nullable=False)
+    _password = db.Column(db.String(255), nullable=False)
     nick_name = Column(db.String(255))
     is_active = Column(db.Boolean(), default=False)
     open_id = Column(db.String(80), index=True)

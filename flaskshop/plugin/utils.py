@@ -1,6 +1,6 @@
 import pkg_resources
 from flask import current_app
-from jinja2 import Markup
+from markupsafe import Markup
 from email import message_from_string
 
 

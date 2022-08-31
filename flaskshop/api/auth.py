@@ -1,8 +1,9 @@
 from flask import g, current_app
 from flask.sessions import SecureCookieSessionInterface
 from flask_login import user_loaded_from_header
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask_restplus import Namespace, Resource, fields
+# TODO: origin is TimedJSONWebSignatureSerializer, in current itsdangerous version is deprecated
+from itsdangerous import TimedSerializer as Serializer
+from flask_restx import Namespace, Resource
 import requests
 
 from flaskshop.extensions import login_manager
