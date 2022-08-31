@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from flask_restplus import Api
+from flask_restx import Api
 from pluggy import HookimplMarker
 
 from flaskshop.extensions import csrf_protect

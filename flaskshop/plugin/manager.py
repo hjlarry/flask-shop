@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 class FlaskshopPluginManager(pluggy.PluginManager):
-    def __init__(self, project_name, implprefix=None):
-        super().__init__(project_name, implprefix)
+    def __init__(self, project_name):
+        super().__init__(project_name)
         self.external_plugins = set()
         self.plugin_metadata = {}
 

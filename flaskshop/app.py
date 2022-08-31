@@ -4,7 +4,7 @@ import sys
 
 from flask import Flask, render_template
 from flask_babel import Babel
-from werkzeug.wsgi import DispatcherMiddleware
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from flask_ckeditor import CKEditor
 from flask_migrate import Migrate
 from flask_mail import Mail

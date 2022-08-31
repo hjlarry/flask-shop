@@ -1,4 +1,4 @@
-from flask_restplus import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 from flask_login import current_user
 from flask import request
 from flask_babel import lazy_gettext

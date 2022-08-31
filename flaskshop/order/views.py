@@ -14,7 +14,8 @@ from flask_login import login_required, current_user
 from pluggy import HookimplMarker
 
 from .models import Order, OrderPayment
-from .payment import zhifubao
+# TODO: python-alipay-sdk is not support for python3.10 windows version
+# from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
 from flaskshop.constant import ShipStatusKinds, PaymentStatusKinds, OrderStatusKinds
 
@@ -57,7 +58,8 @@ def create_payment(token, payment_method):
             customer_ip_address=customer_ip_address,
         )
     if payment_method == "alipay":
-        order_string = zhifubao.send_order(order.token, payment_no, order.total)
+        # order_string = zhifubao.send_order(order.token, payment_no, order.total)
+        order_string = "TODO later"
         payment.order_string = order_string
     return payment
 
