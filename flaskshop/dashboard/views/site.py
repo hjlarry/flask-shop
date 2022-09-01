@@ -30,7 +30,7 @@ def shipping_methods():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": gettext("shipping_methods"),
+        "identity": "shipping_methods",
     }
     return render_template("list.html", **context)
 
@@ -65,7 +65,7 @@ def site_menus():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": gettext("site_menus"),
+        "identity": "site_menus",
     }
     return render_template("list.html", **context)
 
@@ -114,7 +114,7 @@ def dashboard_menus():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": gettext("dashboard_menus"),
+        "identity": "dashboard_menus",
     }
     return render_template("list.html", **context)
 
@@ -151,7 +151,7 @@ def site_pages():
         "items": pagination.items,
         "props": props,
         "pagination": pagination,
-        "identity": gettext("site_pages"),
+        "identity": "site_pages",
     }
     return render_template("list.html", **context)
 

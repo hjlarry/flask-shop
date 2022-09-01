@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm as _FlaskForm
-from flask_babel import lazy_gettext, lazy_gettext
+from flask_babel import lazy_gettext
 from flaskshop.constant import Permission
 
 from wtforms import (
@@ -29,10 +29,10 @@ class FlaskForm(_FlaskForm):
         success = True
         for name, field in self._fields.items():
             if field.type in (
-                gettext("SelectField"),
-                gettext("SelectMultipleField"),
-                gettext("RadioField"),
-                gettext("FieldList"),
+                "SelectField",
+                "SelectMultipleField",
+                "RadioField",
+                "FieldList",
             ):
                 continue
             if extra_validators is not None and name in extra_validators:
