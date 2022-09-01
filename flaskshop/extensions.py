@@ -6,7 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap5
 from flask_babel import Babel
 from flask_ckeditor import CKEditor
 from flask_migrate import Migrate
@@ -23,7 +23,7 @@ csrf_protect = CSRFProtect()
 login_manager = LoginManager()
 migrate = Migrate(compare_type=True)
 debug_toolbar = DebugToolbarExtension()
-bootstrap = Bootstrap()
+bootstrap = Bootstrap5()
 babel = Babel()
 ckeditor = CKEditor()
 mail = Mail()

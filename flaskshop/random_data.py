@@ -135,8 +135,6 @@ DASHBOARD_MENUS = [
     {"title": "Collections", "endpoint": "collections", "parent_id": 1},
     {"title": "Sales", "endpoint": "sales", "parent_id": 4},
     {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4},
-    # {"title": "Custumers", "endpoint": "users", "parent_id": 3},
-    #{"title": "E-mail", "endpoint": "mails", "parent_id": 3},
 ]
 
 """
@@ -294,8 +292,8 @@ def get_or_create_category(category_schema, placeholder_dir):
         parent_id = 0
     category_name = category_schema["name"]
     image_name = category_schema["image_name"]
-    image_dir = placeholder_dir / "products-list"
-    defaults = {"background_img": str(image_dir / image_name)}
+    image_path = placeholder_dir / "products-list" / image_name
+    defaults = {"background_img": image_path.as_posix()}
     category, _ = Category.get_or_create(
         title=category_name, parent_id=parent_id, **defaults
     )
@@ -331,7 +329,7 @@ def create_product_images(product, how_many, placeholder_dir):
     placeholder_root = Config.STATIC_DIR / placeholder_dir
     for dummy in range(how_many):
         image_name = random.choice(list(placeholder_root.iterdir()))
-        image = str(image_name.relative_to(Config.STATIC_DIR))
+        image = image_name.relative_to(Config.STATIC_DIR).as_posix()
         ProductImage.get_or_create(image=image, product_id=product.id)
 
 
@@ -361,7 +359,7 @@ def create_fake_collection(placeholder_dir, collection_data):
     image_dir = placeholder_dir / "products-list"
     background_img = image_dir / collection_data["image_name"]
     collection = Collection.get_or_create(
-        title=collection_data["name"], background_img=str(background_img)
+        title=collection_data["name"], background_img=background_img.as_posix()
     )[0]
     products = Product.query.limit(4)
     for product in products:
@@ -416,21 +414,21 @@ def create_roles():
 # step17
 def create_admin():
     user = User.create(
-        username="admin", email="localhost", password=os.getenv('DB_PASSWD', '123456'), is_active=True
+        username="admin", email="admin@163.com", password="admin", is_active=True
     )
-    # create_fake_address(user.id)
-    # create_fake_address(user.id)
-    # create_fake_address(user.id)
+    create_fake_address(user.id)
+    create_fake_address(user.id)
+    create_fake_address(user.id)
     UserRole.create(user_id=user.id, role_id=4)
     yield f"Admin {user.username} created"
-    # user = User.create(username="op", email="op@163.com", password="op", is_active=True)
-    # UserRole.create(user_id=user.id, role_id=3)
-    # yield f"Admin {user.username} created"
-    # user = User.create(
-    #     username="editor", email="editor@163.com", password="editor", is_active=True
-    # )
-    # UserRole.create(user_id=user.id, role_id=2)
-    # yield f"Admin {user.username} created"
+    user = User.create(username="op", email="op@163.com", password="op", is_active=True)
+    UserRole.create(user_id=user.id, role_id=3)
+    yield f"Admin {user.username} created"
+    user = User.create(
+        username="editor", email="editor@163.com", password="editor", is_active=True
+    )
+    UserRole.create(user_id=user.id, role_id=2)
+    yield f"Admin {user.username} created"
 
 
 """
@@ -520,7 +518,7 @@ Fake for order data
 # step23
 def create_orders(how_many=10):
     discounts = None
-    for dummy in range(how_many):
+    for _ in range(how_many):
         order = create_fake_order(discounts)
         yield f"Order: {order}"
 
