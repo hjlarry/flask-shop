@@ -15,7 +15,6 @@ from flaskshop.extensions import (
     migrate,
     bootstrap,
     babel,
-    ckeditor,
     mail,
 )
 from flaskshop.settings import Config
@@ -59,7 +58,6 @@ def register_extensions(app):
     migrate.init_app(app, db)
     bootstrap.init_app(app)
     babel.init_app(app)
-    ckeditor.init_app(app)
     mail.init_app(app)
 
 
