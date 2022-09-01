@@ -1,7 +1,6 @@
 {% import 'dashboard/_macros.html' as macros%}
 {% import 'dashboard/_vendor.html' as vendor%}
 {% extends 'dashboard/layout.html' %}
-{{ ckeditor.load(custom_url=url_for('static', filename='ckeditor/ckeditor.js')) }}
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -11,7 +10,8 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">{% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{% trans %}Create{% endtrans %}{% endif %} {% trans %}Page{% endtrans %}</h3>
+                        <h3 class="card-title">{% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{%
+                            trans %}Create{% endtrans %}{% endif %} {% trans %}Page{% endtrans %}</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -21,17 +21,17 @@
                             {{ form.hidden_tag() }}
                             {{ vendor.render_field(form.title) }}
                             {{ vendor.render_field(form.slug) }}
-                            {{ macros.render_boolean_field(form.is_visible, '') }}
+                            {{ macros.render_boolean_field(form.is_visible, 'Show') }}
                             <div id="text-editor">
                                 <p>
-                                    {{ ckeditor.create(name='content', value=form.content.data | safe) }}
+                                    {{form.content.data | safe}}
                                 </p>
-                            </>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            {{ macros.render_submit(form.submit) }}
-                        </div>
+                                </>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                {{ macros.render_submit(form.submit) }}
+                            </div>
                     </form>
                 </div>
             </div>
@@ -41,5 +41,5 @@
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+<script src="{{ url_for('static', filename='build/dashboard/sitepage.js') }}"></script>
 {% endblock %}
