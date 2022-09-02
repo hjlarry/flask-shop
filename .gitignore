@@ -25,9 +25,6 @@ pip-log.txt
 nosetests.xml
 .pytest_cache
 
-# Translations
-*.mo
-
 # Mr Developer
 .mr.developer.cfg
 .project
