@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import abort
+from flask import abort, request, session
 from flask_bcrypt import Bcrypt
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
@@ -25,6 +25,12 @@ debug_toolbar = DebugToolbarExtension()
 bootstrap = Bootstrap5()
 babel = Babel()
 mail = Mail()
+
+@babel.localeselector
+def get_locale():
+    if request.args.get('lang'):
+        session['lang'] = request.args.get('lang')
+    return session.get('lang', 'en')
 
 
 class BaseModel(PropsMixin, Model):
