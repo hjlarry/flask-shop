@@ -3,11 +3,13 @@
   "version": "2.0.0",
   "description": "a shop project with flask",
   "scripts": {
-    "build": "set NODE_ENV=production && webpack --color",
-    "start": "concurrently -n \"WEBPACK,FLASK\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run webpack-dev-server\" \"npm run flask-server\"",
-    "webpack-dev-server": "NODE_ENV=debug webpack-dev-server --port 2992 --hot --inline --mode development",
-    "flask-server": "flask run",
-    "lint": "eslint \"assets/js/*.js\""
+    "build": "run-script-os",
+    "build:win32": "SET NODE_ENV=production && webpack --progress --color --optimization-minimize",
+    "build:default": "NODE_ENV=production webpack --progress --color --optimization-minimize",
+    "dev": "run-script-os",
+    "dev:win32": "SET NODE_ENV=debug && webpack --mode development --watch",
+    "dev:default": "NODE_ENV=debug webpack --mode development --watch",
+    "lint": "eslint \"flaskshop/assets/js/*.js\""
   },
   "repository": {
     "type": "git",
@@ -35,17 +37,20 @@
     "wangeditor": "^4.7.15"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.18.9",
     "autoprefixer": "^10.4.8",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
+    "eslint": "^8.23.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "file-loader": "^6.2.0",
     "glob": "^8.0.3",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss-loader": "^7.0.1",
+    "run-script-os": "^1.1.6",
     "sass": "^1.54.8",
     "sass-loader": "^13.0.2",
     "webpack": "^5.74.0",
-    "webpack-bundle-tracker": "^1.6.0",
     "webpack-cli": "^4.10.0"
   }
 }
