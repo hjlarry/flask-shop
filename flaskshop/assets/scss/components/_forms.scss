@@ -4,17 +4,20 @@ input {
   color: $body-color;
   border-radius: 8px;
   border: 1px solid $gray;
+
   &:focus {
     color: $body-color;
     border-color: $gray;
     background-color: $beige;
     outline: none;
   }
+
   &::placeholder {
     color: $gray;
     font-family: $font-family-sans-serif;
     font-weight: 300;
   }
+
   &[type="checkbox"] {
     -webkit-appearance: none;
     border-color: $turquoise;
@@ -23,10 +26,12 @@ input {
     height: 8px;
     transition-duration: 300ms;
     width: 8px;
+
     &:checked {
       background-color: $turquoise;
     }
   }
+
   &[type="radio"] {
     -webkit-appearance: none;
     border-color: $turquoise;
@@ -35,6 +40,7 @@ input {
     height: 8px;
     transition-duration: 300ms;
     width: 8px;
+
     &:checked {
       background-color: $turquoise;
     }
@@ -44,17 +50,21 @@ input {
 .form-group {
   text-align: left;
   position: relative;
+
   .phone-prefix-input {
     display: grid;
     grid-template-columns: 6rem calc(100% - 6rem);
     align-items: stretch;
+
     input {
       border-left-color: transparent;
+
       border: {
         bottom-left-radius: 0;
         top-left-radius: 0;
       }
     }
+
     select {
       border: {
         bottom-right-radius: 0;
@@ -66,6 +76,7 @@ input {
 
 .input-btn {
   position: relative;
+
   .btn {
     position: absolute;
     top: 0;
@@ -83,8 +94,10 @@ input {
       margin-top: $global-margin / 2;
       margin-left: 0;
     }
+
     background-color: $white;
     height: calc(2.25rem + 2px);
+
     &:focus {
       outline: none;
     }
@@ -95,23 +108,28 @@ input {
   width: 100%;
   position: relative;
   transition: $transition-base;
+
   &.search-form--hidden {
     transform: translateX(-100vw);
   }
+
   &__close-icon {
     position: absolute;
     cursor: pointer;
     padding: $global-padding * 1.9 $global-padding;
+
     img {
       width: 22px;
     }
   }
+
   .form-control {
     width: 100%;
     border-radius: $button-border-radius;
     padding: $global-padding;
     font-size: 0.8rem;
   }
+
   .btn {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
@@ -124,11 +142,14 @@ input {
     outline: 0;
     display: flex;
     align-items: center;
-    @include transition(background, 0.3s) img {
+    @include transition(background, 0.3s);
+
+    img {
       height: 1.5rem;
-      padding: $global-padding / 7;
+      padding: calc($global-padding / 7);
     }
   }
+
   @include media-breakpoint-down(sm) {
     display: block;
     left: 0;
@@ -138,17 +159,19 @@ input {
     top: 0;
     z-index: 5;
     margin-top: 0;
+
     .form-control {
-      padding: $global-padding * 2 $global-padding * 2 $global-padding * 2
-        $global-padding * 4;
+      padding: $global-padding * 2 $global-padding * 2 $global-padding * 2 $global-padding * 4;
       border: 0;
       height: 5.9rem;
     }
+
     .mobile-close-search {
       position: absolute;
       top: 1.7rem;
       left: 0.5rem;
     }
+
     .btn {
       border-radius: 0;
       height: 6rem;
@@ -159,7 +182,8 @@ input {
 }
 
 input#id_quantity {
-  padding: $global-padding / 2;
+  padding: $global-padding * 0.5;
+
   &:focus {
     outline: none;
   }
@@ -167,7 +191,7 @@ input#id_quantity {
 
 .help-block {
   font-size: 0.8rem;
-  margin-top: $global-margin / 2;
+  margin-top: $global-margin * 0.5;
 }
 
 .has-error {
@@ -177,21 +201,24 @@ input#id_quantity {
 }
 
 .radio {
-  margin-bottom: $global-margin / 2;
+  margin-bottom: $global-margin * 0.5;
+
   ul {
     list-style: none;
     padding-left: 0;
   }
+
   input {
     -webkit-appearance: none;
     cursor: pointer;
     border: 1px solid $turquoise;
     display: inline-block;
     height: 14px;
-    margin: $global-margin / 4 $global-margin / 2 0 0;
+    margin: $global-margin * 0.25 $global-margin * 0.5 0 0;
     position: relative;
     vertical-align: top;
     width: 14px;
+
     &:checked {
       &:after {
         background: $turquoise;
@@ -205,12 +232,15 @@ input#id_quantity {
       }
     }
   }
+
   span,
   .address-details {
     display: inline-block;
   }
+
   label {
     margin-right: $global-margin;
+
     span {
       display: inline;
     }
