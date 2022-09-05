@@ -1,4 +1,3 @@
-const BundleTracker = require('webpack-bundle-tracker');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
@@ -7,21 +6,11 @@ const glob = require('glob');
 
 const resolve = path.resolve.bind(path, __dirname);
 // take debug mode from the environment
-// const debug = (process.env.NODE_ENV !== 'production');
-const debug = false;
-
-
-// Development asset host (webpack dev server)
-const publicHost = debug ? 'http://localhost:2992' : '';
-
+const debug = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
 const extractCssPlugin = new MiniCssExtractPlugin({
   filename: '[name].css',
   chunkFilename: '[name].css',
-});
-
-const bundleTrackerPlugin = new BundleTracker({
-  filename: 'webpack-bundle.json',
 });
 
 const providePlugin = new webpack.ProvidePlugin({
@@ -35,8 +24,7 @@ const providePlugin = new webpack.ProvidePlugin({
 const output = {
   path: resolve('flaskshop/static/build/'),
   filename: '[name].js',
-  chunkFilename: '[name].js',
-  publicPath: `${publicHost}/static/build/`,
+  chunkFilename: '[name].js'
 };
 
 const entry_items = glob.sync('./flaskshop/assets/js/dashboard/**/*.js').reduce(
@@ -44,7 +32,7 @@ const entry_items = glob.sync('./flaskshop/assets/js/dashboard/**/*.js').reduce(
 entry_items['storefront'] = './flaskshop/assets/js/storefront.js';
 
 const config = {
-  mode: 'production',
+  mode: debug,
   entry: entry_items,
   output,
   devServer: {
@@ -109,7 +97,6 @@ const config = {
     ],
   },
   plugins: [
-    bundleTrackerPlugin,
     extractCssPlugin,
     providePlugin,
   ],
