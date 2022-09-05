@@ -22,14 +22,14 @@ const providePlugin = new webpack.ProvidePlugin({
 });
 
 const output = {
-  path: resolve('flaskshop/static/build/'),
+  path: resolve('../flaskshop/static/build/'),
   filename: '[name].js',
   chunkFilename: '[name].js'
 };
 
-const entry_items = glob.sync('./flaskshop/assets/js/dashboard/**/*.js').reduce(
+const entry_items = glob.sync('./js/dashboard/**/*.js').reduce(
   (entries, entry) => Object.assign(entries, { [entry.split('/').splice(-2, 2).join('/').replace('.js', '')]: entry }), {});
-entry_items['storefront'] = './flaskshop/assets/js/storefront.js';
+entry_items['storefront'] = './js/storefront.js';
 
 const config = {
   mode: debug,
@@ -90,8 +90,8 @@ const config = {
         ],
         include: [
           resolve('node_modules'),
-          resolve('flaskshop/assets/fonts'),
-          resolve('flaskshop/assets/images'),
+          resolve('fonts'),
+          resolve('images'),
         ],
       },
     ],
