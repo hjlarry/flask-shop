@@ -1,1 +1,232 @@
-{"status":"done","publicPath":"/static/build/","chunks":{"dashboard/adminlte.min":[{"name":"dashboard/adminlte.min.js","publicPath":"/static/build/dashboard/adminlte.min.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/adminlte.min.js"}],"dashboard/attribute":[{"name":"dashboard/attribute.js","publicPath":"/static/build/dashboard/attribute.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/attribute.js"}],"dashboard/banner":[{"name":"dashboard/banner.js","publicPath":"/static/build/dashboard/banner.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/banner.js"}],"dashboard/collection":[{"name":"dashboard/collection.js","publicPath":"/static/build/dashboard/collection.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/collection.js"}],"dashboard/customize":[{"name":"dashboard/customize.js","publicPath":"/static/build/dashboard/customize.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/customize.js"}],"dashboard/daterangepicker":[{"name":"dashboard/daterangepicker.js","publicPath":"/static/build/dashboard/daterangepicker.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/daterangepicker.js"}],"dashboard/layout":[{"name":"dashboard/layout.css","publicPath":"/static/build/dashboard/layout.css","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/layout.css"},{"name":"dashboard/layout.js","publicPath":"/static/build/dashboard/layout.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/layout.js"}],"dashboard/list":[{"name":"dashboard/list.js","publicPath":"/static/build/dashboard/list.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/list.js"}],"dashboard/product_detail":[{"name":"dashboard/product_detail.js","publicPath":"/static/build/dashboard/product_detail.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/product_detail.js"}],"dashboard/product_edit":[{"name":"dashboard/product_edit.js","publicPath":"/static/build/dashboard/product_edit.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/product_edit.js"}],"dashboard/select":[{"name":"dashboard/select.js","publicPath":"/static/build/dashboard/select.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/select.js"}],"dashboard/sitepage":[{"name":"dashboard/sitepage.js","publicPath":"/static/build/dashboard/sitepage.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/sitepage.js"}],"dashboard/user_detail":[{"name":"dashboard/user_detail.js","publicPath":"/static/build/dashboard/user_detail.js","path":"/home/hejl/flask-shop/flaskshop/static/build/dashboard/user_detail.js"}],"storefront":[{"name":"storefront.css","publicPath":"/static/build/storefront.css","path":"/home/hejl/flask-shop/flaskshop/static/build/storefront.css"},{"name":"storefront.js","publicPath":"/static/build/storefront.js","path":"/home/hejl/flask-shop/flaskshop/static/build/storefront.js"}]}}
+{
+  "status": "done",
+  "assets": {
+    "arrow-select.svg": {
+      "name": "arrow-select.svg",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\arrow-select.svg",
+      "publicPath": "/static/build/arrow-select.svg"
+    },
+    "block1.jpg": {
+      "name": "block1.jpg",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\block1.jpg",
+      "publicPath": "/static/build/block1.jpg"
+    },
+    "block2.jpg": {
+      "name": "block2.jpg",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\block2.jpg",
+      "publicPath": "/static/build/block2.jpg"
+    },
+    "block3.jpg": {
+      "name": "block3.jpg",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\block3.jpg",
+      "publicPath": "/static/build/block3.jpg"
+    },
+    "Lato-Light.woff2": {
+      "name": "Lato-Light.woff2",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\Lato-Light.woff2",
+      "publicPath": "/static/build/Lato-Light.woff2"
+    },
+    "Lato-Light.woff": {
+      "name": "Lato-Light.woff",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\Lato-Light.woff",
+      "publicPath": "/static/build/Lato-Light.woff"
+    },
+    "Lato-Light.ttf": {
+      "name": "Lato-Light.ttf",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\Lato-Light.ttf",
+      "publicPath": "/static/build/Lato-Light.ttf"
+    },
+    "Lato-Regular.woff2": {
+      "name": "Lato-Regular.woff2",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\Lato-Regular.woff2",
+      "publicPath": "/static/build/Lato-Regular.woff2"
+    },
+    "Lato-Regular.woff": {
+      "name": "Lato-Regular.woff",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\Lato-Regular.woff",
+      "publicPath": "/static/build/Lato-Regular.woff"
+    },
+    "Lato-Regular.ttf": {
+      "name": "Lato-Regular.ttf",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\Lato-Regular.ttf",
+      "publicPath": "/static/build/Lato-Regular.ttf"
+    },
+    "Lato-Bold.woff2": {
+      "name": "Lato-Bold.woff2",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\Lato-Bold.woff2",
+      "publicPath": "/static/build/Lato-Bold.woff2"
+    },
+    "Lato-Bold.woff": {
+      "name": "Lato-Bold.woff",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\Lato-Bold.woff",
+      "publicPath": "/static/build/Lato-Bold.woff"
+    },
+    "Lato-Bold.ttf": {
+      "name": "Lato-Bold.ttf",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\Lato-Bold.ttf",
+      "publicPath": "/static/build/Lato-Bold.ttf"
+    },
+    "fontawesome-webfont.eot": {
+      "name": "fontawesome-webfont.eot",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\fontawesome-webfont.eot",
+      "publicPath": "/static/build/fontawesome-webfont.eot"
+    },
+    "fontawesome-webfont.woff2": {
+      "name": "fontawesome-webfont.woff2",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\fontawesome-webfont.woff2",
+      "publicPath": "/static/build/fontawesome-webfont.woff2"
+    },
+    "fontawesome-webfont.woff": {
+      "name": "fontawesome-webfont.woff",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\fontawesome-webfont.woff",
+      "publicPath": "/static/build/fontawesome-webfont.woff"
+    },
+    "fontawesome-webfont.ttf": {
+      "name": "fontawesome-webfont.ttf",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\fontawesome-webfont.ttf",
+      "publicPath": "/static/build/fontawesome-webfont.ttf"
+    },
+    "fontawesome-webfont.svg": {
+      "name": "fontawesome-webfont.svg",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\fontawesome-webfont.svg",
+      "publicPath": "/static/build/fontawesome-webfont.svg"
+    },
+    "pass-invisible.svg": {
+      "name": "pass-invisible.svg",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\pass-invisible.svg",
+      "publicPath": "/static/build/pass-invisible.svg"
+    },
+    "pass-visible.svg": {
+      "name": "pass-visible.svg",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\pass-visible.svg",
+      "publicPath": "/static/build/pass-visible.svg"
+    },
+    "dashboard/adminlte.min.js": {
+      "name": "dashboard/adminlte.min.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\adminlte.min.js",
+      "publicPath": "/static/build/dashboard/adminlte.min.js"
+    },
+    "dashboard/attribute.js": {
+      "name": "dashboard/attribute.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\attribute.js",
+      "publicPath": "/static/build/dashboard/attribute.js"
+    },
+    "dashboard/banner.js": {
+      "name": "dashboard/banner.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\banner.js",
+      "publicPath": "/static/build/dashboard/banner.js"
+    },
+    "dashboard/collection.js": {
+      "name": "dashboard/collection.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\collection.js",
+      "publicPath": "/static/build/dashboard/collection.js"
+    },
+    "dashboard/customize.js": {
+      "name": "dashboard/customize.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\customize.js",
+      "publicPath": "/static/build/dashboard/customize.js"
+    },
+    "dashboard/daterangepicker.js": {
+      "name": "dashboard/daterangepicker.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\daterangepicker.js",
+      "publicPath": "/static/build/dashboard/daterangepicker.js"
+    },
+    "dashboard/layout.css": {
+      "name": "dashboard/layout.css",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\layout.css",
+      "publicPath": "/static/build/dashboard/layout.css"
+    },
+    "dashboard/layout.js": {
+      "name": "dashboard/layout.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\layout.js",
+      "publicPath": "/static/build/dashboard/layout.js"
+    },
+    "dashboard/list.js": {
+      "name": "dashboard/list.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\list.js",
+      "publicPath": "/static/build/dashboard/list.js"
+    },
+    "dashboard/product_detail.js": {
+      "name": "dashboard/product_detail.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\product_detail.js",
+      "publicPath": "/static/build/dashboard/product_detail.js"
+    },
+    "dashboard/product_edit.js": {
+      "name": "dashboard/product_edit.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\product_edit.js",
+      "publicPath": "/static/build/dashboard/product_edit.js"
+    },
+    "dashboard/select.js": {
+      "name": "dashboard/select.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\select.js",
+      "publicPath": "/static/build/dashboard/select.js"
+    },
+    "dashboard/sitepage.js": {
+      "name": "dashboard/sitepage.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\sitepage.js",
+      "publicPath": "/static/build/dashboard/sitepage.js"
+    },
+    "dashboard/user_detail.js": {
+      "name": "dashboard/user_detail.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\dashboard\\user_detail.js",
+      "publicPath": "/static/build/dashboard/user_detail.js"
+    },
+    "storefront.css": {
+      "name": "storefront.css",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\storefront.css",
+      "publicPath": "/static/build/storefront.css"
+    },
+    "storefront.js": {
+      "name": "storefront.js",
+      "path": "D:\\flask-shop\\flaskshop\\static\\build\\storefront.js",
+      "publicPath": "/static/build/storefront.js"
+    }
+  },
+  "chunks": {
+    "dashboard/adminlte.min": [
+      "dashboard/adminlte.min.js"
+    ],
+    "dashboard/attribute": [
+      "dashboard/attribute.js"
+    ],
+    "dashboard/banner": [
+      "dashboard/banner.js"
+    ],
+    "dashboard/collection": [
+      "dashboard/collection.js"
+    ],
+    "dashboard/customize": [
+      "dashboard/customize.js"
+    ],
+    "dashboard/daterangepicker": [
+      "dashboard/daterangepicker.js"
+    ],
+    "dashboard/layout": [
+      "dashboard/layout.css",
+      "dashboard/layout.js"
+    ],
+    "dashboard/list": [
+      "dashboard/list.js"
+    ],
+    "dashboard/product_detail": [
+      "dashboard/product_detail.js"
+    ],
+    "dashboard/product_edit": [
+      "dashboard/product_edit.js"
+    ],
+    "dashboard/select": [
+      "dashboard/select.js"
+    ],
+    "dashboard/sitepage": [
+      "dashboard/sitepage.js"
+    ],
+    "dashboard/user_detail": [
+      "dashboard/user_detail.js"
+    ],
+    "storefront": [
+      "storefront.css",
+      "storefront.js"
+    ]
+  },
+  "publicPath": "/static/build/"
+}
