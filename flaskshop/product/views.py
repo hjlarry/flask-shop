@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Product views."""
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 from flask_login import login_required
 from pluggy import HookimplMarker
 
@@ -28,7 +28,7 @@ def product_add_to_cart(id):
 
     if form.validate_on_submit():
         Cart.add_to_currentuser_cart(form.quantity.data, form.variant.data)
-    return show(id, form=form)
+    return redirect(url_for('product.show', id=id))
 
 
 def variant_price(id):

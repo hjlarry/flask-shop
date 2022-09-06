@@ -12209,9 +12209,6 @@ a.link--clean:hover {
 .variant-picker {
   margin-bottom: 1rem;
 }
-.variant-picker .btn-group {
-  display: inline-block;
-}
 .variant-picker__label {
   margin-bottom: 1rem;
 }
