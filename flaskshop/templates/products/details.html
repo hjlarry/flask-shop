@@ -31,7 +31,7 @@
   <div class="col-md-6 col-12 product__gallery">
     {% with images=product.images %}
     {% if images %}
-    <div id="carousel-example-generic" class="carousel slide">
+    <div id="carousel-example-generic" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner" role="listbox">
         {% for image in images %}
         <div class="carousel-item{% if loop.first %} active{% endif %}">
@@ -41,17 +41,18 @@
         {% endfor %}
       </div>
       {% if images|length > 1 %}
-      <a class="carousel-control-prev" href="#carousel-example-generic" role="button" data-slide="prev">
+      <a class="carousel-control-prev" data-bs-target="#carousel-example-generic" role="button" data-bs-slide="prev">
         <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
       </a>
-      <a class="carousel-control-next" href="#carousel-example-generic" role="button" data-slide="next">
+      <a class="carousel-control-next" data-bs-target="#carousel-example-generic" role="button" data-bs-slide="next">
         <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
       </a>
+
       {% endif %}
       <ol class="carousel-indicators d-none d-md-block">
         {% for image in images %}
         {% if images|length > 1 %}
-        <li data-target="#carousel-example-generic" data-slide-to="{{ loop.index - 1 }}" {% if loop.first %}
+        <li data-bs-target="#carousel-example-generic" data-bs-slide-to="{{ loop.index - 1 }}" {% if loop.first %}
           class="active" {% endif %}>
           <img class="lazyload lazypreload" src="{{ image }}" data-src="{{ image }}">
         </li>
@@ -90,14 +91,16 @@
       {% if form.variant.choices | length > 1 %}
       <div class="variant-picker">
         <div class="variant-picker__label">{{ form.variant.label.text|safe }}</div>
-        <div class="btn-group" data-toggle="buttons">
+        <div class="btn-group" role="group" aria-label="select variant">
           {% for item in form.variant -%}
-          <label class="btn btn-secondary variant-picker__option">
-            {{ item()|safe }} {{ item.label.text|safe }}
-          </label>
+          <input type="radio" class="btn-check variant-picker__option" name="variant" id="{{item.id}}"
+            autocomplete="off" value="{{item.data}}" checked>
+          <label class="btn btn-outline-primary" for="{{item.id}}">{{ item.label.text|safe
+            }}</label>
           {% endfor %}
         </div>
-         {% if form.variant.errors %}
+
+        {% if form.variant.errors %}
         <div class="is-invalid "></div>
         <div class="invalid-feedback">{% trans %}Please choose a variant!{% endtrans %}</div>
         {% endif %}
@@ -148,4 +151,3 @@
   </div>
 </div>
 {% endblock content %}
-

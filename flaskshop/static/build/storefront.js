@@ -783,7 +783,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*****************************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("/* provided dependency */ var $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n$(\".variant-picker__option\").click(function () {\n  var variant_id = $(this).children().attr(\"value\");\n  $.ajax({\n    url: \"api/variant_price/\" + variant_id,\n    success: function (result) {\n      $(\".text-info\").text('$ ' + result.price);\n      $(\".stock\").text('Stock: ' + result.stock);\n    }\n  });\n});\n\n//# sourceURL=webpack://flaskshop/./js/components/variant-choose.js?");
+eval("/* provided dependency */ var $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n$(\".variant-picker__option\").click(function () {\n  var variant_id = $(this).attr(\"value\");\n  $.ajax({\n    url: \"api/variant_price/\" + variant_id,\n    success: function (result) {\n      $(\".text-info\").text('$ ' + result.price);\n      $(\".stock\").text('Stock: ' + result.stock);\n    }\n  });\n});\n\n//# sourceURL=webpack://flaskshop/./js/components/variant-choose.js?");
 
 /***/ }),
 
