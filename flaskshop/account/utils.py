@@ -1,7 +1,12 @@
+import smtplib
+import random
+import string
+import email.utils
+from email.message import EmailMessage
 from functools import wraps
 
 import phonenumbers
-from flask import flash, abort
+from flask import abort, current_app, render_template
 from flask_login import current_user
 from phonenumbers.phonenumberutil import is_possible_number
 from wtforms import ValidationError
@@ -144,3 +149,35 @@ def permission_required(permission):
 
 def admin_required(f):
     return permission_required(Permission.ADMINISTER)(f)
+
+
+def gen_tmp_pwd(size=8, chars=string.ascii_uppercase + string.digits):
+    return "".join(random.choice(chars) for _ in range(size))
+
+
+def create_email_server():
+    servername = current_app.config.get("MAIL_SERVER")
+    serverport = current_app.config.get("MAIL_PORT")
+    use_tls = current_app.config.get("MAIL_TLS")
+
+    if use_tls:
+        server = smtplib.SMTP_SSL(servername, serverport)
+    else:
+        server = smtplib.SMTP(servername, serverport)
+    return server
+
+
+def send_reset_pwd_email(to_email, new_passwd):
+    mailuser = current_app.config.get("MAIL_USERNAME")
+    mailpwd = current_app.config.get("MAIL_PASSWORD")
+
+    msg = EmailMessage()
+    msg["To"] = email.utils.formataddr(("Recipient", to_email))
+    msg["From"] = email.utils.formataddr(("Admin", mailuser))
+    msg["Subject"] = "Reset Password"
+    body = render_template("account/reser_passwd_mail.html", new_passwd=new_passwd)
+    msg.set_content(body, "html")
+
+    with create_email_server() as s:
+        s.login(mailuser, mailpwd)
+        s.send_message(msg)

@@ -229,5 +229,4 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule("/sales", view_func=sales)
     bp.add_url_rule("/sales/create", view_func=sales_manage, methods=["GET", "POST"])
     bp.add_url_rule("/sales/<id>/edit", view_func=sales_manage, methods=["GET", "POST"])
-    # bp.add_url_rule("/mails", view_func=mails)# TODO: e-mail to user, create mail template, send promotion and product
     app.register_blueprint(bp, url_prefix="/dashboard")

@@ -75,15 +75,8 @@ class Config:
 
     MAIL_SERVER = os.getenv("MAIL_SERVER", "localhost")
     MAIL_PORT = os.getenv("MAIL_PORT", 25)
-    MAIL_TLS = os.getenv("MAIL_TLS", True)
-    if MAIL_TLS:
-        MAIL_USE_TLS = True
-        MAIL_USE_SSL = False
-    else:
-        MAIL_USE_TLS = False
-        MAIL_USE_SSL = True
-    MAIL_DEBUG = DEBUG_TB_ENABLED
+    MAIL_TLS = os.getenv("MAIL_TLS", False)
     MAIL_USERNAME = os.getenv("MAIL_USERNAME", "")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "")
-    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "")
+
     GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", "")

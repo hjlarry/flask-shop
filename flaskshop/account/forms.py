@@ -6,9 +6,8 @@ from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Regexp
 from flask_babel import lazy_gettext
 
-
 from .models import User
-from flask_babel import lazy_gettext,lazy_gettext
+
 
 class RegisterForm(FlaskForm):
     """Register form."""
@@ -20,19 +19,25 @@ class RegisterForm(FlaskForm):
             Length(min=3, max=25),
             Regexp(
                 "^[a-zA-Z0-9]*$",
-                message=lazy_gettext("The username should contain only a-z, A-Z and 0-9."),
+                message=lazy_gettext(
+                    "The username should contain only a-z, A-Z and 0-9."
+                ),
             ),
         ],
     )
     email = StringField(
-        lazy_gettext("Email"), validators=[DataRequired(), Email(), Length(min=6, max=40)]
+        lazy_gettext("Email"),
+        validators=[DataRequired(), Email(), Length(min=6, max=40)],
     )
     password = PasswordField(
         lazy_gettext("Password"), validators=[DataRequired(), Length(min=6, max=40)]
     )
     confirm = PasswordField(
         lazy_gettext("Verify password"),
-        [DataRequired(), EqualTo("password", message=lazy_gettext("Passwords must match"))],
+        [
+            DataRequired(),
+            EqualTo("password", message=lazy_gettext("Passwords must match")),
+        ],
     )
 
     def __init__(self, *args, **kwargs):
@@ -55,8 +60,10 @@ class RegisterForm(FlaskForm):
             return False
         return True
 
+
 class ResetPasswd(FlaskForm):
-    '''Password reset'''
+    """Password reset"""
+
     username = StringField(lazy_gettext("Email"), validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
@@ -70,22 +77,27 @@ class ResetPasswd(FlaskForm):
         if not initial_validation:
             return False
 
-        if "@" in self.username.data:
-            self.user = User.query.filter_by(email=self.username.data).first()
-            if not self.user:
-                self.username.errors.append(lazy_gettext("Unknown username"))
-                return False
-            if not self.user.is_active:
-                self.username.errors.append(lazy_gettext("User not activated"))
-                return False
-        else:
+        if "@" not in self.username.data:
             self.username.errors.append(lazy_gettext("Invalid"))
             return False
+
+        self.user = User.query.filter_by(email=self.username.data).first()
+        if not self.user:
+            self.username.errors.append(lazy_gettext("Unknown username"))
+            return False
+        if not self.user.is_active:
+            self.username.errors.append(lazy_gettext("User not activated"))
+            return False
+
         return True
+
 
 class LoginForm(FlaskForm):
     """Login form."""
-    username = StringField(lazy_gettext("Username Or Email"), validators=[DataRequired()])
+
+    username = StringField(
+        lazy_gettext("Username Or Email"), validators=[DataRequired()]
+    )
     password = PasswordField(lazy_gettext("Password"), validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
@@ -118,7 +130,9 @@ class LoginForm(FlaskForm):
 
 
 class ChangePasswordForm(FlaskForm):
-    old_password = PasswordField(lazy_gettext("Old Password"), validators=[DataRequired()])
+    old_password = PasswordField(
+        lazy_gettext("Old Password"), validators=[DataRequired()]
+    )
     password = PasswordField(lazy_gettext("Password"), validators=[DataRequired()])
     confirm = PasswordField(
         lazy_gettext("Verify password"),
@@ -148,13 +162,17 @@ class ChangePasswordForm(FlaskForm):
 
 class AddressForm(FlaskForm):
     """Address form."""
+
     province = StringField(lazy_gettext("Province"), validators=[DataRequired()])
     city = StringField(lazy_gettext("City"), validators=[DataRequired()])
     district = StringField(lazy_gettext("District"), validators=[DataRequired()])
     address = StringField(lazy_gettext("Address"), validators=[DataRequired()])
-    contact_name = StringField(lazy_gettext("Contact name"), validators=[DataRequired()])
+    contact_name = StringField(
+        lazy_gettext("Contact name"), validators=[DataRequired()]
+    )
     contact_phone = StringField(
-        lazy_gettext("Contact Phone"), validators=[DataRequired(), Length(min=10, max=13)]
+        lazy_gettext("Contact Phone"),
+        validators=[DataRequired(), Length(min=10, max=13)],
     )
 
     def __init__(self, *args, **kwargs):
