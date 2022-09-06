@@ -9,7 +9,6 @@ from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap5
 from flask_babel import Babel
 from flask_migrate import Migrate
-from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy, Model, DefaultMeta, _QueryProperty
 from sqlalchemy import Column, Integer, DateTime, event
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
@@ -24,7 +23,6 @@ migrate = Migrate(compare_type=True)
 debug_toolbar = DebugToolbarExtension()
 bootstrap = Bootstrap5()
 babel = Babel()
-mail = Mail()
 
 @babel.localeselector
 def get_locale():

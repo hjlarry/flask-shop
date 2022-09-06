@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
 """User views."""
-from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    flash,
+    redirect,
+    url_for,
+)
 from flask_login import login_required, current_user, login_user, logout_user
-from flask_mail import Message
 from pluggy import HookimplMarker
 from flask_babel import lazy_gettext
-import random
-import string
 
-from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm, ResetPasswd
-from .models import UserAddress, User
 from flaskshop.utils import flash_errors
 from flaskshop.order.models import Order
+from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm, ResetPasswd
+from .models import UserAddress, User
+from .utils import send_reset_pwd_email, gen_tmp_pwd
+
 
 impl = HookimplMarker("flaskshop")
 
@@ -34,32 +40,21 @@ def login():
         flash_errors(form)
     return render_template("account/login.html", form=form)
 
-def id_generator(size=8, chars=string.ascii_uppercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
 
 def resetpwd():
-
-    '''Reset user password'''
+    """Reset user password"""
     form = ResetPasswd(request.form)
 
     if form.validate_on_submit():
         flash(lazy_gettext("Check your e-mail."), "success")
-        user = User.query.filter_by(email=form.username.data).first()
-        new_passwd =id_generator()
-        body =  render_template("account/reser_passwd_mail.html", new_passwd=new_passwd)
-        msg = Message(lazy_gettext("Reset Password"),
-                      recipients=[form.username.data])
-        msg.body = lazy_gettext('''We cannot simply send you your old password.\n 
-        A unique password has been generated for you. Change the password after logging in.\n
-        New Password is: %s''' % new_passwd)
-        msg.html = body
-        mail = current_app.extensions.get("mail")
-        mail.send(msg)
-        user.update(password=new_passwd)
+        new_passwd = gen_tmp_pwd()
+        send_reset_pwd_email(form.username.data, new_passwd)
+        form.user.update(password=new_passwd)
         return redirect(url_for("account.login"))
     else:
         flash_errors(form)
     return render_template("account/login.html", form=form, reset=True)
+
 
 @login_required
 def logout():
@@ -118,7 +113,7 @@ def edit_address():
             "address": form.address.data,
             "contact_name": form.contact_name.data,
             "contact_phone": form.contact_phone.data,
-            "user_id": current_user.id
+            "user_id": current_user.id,
         }
         if address_id:
             UserAddress.update(user_address, **address_data)

@@ -15,7 +15,6 @@ from flaskshop.extensions import (
     migrate,
     bootstrap,
     babel,
-    mail,
 )
 from flaskshop.settings import Config
 from flaskshop.plugin import spec, manager
@@ -58,7 +57,6 @@ def register_extensions(app):
     migrate.init_app(app, db)
     bootstrap.init_app(app)
     babel.init_app(app)
-    mail.init_app(app)
 
 
 def register_blueprints(app):
