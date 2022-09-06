@@ -13310,3 +13310,7 @@ a.link--clean:hover {
 .list-group-item.active a {
   color: #fff;
 }
+
+.float-right {
+  float: right;
+}
