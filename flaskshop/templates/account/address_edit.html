@@ -27,16 +27,17 @@
     <div class="col-sm-8 col-lg-6 m-auto">
         <form method="post" novalidate>
             <h2 class="text-center">
-                {% if address_id %}{% trans %}Edit address{% endtrans %}{% else %}{% trans %}New address{% endtrans %}{% endif %}
+                {% if address_id %}{% trans %}Edit address{% endtrans %}{% else %}{% trans %}New address{% endtrans %}{%
+                endif %}
             </h2>
             <div class="account__address-edit__form">
                 {% include "account/partials/address_form.html" %}
             </div>
-            <p class="text-right">
+            <div class="text-end p-2">
                 <button type="submit" class="btn btn-primary narrow">
                     {% trans %}Save changes{% endtrans %}
                 </button>
-            </p>
+            </div>
         </form>
     </div>
 </div>
