@@ -1,6 +1,6 @@
 from flask import g, current_app
 from flask.sessions import SecureCookieSessionInterface
-from flask_login import user_loaded_from_header
+from flask_login import user_loaded_from_request
 # TODO: origin is TimedJSONWebSignatureSerializer, in current itsdangerous version is deprecated
 from itsdangerous import TimedSerializer as Serializer
 from flask_restx import Namespace, Resource
@@ -41,8 +41,8 @@ class CustomSessionInterface(SecureCookieSessionInterface):
         return super().save_session(*args, **kwargs)
 
 
-@user_loaded_from_header.connect
-def user_loaded_from_header(self, user=None):
+@user_loaded_from_request.connect
+def user_loaded_from_request(self, user=None):
     g.login_via_header = True
 
 
@@ -60,7 +60,7 @@ def load_user_from_request(request):
 
 @api.route("/login")
 class UserLogin(Resource):
-    @api.doc(parser=parser)
+    @api.doc(expect=parser)
     def post(self):
         args = parser.parse_args()
         res = requests.get(

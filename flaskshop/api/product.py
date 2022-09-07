@@ -72,7 +72,7 @@ class ProductDetail(Resource):
             return product
         api.abort(404)
 
-    @api.doc(parser=parser)
+    @api.doc(expect=parser)
     def post(self, id):
         """post product to current user cart"""
         args = parser.parse_args()
