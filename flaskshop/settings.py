@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 
-class LocalConfig:
+class DBConfig:
     db_type = os.getenv("DB_TYPE", "mysql")
     user = os.getenv("DB_USER", "root")
     passwd = os.getenv("DB_PASSWD", "123456")
@@ -22,7 +22,8 @@ class LocalConfig:
 
 
 class Config:
-
+    ENV = "dev"
+    FLASK_DEBUG = True
     SECRET_KEY = os.getenv("SECRET_KEY", "thisisashop")
 
     # Redis
@@ -31,18 +32,18 @@ class Config:
     #   - save product description
     #   - save page content
     USE_REDIS = False
-    REDIS_URL = os.getenv("REDIS_URI", LocalConfig.redis_uri)
+    REDIS_URL = os.getenv("REDIS_URI", DBConfig.redis_uri)
 
     # Elasticsearch
     # if elasticsearch is enabled, the home page will have a search bar
     # and while add a product, the search index will get update
     USE_ES = False
     ES_HOSTS = [
-        os.getenv("ESEARCH_URI", LocalConfig.esearch_uri),
+        os.getenv("ESEARCH_URI", DBConfig.esearch_uri),
     ]
 
     # SQLALCHEMY
-    SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", LocalConfig.db_uri)
+    SQLALCHEMY_DATABASE_URI = os.getenv("DB_URI", DBConfig.db_uri)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATABASE_QUERY_TIMEOUT = 0.1  # log the slow database query, and unit is second
     SQLALCHEMY_RECORD_QUERIES = True
@@ -80,3 +81,9 @@ class Config:
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "")
 
     GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", "")
+
+
+class ProdConfig(Config):
+    ENV = "prod"
+    FLASK_DEBUG = False
+    DEBUG_TB_ENABLED = False

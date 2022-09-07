@@ -32,7 +32,7 @@ def gen_key_factory(key_pattern, arg_names, defaults):
 
 def cache(key_pattern, expire=None):
     def deco(f):
-        arg_names, varargs, varkw, defaults = inspect.getargspec(f)
+        arg_names, varargs, varkw, defaults, *_ = inspect.getfullargspec(f)
         if varargs or varkw:
             raise Exception("do not support varargs")
         gen_key = gen_key_factory(key_pattern, arg_names, defaults)
@@ -74,7 +74,7 @@ def cache(key_pattern, expire=None):
 
 def cache_by_args(key_pattern, expire=None):
     def deco(f):
-        arg_names, varargs, varkw, defaults = inspect.getargspec(f)
+        arg_names, varargs, varkw, defaults, *_ = inspect.getfullargspec(f)
         if varargs or varkw:
             raise Exception("do not support varargs")
         gen_key = gen_key_factory(key_pattern, arg_names, defaults)
