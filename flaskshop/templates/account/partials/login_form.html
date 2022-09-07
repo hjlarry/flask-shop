@@ -1,25 +1,25 @@
-{% from 'bootstrap/form.html' import render_field %}
+{% from 'bootstrap5/form.html' import render_field %}
 <form method="post" action="" id="loginForm" novalidate>
   <fieldset>
     {{ form.csrf_token }}
     {{ render_field(form.username) }}
     {% if not reset %}
-      {{ render_field(form.password) }}
+    {{ render_field(form.password) }}
     {% endif %}
   </fieldset>
   <div class="row login__btn-group">
     <div class="col-sm-12">
       <button class="btn btn-primary narrow" type="submit">
         {% if not reset %}
-          {% trans %}Log in{% endtrans %}
+        {% trans %}Log in{% endtrans %}
         {% else %}
-            {% trans %}Reset Password{% endtrans %}
+        {% trans %}Reset Password{% endtrans %}
         {% endif %}
       </button>
       {% if not reset %}
-        <a rel="nofollow" class="link--styled" href="{{ url_for('account.resetpwd') }}">
-          {% trans %}Forgot password?{% endtrans %}
-        </a>
+      <a rel="nofollow" class="link--styled" href="{{ url_for('account.resetpwd') }}">
+        {% trans %}Forgot password?{% endtrans %}
+      </a>
       {% endif %}
       <hr>
       <div class="row">

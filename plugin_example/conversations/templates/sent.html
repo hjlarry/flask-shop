@@ -1,4 +1,4 @@
-{% from 'bootstrap/pagination.html' import render_pager %}
+{% from 'bootstrap5/pagination.html' import render_pager %}
 {% extends "message_layout.html" %}
 {% block title %} {% trans %}Sent Messages{% endtrans %} {% endblock %}
 
@@ -7,6 +7,3 @@
 {% include "conversation_list.html" %}
 {{ render_pager(conversations, url_for("conversations_bp.sent")) }}
 {% endblock %}
-
-
-
