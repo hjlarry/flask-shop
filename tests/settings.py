@@ -10,3 +10,4 @@ DEBUG_TB_ENABLED = False
 CACHE_TYPE = "simple"  # Can be "memcached", "redis", etc.
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 WTF_CSRF_ENABLED = False  # Allows form testing
+USE_REDIS = False
