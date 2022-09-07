@@ -1,5 +1,5 @@
 {% extends "message_layout.html" %}
-{% from 'bootstrap/form.html' import render_field %}
+{% from 'bootstrap5/form.html' import render_field %}
 {% block title %} {% trans %}Compose Message{% endtrans %} {% endblock %}
 {% block message_content %}
 
@@ -17,7 +17,8 @@
                 {{ render_field(form.subject, div_class="col-md-6 col-sm-6 col-xs-6") }}
                 {{ render_field(form.message, div_class="col-md-6 col-sm-6 col-xs-6") }}
                 <div class="float-right">
-                    <input class="btn btn-primary narrow" id="send_message" name="send_message" type="submit" value="Start Conversation">
+                    <input class="btn btn-primary narrow" id="send_message" name="send_message" type="submit"
+                        value="Start Conversation">
                 </div>
             </div>
         </div>
