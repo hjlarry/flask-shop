@@ -1,10 +1,8 @@
-import os
-
 from flaskshop.extensions import db, login_manager
 from flaskshop.account.utils import admin_required
 from flaskshop import settings
 from .utils import ApiFlask, ApiResult
-from .exceptions import ApiException, httperrors
+from .exceptions import ApiException
 from .views import (
     user_del,
     product_type_del,

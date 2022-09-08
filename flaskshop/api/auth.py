@@ -1,6 +1,7 @@
 from flask import g, current_app
 from flask.sessions import SecureCookieSessionInterface
 from flask_login import user_loaded_from_request
+
 # TODO: origin is TimedJSONWebSignatureSerializer, in current itsdangerous version is deprecated
 from itsdangerous import TimedSerializer as Serializer
 from flask_restx import Namespace, Resource
@@ -27,7 +28,8 @@ def verify_token(token):
     try:
         serializer = Serializer(current_app.config["SECRET_KEY"], expires_in=36000)
         data = serializer.loads(token)
-    except:
+    except Exception as e:
+        current_app.logger.error(e)
         return False
     return data["user_id"]
 
@@ -54,7 +56,8 @@ def load_user_from_request(request):
         user = User.get_by_id(user_id)
         if user:
             return user
-    except:
+    except Exception as e:
+        current_app.logger.error(e)
         return None
 
 

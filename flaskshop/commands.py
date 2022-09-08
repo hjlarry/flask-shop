@@ -148,8 +148,7 @@ def urls(url, order):
 @click.command()
 @with_appcontext
 def createdb():
-    """ create database tables
-    """
+    """create database tables"""
     db.create_all()
 
 
@@ -157,8 +156,7 @@ def createdb():
 @click.option("--type", default="default", help="which type to seed")
 @with_appcontext
 def seed(type):
-    """ Generate random data for test.
-    """
+    """Generate random data for test."""
     if type == "default":
         place_holder = Path("placeholders")
         create_products_by_schema(
@@ -204,16 +202,14 @@ def seed(type):
 @click.command()
 @with_appcontext
 def flushrdb():
-    """ Clear all redis keys, include cache and propitems.
-    """
+    """Clear all redis keys, include cache and propitems."""
     rdb.flushdb()
 
 
 @click.command()
 @with_appcontext
 def reindex():
-    """ clear elastic-search items.
-    """
+    """clear elastic-search items."""
     Item._index.delete(ignore=404)
     Item.init()
     products = Product.query.all()

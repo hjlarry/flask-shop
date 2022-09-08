@@ -57,6 +57,7 @@ class TestCRUDMixin:
         retrieved = db.session.execute("""select * from testusers""").fetchone()
         assert retrieved.username == expected
 
+
 @pytest.mark.usefixtures("db")
 class TestPkModel:
     """PkModel tests."""

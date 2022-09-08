@@ -1,8 +1,6 @@
 from flask import flash
-from sqlalchemy.dialects.mysql import BOOLEAN
 from flask_login import current_user
 
-from flaskshop.constant import DiscountValueTypeKinds
 from flaskshop.database import Column, Model, db
 from flaskshop.product.models import ProductVariant
 from flaskshop.discount.models import Voucher

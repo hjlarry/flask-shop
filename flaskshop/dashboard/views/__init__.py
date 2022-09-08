@@ -1,1 +1,1 @@
-from . import bp
+from . import bp  # noqa: F401

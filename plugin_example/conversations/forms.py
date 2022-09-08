@@ -11,21 +11,28 @@ from .models import Message, Conversation
 
 class ConversationForm(FlaskForm):
     to_user = StringField(
-        lazy_gettext("Recipient"), validators=[DataRequired(message=lazy_gettext("A valid username is required."))],
+        lazy_gettext("Recipient"),
+        validators=[
+            DataRequired(message=lazy_gettext("A valid username is required."))
+        ],
     )
 
     subject = StringField(
-        lazy_gettext("Subject"), validators=[DataRequired(message=lazy_gettext("A Subject is required."))],
+        lazy_gettext("Subject"),
+        validators=[DataRequired(message=lazy_gettext("A Subject is required."))],
     )
 
     message = TextAreaField(
-        lazy_gettext("Message"), validators=[DataRequired(message=lazy_gettext("A message is required."))],
+        lazy_gettext("Message"),
+        validators=[DataRequired(message=lazy_gettext("A message is required."))],
     )
 
     def validate_to_user(self, field):
         user = User.query.filter_by(username=field.data).first()
         if not user:
-            raise ValidationError(lazy_gettext("The username you entered does not exist."))
+            raise ValidationError(
+                lazy_gettext("The username you entered does not exist.")
+            )
         if user.id == current_user.id:
             raise ValidationError(lazy_gettext("You cannot send a PM to yourself."))
 
@@ -50,7 +57,8 @@ class ConversationForm(FlaskForm):
 
 class MessageForm(FlaskForm):
     message = TextAreaField(
-        lazy_gettext("Message"), validators=[DataRequired(message=lazy_gettext("A message is required."))]
+        lazy_gettext("Message"),
+        validators=[DataRequired(message=lazy_gettext("A message is required."))],
     )
 
     def save(self, conversation, user_id, unread=False):

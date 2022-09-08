@@ -6,7 +6,7 @@ from flaskshop.dashboard.models import DashboardMenu, Setting
 from flaskshop.product.models import Category, Collection
 from flaskshop.checkout.models import ShippingMethod
 from flaskshop.plugin.models import PluginRegistry
-from flaskshop.account.utils import admin_required, permission_required, Permission
+from flaskshop.account.utils import admin_required
 from flaskshop.dashboard.forms import (
     DashboardMenuForm,
     SiteMenuForm,
@@ -180,7 +180,9 @@ def plugin_enable(id):
     plugin = PluginRegistry.get_by_id(id)
     plugin.enabled = True
     plugin.save()
-    flash(lazy_gettext("The plugin is enabled, Please restart flask-shop now!"), "success")
+    flash(
+        lazy_gettext("The plugin is enabled, Please restart flask-shop now!"), "success"
+    )
     return redirect(url_for("dashboard.plugin_list"))
 
 
@@ -188,7 +190,9 @@ def plugin_disable(id):
     plugin = PluginRegistry.get_by_id(id)
     plugin.enabled = False
     plugin.save()
-    flash(lazy_gettext("The plugin is disabled, Please restart flask-shop now!"), "info")
+    flash(
+        lazy_gettext("The plugin is disabled, Please restart flask-shop now!"), "info"
+    )
     return redirect(url_for("dashboard.plugin_list"))
 
 
@@ -217,7 +221,10 @@ def site_setting():
                 pass
         Setting.update(settings=new_settings)
         flash(lazy_gettext("Settings saved."), "success")
-    return render_template("site/settings.html", form=form,)
+    return render_template(
+        "site/settings.html",
+        form=form,
+    )
 
 
 def config_index():

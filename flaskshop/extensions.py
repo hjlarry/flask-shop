@@ -8,7 +8,6 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap5
 from flask_babel import Babel
-from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy, Model, DefaultMeta, _QueryProperty
 from sqlalchemy import Column, Integer, DateTime, event
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
@@ -24,11 +23,12 @@ debug_toolbar = DebugToolbarExtension()
 bootstrap = Bootstrap5()
 babel = Babel()
 
+
 @babel.localeselector
 def get_locale():
-    if request.args.get('lang'):
-        session['lang'] = request.args.get('lang')
-    return session.get('lang', 'en')
+    if request.args.get("lang"):
+        session["lang"] = request.args.get("lang")
+    return session.get("lang", "en")
 
 
 class BaseModel(PropsMixin, Model):
