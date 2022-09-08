@@ -751,7 +751,7 @@ def get_product_list_context(query, obj):
         query = query.filter(Product.basic_price < price_to)
     args_dict.update(price_from=price_from, price_to=price_to)
 
-    sort_by_choices = {"title": "title", "price": "price"}
+    sort_by_choices = {"title": "title", "basic_price": "price"}
     arg_sort_by = request.args.get("sort_by", "")
     is_descending = False
     if arg_sort_by.startswith("-"):
