@@ -2,7 +2,6 @@ import itertools
 import random
 import unicodedata
 from uuid import uuid4
-import os
 
 from faker import Factory
 from faker.providers import BaseProvider
@@ -194,6 +193,7 @@ def get_email(first_name, last_name):
 Fake for products data
 """
 
+
 # step1
 def create_products_by_schema(
     placeholder_dir, how_many, create_images, schema=DEFAULT_SCHEMA
@@ -370,11 +370,13 @@ def create_fake_collection(placeholder_dir, collection_data):
 """
 Fake for account data
 """
+
+
 # step13
 def create_users(how_many=10):
     for dummy in range(how_many):
         user = create_fake_user()
-        address = create_fake_address(user_id=user.id)
+        create_fake_address(user_id=user.id)
         yield f"User: {user.email}"
 
 
@@ -434,6 +436,7 @@ def create_admin():
 """
 Fake for public data
 """
+
 
 # step18
 def create_page():
@@ -515,6 +518,8 @@ def create_dashboard_menus():
 """
 Fake for order data
 """
+
+
 # step23
 def create_orders(how_many=10):
     discounts = None
@@ -592,6 +597,7 @@ def create_payment(order):
 """
 Fake for voucher
 """
+
 
 # step28
 def create_product_sales(how_many=5):

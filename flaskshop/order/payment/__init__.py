@@ -1,1 +1,1 @@
-from . import zhifubao
+from . import zhifubao  # noqa: F401

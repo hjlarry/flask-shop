@@ -2,11 +2,12 @@ from datetime import datetime
 
 from flask import request, render_template, redirect, url_for
 
-from flaskshop.discount.models import Voucher, Sale, SaleCategory, SaleProduct
+from flaskshop.discount.models import Voucher, Sale
 from flaskshop.product.models import Product, Category
 from flaskshop.dashboard.forms import VoucherForm, SaleForm
 from flaskshop.constant import VoucherTypeKinds, DiscountValueTypeKinds
 from flask_babel import lazy_gettext
+
 
 def vouchers():
     page = request.args.get("page", type=int, default=1)

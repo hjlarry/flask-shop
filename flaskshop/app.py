@@ -21,14 +21,6 @@ from flaskshop.plugin import spec, manager
 from flaskshop.plugin.models import PluginRegistry
 from flaskshop.utils import log_slow_queries, jinja_global_varibles
 
-from .account import views as account_view
-from .checkout import views as checkout_view
-from .discount import views as discount_view
-from .public import views as public_view
-from .product import views as product_view
-from .order import views as order_view
-from .dashboard import views as dashboard_view
-from .api import api as api_view
 from .dashboard_api.api_app import dashboard_api
 
 
@@ -113,6 +105,6 @@ def load_plugins(app):
                 plugin, _ = PluginRegistry.get_or_create(name=name)
                 if not plugin.enabled:
                     app.pluggy.set_blocked(plugin.name)
-    except:
+    except Exception as e:
         # when db migrate raise exception
-        pass
+        app.logger.error(e)

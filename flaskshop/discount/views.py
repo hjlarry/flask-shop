@@ -1,7 +1,7 @@
 from flask import Blueprint
 from pluggy import HookimplMarker
 
-from .models import *
+from .models import *  # noqa: F403, F401
 
 impl = HookimplMarker("flaskshop")
 

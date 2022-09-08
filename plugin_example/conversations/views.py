@@ -31,8 +31,10 @@ def check_message_box_space(redirect_to=None):
     """
     if get_message_count(current_user) >= current_app.config["MESSAGE_QUOTA"]:
         flash(
-            lazy_gettext("You cannot send any messages anymore because you have reached your message limit.",
-            "danger"),
+            lazy_gettext(
+                "You cannot send any messages anymore because you have reached your message limit.",
+                "danger",
+            ),
         )
         return redirect(redirect_to or url_for("conversations_bp.inbox"))
 
@@ -55,10 +57,8 @@ class Inbox(MethodView):
         page = request.args.get("page", 1, type=int)
         # the inbox will display both, the recieved and the sent messages
         conversations = (
-            Conversation.query.filter(
-                Conversation.user_id == current_user.id,
-                Conversation.draft == False,
-                Conversation.trash == False,
+            Conversation.query.filter_by(
+                user_id=current_user.id, draft=False, trash=False
             )
             .order_by(Conversation.updated_at.desc())
             .paginate(page, 10, False)
@@ -142,7 +142,9 @@ class NewConversation(MethodView):
     def get(self):
         form = self.form()
         form.to_user.data = request.args.get("to_user")
-        return render_template("message_form.html", form=form, title=lazy_gettext("Compose Message"))
+        return render_template(
+            "message_form.html", form=form, title=lazy_gettext("Compose Message")
+        )
 
     def post(self):
         form = self.form()
@@ -229,9 +231,9 @@ class SentMessages(MethodView):
         conversations = (
             Conversation.query.filter(
                 Conversation.user_id == current_user.id,
-                Conversation.draft == False,
-                Conversation.trash == False,
-                db.not_(Conversation.to_user_id == current_user.id),
+                Conversation.draft == False,  # noqa: E712
+                Conversation.trash == False,  # noqa: E712
+                db.not_(Conversation.to_user_id == current_user.id),  # noqa: E712
             )
             .order_by(Conversation.updated_at.desc())
             .paginate(page, 10, False)
@@ -248,8 +250,9 @@ class TrashedMessages(MethodView):
         page = request.args.get("page", 1, type=int)
 
         conversations = (
-            Conversation.query.filter(
-                Conversation.user_id == current_user.id, Conversation.trash == True,
+            Conversation.query.filter_by(
+                user_id=current_user.id,
+                trash=True,
             )
             .order_by(Conversation.updated_at.desc())
             .paginate(page, 10, False)

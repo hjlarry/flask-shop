@@ -1,4 +1,4 @@
-from .models import Conversation, Message
+from .models import Conversation
 
 
 def get_message_count(user):

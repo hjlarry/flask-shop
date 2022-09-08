@@ -12,7 +12,11 @@ BUILTIN_TYPES = (int, bytes, str, float, bool)
 
 
 def gen_key_factory(key_pattern, arg_names, defaults):
-    args = dict(zip(arg_names[-len(defaults) :], defaults)) if defaults else {}
+    args = (
+        dict(zip(arg_names[-len(defaults) :], defaults))  # noqa: E203
+        if defaults
+        else {}
+    )
 
     if callable(key_pattern):
         names = inspect.getargspec(key_pattern)[0]
@@ -30,7 +34,7 @@ def gen_key_factory(key_pattern, arg_names, defaults):
     return gen_key
 
 
-def cache(key_pattern, expire=None):
+def cache(key_pattern, expire=None):  # noqa: C901
     def deco(f):
         arg_names, varargs, varkw, defaults, *_ = inspect.getfullargspec(f)
         if varargs or varkw:
@@ -72,7 +76,7 @@ def cache(key_pattern, expire=None):
     return deco
 
 
-def cache_by_args(key_pattern, expire=None):
+def cache_by_args(key_pattern, expire=None):  # noqa: C901
     def deco(f):
         arg_names, varargs, varkw, defaults, *_ = inspect.getfullargspec(f)
         if varargs or varkw:
