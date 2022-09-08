@@ -28,8 +28,7 @@ jobs:
     - uses: mirromutth/mysql-action@v1.1
       with:
         mysql database: 'testshop'
-        mysql user: 'root'
-        mysql password: 'root'
+        mysql root password: 'root'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
