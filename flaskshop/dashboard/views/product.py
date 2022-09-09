@@ -4,6 +4,7 @@ from flask import request, render_template, redirect, url_for, current_app
 from flask_babel import lazy_gettext
 from flaskshop.product.models import (
     ProductAttribute,
+    ProductImage,
     ProductType,
     Collection,
     Product,
@@ -98,8 +99,8 @@ def categories():
 
 
 def _save_img_file(obj, image):
-    img_name = image.filename
-    upload_path = current_app.config["UPLOAD_DIR"] / img_name
+    # TODO:if update a same filename file, will replace the older one, seems a bug
+    upload_path = current_app.config["UPLOAD_DIR"] / image.filename
     upload_path.write_bytes(image.read())
     obj.background_img = upload_path.relative_to(
         current_app.config["STATIC_DIR"]
@@ -233,7 +234,6 @@ def product_detail(id):
 
 def _save_product(product, form):
     product.update_images(form.images.data)
-    raise Exception
     product.update_attributes(form.attributes.data)
     del form.images
     del form.attributes
@@ -242,11 +242,26 @@ def _save_product(product, form):
     return product
 
 
+def _save_new_images(product_id):
+    upload_imgs = request.files.getlist("images")
+    for img in upload_imgs:
+        # request.files.getlist always not return empty, even not upload files
+        if not img.filename:
+            continue
+        upload_path = current_app.config["UPLOAD_DIR"] / img.filename
+        upload_path.write_bytes(img.read())
+        ProductImage.create(
+            image=upload_path.relative_to(current_app.config["STATIC_DIR"]).as_posix(),
+            product_id=product_id,
+        )
+
+
 def product_edit(id):
     product = Product.get_by_id(id)
     form = ProductForm(obj=product)
     if form.validate_on_submit():
         _save_product(product, form)
+        _save_new_images(product.id)
         return redirect(url_for("dashboard.product_detail", id=product.id))
     categories = Category.query.all()
     context = {"form": form, "categories": categories, "product": product}
@@ -276,7 +291,7 @@ def product_create_step2():
     if form.validate_on_submit():
         product = Product(product_type_id=product_type_id)
         product = _save_product(product, form)
-        # product.generate_variants()
+        _save_new_images(product.id)
         return redirect(url_for("dashboard.product_detail", id=product.id))
     return render_template(
         "product/product_create_step2.html",
