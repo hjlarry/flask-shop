@@ -15,7 +15,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form method="POST" action="">
+                    <form method="POST" enctype=multipart/form-data>
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             <label>Type:</label> {{product.product_type}}
@@ -29,7 +29,8 @@
                             {{ macros.render_select_field(form.category_id, categories) }}
                             {{ vendor.render_field(form.description) }}
                             {{ macros.render_multi_img(form.images) }}
-                            {{ macros.render_attribute_field(form.attributes, product.product_type.product_attributes) }}
+                            {{ macros.render_attribute_field(form.attributes, product.product_type.product_attributes)
+                            }}
 
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}

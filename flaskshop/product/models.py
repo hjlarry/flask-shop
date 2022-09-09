@@ -115,7 +115,7 @@ class Product(Model):
 
     def update_images(self, new_images):
         origin_ids = (
-            ProductImage.query.with_entities(ProductImage.product_id)
+            ProductImage.query.with_entities(ProductImage.id)
             .filter_by(product_id=self.id)
             .all()
         )
@@ -609,7 +609,6 @@ class AttributeChoiceValue(Model):
 class ProductImage(Model):
     __tablename__ = "product_image"
     image = Column(db.String(255))
-    order = Column(db.Integer())
     product_id = Column(db.Integer())
 
     def __str__(self):
