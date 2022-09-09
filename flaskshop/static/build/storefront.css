@@ -11040,7 +11040,7 @@ a.btn {
 .cart-dropdown {
   position: absolute;
   width: 33rem;
-  top: 6.4rem;
+  top: 9.1rem;
   right: 0;
   z-index: 3;
   display: none;
@@ -11936,7 +11936,7 @@ select.form-control {
   padding: 2rem;
   position: absolute;
   right: 0;
-  top: 0;
+  margin-top: 10px;
   z-index: 4;
 }
 @media (max-width: 575.98px) {

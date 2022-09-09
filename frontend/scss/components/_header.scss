@@ -4,18 +4,23 @@
     margin-bottom: $global-margin;
     display: block;
     text-align: center;
+
     &.no-border {
       border-bottom: 0;
       margin-bottom: 0;
     }
+
     @include media-breakpoint-down(sm) {
       border-bottom: 0;
     }
+
     .nav-item {
       display: inline;
-      + .nav-item {
+
+      +.nav-item {
         margin-left: 0;
       }
+
       a {
         color: $body-color;
         transition: 0.3s;
@@ -23,6 +28,7 @@
         display: inline-block;
         padding: $global-padding * 1.5;
         font-size: 1.5rem;
+
         &:hover {
           color: rgba($body-color, 0.6);
         }
@@ -33,11 +39,11 @@
           display: inline-block;
           position: relative;
 
-          &:hover > a {
+          &:hover>a {
             border-bottom: 3px solid black;
           }
 
-          & > a {
+          &>a {
             padding: 0.5rem;
             margin: 1rem;
             box-sizing: border-box;
@@ -64,7 +70,7 @@
             padding: $global-padding;
             max-height: 28rem;
 
-            > ul {
+            >ul {
               min-width: 120px;
               width: 360px;
               display: flex;
@@ -132,21 +138,25 @@
 
 .navbar {
   padding: 0;
+
   @include media-breakpoint-down(sm) {
-    > .container-fluid {
+    >.container-fluid {
       padding: 0;
     }
+
     svg {
       max-height: 30px;
       width: auto;
     }
   }
+
   @media (max-width: 370px) {
     svg {
       max-height: 23px;
       width: auto;
     }
   }
+
   &__login {
     p {
       font-size: 0.7rem;
@@ -156,13 +166,16 @@
       text-transform: uppercase;
       width: 100%;
     }
+
     ul {
       list-style: none;
       margin-bottom: 0;
+
       li {
         display: inline-block;
         padding: 0 $global-padding / 2;
         line-height: 1.9rem;
+
         a {
           color: $body-color;
           font-size: 0.7rem;
@@ -171,18 +184,22 @@
       }
     }
   }
+
   &__logo {
     padding: $global-padding * 2 0;
     display: flex;
     align-items: center;
+
     svg {
       height: 38px;
       width: 100%;
     }
+
     .menu-icon-mobile {
       position: relative;
       display: inline-block;
       top: -5px;
+
       span {
         position: absolute;
         top: 1.3rem;
@@ -190,17 +207,21 @@
         text-transform: uppercase;
         font-size: 0.45rem;
       }
+
       svg {
         vertical-align: top;
       }
+
       @media (max-width: 370px) {
         top: 0;
       }
     }
   }
+
   &__search {
     padding: $global-padding * 2 0;
     position: relative;
+
     form {
       svg {
         width: 18px;
@@ -208,17 +229,21 @@
         margin-left: 10px;
         vertical-align: middle;
       }
+
       .btn {
         padding: $global-padding;
       }
     }
+
     .mobile-search-icon {
       float: right;
       padding-right: $global-padding;
     }
   }
+
   &__brand {
     background-color: $light-gray;
+
     @include media-breakpoint-down(sm) {
       position: fixed;
       top: 0;
@@ -228,14 +253,18 @@
       z-index: 5;
       border-bottom: 1px solid $gray;
     }
+
     .static {
       position: static;
     }
+
     &__cart {
       z-index: 4;
+
       @include media-breakpoint-up(md) {
         line-height: 2.4rem;
       }
+
       .cart__icon {
         color: $body-color;
         display: block;
@@ -244,12 +273,14 @@
         padding: $global-padding * 2;
         position: absolute;
         right: 0;
-        top: 0;
+        margin-top: 10px;
         z-index: 4;
+
         @include media-breakpoint-down(sm) {
           position: relative;
           padding: 2rem 1rem 2rem 0;
         }
+
         &.hover {
           text-decoration: none;
           background: $white;
@@ -257,25 +288,31 @@
           border-left: solid 1px $gray;
           border-right: solid 1px $gray;
           border-bottom: solid 1px $white;
+
           @include media-breakpoint-down(sm) {
             border: solid 1px transparent;
             background: none;
             padding: 2rem 1rem 2rem 0;
           }
         }
+
         &:hover {
           text-decoration: none;
         }
+
         .cart-label {
           padding-right: $global-padding / 2;
           display: inline-block;
         }
+
         .navbar__brand__cart__icon {
           display: inline-block;
+
           svg {
             vertical-align: middle;
           }
         }
+
         .badge {
           position: absolute;
           right: 20px;
@@ -287,15 +324,18 @@
           height: 30px;
           text-align: center;
           line-height: 2;
+
           &.empty {
             background-color: $darken-gray;
           }
+
           @include media-breakpoint-down(sm) {
             right: 0;
           }
         }
       }
     }
+
     &__menu-toggle {
       max-height: 22px;
       padding-right: $global-padding;
@@ -303,6 +343,7 @@
       vertical-align: super;
     }
   }
+
   &__menu {
     @include media-breakpoint-down(sm) {
       .navigation {
@@ -317,17 +358,21 @@
         padding-right: $global-padding;
         padding-top: $global-padding * 5;
         transition: 0.3s ease-in-out;
+
         ul {
           text-align: left;
+
           .nav-item {
             width: 100%;
             text-align: left;
+
             a {
               padding: $global-padding / 2 $global-padding;
               font-size: 1rem;
             }
           }
         }
+
         &.open {
           left: 0;
           box-shadow: 1px 1px 10px 1px $gray;
