@@ -78,31 +78,6 @@ def collections():
     return render_template("list.html", **context)
 
 
-def collections_manage(id=None):
-    if id:
-        collection = Collection.get_by_id(id)
-        form = CollectionForm(obj=collection)
-    else:
-        form = CollectionForm()
-    if form.validate_on_submit():
-        if not id:
-            collection = Collection()
-        collection.title = form.title.data
-        collection.update_products(form.products.data)
-        image = form.bgimg_file.data
-        if image:
-            background_img = image.filename
-            upload_file = current_app.config["UPLOAD_DIR"] / background_img
-            upload_file.write_bytes(image.read())
-            collection.background_img = (
-                current_app.config["UPLOAD_FOLDER"] + "/" + background_img
-            )
-        collection.save()
-        return redirect(url_for("dashboard.collections"))
-    products = Product.query.all()
-    return render_template("product/collection.html", form=form, products=products)
-
-
 def categories():
     page = request.args.get("page", type=int, default=1)
     pagination = Category.query.paginate(page, 10)
@@ -122,6 +97,35 @@ def categories():
     return render_template("list.html", **context)
 
 
+def _save_img_file(obj, image):
+    img_name = image.filename
+    upload_path = current_app.config["UPLOAD_DIR"] / img_name
+    upload_path.write_bytes(image.read())
+    obj.background_img = upload_path.relative_to(
+        current_app.config["STATIC_DIR"]
+    ).as_posix()
+
+
+def collections_manage(id=None):
+    if id:
+        collection = Collection.get_by_id(id)
+        form = CollectionForm(obj=collection)
+    else:
+        form = CollectionForm()
+    if form.validate_on_submit():
+        if not id:
+            collection = Collection()
+        collection.title = form.title.data
+        collection.update_products(form.products.data)
+        image = form.bgimg_file.data
+        if image:
+            _save_img_file(collection, image)
+        collection.save()
+        return redirect(url_for("dashboard.collections"))
+    products = Product.query.all()
+    return render_template("product/collection.html", form=form, products=products)
+
+
 def categories_manage(id=None):
     if id:
         category = Category.get_by_id(id)
@@ -135,12 +139,7 @@ def categories_manage(id=None):
         category.parent_id = form.parent_id.data
         image = form.bgimg_file.data
         if image:
-            background_img = image.filename
-            upload_file = current_app.config["UPLOAD_DIR"] / background_img
-            upload_file.write_bytes(image.read())
-            category.background_img = (
-                current_app.config["UPLOAD_FOLDER"] + "/" + background_img
-            )
+            _save_img_file(category, image)
         category.save()
         return redirect(url_for("dashboard.categories"))
     parents = Category.first_level_items()
@@ -234,6 +233,7 @@ def product_detail(id):
 
 def _save_product(product, form):
     product.update_images(form.images.data)
+    raise Exception
     product.update_attributes(form.attributes.data)
     del form.images
     del form.attributes
