@@ -22,17 +22,10 @@
                     <a href="{{url_for('dashboard.index')}}" class="nav-link">{% trans %}Dashboard{% endtrans %}</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{url_for('public.home')}}" class="nav-link" target="_blank">{% trans %}Front Site{% endtrans %}</a>
+                    <a href="{{url_for('public.home')}}" class="nav-link" target="_blank">{% trans %}Front Site{%
+                        endtrans %}</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-                        <i class="fa fa-th-large"></i>
-                    </a>
-                </li>
-            </ul>
-
         </nav>
         <!-- /.navbar -->
 
@@ -40,8 +33,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ url_for('dashboard.index') }}" class="brand-link">
-                <img src="{{ url_for('static', filename='img/logo.svg') }}"
-                    class="brand-image" >
+                <img src="{{ url_for('static', filename='img/logo.svg') }}" class="brand-image">
             </a>
 
             <!-- Sidebar -->
@@ -93,13 +85,13 @@
                 </div>
             </section>
             <section class="content">
-            {% for message in get_flashed_messages(with_categories=True) %}
-            <div class="alert alert-{{ message[0] }}">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {{ message[1] }}
-            </div>
-            {% endfor %}
-        </section>
+                {% for message in get_flashed_messages(with_categories=True) %}
+                <div class="alert alert-{{ message[0] }}">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ message[1] }}
+                </div>
+                {% endfor %}
+            </section>
             {% block body %} {% endblock %}
         </div>
         <aside class="control-sidebar control-sidebar-dark">
