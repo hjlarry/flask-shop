@@ -1,6 +1,4 @@
 import 'bootstrap';
-import './adminlte.min';
-import './customize';
+import 'admin-lte';
 
-
-import '../../scss/adminlte.scss';
+import '../../scss/dashboard.scss';
