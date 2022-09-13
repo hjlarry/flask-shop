@@ -742,8 +742,8 @@ def get_product_list_context(query, obj):
     obj: collection or category, to get it`s attr_filter.
     """
     args_dict = {}
-    price_from = request.args.get("price_from", None, type=int)
-    price_to = request.args.get("price_to", None, type=int)
+    price_from = request.args.get("price_from", '', type=int)
+    price_to = request.args.get("price_to", '', type=int)
     if price_from:
         query = query.filter(Product.basic_price > price_from)
     if price_to:
