@@ -25,10 +25,10 @@
   },
   "homepage": "https://github.com/hjlarry/flaskshop#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.2.0",
     "admin-lte": "3.2",
     "bootstrap": "^5.2.0",
     "daterangepicker": "^3.1.0",
-    "font-awesome": "^4.7.0",
     "jquery": "^3.6.1",
     "jquery.cookie": "^1.4.1",
     "lazysizes": "^5.3.2",

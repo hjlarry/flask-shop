@@ -91,7 +91,7 @@ input {
   select {
     @include media-breakpoint-down(md) {
       width: 100%;
-      margin-top: $global-margin / 2;
+      margin-top: $global-margin * 0.5;
       margin-left: 0;
     }
 
