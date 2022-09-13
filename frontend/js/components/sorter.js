@@ -1,5 +1,5 @@
-export default $(document).ready((e) => {
-    $(document).ready((e) => {
+export default $(function () {
+    $(function () {
         $('.sort-by button').on('click', (e) => {
             const parentContainer = $(e.currentTarget).parent();
             const list = parentContainer.find('.sort-list');

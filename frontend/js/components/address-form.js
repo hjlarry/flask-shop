@@ -1,9 +1,9 @@
-export default $(document).ready((e) => {
+export default $(function () {
     let $deleteAdressIcons = $('.icons');
     let $deleteAdressIcon = $('.delete-icon');
     let $deleteAddress = $('.address-delete');
 
-    $deleteAdressIcon.on('click', (e) => {
+    $deleteAdressIcon.on('click', function () {
         if ($deleteAddress.hasClass('none')) {
             $deleteAddress.removeClass('none');
             $deleteAdressIcons.addClass('none');
@@ -12,7 +12,7 @@ export default $(document).ready((e) => {
         }
     });
 
-    $deleteAddress.find('.cancel').on('click', (e) => {
+    $deleteAddress.find('.cancel').on('click', function () {
         $deleteAddress.addClass('none');
         $deleteAdressIcons.removeClass('none');
     });
@@ -23,10 +23,10 @@ export default $(document).ready((e) => {
     let $addressHide = $('.address_hide label');
     let $addressForm = $('.checkout__new-address');
     let $initialValue = $('#address_new').prop('checked');
-    $addressShow.click((e) => {
+    $addressShow.on('click', function () {
         $addressForm.slideDown('slow');
     });
-    $addressHide.click((e) => {
+    $addressHide.on('click', function () {
         $addressForm.slideUp('slow');
     });
     if ($initialValue) {

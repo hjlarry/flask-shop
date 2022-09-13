@@ -1,4 +1,4 @@
-$(".variant-picker__option").click(function () {
+$(".variant-picker__option").on('click', function () {
   var variant_id = $(this).attr("value");
   $.ajax({
     url: "api/variant_price/" + variant_id,

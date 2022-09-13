@@ -1,6 +1,6 @@
-export default $(document).ready(function () {
+export default $(function () {
     let styleGuideMenu = $('.styleguide__nav');
-    $(window).scroll(function () {
+    $(window).on('scroll', function () {
         if ($(this).scrollTop() > 100) {
             styleGuideMenu.addClass('fixed');
         } else {

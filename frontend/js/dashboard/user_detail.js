@@ -1,7 +1,7 @@
 import swal from 'sweetalert';
 
-$(".delete-btn").click(
-    function () {
+$(".delete-btn").on('click',
+    function (event) {
         var $this = $(event.currentTarget)[0];
         var url = $($this).data('url');
         swal({

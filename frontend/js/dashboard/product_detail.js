@@ -1,8 +1,8 @@
 import swal from 'sweetalert';
 import './banner';
 
-$(".delete-btn").click(
-    function () {
+$(".delete-btn").on('click',
+    function (event) {
         var $this = $(event.currentTarget)[0];
         var url = $($this).data('url');
         var redirect = $($this).data('redirect');
