@@ -2,46 +2,57 @@
   &__header {
     margin: $global-margin 0 $global-margin * 2;
   }
+
   &__addresses {
     margin-top: $global-margin * 2;
+
     .btn {
-        display: block;
-        margin-bottom: 10px;
-        width: 60%;
+      display: block;
+      margin-bottom: 10px;
+      width: 60%;
     }
   }
+
   &__product {
     .col-3 {
-      margin-top: $global-margin / 2;
+      margin-top: $global-margin * 0.5;
     }
+
     &__description {
       a {
         transition: 0.3s;
+
         &:hover {
           color: $skull-gray;
         }
       }
+
       img {
         vertical-align: top;
         margin-right: $global-margin;
       }
+
       span {
         line-height: 60px;
       }
     }
   }
+
   &__total {
     padding-top: $global-padding;
     color: $skull-gray;
   }
+
   &__last-row {
     border-bottom-color: $skull-gray;
   }
+
   &__table-footer {
     @include media-breakpoint-up(sm) {
       padding-left: calc(60px + #{$global-padding} * 2);
     }
   }
+
   &__table-header {
     margin-top: 2rem;
   }
@@ -51,7 +62,8 @@
   &__header {
     margin-top: 2 * $global-margin;
   }
-  > p {
+
+  >p {
     white-space: pre-wrap;
   }
 }

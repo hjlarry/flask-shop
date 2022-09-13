@@ -4,20 +4,23 @@
     display: inline-block;
     height: 0.5rem;
     width: 0.5rem;
-    border-radius: 1rem;  
+    border-radius: 1rem;
     margin-bottom: 1px;
-    margin-right: $global-margin / 2;
+    margin-right: $global-margin * 0.5;
   }
+
   &-success {
     &:before {
       background-color: $green;
     }
   }
+
   &-danger {
     &:before {
       background-color: $red;
     }
   }
+
   &-default {
     &:before {
       background-color: $gray;

@@ -13286,7 +13286,8 @@ a.link--clean:hover {
 .styleguide__content__block#buttons .home__block1 {
   margin-top: 1rem;
 }
-.styleguide__content__block .deliveryform label, .styleguide__content__block .deliveryform select {
+.styleguide__content__block .deliveryform label,
+.styleguide__content__block .deliveryform select {
   float: left;
 }
 @media (max-width: 575.98px) {
@@ -13300,7 +13301,10 @@ a.link--clean:hover {
     right: 0;
   }
 }
-.styleguide__content__block .product-list, .styleguide__content__block .card-block, .styleguide__content__block .alert:last-of-type, .styleguide__content__block .form-group {
+.styleguide__content__block .product-list,
+.styleguide__content__block .card-block,
+.styleguide__content__block .alert:last-of-type,
+.styleguide__content__block .form-group {
   margin-bottom: 0;
 }
 
