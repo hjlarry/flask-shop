@@ -15,22 +15,22 @@ function bannerMove() {
 bannerMove();//开始自动轮播
 
 //鼠标移入图片和左右按钮时停止自动播放
-$('#banner li,#banner .right,#banner .left').mouseover(function () {
+$('#banner li,#banner .right,#banner .left').on('mouseover', function () {
     clearInterval(time)
 });
 
 //鼠标移出图片和左右按钮时开始自动播放
-$('#banner li,#banner .right,#banner .left').mouseout(function () {
+$('#banner li,#banner .right,#banner .left').on('mouseout', function () {
     bannerMove()
 });
 
 //点击右键切换图片
-$('#banner .right').click(function () {
+$('#banner .right').on('click', function () {
     $('#banner li').eq(b_num % num).fadeIn(500).siblings('li').fadeOut(200);
     b_num++;
 })
 //点击左键切换图片
-$('#banner .left').click(function () {
+$('#banner .left').on('click', function () {
     if (b_num % num == 0) {
         b_num = 3;
     }

@@ -78,7 +78,8 @@
     </div>
     {% else %}
     <div class="cart__empty">
-        <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/empty-cart-bg.png') }}">
+        <img class="lazyload lazypreload" data-src="{{ url_for('static', filename='img/empty-cart-bg.png') }}"
+            title="empty">
         <h2>{% trans %}There are no products in your shopping cart.{% endtrans %}</h2>
         <a href="{{ url_for('public.home') }}" class="btn btn-primary">{% trans %}Check out our sales{% endtrans %}</a>
     </div>

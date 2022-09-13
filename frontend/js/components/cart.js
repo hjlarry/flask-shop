@@ -1,4 +1,4 @@
-import {getAjaxError} from './misc';
+import { getAjaxError } from './misc';
 
 export const summaryLink = $('html').data('cart-summary-url');
 export const $cartDropdown = $('.cart-dropdown');
@@ -26,7 +26,7 @@ export const onAddToCartSuccess = () => {
     });
 };
 
-export default $(document).ready((e) => {
+export default $(function () {
     // // Cart dropdown
     // $.get(summaryLink, (data) => {
     //     $cartDropdown.html(data);
@@ -78,11 +78,11 @@ export default $(document).ready((e) => {
             $.ajax({
                 url: cartFormUrl,
                 method: 'POST',
-                data: {quantity: newQuantity},
+                data: { quantity: newQuantity },
                 success: (response) => {
                     if (newQuantity === 0) {
                         if (response.cart.numLines === 0) {
-                            $.cookie('alert', 'true', {path: '/cart'});
+                            $.cookie('alert', 'true', { path: '/cart' });
                             location.reload();
                         } else {
                             $removeProductSuccess.removeClass('d-none');
@@ -104,7 +104,7 @@ export default $(document).ready((e) => {
             $.ajax({
                 url: cartFormUrl,
                 method: 'POST',
-                data: {quantity: 0},
+                data: { quantity: 0 },
                 success: (response) => {
                     if (response.cart.numLines >= 1) {
                         $(this).fadeOut();
@@ -112,7 +112,7 @@ export default $(document).ready((e) => {
                         $cartBadge.html(response.cart.numItems);
                         $removeProductSuccess.removeClass('d-none');
                     } else {
-                        $.cookie('alert', 'true', {path: '/cart'});
+                        $.cookie('alert', 'true', { path: '/cart' });
                         location.reload();
                     }
                 }
@@ -123,6 +123,6 @@ export default $(document).ready((e) => {
 
     if ($.cookie('alert') === 'true') {
         $removeProductSuccess.removeClass('d-none');
-        $.cookie('alert', 'false', {path: '/cart'});
+        $.cookie('alert', 'false', { path: '/cart' });
     }
 });

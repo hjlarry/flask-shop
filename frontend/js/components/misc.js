@@ -2,12 +2,12 @@ import 'lazysizes';
 import SVGInjector from 'svg-injector-2';
 
 export const getAjaxError = (response) => {
-    let ajaxError = $.parseJSON(response.responseText).error.quantity;
+    let ajaxError = JSON.parse(response.responseText).error.quantity;
     return ajaxError;
 };
 export const csrftoken = $('meta[name=csrf-token]').attr('content');
 
-export default $(document).ready((e) => {
+export default $(function () {
     function csrfSafeMethod(method) {
         return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
     }

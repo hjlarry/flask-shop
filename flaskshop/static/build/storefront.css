@@ -13311,3 +13311,7 @@ a.link--clean:hover {
 .float-right {
   float: right;
 }
+
+a {
+  cursor: pointer;
+}

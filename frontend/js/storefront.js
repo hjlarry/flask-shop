@@ -10,7 +10,6 @@ import './components/sorter';
 import './components/footer';
 import './components/product-filters';
 import './components/address-form';
-import './components/password-input';
 import './components/styleguide';
 import './components/misc';
 import './components/cart';

@@ -174,7 +174,7 @@
         cursor: 'pointer'
       })
 
-      $color.hover(function () {
+      $color.on('hover', function () {
         $(this).css({ opacity: 1 }).removeClass('elevation-2').addClass('elevation-4')
       }, function () {
         $(this).css({ opacity: 0.8 }).removeClass('elevation-4').addClass('elevation-2')

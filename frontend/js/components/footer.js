@@ -1,4 +1,4 @@
-export default $(document).ready((e) => {
+export default $(function () {
   let navbarHeight = $('.navbar').outerHeight(true);
   let footerHeight = $('.footer').outerHeight(true);
   let windowHeight = $(window).height();
