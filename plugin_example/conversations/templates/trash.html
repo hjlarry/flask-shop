@@ -6,5 +6,5 @@
 {% set include_restore = True %}
 {% set include_delete = True %}
 {% include "conversation_list.html" %}
-{{ render_pager(conversations, url_for("conversations_bp.trash")) }}
+{{ render_pager(conversations) }}
 {% endblock %}

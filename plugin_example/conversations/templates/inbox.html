@@ -5,5 +5,5 @@
 {% block message_content %}
 {% set include_move = True %}
 {% include "conversation_list.html" %}
-{{ render_pager(conversations, url_for("conversations_bp.inbox")) }}
+{{ render_pager(conversations) }}
 {% endblock %}
