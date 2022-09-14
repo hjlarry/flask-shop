@@ -11,9 +11,9 @@
 
 
 {% block content %}
-<div class="alert alert-success remove-product-alert d-none">
-    {% trans %}Product has been removed from cart{% endtrans %}
-    <button type="button" class="close close-msg" aria-hidden="true">&times;</button>
+<div class="alert alert-success alert-dismissible fade remove-product-alert show d-none" role="alert">
+    <span contenteditable="true">{% trans %}Product has been removed from cart{% endtrans %}</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 <div class="cart">
     {% if current_user_cart.lines %}
