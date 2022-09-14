@@ -1,10 +1,6 @@
 import 'lazysizes';
 import SVGInjector from 'svg-injector-2';
 
-export const getAjaxError = (response) => {
-    let ajaxError = JSON.parse(response.responseText).error.quantity;
-    return ajaxError;
-};
 export const csrftoken = $('meta[name=csrf-token]').attr('content');
 
 export default $(function () {
@@ -27,6 +23,7 @@ export default $(function () {
     let hash = window.location.hash;
     $('.nav-tabs a[href="' + hash + '"]').tab('show');
 
-    // // Preload all images
-    // window.lazySizesConfig.preloadAfterLoad = true;
+    // Preload all images
+    window.lazySizesConfig = window.lazySizesConfig || {};
+    window.lazySizesConfig.preloadAfterLoad = true;
 });
