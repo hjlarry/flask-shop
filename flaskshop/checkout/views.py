@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from flask_login import current_user, login_required
 from pluggy import HookimplMarker
-from flask_babel import lazy_gettext, format_currency
-import os
+from flask_babel import lazy_gettext
 
 from .models import CartLine, Cart, ShippingMethod
 from .forms import NoteForm, VoucherForm
@@ -37,12 +36,8 @@ def update_cartline(id):
     cart = Cart.query.filter(Cart.user_id == current_user.id).first()
     response["cart"]["numItems"] = cart.update_quantity()
     response["cart"]["numLines"] = len(cart)
-    response["subtotal"] = format_currency(
-        line.subtotal, os.environ["BABEL_CURRENCY"], os.environ["BABEL_DEFAULT_LOCALE"]
-    )
-    response["total"] = format_currency(
-        cart.total, os.environ["BABEL_CURRENCY"], os.environ["BABEL_DEFAULT_LOCALE"]
-    )
+    response["subtotal"] = "$" + str(line.subtotal)
+    response["total"] = "$" + str(cart.total)
     return jsonify(response)
 
 
