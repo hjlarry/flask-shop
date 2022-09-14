@@ -13,20 +13,39 @@
 
 
 {% block content %}
-    <div class="row container">
-        <div class="col-sm-3">
-            <div class="card">
-                <ul class="list-group list-group-flush text-center">
-                    <li class="list-group-item"><a href="{{url_for('conversations_bp.new_conversation')}}" class="btn btn-primary narrow">{% trans %}New Message{% endtrans %}</a></li>
-                    {{ navlink('conversations_bp.inbox', 'Inbox') }}
-                    {{ navlink('conversations_bp.sent', 'Sent') }}
-                    {{ navlink('conversations_bp.trash', 'Trash') }}
-                </ul>
-            </div><!--/.sidebar -->
-        </div><!--/.col-sm-3 -->
-        <div class="col-sm-9">
-            {% block message_content %}
-            {% endblock %}
-        </div><!--/.col-sm-9 -->
-    </div><!--/.row -->
+<style>
+  .list-group-item.active {
+    background-color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.125);
+  }
+
+  .list-group-item.active a {
+    color: #495057;
+  }
+
+  .list-group-item a {
+    color: #828282;
+  }
+</style>
+<div class="row container">
+  <div class="col-sm-3">
+    <div class="card">
+      <ul class="list-group list-group-flush text-center">
+        <li class="list-group-item"><a href="{{url_for('conversations_bp.new_conversation')}}"
+            class="btn btn-primary narrow">{% trans %}New Message{% endtrans %}</a></li>
+        {{ navlink('conversations_bp.inbox', 'Inbox') }}
+        {{ navlink('conversations_bp.sent', 'Sent') }}
+        {{ navlink('conversations_bp.trash', 'Trash') }}
+      </ul>
+    </div>
+    <!--/.sidebar -->
+  </div>
+  <!--/.col-sm-3 -->
+  <div class="col-sm-9">
+    {% block message_content %}
+    {% endblock %}
+  </div>
+  <!--/.col-sm-9 -->
+</div>
+<!--/.row -->
 {% endblock %}
