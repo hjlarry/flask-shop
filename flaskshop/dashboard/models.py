@@ -1,7 +1,7 @@
-from flask import url_for, request
+from flask import request, url_for
 
-from flaskshop.database import Column, Model, db
 from flaskshop.constant import SettingValueType
+from flaskshop.database import Column, Model, db
 
 
 class DashboardMenu(Model):

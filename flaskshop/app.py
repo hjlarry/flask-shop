@@ -7,19 +7,19 @@ from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 from flaskshop import commands
 from flaskshop.extensions import (
+    babel,
     bcrypt,
+    bootstrap,
     csrf_protect,
     db,
     debug_toolbar,
     login_manager,
     migrate,
-    bootstrap,
-    babel,
 )
-from flaskshop.settings import Config
-from flaskshop.plugin import spec, manager
+from flaskshop.plugin import manager, spec
 from flaskshop.plugin.models import PluginRegistry
-from flaskshop.utils import log_slow_queries, jinja_global_varibles
+from flaskshop.settings import Config
+from flaskshop.utils import jinja_global_varibles, log_slow_queries
 
 from .dashboard_api.api_app import dashboard_api
 

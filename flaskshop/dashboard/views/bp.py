@@ -1,52 +1,53 @@
 from datetime import datetime
+
 from flask import Blueprint, render_template
 from flask_login import login_required
 from pluggy import HookimplMarker
 from sqlalchemy import func
 
-from flaskshop.extensions import db
-from flaskshop.dashboard.models import DashboardMenu
-from flaskshop.order.models import Order, OrderLine, OrderEvent
-from flaskshop.product.models import Product
 from flaskshop.account.models import User
 from flaskshop.account.utils import permission_required
+from flaskshop.constant import OrderEvents, OrderStatusKinds, Permission
+from flaskshop.dashboard.models import DashboardMenu
+from flaskshop.extensions import db
+from flaskshop.order.models import Order, OrderEvent, OrderLine
+from flaskshop.product.models import Product
 from flaskshop.settings import Config
-from flaskshop.constant import Permission, OrderStatusKinds, OrderEvents
 
-from .user import users, user, user_edit, address_edit
+from .discount import sales, sales_manage, vouchers, vouchers_manage
+from .order import draft_order, order_detail, orders, send_order
+from .product import (
+    attributes,
+    attributes_manage,
+    categories,
+    categories_manage,
+    collections,
+    collections_manage,
+    product_create_step1,
+    product_create_step2,
+    product_detail,
+    product_edit,
+    product_types,
+    product_types_manage,
+    products,
+    variant_manage,
+)
 from .site import (
+    config_index,
+    dashboard_menus,
+    dashboard_menus_manage,
+    plugin_disable,
+    plugin_enable,
+    plugin_list,
     shipping_methods,
     shipping_methods_manage,
     site_menus,
     site_menus_manage,
-    dashboard_menus,
-    dashboard_menus_manage,
     site_pages,
     site_pages_manage,
     site_setting,
-    plugin_list,
-    plugin_enable,
-    plugin_disable,
-    config_index,
 )
-from .product import (
-    attributes,
-    attributes_manage,
-    collections,
-    collections_manage,
-    categories,
-    categories_manage,
-    product_types,
-    product_types_manage,
-    products,
-    product_detail,
-    product_edit,
-    product_create_step1,
-    product_create_step2,
-    variant_manage,
-)
-from .order import orders, order_detail, send_order, draft_order
-from .discount import vouchers, vouchers_manage, sales, sales_manage
+from .user import address_edit, user, user_edit, users
 
 impl = HookimplMarker("flaskshop")
 

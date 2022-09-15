@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Public section, including homepage and signup."""
-from flask import Blueprint, render_template, request, send_from_directory, current_app
+from flask import Blueprint, current_app, render_template, request, send_from_directory
 from pluggy import HookimplMarker
 
-from flaskshop.extensions import login_manager
 from flaskshop.account.models import User
+from flaskshop.extensions import login_manager
 from flaskshop.product.models import Product
+
 from .models import Page
 from .search import Item
 
@@ -34,10 +35,12 @@ def favicon():
 def search():
     query = request.args.get("q", "")
     page = request.args.get("page", default=1, type=int)
-    if current_app.config['USE_ES']:
+    if current_app.config["USE_ES"]:
         pagination = Item.new_search(query, page)
     else:
-        pagination = Product.query.filter(Product.title.ilike(f"%{query}%")).paginate(page)
+        pagination = Product.query.filter(Product.title.ilike(f"%{query}%")).paginate(
+            page
+        )
     return render_template(
         "public/search_result.html",
         products=pagination.items,

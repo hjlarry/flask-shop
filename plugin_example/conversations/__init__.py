@@ -1,9 +1,9 @@
-from pluggy import HookimplMarker
 from flask import render_template
 from flask_login import current_user
+from pluggy import HookimplMarker
 
+from .utils import get_latest_messages, get_unread_count
 from .views import conversations_bp
-from .utils import get_unread_count, get_latest_messages
 
 hookimpl = HookimplMarker("flaskshop")
 

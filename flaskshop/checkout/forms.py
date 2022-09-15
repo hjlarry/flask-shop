@@ -1,6 +1,6 @@
-from flask_wtf import FlaskForm
-from wtforms import TextAreaField, StringField
 from flask_babel import lazy_gettext
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField
 
 
 class NoteForm(FlaskForm):

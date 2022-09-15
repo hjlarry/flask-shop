@@ -1,15 +1,15 @@
 from flaskshop.account.models import User
+from flaskshop.dashboard.models import DashboardMenu
+from flaskshop.discount.models import Sale, Voucher
 from flaskshop.product.models import (
-    ProductType,
     Category,
     Collection,
-    ProductAttribute,
     Product,
+    ProductAttribute,
+    ProductType,
     ProductVariant,
 )
-from flaskshop.discount.models import Sale, Voucher
-from flaskshop.dashboard.models import DashboardMenu
-from flaskshop.public.models import Page, MenuItem
+from flaskshop.public.models import MenuItem, Page
 
 from .utils import ApiResult, wrap_partial
 

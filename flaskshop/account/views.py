@@ -1,23 +1,16 @@
 # -*- coding: utf-8 -*-
 """User views."""
-from flask import (
-    Blueprint,
-    render_template,
-    request,
-    flash,
-    redirect,
-    url_for,
-)
-from flask_login import login_required, current_user, login_user, logout_user
-from pluggy import HookimplMarker
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
+from flask_login import current_user, login_required, login_user, logout_user
+from pluggy import HookimplMarker
 
-from flaskshop.utils import flash_errors
 from flaskshop.order.models import Order
-from .forms import AddressForm, LoginForm, RegisterForm, ChangePasswordForm, ResetPasswd
-from .models import UserAddress, User
-from .utils import send_reset_pwd_email, gen_tmp_pwd
+from flaskshop.utils import flash_errors
 
+from .forms import AddressForm, ChangePasswordForm, LoginForm, RegisterForm, ResetPasswd
+from .models import User, UserAddress
+from .utils import gen_tmp_pwd, send_reset_pwd_email
 
 impl = HookimplMarker("flaskshop")
 

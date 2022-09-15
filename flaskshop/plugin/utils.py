@@ -1,7 +1,8 @@
+from email import message_from_string
+
 import pkg_resources
 from flask import current_app
 from markupsafe import Markup
-from email import message_from_string
 
 
 class TemplateEventResult(list):

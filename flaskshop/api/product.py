@@ -1,10 +1,10 @@
-from flask_restx import Namespace, Resource, fields
-from flask_login import current_user
 from flask import request
 from flask_babel import lazy_gettext
+from flask_login import current_user
+from flask_restx import Namespace, Resource, fields
 
-from flaskshop.product.models import Product
 from flaskshop.checkout.models import Cart
+from flaskshop.product.models import Product
 
 api = Namespace("products", description=lazy_gettext("Products related operations"))
 parser = api.parser()

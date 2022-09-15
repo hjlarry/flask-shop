@@ -3,11 +3,10 @@ import string
 from datetime import datetime
 from decimal import Decimal
 
+from flaskshop.constant import DiscountValueTypeKinds, VoucherTypeKinds
 from flaskshop.corelib.mc import rdb
 from flaskshop.database import Column, Model, db
-from flaskshop.constant import VoucherTypeKinds, DiscountValueTypeKinds
-from flaskshop.product.models import Product, Category, MC_KEY_PRODUCT_DISCOUNT_PRICE
-
+from flaskshop.product.models import MC_KEY_PRODUCT_DISCOUNT_PRICE, Category, Product
 
 MC_KEY_SALE_PRODUCT_IDS = "discount:sale:{}:product_ids"
 

@@ -1,7 +1,7 @@
-from elasticsearch_dsl import Boolean, Document, Integer, Float, Date, Text
-from elasticsearch_dsl.connections import connections
+from elasticsearch.exceptions import ConflictError, NotFoundError
 from elasticsearch.helpers import parallel_bulk
-from elasticsearch.exceptions import NotFoundError, ConflictError
+from elasticsearch_dsl import Boolean, Date, Document, Float, Integer, Text
+from elasticsearch_dsl.connections import connections
 from flask_sqlalchemy import Pagination
 
 from flaskshop.settings import Config

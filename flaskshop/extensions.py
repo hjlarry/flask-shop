@@ -1,17 +1,17 @@
 from datetime import datetime
 
+import arrow
 from flask import abort, request, session
+from flask_babel import Babel
 from flask_bcrypt import Bcrypt
+from flask_bootstrap import Bootstrap5
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_sqlalchemy import DefaultMeta, Model, SQLAlchemy, _QueryProperty
 from flask_wtf.csrf import CSRFProtect
-from flask_bootstrap import Bootstrap5
-from flask_babel import Babel
-from flask_sqlalchemy import SQLAlchemy, Model, DefaultMeta, _QueryProperty
-from sqlalchemy import Column, Integer, DateTime, event
+from sqlalchemy import Column, DateTime, Integer, event
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
-import arrow
 
 from flaskshop.corelib.db import PropsItem, PropsMixin
 

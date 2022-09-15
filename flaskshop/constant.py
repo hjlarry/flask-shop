@@ -1,4 +1,5 @@
 import enum
+
 from flask_babel import lazy_gettext
 
 ShipStatusKinds = enum.Enum(value="ShipStatus", names="pending delivered received")

@@ -1,19 +1,19 @@
-from flask import render_template, redirect, url_for, request, flash
+from flask import flash, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
 
-from flaskshop.public.models import MenuItem, Page
-from flaskshop.dashboard.models import DashboardMenu, Setting
-from flaskshop.product.models import Category, Collection
-from flaskshop.checkout.models import ShippingMethod
-from flaskshop.plugin.models import PluginRegistry
 from flaskshop.account.utils import admin_required
+from flaskshop.checkout.models import ShippingMethod
 from flaskshop.dashboard.forms import (
     DashboardMenuForm,
+    ShippingMethodForm,
     SiteMenuForm,
     SitePageForm,
-    ShippingMethodForm,
     generate_settings_form,
 )
+from flaskshop.dashboard.models import DashboardMenu, Setting
+from flaskshop.plugin.models import PluginRegistry
+from flaskshop.product.models import Category, Collection
+from flaskshop.public.models import MenuItem, Page
 
 
 def shipping_methods():

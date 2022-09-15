@@ -1,9 +1,9 @@
-import inspect
 import functools
+import inspect
 from pickle import UnpicklingError
 
-from flask import request, current_app
-from sqlalchemy.ext.serializer import loads, dumps
+from flask import current_app, request
+from sqlalchemy.ext.serializer import dumps, loads
 
 from flaskshop.corelib.db import rdb
 from flaskshop.corelib.utils import Empty, empty

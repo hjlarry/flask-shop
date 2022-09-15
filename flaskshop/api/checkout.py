@@ -1,6 +1,6 @@
-from flask_restx import Namespace, Resource, fields
-from flask_login import current_user
 from flask_babel import lazy_gettext
+from flask_login import current_user
+from flask_restx import Namespace, Resource, fields
 
 api = Namespace("checkout", description=lazy_gettext("Checkout related operations"))
 

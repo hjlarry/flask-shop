@@ -1,8 +1,8 @@
 from flask import url_for
 
-from flaskshop.database import Column, Model, db
-from flaskshop.corelib.mc import cache, rdb
 from flaskshop.corelib.db import PropsItem
+from flaskshop.corelib.mc import cache, rdb
+from flaskshop.database import Column, Model, db
 from flaskshop.settings import Config
 
 MC_KEY_MENU_ITEMS = "public:site:{}:{}"

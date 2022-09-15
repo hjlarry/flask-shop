@@ -1,14 +1,14 @@
-from flask import g, current_app
+import requests
+from flask import current_app, g
 from flask.sessions import SecureCookieSessionInterface
 from flask_login import user_loaded_from_request
+from flask_restx import Namespace, Resource
 
 # TODO: origin is TimedJSONWebSignatureSerializer, in current itsdangerous version is deprecated
 from itsdangerous import TimedSerializer as Serializer
-from flask_restx import Namespace, Resource
-import requests
 
-from flaskshop.extensions import login_manager
 from flaskshop.account.models import User
+from flaskshop.extensions import login_manager
 
 WECHAT_LOGIN_URL = ""
 WECHAT_APP_SECRET = ""

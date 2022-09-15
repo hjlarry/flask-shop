@@ -1,26 +1,24 @@
-from flask_wtf import FlaskForm as _FlaskForm
 from flask_babel import lazy_gettext
-from flaskshop.constant import Permission
-
+from flask_wtf import FlaskForm as _FlaskForm
 from wtforms import (
-    StringField,
-    IntegerField,
-    SubmitField,
-    SelectField,
-    RadioField,
-    TextAreaField,
     BooleanField,
-    PasswordField,
+    DateTimeField,
+    DecimalField,
     FieldList,
-    SelectMultipleField,
     FileField,
     FloatField,
-    DecimalField,
-    DateTimeField,
+    IntegerField,
+    PasswordField,
+    RadioField,
+    SelectField,
+    SelectMultipleField,
+    StringField,
+    SubmitField,
+    TextAreaField,
 )
-from wtforms.validators import DataRequired, optional, NumberRange, Length
+from wtforms.validators import DataRequired, Length, NumberRange, optional
 
-from flaskshop.constant import SettingValueType
+from flaskshop.constant import Permission, SettingValueType
 
 
 class FlaskForm(_FlaskForm):

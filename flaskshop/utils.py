@@ -3,15 +3,16 @@
 
 import logging
 from logging.handlers import RotatingFileHandler
-from flask_sqlalchemy import get_debug_queries
-from flask import flash, request, current_app
 from urllib.parse import urlencode
 
-from flaskshop.public.models import MenuItem
+from flask import current_app, flash, request
+from flask_sqlalchemy import get_debug_queries
+
 from flaskshop.checkout.models import Cart
+from flaskshop.constant import SiteDefaultSettings
 from flaskshop.dashboard.models import Setting
 from flaskshop.plugin.utils import template_hook
-from flaskshop.constant import SiteDefaultSettings
+from flaskshop.public.models import MenuItem
 
 
 def flash_errors(form, category="warning"):
