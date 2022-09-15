@@ -2,7 +2,7 @@
 
 
 ## Introduction
-This project is a front page copy of [saleor](https://github.com/mirumee/saleor) old version, but written with flask. 
+This project is a front page copy of [saleor](https://github.com/mirumee/saleor) old version, but written with flask.
 
 ## ScreenShot
 

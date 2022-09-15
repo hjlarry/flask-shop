@@ -6,7 +6,7 @@ services:
      command:
       - --default_authentication_plugin=mysql_native_password
       - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci     
+      - --collation-server=utf8mb4_unicode_ci
      volumes:
        - db_data:/var/lib/mysql
      restart: unless-stopped
@@ -41,7 +41,7 @@ services:
       REDIS_URI: redis://redis:6379
       ESEARCH_URI: esearch
     restart: unless-stopped
-     
+
 volumes:
   db_data:
   redis-data:

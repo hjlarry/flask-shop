@@ -2081,4 +2081,3 @@ msgstr ""
 #: ../plugin_example/conversations/templates/trash.html:3
 msgid "Trash"
 msgstr ""
-

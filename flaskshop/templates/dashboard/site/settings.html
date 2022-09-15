@@ -19,7 +19,7 @@
                             {{ form.hidden_tag() }}
                             {% for field in form %}
                             {% if field.type in ["StringField", "IntegerField"] %}
-                                {{ vendor.render_field(field) }}   
+                                {{ vendor.render_field(field) }}
                             {% endif %}
                         {% endfor %}
                         </div>
