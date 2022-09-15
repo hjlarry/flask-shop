@@ -1,13 +1,13 @@
-from operator import or_
 from functools import reduce
+from operator import or_
 
 from flask_login import UserMixin
 from libgravatar import Gravatar
 from sqlalchemy.ext.hybrid import hybrid_property
 
+from flaskshop.constant import Permission
 from flaskshop.database import Column, Model, db
 from flaskshop.extensions import bcrypt
-from flaskshop.constant import Permission
 
 
 class User(Model, UserMixin):

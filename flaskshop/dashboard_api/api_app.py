@@ -1,21 +1,22 @@
-from flaskshop.extensions import db, login_manager
-from flaskshop.account.utils import admin_required
 from flaskshop import settings
-from .utils import ApiFlask, ApiResult
+from flaskshop.account.utils import admin_required
+from flaskshop.extensions import db, login_manager
+
 from .exceptions import ApiException
+from .utils import ApiFlask, ApiResult
 from .views import (
-    user_del,
-    product_type_del,
+    attribute_del,
     category_del,
     collection_del,
-    attribute_del,
-    variant_del,
-    product_del,
-    sale_del,
-    voucher_del,
     dashboard_menu_del,
-    site_page_del,
+    product_del,
+    product_type_del,
+    sale_del,
     site_menu_del,
+    site_page_del,
+    user_del,
+    variant_del,
+    voucher_del,
 )
 
 

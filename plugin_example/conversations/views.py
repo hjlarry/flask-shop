@@ -1,20 +1,22 @@
 import uuid
 from functools import wraps
-from flask_babel import lazy_gettext
+
 from flask import (
     Blueprint,
-    render_template,
-    request,
+    current_app,
     flash,
     redirect,
+    render_template,
+    request,
     url_for,
-    current_app,
 )
 from flask.views import MethodView
-from flask_login import login_required, current_user
+from flask_babel import lazy_gettext
+from flask_login import current_user, login_required
 
 from flaskshop.account.models import User
 from flaskshop.extensions import db
+
 from .forms import ConversationForm, MessageForm
 from .models import Conversation
 from .utils import get_message_count

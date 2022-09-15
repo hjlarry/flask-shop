@@ -1,5 +1,6 @@
-from alipay import AliPay
 from pathlib import Path
+
+from alipay import AliPay
 
 
 def get_alipay_string():

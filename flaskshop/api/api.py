@@ -4,10 +4,10 @@ from pluggy import HookimplMarker
 
 from flaskshop.extensions import csrf_protect
 
-from .product import api as product_api
-from .checkout import api as checkout_api
-from .auth import api as auth_api
 from .auth import CustomSessionInterface
+from .auth import api as auth_api
+from .checkout import api as checkout_api
+from .product import api as product_api
 
 impl = HookimplMarker("flaskshop")
 

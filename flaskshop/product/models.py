@@ -1,14 +1,13 @@
 import itertools
 
-from flask import url_for, request, current_app
-from sqlalchemy.ext.mutable import MutableDict
+from flask import current_app, request, url_for
 from sqlalchemy import desc
+from sqlalchemy.ext.mutable import MutableDict
 
-from flaskshop.database import Column, Model, db
-from flaskshop.corelib.mc import cache, cache_by_args, rdb
 from flaskshop.corelib.db import PropsItem
+from flaskshop.corelib.mc import cache, cache_by_args, rdb
+from flaskshop.database import Column, Model, db
 from flaskshop.settings import Config
-
 
 MC_KEY_FEATURED_PRODUCTS = "product:featured:{}"
 MC_KEY_PRODUCT_IMAGES = "product:product:{}:images"
@@ -742,8 +741,8 @@ def get_product_list_context(query, obj):
     obj: collection or category, to get it`s attr_filter.
     """
     args_dict = {}
-    price_from = request.args.get("price_from", '', type=int)
-    price_to = request.args.get("price_to", '', type=int)
+    price_from = request.args.get("price_from", "", type=int)
+    price_to = request.args.get("price_to", "", type=int)
     if price_from:
         query = query.filter(Product.basic_price > price_from)
     if price_to:

@@ -1,24 +1,25 @@
 from datetime import datetime
 
-from flask import request, render_template, redirect, url_for, current_app
+from flask import current_app, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
+
+from flaskshop.dashboard.forms import (
+    AttributeForm,
+    CategoryForm,
+    CollectionForm,
+    ProductCreateForm,
+    ProductForm,
+    ProductTypeForm,
+    VariantForm,
+)
 from flaskshop.product.models import (
+    Category,
+    Collection,
+    Product,
     ProductAttribute,
     ProductImage,
     ProductType,
-    Collection,
-    Product,
-    Category,
     ProductVariant,
-)
-from flaskshop.dashboard.forms import (
-    AttributeForm,
-    CollectionForm,
-    CategoryForm,
-    ProductTypeForm,
-    ProductForm,
-    ProductCreateForm,
-    VariantForm,
 )
 
 

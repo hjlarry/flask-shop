@@ -1,5 +1,5 @@
-from flaskshop.database import Column, Model, db
 from flaskshop.account.models import User
+from flaskshop.database import Column, Model, db
 
 
 class Message(Model):

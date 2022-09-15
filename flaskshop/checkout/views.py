@@ -1,16 +1,16 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
+from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
 from pluggy import HookimplMarker
-from flask_babel import lazy_gettext
 
-from .models import CartLine, Cart, ShippingMethod
-from .forms import NoteForm, VoucherForm
 from flaskshop.account.forms import AddressForm
 from flaskshop.account.models import UserAddress
-from flaskshop.utils import flash_errors
-from flaskshop.order.models import Order
 from flaskshop.discount.models import Voucher
+from flaskshop.order.models import Order
+from flaskshop.utils import flash_errors
 
+from .forms import NoteForm, VoucherForm
+from .models import Cart, CartLine, ShippingMethod
 
 impl = HookimplMarker("flaskshop")
 

@@ -1,31 +1,32 @@
 # -*- coding: utf-8 -*-
 """Click commands."""
+from itertools import chain
+from pathlib import Path
 from subprocess import call
+
 import click
 from flask import current_app
 from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
-from pathlib import Path
-from itertools import chain
 
-from flaskshop.random_data import (
-    create_users,
-    create_menus,
-    create_shipping_methods,
-    create_products_by_schema,
-    create_page,
-    create_collections_by_schema,
-    create_admin,
-    create_orders,
-    create_product_sales,
-    create_vouchers,
-    create_dashboard_menus,
-    create_roles,
-)
-from flaskshop.extensions import db
 from flaskshop.corelib.db import rdb
-from flaskshop.public.search import Item
+from flaskshop.extensions import db
 from flaskshop.product.models import Product
+from flaskshop.public.search import Item
+from flaskshop.random_data import (
+    create_admin,
+    create_collections_by_schema,
+    create_dashboard_menus,
+    create_menus,
+    create_orders,
+    create_page,
+    create_product_sales,
+    create_products_by_schema,
+    create_roles,
+    create_shipping_methods,
+    create_users,
+    create_vouchers,
+)
 
 HERE = Path(__file__).resolve()
 PROJECT_ROOT = HERE.parent

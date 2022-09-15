@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 """Product views."""
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for
+from flask import Blueprint, jsonify, redirect, render_template, request, url_for
 from flask_login import login_required
 from pluggy import HookimplMarker
 
 from flaskshop.checkout.models import Cart
 
-from .models import Product, Category, ProductCollection, ProductVariant
 from .forms import AddCartForm
-
+from .models import Category, Product, ProductCollection, ProductVariant
 
 impl = HookimplMarker("flaskshop")
 

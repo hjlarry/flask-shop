@@ -1,8 +1,7 @@
 import logging
 
 import pluggy
-from pkg_resources import iter_entry_points, DistributionNotFound, VersionConflict
-
+from pkg_resources import DistributionNotFound, VersionConflict, iter_entry_points
 
 from .models import PluginRegistry  # noqa: F401
 from .utils import parse_pkg_metadata

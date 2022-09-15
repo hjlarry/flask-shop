@@ -1,12 +1,12 @@
-from flask_wtf import FlaskForm
+from flask_babel import lazy_gettext
 from flask_login import current_user
+from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, ValidationError
 from wtforms.validators import DataRequired
-from flask_babel import lazy_gettext
 
 from flaskshop.account.models import User
 
-from .models import Message, Conversation
+from .models import Conversation, Message
 
 
 class ConversationForm(FlaskForm):

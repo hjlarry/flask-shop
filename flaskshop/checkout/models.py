@@ -1,11 +1,10 @@
 from flask import flash
 from flask_login import current_user
 
+from flaskshop.corelib.mc import cache, rdb
 from flaskshop.database import Column, Model, db
-from flaskshop.product.models import ProductVariant
 from flaskshop.discount.models import Voucher
-from flaskshop.corelib.mc import cache
-from flaskshop.corelib.mc import rdb
+from flaskshop.product.models import ProductVariant
 
 MC_KEY_CART_BY_USER = "checkout:cart:user_id:{}"
 

@@ -7,33 +7,33 @@ from faker import Factory
 from faker.providers import BaseProvider
 from sqlalchemy.sql.expression import func
 
+from flaskshop.account.models import Role, User, UserAddress, UserRole
+from flaskshop.checkout.models import ShippingMethod
+from flaskshop.constant import (
+    DiscountValueTypeKinds,
+    OrderStatusKinds,
+    PaymentStatusKinds,
+    Permission,
+    VoucherTypeKinds,
+)
+from flaskshop.dashboard.models import DashboardMenu
+from flaskshop.discount.models import Sale, SaleProduct, Voucher
+from flaskshop.order.models import Order, OrderLine, OrderPayment
 from flaskshop.product.models import (
-    Category,
-    ProductType,
-    Product,
-    ProductVariant,
-    ProductImage,
-    ProductAttribute,
     AttributeChoiceValue,
+    Category,
+    Collection,
+    Product,
+    ProductAttribute,
+    ProductCollection,
+    ProductImage,
+    ProductType,
     ProductTypeAttributes,
     ProductTypeVariantAttributes,
-    Collection,
-    ProductCollection,
+    ProductVariant,
 )
 from flaskshop.public.models import MenuItem, Page
-from flaskshop.account.models import User, UserAddress, Role, UserRole
-from flaskshop.checkout.models import ShippingMethod
-from flaskshop.order.models import Order, OrderLine, OrderPayment
-from flaskshop.discount.models import Voucher, Sale, SaleProduct
-from flaskshop.dashboard.models import DashboardMenu
 from flaskshop.settings import Config
-from flaskshop.constant import (
-    PaymentStatusKinds,
-    DiscountValueTypeKinds,
-    VoucherTypeKinds,
-    OrderStatusKinds,
-    Permission,
-)
 
 fake = Factory.create()
 

@@ -1,6 +1,7 @@
 import datetime
 
 from flaskshop.corelib.mc import cache, rdb
+
 from .extensions import db
 
 Column = db.Column

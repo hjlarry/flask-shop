@@ -1,9 +1,10 @@
 from datetime import datetime
-from flask import request, render_template
+
+from flask import render_template, request
 from flask_babel import lazy_gettext
 
-from flaskshop.order.models import Order
 from flaskshop.constant import OrderStatusKinds
+from flaskshop.order.models import Order
 
 
 def orders():

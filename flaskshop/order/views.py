@@ -1,25 +1,26 @@
 import time
 from datetime import datetime
 
-from flask_babel import lazy_gettext
 from flask import (
     Blueprint,
+    abort,
+    current_app,
+    redirect,
     render_template,
     request,
-    redirect,
-    current_app,
     url_for,
-    abort,
 )
-from flask_login import login_required, current_user
+from flask_babel import lazy_gettext
+from flask_login import current_user, login_required
 from pluggy import HookimplMarker
 
-from .models import Order, OrderPayment
+from flaskshop.constant import OrderStatusKinds, PaymentStatusKinds, ShipStatusKinds
 
 # TODO: python-alipay-sdk is not support for python3.10 windows version
 # from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
-from flaskshop.constant import ShipStatusKinds, PaymentStatusKinds, OrderStatusKinds
+
+from .models import Order, OrderPayment
 
 impl = HookimplMarker("flaskshop")
 

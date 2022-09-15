@@ -1,6 +1,6 @@
 import functools
 
-from flask import json, Flask
+from flask import Flask, json
 from werkzeug.wrappers import Response
 
 

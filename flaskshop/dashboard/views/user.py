@@ -1,11 +1,11 @@
-from flask import render_template, redirect, url_for, request, flash
-from sqlalchemy import or_
+from flask import flash, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
-
-from flaskshop.account.models import User, UserAddress, Role, UserRole
-from flaskshop.order.models import Order
-from flaskshop.dashboard.forms import UserForm, UserAddressForm
 from flask_login import current_user
+from sqlalchemy import or_
+
+from flaskshop.account.models import Role, User, UserAddress, UserRole
+from flaskshop.dashboard.forms import UserAddressForm, UserForm
+from flaskshop.order.models import Order
 
 
 def users():
