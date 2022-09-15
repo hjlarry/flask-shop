@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Defines fixtures available to all tests."""
-import pytest
 from pathlib import Path
+
+import pytest
 
 from flaskshop.app import create_app
 from flaskshop.database import db as _db
