@@ -204,12 +204,15 @@ class Product(Model):
 
     @classmethod
     def __flush_delete_event__(cls, target):
-        from flaskshop.public.search import Item
 
         super().__flush_delete_event__(target)
         target.clear_mc(target)
         target.clear_category_cache(target)
-        Item.delete(target)
+
+        if current_app.config["USE_ES"]:
+            from flaskshop.public.search import Item
+
+            Item.delete(target)
 
 
 class Category(Model):
