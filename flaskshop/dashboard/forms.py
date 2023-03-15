@@ -74,7 +74,7 @@ class SiteMenuForm(FlaskForm):
 class SitePageForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
     slug = StringField(lazy_gettext("Slug"))
-    content = TextAreaField(lazy_gettext("Content"))
+    content = TextAreaField(lazy_gettext("Content"), default='')
     is_visible = BooleanField(lazy_gettext("Is Visible"), default=True)
     submit = SubmitField(lazy_gettext("Submit"))
 

@@ -1,45 +1,48 @@
-{% import 'dashboard/_macros.html' as macros%}
-{% import 'dashboard/_vendor.html' as vendor%}
+{% import 'dashboard/_macros.html' as macros %}
+{% import 'dashboard/_vendor.html' as vendor %}
 {% extends 'dashboard/layout.html' %}
 {% block body %}
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-12">
-                <!-- general form elements -->
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">{% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{%
-                            trans %}Create{% endtrans %}{% endif %} {% trans %}Page{% endtrans %}</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form method="POST" action="">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                {% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{% trans %}Create
+                                {% endtrans %}{% endif %} {% trans %}Page{% endtrans %}</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form method="POST" action="">
 
-                        <div class="card-body">
-                            {{ form.hidden_tag() }}
-                            {{ vendor.render_field(form.title) }}
-                            {{ vendor.render_field(form.slug) }}
-                            {{ macros.render_boolean_field(form.is_visible, 'Show') }}
-                            <div id="text-editor">
-                                <p>
-                                    {{form.content.data | safe}}
-                                </p>
-                                </>
+                            <div class="card-body">
+                                {{ form.hidden_tag() }}
+                                {{ vendor.render_field(form.title) }}
+                                {{ vendor.render_field(form.slug) }}
+                                {{ macros.render_boolean_field(form.is_visible, 'Show') }}
+                                <textarea id="content" name="content" style="display: none">
+                                    {{ form.content.data | safe }}
+                                </textarea>
+                                <div id="toolbar-container"></div>
+                                <div id="text-editor" style="height: 500px"></div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='build/dashboard/sitepage.js') }}"></script>
+    <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+    <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
+    <script src="{{ url_for('static', filename='dashboard/editor.js') }}"></script>
 {% endblock %}
