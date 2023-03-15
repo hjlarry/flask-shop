@@ -140,87 +140,8 @@
 {% endblock %}
 
 {% block tail_js %}
-    {#<script src="{{ url_for('static', filename='build/dashboard/product_detail.js') }}"></script>#}
-    <script src="https://unpkg.com/sweetalert2@11"></script>
-    <script>
-        const deleteItem = (delArgs, el) => {
-            Swal.fire({
-                title: 'Are you sure to delete?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'OK',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch(`/dashboard_api/${delArgs['delete-url']}`, {method: 'DELETE'}).then(res => {
-                        if (res.r) {
-                            console.log(res.msg)
-                        } else {
-                            Swal.fire("Poof! This item has been deleted!");
-                            if (delArgs['redirect-url']) {
-                                window.location.replace(delArgs['redirect-url']);
-                            } else {
-                                el.closest('tr').remove();
-                            }
+    <script src="{{ url_for('static', filename='dashboard/banner.js') }}" ></script>
 
-                        }
-                    })
-                }
-            })
-        }
-
-    </script>
-    <script type="module">
-        import {createApp} from 'https://unpkg.com/petite-vue?module'
-
-        const imgBoxEl = document.getElementById("imgBox")
-        imgBoxEl.style.width = imgBoxEl.children.length * 400 + 'px'
-        createApp({
-            index: 0,
-            left: 0,
-            timer: null,
-            count: imgBoxEl.children.length,
-            $delimiters: ['[[', ']]'],
-            prev() {
-                this.index--;
-                if (this.index < 0) {
-                    this.index = this.count - 1;
-                    this.left = -400 * this.count;
-                }
-                this.left += 400;
-            },
-            next() {
-                this.index++;
-                if (this.index > this.count - 1) {
-                    this.index = 0;
-                    this.left = 0;
-                } else {
-                    this.left -= 400;
-                }
-
-            },
-            autoPlay() {
-                this.timer = setInterval(() => {
-                    this.next();
-                }, 3000);
-            },
-            stopPlay() {
-                clearInterval(this.timer);
-            }
-        }).mount('#banner')
-
-        const delDirective = ({el, exp, effect}) => {
-            effect(() => {
-                el.addEventListener('click', () => {
-                    deleteItem(JSON.parse(exp), el)
-                })
-            })
-
-        }
-
-        // register the directive
-        createApp().directive('delete', delDirective).mount()
-
-    </script>
     <style>
         .pic-container {
             width: 400px; /* 容器宽度 */

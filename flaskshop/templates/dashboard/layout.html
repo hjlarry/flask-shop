@@ -94,6 +94,9 @@
         </aside>
     </div>
     <script src="{{ url_for('static', filename='build/dashboard/layout.js') }}"></script>
+    <script src="https://unpkg.com/petite-vue" ></script>
+    <script src="https://unpkg.com/sweetalert2@11" defer></script>
+    <script src="{{ url_for('static', filename='dashboard/index.js') }}" defer></script>
     {% block tail_js %} {% endblock %}
 </body>
 {% endblock %}
