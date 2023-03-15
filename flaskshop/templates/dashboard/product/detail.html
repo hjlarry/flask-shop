@@ -16,16 +16,17 @@
                                     <a href="{{ url_for('dashboard.product_edit', id=product.id) }}"
                                        class="btn btn-primary btn-sm" style="margin-right: 5px;">{% trans %}
                                         Edit{% endtrans %}</a>
-                                    <a data-url="products/{{ product.id }}/delete" data-redirect="1"
-                                       class="btn btn-danger btn-sm delete-btn">{% trans %}Delete{% endtrans %}</a>
+                                    <a class="btn btn-danger btn-sm delete-btn"
+                                       v-delete='{"delete-url": "products/{{ product.id }}/delete", "redirect-url": "/dashboard/products"}'
+                                    >{% trans %}Delete{% endtrans %}</a>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div v-scope @vue:mounted="autoPlay()">
-                                        <div class="container" @mouseenter="stopPlay()">
+                                    <div v-scope @vue:mounted="autoPlay()" id="banner">
+                                        <div class="pic-container" @mouseenter="stopPlay()">
                                             <div id="imgBox" class="img-box" :style="{left: left + 'px'}">
                                                 {% for img in product.images %}
                                                     <img src="{{ img }}" class="loop-image">
@@ -118,8 +119,9 @@
                                         <td>
                                             <a href="{{ url_for('dashboard.variant_manage', id=item.id) }}"
                                                class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a>
-                                            <a data-url="variants/{{ item.id }}/delete"
-                                               class="btn btn-danger btn-sm delete-btn">{% trans %}
+                                            <a class="btn btn-danger btn-sm delete-btn"
+                                               v-delete='{"delete-url": "variants/{{ item.id }}/delete"}'
+                                            >{% trans %}
                                                 Delete{% endtrans %}</a>
                                         </td>
                                     </tr>
@@ -139,7 +141,34 @@
 
 {% block tail_js %}
     {#<script src="{{ url_for('static', filename='build/dashboard/product_detail.js') }}"></script>#}
+    <script src="https://unpkg.com/sweetalert2@11"></script>
+    <script>
+        const deleteItem = (delArgs, el) => {
+            Swal.fire({
+                title: 'Are you sure to delete?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/dashboard_api/${delArgs['delete-url']}`, {method: 'DELETE'}).then(res => {
+                        if (res.r) {
+                            console.log(res.msg)
+                        } else {
+                            Swal.fire("Poof! This item has been deleted!");
+                            if (delArgs['redirect-url']) {
+                                window.location.replace(delArgs['redirect-url']);
+                            } else {
+                                el.closest('tr').remove();
+                            }
 
+                        }
+                    })
+                }
+            })
+        }
+
+    </script>
     <script type="module">
         import {createApp} from 'https://unpkg.com/petite-vue?module'
 
@@ -175,13 +204,25 @@
                 }, 3000);
             },
             stopPlay() {
-                // 停止播放
                 clearInterval(this.timer);
             }
-        }).mount()
+        }).mount('#banner')
+
+        const delDirective = ({el, exp, effect}) => {
+            effect(() => {
+                el.addEventListener('click', () => {
+                    deleteItem(JSON.parse(exp), el)
+                })
+            })
+
+        }
+
+        // register the directive
+        createApp().directive('delete', delDirective).mount()
+
     </script>
     <style>
-        .container {
+        .pic-container {
             width: 400px; /* 容器宽度 */
             height: 400px; /* 容器高度 */
             overflow: hidden; /* 隐藏溢出部分 */
@@ -209,7 +250,7 @@
             color: #8B7B8B;
             opacity: 0.2;
             z-index: 50;
-
+            user-select: none;
         }
 
         .prev:hover, .next:hover {
