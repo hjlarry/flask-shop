@@ -1,70 +1,72 @@
 {% import 'dashboard/_vendor.html' as vendor %}
 {% extends 'dashboard/layout.html' %}
 {% block body %}
-<section class="content">
-    <div class="container-fluid">
+    <section class="content">
+        <div class="container-fluid">
 
-        <!-- /.row -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">{{title}}</h3>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ title }}</h3>
 
-                        <div class="card-tools" style="display: flex;">
-                            <div class="input-group input-group-sm">
-                                <input type="text" name="table_search" class="form-control float-right"
-                                    placeholder="Search">
+                            <div class="card-tools" style="display: flex;">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" name="table_search" class="form-control float-right"
+                                           placeholder="Search">
 
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="input-group input-group-sm" style="width:auto;margin-left: 10px;">
+                                    <a href="{{ url_for('dashboard.{}_manage'.format(identity)) }}"
+                                       class="btn btn-success btn-sm">{% trans %}Create{% endtrans %}</a>
                                 </div>
                             </div>
-                            <div class="input-group input-group-sm" style="width:auto;margin-left: 10px;">
-                                <a href="{{url_for('dashboard.{}_manage'.format(identity))}}"
-                                    class="btn btn-success btn-sm">{% trans %}Create{% endtrans %}</a>
-                            </div>
                         </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
-                        <table class="table table-hover">
-                            <tr>
-                                {% for th in props.values() %}
-                                <th>{{th}}</th>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover">
+                                <tr>
+                                    {% for th in props.values() %}
+                                        <th>{{ th }}</th>
+                                    {% endfor %}
+                                    <th>{% trans %}Operation{% endtrans %}</th>
+                                </tr>
+                                {% for item in items %}
+                                    <tr>
+                                        {% for prop in props.keys() %}
+                                            <td>{{ item | attr(prop) }}</td>
+                                        {% endfor %}
+                                        <td>
+                                            <a href="{{ url_for('dashboard.{}_manage'.format(identity), id=item.id) }}"
+                                               class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a>
+                                            <a class="btn btn-danger btn-sm"
+                                               v-delete='{"delete-url": "{{ identity }}/{{ item.id }}/delete"}'
+                                            >{% trans %}Delete{% endtrans %}</a>
+                                        </td>
+                                    </tr>
                                 {% endfor %}
-                                <th>{% trans %}Operation{% endtrans %}</th>
-                            </tr>
-                            {% for item in items %}
-                            <tr>
-                                {% for prop in props.keys() %}
-                                <td>{{ item | attr(prop) }}</td>
-                                {% endfor %}
-                                <td>
-                                    <a href="{{url_for('dashboard.{}_manage'.format(identity), id=item.id)}}"
-                                        class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a>
-                                    <a data-url="{{identity}}/{{item.id}}/delete"
-                                        class="btn btn-danger btn-sm delete-btn">{% trans %}Delete{% endtrans %}</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </table>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        {% if pagination %}
+                            <div class="card-footer clearfix">
+                                {{ vendor.render_pagination(pagination, size='sm', align='right') }}
+                            </div>
+                        {% endif %}
                     </div>
-                    <!-- /.card-body -->
-                    {% if pagination %}
-                    <div class="card-footer clearfix">
-                        {{vendor.render_pagination(pagination, size='sm', align='right')}}
-                    </div>
-                    {% endif %}
+                    <!-- /.card -->
                 </div>
-                <!-- /.card -->
-            </div>
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</section>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
 
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='build/dashboard/list.js') }}"></script>
+    <script src="{{ url_for('static', filename='build/dashboard/list.js') }}"></script>
 {% endblock %}

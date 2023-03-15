@@ -29,8 +29,9 @@
 
                         <a href="{{url_for('dashboard.user_edit', user_id=user.id)}}"
                             class="btn btn-primary btn-block"><b>{% trans %}Edit{% endtrans %}</b></a>
-                        <a class="btn btn-danger btn-block delete-btn"
-                            data-url="users/{{user.id}}/delete"><b>{% trans %}Delete{% endtrans %}</b></a>
+                        <a class="btn btn-danger btn-block"
+                           v-delete='{"delete-url": "users/{{ user.id }}/delete", "redirect-url": "/dashboard/users"}'
+                        ><b>{% trans %}Delete{% endtrans %}</b></a>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -111,8 +112,4 @@
     </div><!-- /.container-fluid -->
 </section>
 
-{% endblock %}
-
-{% block tail_js %}
-<script src="{{ url_for('static', filename='build/dashboard/user_detail.js') }}"></script>
 {% endblock %}

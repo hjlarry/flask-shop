@@ -16,7 +16,7 @@
                                     <a href="{{ url_for('dashboard.product_edit', id=product.id) }}"
                                        class="btn btn-primary btn-sm" style="margin-right: 5px;">{% trans %}
                                         Edit{% endtrans %}</a>
-                                    <a class="btn btn-danger btn-sm delete-btn"
+                                    <a class="btn btn-danger btn-sm"
                                        v-delete='{"delete-url": "products/{{ product.id }}/delete", "redirect-url": "/dashboard/products"}'
                                     >{% trans %}Delete{% endtrans %}</a>
                                 </div>
@@ -119,7 +119,7 @@
                                         <td>
                                             <a href="{{ url_for('dashboard.variant_manage', id=item.id) }}"
                                                class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a>
-                                            <a class="btn btn-danger btn-sm delete-btn"
+                                            <a class="btn btn-danger btn-sm"
                                                v-delete='{"delete-url": "variants/{{ item.id }}/delete"}'
                                             >{% trans %}
                                                 Delete{% endtrans %}</a>
@@ -140,7 +140,7 @@
 {% endblock %}
 
 {% block tail_js %}
-    <script src="{{ url_for('static', filename='dashboard/banner.js') }}" ></script>
+    <script src="{{ url_for('static', filename='dashboard/banner.js') }}"></script>
 
     <style>
         .pic-container {
