@@ -30,3 +30,16 @@ const delDirective = ({el, exp, effect}) => {
 }
 
 PetiteVue.createApp().directive('delete', delDirective).mount()
+
+
+const toggleSidebarBtn = document.getElementById('toggleSidebar')
+
+const toggleSibebar = () => {
+    const isCollapse = document.body.classList.contains('sidebar-collapse')
+    if (isCollapse) {
+        document.body.classList.remove('sidebar-collapse')
+    } else {
+        document.body.classList.add('sidebar-collapse')
+    }
+}
+toggleSidebarBtn.addEventListener('click', toggleSibebar)
