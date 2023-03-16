@@ -1,6 +1,6 @@
-{% import 'dashboard/_macros.html' as macros%}
-{% import 'dashboard/_vendor.html' as vendor%}
 {% extends 'dashboard/layout.html' %}
+{% from 'bootstrap5/form.html' import render_field %}
+
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -19,7 +19,7 @@
                             {{ form.hidden_tag() }}
                             {% for field in form %}
                             {% if field.type in ["StringField", "IntegerField"] %}
-                                {{ vendor.render_field(field) }}
+                                {{ render_field(field) }}
                             {% endif %}
                         {% endfor %}
                         </div>

@@ -1,6 +1,7 @@
-{% import 'dashboard/_macros.html' as macros%}
-{% import 'dashboard/_vendor.html' as vendor%}
 {% extends 'dashboard/layout.html' %}
+{% from 'bootstrap5/form.html' import render_field %}
+{% import 'dashboard/_macros.html' as macros%}
+
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -17,12 +18,12 @@
                     <form method="POST" action="">
                         <div class="card-body">
                             {{ form.hidden_tag() }}
-                            {{ vendor.render_field(form.province) }}
-                            {{ vendor.render_field(form.city) }}
-                            {{ vendor.render_field(form.district) }}
-                            {{ vendor.render_field(form.address) }}
-                            {{ vendor.render_field(form.contact_name) }}
-                            {{ vendor.render_field(form.contact_phone) }}
+                            {{ render_field(form.province) }}
+                            {{ render_field(form.city) }}
+                            {{ render_field(form.district) }}
+                            {{ render_field(form.address) }}
+                            {{ render_field(form.contact_name) }}
+                            {{ render_field(form.contact_phone) }}
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">

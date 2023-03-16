@@ -1,6 +1,7 @@
-{% import 'dashboard/_macros.html' as macros %}
-{% import 'dashboard/_vendor.html' as vendor %}
 {% extends 'dashboard/layout.html' %}
+{% from 'bootstrap5/form.html' import render_field %}
+{% import 'dashboard/_macros.html' as macros%}
+
 {% block body %}
     <section class="content">
         <div class="container-fluid">
@@ -20,8 +21,8 @@
 
                             <div class="card-body">
                                 {{ form.hidden_tag() }}
-                                {{ vendor.render_field(form.title) }}
-                                {{ vendor.render_field(form.slug) }}
+                                {{ render_field(form.title) }}
+                                {{ render_field(form.slug) }}
                                 {{ macros.render_boolean_field(form.is_visible, 'Show') }}
                                 <textarea id="content" name="content" style="display: none">
                                     {{ form.content.data | safe }}

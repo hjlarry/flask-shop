@@ -1,6 +1,6 @@
-{% import 'dashboard/_macros.html' as macros%}
-{% import 'dashboard/_vendor.html' as vendor%}
 {% extends 'dashboard/layout.html' %}
+{% from 'bootstrap5/form.html' import render_field %}
+{% import 'dashboard/_macros.html' as macros%}
 
 {% block body %}
 <section class="content">
@@ -19,15 +19,15 @@
                         <div class="card-body">
                             {{ form.hidden_tag() }}
                             <label>Type:</label> {{product.product_type}}
-                            {{ vendor.render_field(form.title) }}
-                            {{ vendor.render_field(form.basic_price) }}
-                            {{ vendor.render_field(form.on_sale) }}
-                            {{ vendor.render_field(form.is_featured) }}
-                            {{ vendor.render_field(form.rating) }}
-                            {{ vendor.render_field(form.sold_count) }}
-                            {{ vendor.render_field(form.review_count) }}
+                            {{ render_field(form.title) }}
+                            {{ render_field(form.basic_price) }}
+                            {{ render_field(form.on_sale) }}
+                            {{ render_field(form.is_featured) }}
+                            {{ render_field(form.rating) }}
+                            {{ render_field(form.sold_count) }}
+                            {{ render_field(form.review_count) }}
                             {{ macros.render_select_field(form.category_id, categories) }}
-                            {{ vendor.render_field(form.description) }}
+                            {{ render_field(form.description) }}
                             {{ macros.render_multi_img(form.images) }}
                             {{ macros.render_attribute_field(form.attributes, product.product_type.product_attributes)
                             }}
@@ -35,6 +35,7 @@
                             <div class="card-footer">
                                 {{ macros.render_submit(form.submit) }}
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>

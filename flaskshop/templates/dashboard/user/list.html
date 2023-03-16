@@ -1,5 +1,6 @@
-{% import 'dashboard/_vendor.html' as vendor %}
 {% extends 'dashboard/layout.html' %}
+{% from 'bootstrap5/pagination.html' import render_pagination %}
+
 {% block body %}
 <section class="content">
     <div class="container-fluid">
@@ -50,7 +51,7 @@
                     <!-- /.card-body -->
                     {% if pagination %}
                     <div class="card-footer clearfix">
-                        {{vendor.render_pagination(pagination, size='sm', align='right')}}
+                        {{render_pagination(pagination, size='sm', align='right')}}
                     </div>
                     {% endif %}
                 </div>
