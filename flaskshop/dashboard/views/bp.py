@@ -75,6 +75,9 @@ def index():
     top5_products = []
     for product_id, order_count in hot_product_ids[:5]:
         p = Product.get_by_id(product_id)
+        # product may deleted
+        if not p:
+            continue
         p.order_count = order_count
         top5_products.append(p)
 

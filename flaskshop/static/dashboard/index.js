@@ -45,7 +45,7 @@ const toggleSibebar = () => {
 toggleSidebarBtn.addEventListener('click', toggleSibebar)
 
 
-const toggleMenuBtns = document.getElementsByClassName('has-treeview')
+const toggleMenuBtns = document.querySelectorAll('.has-treeview')
 
 const toggleMenu = (menu) => {
     const sub = menu.getElementsByClassName('nav-treeview')[0]
@@ -60,7 +60,7 @@ const toggleMenu = (menu) => {
 
 }
 
-Array.from(toggleMenuBtns).forEach((menu) => {
+toggleMenuBtns.forEach((menu) => {
     const callback = toggleMenu.bind(this, menu)
     menu.addEventListener('click', callback)
 })

@@ -1,10 +1,15 @@
-{% block head_tail %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='build/dashboard/layout.css') }}">
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Dashboard</title>
+    {% block head_tail %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='build/dashboard/layout.css') }}">
+    {% endblock %}
+</head>
 
 {% block page_body %}
-
-<body class="hold-transition sidebar-mini">
+    <body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -15,11 +20,11 @@
                     <a class="nav-link" id="toggleSidebar" href="#"><i class="fa fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{url_for('dashboard.index')}}" class="nav-link">{% trans %}Dashboard{% endtrans %}</a>
+                    <a href="{{ url_for('dashboard.index') }}" class="nav-link">{% trans %}Dashboard{% endtrans %}</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{url_for('public.home')}}" class="nav-link" target="_blank">{% trans %}Front Site{%
-                        endtrans %}</a>
+                    <a href="{{ url_for('public.home') }}" class="nav-link" target="_blank">{% trans %}Front
+                        Site{% endtrans %}</a>
                 </li>
             </ul>
         </nav>
@@ -40,7 +45,7 @@
                         <img src="{{ current_user.avatar }}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{current_user.username}}</a>
+                        <a href="#" class="d-block">{{ current_user.username }}</a>
                     </div>
                 </div>
                 <!-- Sidebar Menu -->
@@ -48,27 +53,28 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="" role="menu"
                         data-accordion="false">
                         {%- for item in menus %}
-                        <li class="nav-item has-treeview {% if item.is_active() %}menu-open{% endif %}">
-                            <a href="{{item.get_url()}}" class="nav-link {%- if item.is_active() %} active{% endif %}">
-                                <i class="fa nav-icon {{ item.icon_cls }}"></i>
-                                <p>{{ item.title }}
-                                    {%- if item.children %}<i class="right fa fa-angle-left"></i>{% endif %}
-                                </p>
-                            </a>
-                            {%- if item.children %}
-                            <ul class="nav nav-treeview">
-                                {%- for child in item.children -%}
-                                <li class="nav-item">
-                                    <a href="{{ child.get_url() }}"
-                                        class="nav-link {%- if child.is_active() %} active{%- endif %}">
-                                        <i class="fa fa-circle-o nav-icon"></i>
-                                        <p>{{ child.title }}</p>
-                                    </a>
-                                </li>
-                                {%- endfor %}
-                            </ul>
-                            {% endif %}
-                        </li>
+                            <li class="nav-item has-treeview {% if item.is_active() %}menu-open{% endif %}">
+                                <a href="{{ item.get_url() }}"
+                                   class="nav-link {%- if item.is_active() %} active{% endif %}">
+                                    <i class="fa nav-icon {{ item.icon_cls }}"></i>
+                                    <p>{{ item.title }}
+                                        {%- if item.children %}<i class="right fa fa-angle-left"></i>{% endif %}
+                                    </p>
+                                </a>
+                                {%- if item.children %}
+                                    <ul class="nav nav-treeview">
+                                        {%- for child in item.children -%}
+                                            <li class="nav-item">
+                                                <a href="{{ child.get_url() }}"
+                                                   class="nav-link {%- if child.is_active() %} active{%- endif %}">
+                                                    <i class="fa fa-circle-o nav-icon"></i>
+                                                    <p>{{ child.title }}</p>
+                                                </a>
+                                            </li>
+                                        {%- endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
                         {% endfor %}
                     </ul>
                 </nav>
@@ -82,10 +88,10 @@
             </section>
             <section class="content">
                 {% for message in get_flashed_messages(with_categories=True) %}
-                <div class="alert alert-{{ message[0] }}">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    {{ message[1] }}
-                </div>
+                    <div class="alert alert-{{ message[0] }}">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ message[1] }}
+                    </div>
                 {% endfor %}
             </section>
             {% block body %} {% endblock %}
@@ -93,9 +99,11 @@
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
     </div>
-    <script src="https://unpkg.com/petite-vue" ></script>
+    <script src="https://unpkg.com/petite-vue"></script>
     <script src="https://unpkg.com/sweetalert2@11" defer></script>
     <script src="{{ url_for('static', filename='dashboard/index.js') }}" defer></script>
     {% block tail_js %} {% endblock %}
-</body>
+    </body>
 {% endblock %}
+
+</html>
