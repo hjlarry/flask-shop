@@ -1,13 +1,17 @@
 {% extends 'dashboard/layout.html' %}
 {% from 'bootstrap5/form.html' import render_form %}
+{% block head_tail %}
+    <link rel="stylesheet" href="https://unpkg.com/admin-lte@3.2/dist/css/adminlte.min.css">
+    <link href="https://unpkg.com/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard/main.css') }}">
+{% endblock %}
 
 {% block body %}
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- left column -->
                 <div class="col-md-12">
-                    <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">
@@ -15,8 +19,6 @@
                                 {% endtrans %}{% endif %}
                                 {% trans %}Sale{% endtrans %}</h3>
                         </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
                         <div class="card-body">
                             {{ render_form(form) }}
                         </div>
@@ -28,8 +30,7 @@
 {% endblock %}
 
 {% block tail_js %}
-    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.base.min.js"></script>
+    <script src="https://unpkg.com/tom-select@2.2.2/dist/js/tom-select.base.min.js"></script>
     <script>
         document.querySelectorAll('select').forEach((el) => {
             let settings = {};
