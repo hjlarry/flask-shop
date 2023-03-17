@@ -45,7 +45,7 @@
                 </div>
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="" role="menu"
                         data-accordion="false">
                         {%- for item in menus %}
                         <li class="nav-item has-treeview {% if item.is_active() %}menu-open{% endif %}">
@@ -93,7 +93,6 @@
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
     </div>
-    <script src="{{ url_for('static', filename='build/dashboard/layout.js') }}"></script>
     <script src="https://unpkg.com/petite-vue" ></script>
     <script src="https://unpkg.com/sweetalert2@11" defer></script>
     <script src="{{ url_for('static', filename='dashboard/index.js') }}" defer></script>

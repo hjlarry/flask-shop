@@ -43,3 +43,24 @@ const toggleSibebar = () => {
     }
 }
 toggleSidebarBtn.addEventListener('click', toggleSibebar)
+
+
+const toggleMenuBtns = document.getElementsByClassName('has-treeview')
+
+const toggleMenu = (menu) => {
+    const sub = menu.getElementsByClassName('nav-treeview')[0]
+    const isOpen = menu.classList.contains('menu-open')
+    if (isOpen) {
+        sub.style.display = 'none'
+        menu.classList.remove('menu-open')
+    } else {
+        sub.style.display = 'block'
+        menu.classList.add('menu-open')
+    }
+
+}
+
+Array.from(toggleMenuBtns).forEach((menu) => {
+    const callback = toggleMenu.bind(this, menu)
+    menu.addEventListener('click', callback)
+})
