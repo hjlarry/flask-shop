@@ -41,9 +41,9 @@ class Voucher(Model):
     def validity_period(self):
         if self.start_date and self.end_date:
             return (
-                datetime.strftime(self.start_date, "%m/%d/%Y")
-                + " - "
-                + datetime.strftime(self.end_date, "%m/%d/%Y")
+                    datetime.strftime(self.start_date, "%m/%d/%Y")
+                    + " - "
+                    + datetime.strftime(self.end_date, "%m/%d/%Y")
             )
         return ""
 
@@ -156,26 +156,27 @@ class Sale(Model):
             return Decimal(price).quantize(Decimal("0.00"))
 
     @property
-    def categories(self):
+    def categories_ids(self):
         at_ids = (
             SaleCategory.query.with_entities(SaleCategory.category_id)
             .filter(SaleCategory.sale_id == self.id)
             .all()
         )
-        return Category.query.filter(Category.id.in_(id for id, in at_ids)).all()
+        return [id[0] for id in at_ids]
 
     @property
     def products_ids(self):
-        return (
+        at_ids = (
             SaleProduct.query.with_entities(SaleProduct.product_id)
             .filter(SaleProduct.sale_id == self.id)
             .all()
         )
+        return [id[0] for id in at_ids]
 
     @property
     def products(self):
         return Product.query.filter(
-            Product.id.in_(id for id, in self.products_ids)
+            Product.id.in_(id for id in self.products_ids)
         ).all()
 
     def update_categories(self, category_ids):

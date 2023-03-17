@@ -89,7 +89,7 @@ class UserForm(FlaskForm):
     username = StringField(lazy_gettext("User Name"), validators=[DataRequired()])
     email = StringField(lazy_gettext("E-mail"), validators=[DataRequired()])
     password = PasswordField(lazy_gettext("Password"))
-    is_active = BooleanField(lazy_gettext("Is Activ"))
+    is_active = BooleanField(lazy_gettext("Is Active"))
     role = SelectField(
         lazy_gettext("Role"),
         coerce=str,
@@ -215,8 +215,8 @@ class SaleForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
     discount_value_type = SelectField(lazy_gettext("Discount value type"), default=1)
     discount_value = DecimalField(lazy_gettext("Discount value"), default=0.00)
-    categories = SelectMultipleField(lazy_gettext("Category"))
-    products = SelectMultipleField(lazy_gettext("Product"))
+    categories_ids = SelectMultipleField(lazy_gettext("Category"), coerce=int)
+    products_ids = SelectMultipleField(lazy_gettext("Product"))
     submit = SubmitField(lazy_gettext("Submit"))
 
 

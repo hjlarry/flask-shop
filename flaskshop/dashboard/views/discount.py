@@ -87,26 +87,23 @@ def sales_manage(id=None):
         sale = Sale.get_by_id(id)
         form = SaleForm(obj=sale)
     else:
+        sale = Sale()
         form = SaleForm()
+
+    form.products_ids.choices = [(p.id, p.title) for p in Product.query.all()]
+    form.categories_ids.choices = [(c.id, c.title) for c in Category.query.all()]
+    form.discount_value_type.choices = [(k.value, k.name) for k in DiscountValueTypeKinds]
+
     if form.validate_on_submit():
-        if not id:
-            sale = Sale()
-        sale.update_products(form.products.data)
-        sale.update_categories(form.categories.data)
-        del form.products
-        del form.categories
+        sale.update_products(form.products_ids.data)
+        sale.update_categories(form.categories_ids.data)
+        del form.products_ids
+        del form.categories_ids
         form.populate_obj(sale)
         sale.save()
         return redirect(url_for("dashboard.sales"))
-    products = Product.query.all()
-    categories = Category.query.all()
-    discount_types = [
-        dict(id=kind.value, title=kind.name) for kind in DiscountValueTypeKinds
-    ]
+
     context = {
-        "form": form,
-        "products": products,
-        "categories": categories,
-        "discount_types": discount_types,
+        "form": form
     }
     return render_template("discount/sale.html", **context)
