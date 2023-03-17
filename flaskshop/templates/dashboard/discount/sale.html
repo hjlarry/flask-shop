@@ -1,40 +1,39 @@
 {% extends 'dashboard/layout.html' %}
-{% from 'bootstrap5/form.html' import render_field %}
-{% import 'dashboard/_macros.html' as macros%}
+{% from 'bootstrap5/form.html' import render_form %}
+
 {% block body %}
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-12">
-                <!-- general form elements -->
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">{% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{% trans %}Create{% endtrans %}{% endif %}
-                            {% trans %}Sale{% endtrans %}</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form method="POST" action="" enctype="multipart/form-data">
-                        <div class="card-body">
-                            {{ form.hidden_tag() }}
-                            {{ render_field(form.title) }}
-                            {{ macros.render_select_field(form.discount_value_type, discount_types, has_zero=false) }}
-                            {{ render_field(form.discount_value) }}
-                            {{ macros.render_select_multi_field(form.categories, categories) }}
-                            {{ macros.render_select_multi_field(form.products, products) }}
-                            <div class="card-footer">
-                                {{ macros.render_submit(form.submit) }}
-                            </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                {% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{% trans %}Create
+                                {% endtrans %}{% endif %}
+                                {% trans %}Sale{% endtrans %}</h3>
                         </div>
-                    </form>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <div class="card-body">
+                            {{ render_form(form) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='build/dashboard/select.js') }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.base.min.js"></script>
+    <script>
+        document.querySelectorAll('select').forEach((el) => {
+            let settings = {};
+            new TomSelect(el, settings);
+        });
+    </script>
 {% endblock %}
