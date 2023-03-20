@@ -148,9 +148,10 @@
 
 .content-wrapper {
     margin-left: 16rem;
-    margin-top: 1rem;
-    padding: 0 0.25rem;
-    transition: all .5s;
+    padding: 1rem 0.25rem;
+    transition: margin-left 0.5s;
+    background-color: #f4f6f9;
+    height:100vh;
 }
 
 .main-header {
@@ -171,4 +172,14 @@
 
 .card-tools{
     margin-left: auto;
+}
+
+.invoice {
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    position: relative
+}
+
+.float-right{
+    float:right;
 }
