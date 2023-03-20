@@ -162,3 +162,13 @@
 .ts-control {
     border: 0;
 }
+
+.card-header{
+    display: flex;
+    align-items: center;
+    flex-wrap:wrap;
+}
+
+.card-tools{
+    margin-left: auto;
+}

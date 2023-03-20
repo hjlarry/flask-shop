@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from flask import render_template, request
 from flask_babel import lazy_gettext
 
@@ -19,10 +17,10 @@ def orders():
         query = query.filter(Order.token.like(f"%{order_no}%"))
     created_at = request.args.get("created_at", type=str)
     if created_at:
-        start_date, end_date = created_at.split("-")
-        start_date = datetime.strptime(start_date.strip(), "%m/%d/%Y")
-        end_date = datetime.strptime(end_date.strip(), "%m/%d/%Y")
-        query = query.filter(Order.created_at.between(start_date, end_date))
+        query = query.filter(Order.created_at >= created_at)
+    ended_at = request.args.get("ended_at", type=str)
+    if ended_at:
+        query = query.filter(Order.created_at <= ended_at)
     pagination = query.paginate(page, 10)
     props = {
         "id": lazy_gettext("ID"),
