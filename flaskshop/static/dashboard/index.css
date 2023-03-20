@@ -183,3 +183,7 @@
 .float-right{
     float:right;
 }
+
+.no-transition{
+    transition: none !important;
+}

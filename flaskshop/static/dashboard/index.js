@@ -36,6 +36,11 @@ const toggleSidebarBtn = document.getElementById('toggleSidebar')
 
 const toggleSibebar = () => {
     const isCollapse = document.body.classList.contains('sidebar-collapse')
+    // 避免页面跳转时也呈现一个margin变化的动画
+    const content = document.getElementById('content')
+    content.classList.remove('no-transition')
+    const header = document.getElementById('header')
+    header.classList.remove('no-transition')
     if (isCollapse) {
         document.body.classList.remove('sidebar-collapse')
     } else {
