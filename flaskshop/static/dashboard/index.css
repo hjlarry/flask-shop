@@ -1,0 +1,164 @@
+.main-sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    width: 16rem;
+    background-color: #343a40;
+    transition: all 0.5s;
+}
+
+.sidebar-collapse .main-sidebar {
+    width: 4.6rem;
+}
+
+.sidebar-collapse .main-header{
+    margin-left: 4.6rem;
+}
+
+.sidebar-collapse .content-wrapper{
+    margin-left: 4.6rem;
+}
+
+.sidebar-collapse .info{
+    visibility: hidden;
+}
+
+.sidebar-collapse .nav-item p {
+    display: none;
+}
+
+.elevation-4 {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .22) !important;
+}
+
+.brand-link {
+    display: block;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    padding: .8125rem .5rem;
+    border-bottom: 1px solid #4b545c;
+    height: 64px;
+}
+
+.brand-link .brand-image {
+    float: left;
+    line-height: .8;
+    margin-left: .8rem;
+    margin-right: .5rem;
+    margin-top: -3px;
+    max-height: 33px;
+    width: auto;
+}
+
+.sidebar {
+    overflow-x: hidden;
+    padding: 0 .5rem;
+}
+
+.user-panel {
+    border-bottom: 1px solid #4b545c;
+    display: flex;
+    align-items: center;
+    padding-left: .8rem;
+}
+
+.user-panel img {
+    height: auto;
+    width: 2.1rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+    border-radius: 50%;
+
+}
+
+.user-panel .info {
+    padding: 5px;
+}
+
+.user-panel a {
+    color: #c2c7d0;
+    text-decoration: none;
+}
+
+.user-panel a:hover {
+    color: #999;
+}
+
+.nav, .nav li {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2px;
+}
+
+.nav li a {
+    display: flex;
+    align-items: baseline;
+    color: #c2c7d0;
+    padding: 3px 10px 3px 20px;
+}
+
+.nav li a .nav-icon {
+    width: 20px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: .5rem 0;
+}
+
+.nav-link:focus {
+    color: #c2c7d0;
+}
+
+.nav li a:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav li a p {
+    margin: .5rem;
+    flex: 1;
+    display:flex;
+    align-items: center;
+}
+
+.fa-angle-left {
+    transition: transform 0.3s;
+}
+
+.menu-open .fa-angle-left {
+    transform: rotate(-90deg);
+}
+
+.nav-treeview {
+    display: none;
+}
+
+.menu-open .nav-treeview {
+    display: block;
+}
+
+.nav-treeview .nav-item .active {
+    background-color: rgba(255, 255, 255, .9);
+    color: #343a40;
+}
+
+.right {
+    margin-left:auto;
+}
+
+.content-wrapper {
+    margin-left: 16rem;
+    margin-top: 1rem;
+    padding: 0 0.25rem;
+    transition: all .5s;
+}
+
+.main-header {
+    margin-left: 16rem;
+    padding-left: 1rem;
+    transition: all .5s;
+}
+
+.ts-control {
+    border: 0;
+}
