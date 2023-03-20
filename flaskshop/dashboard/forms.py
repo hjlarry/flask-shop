@@ -3,6 +3,7 @@ from flask_wtf import FlaskForm as _FlaskForm
 from wtforms import (
     BooleanField,
     DateTimeField,
+    DateField,
     DecimalField,
     FieldList,
     FileField,
@@ -27,10 +28,10 @@ class FlaskForm(_FlaskForm):
         success = True
         for name, field in self._fields.items():
             if field.type in (
-                "SelectField",
-                "SelectMultipleField",
-                "RadioField",
-                "FieldList",
+                    "SelectField",
+                    "SelectMultipleField",
+                    "RadioField",
+                    "FieldList",
             ):
                 continue
             if extra_validators is not None and name in extra_validators:
@@ -196,7 +197,8 @@ class VoucherForm(FlaskForm):
         validators=[optional()],
     )
     used = IntegerField(lazy_gettext("Used"), default=0)
-    validity_period = StringField(lazy_gettext("Validity Period"))
+    start_date = DateField(lazy_gettext("Start At"))
+    end_date = DateField(lazy_gettext("End At"))
     discount_value_type = SelectField(lazy_gettext("Discount value type"), default=1)
     discount_value = DecimalField(lazy_gettext("Discount value"), default=0.00)
     limit = IntegerField(lazy_gettext("Limit"), validators=[optional()])

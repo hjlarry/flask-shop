@@ -36,29 +36,21 @@ def vouchers_manage(id=None):
         voucher = Voucher.get_by_id(id)
         form = VoucherForm(obj=voucher)
     else:
+        voucher = Voucher()
         form = VoucherForm()
+
+    form.product_id.choices = [(p.id, p.title) for p in Product.query.all()]
+    form.category_id.choices = [(c.id, c.title) for c in Category.query.all()]
+    form.discount_value_type.choices = [(k.value, k.name) for k in DiscountValueTypeKinds]
+    form.type_.choices = [(k.value, k.name) for k in VoucherTypeKinds]
+
     if form.validate_on_submit():
-        if not id:
-            voucher = Voucher()
-        start_date, end_date = form.validity_period.data.split("-")
-        voucher.start_date = datetime.strptime(start_date.strip(), "%m/%d/%Y")
-        voucher.end_date = datetime.strptime(end_date.strip(), "%m/%d/%Y")
-        del form.validity_period
         form.populate_obj(voucher)
         voucher.save()
         return redirect(url_for("dashboard.vouchers"))
-    products = Product.query.all()
-    categories = Category.query.all()
-    voucher_types = [dict(id=kind.value, title=kind.name) for kind in VoucherTypeKinds]
-    discount_types = [
-        dict(id=kind.value, title=kind.name) for kind in DiscountValueTypeKinds
-    ]
+
     context = {
         "form": form,
-        "products": products,
-        "categories": categories,
-        "voucher_types": voucher_types,
-        "discount_types": discount_types,
     }
     return render_template("discount/voucher.html", **context)
 

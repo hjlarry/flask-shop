@@ -71,7 +71,7 @@
 }
 
 .user-panel .info {
-    padding: 5px;
+    padding: 15px;
 }
 
 .user-panel a {
@@ -109,7 +109,7 @@
     color: #c2c7d0;
 }
 
-.nav li a:hover {
+.nav li a:hover, .nav-sidebar>.menu-open>a {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.1);
 }
