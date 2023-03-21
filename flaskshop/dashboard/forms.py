@@ -1,5 +1,6 @@
 from flask_babel import lazy_gettext
 from flask_wtf import FlaskForm as _FlaskForm
+from flask_wtf.file import FileSize, FileAllowed
 from wtforms import (
     BooleanField,
     DateTimeField,
@@ -131,7 +132,9 @@ class CategoryForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
     parent_id = SelectField(lazy_gettext("Parent"), coerce=int, default=0)
     background_img = StringField(lazy_gettext("Current Image"))
-    bgimg_file = FileField(lazy_gettext("Upload a new one"))
+    bgimg_file = FileField(lazy_gettext("Upload a new one"),
+                           validators=[FileAllowed(['jpg','png','gif','jpeg'], 'Images only!'),
+                                       FileSize(1024 * 1024 * 1024, message='It is too big!')])
     submit = SubmitField(lazy_gettext("Submit"))
 
 

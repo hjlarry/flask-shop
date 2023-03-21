@@ -21,6 +21,7 @@ from flaskshop.product.models import (
     ProductType,
     ProductVariant,
 )
+from flaskshop.dashboard.utils import save_img_file
 
 
 def attributes():
@@ -98,16 +99,6 @@ def categories():
     return render_template("list.html", **context)
 
 
-def _save_img_file(image):
-    # TODO:if update a same filename file, will replace the older one, seems a bug
-    upload_path = current_app.config["UPLOAD_DIR"] / image.filename
-    upload_path.write_bytes(image.read())
-    background_img_url = upload_path.relative_to(
-        current_app.config["STATIC_DIR"]
-    ).as_posix()
-    return background_img_url
-
-
 def collections_manage(id=None):
     if id:
         collection = Collection.get_by_id(id)
@@ -121,7 +112,7 @@ def collections_manage(id=None):
         collection.update_products(form.products.data)
         image = form.bgimg_file.data
         if image:
-            _save_img_file(collection, image)
+            save_img_file(collection, image)
         collection.save()
         return redirect(url_for("dashboard.collections"))
     products = Product.query.all()
@@ -141,7 +132,7 @@ def categories_manage(id=None):
         form.populate_obj(category)
         image = form.bgimg_file.data
         if image:
-            category.background_img = _save_img_file(image)
+            category.background_img = save_img_file(image)
         category.save()
         return redirect(url_for("dashboard.categories"))
     return render_template("product/category.html", form=form)
