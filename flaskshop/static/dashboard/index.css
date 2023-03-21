@@ -200,3 +200,13 @@ a{
 .no-transition {
     transition: none !important;
 }
+
+.carousel-control-prev-icon, .carousel-control-next-icon{
+    filter: invert(100%) sepia(99%) saturate(7456%) hue-rotate(359deg) brightness(100%) contrast(7%);
+}
+
+.product-attrs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

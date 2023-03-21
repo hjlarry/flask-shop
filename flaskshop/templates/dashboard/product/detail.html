@@ -32,19 +32,27 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div v-scope @vue:mounted="autoPlay()" id="banner">
-                                        <div class="pic-container" @mouseenter="stopPlay()">
-                                            <div id="imgBox" class="img-box" :style="{left: left + 'px'}">
-                                                {% for img in product.images %}
-                                                    <img src="{{ img }}" class="loop-image">
-                                                {% endfor %}
-                                            </div>
-                                            <a class="prev" @click="prev"><</a>
-                                            <a class="next" @click="next">></a>
+                                    <div id="banner" class="carousel slide" data-bs-ride="true">
+                                        <div class="carousel-inner">
+                                            {% for img in product.images %}
+                                                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                                    <img src="{{ img }}" class="d-block w-100" alt="...">
+                                                </div>
+                                            {% endfor %}
                                         </div>
+                                        <button class="carousel-control-prev" type="button"
+                                                data-bs-target="#banner" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                                data-bs-target="#banner" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 product-attrs">
                                     <ul class="list-group mb-3">
                                         <li class="list-group-item">
                                             <b>{% trans %}On Sale{% endtrans %}</b> <span
@@ -136,67 +144,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div><!-- /.container-fluid -->
-
-
+        </div>
     </section>
 
 {% endblock %}
 
-{% block tail_js %}
-    <script src="{{ url_for('static', filename='dashboard/banner.js') }}"></script>
-
-    <style>
-        .pic-container {
-            width: 400px; /* 容器宽度 */
-            height: 400px; /* 容器高度 */
-            overflow: hidden; /* 隐藏溢出部分 */
-            position: relative; /* 相对定位 */
-        }
-
-        .img-box {
-            height: 400px; /* 图片容器高度 */
-            position: relative; /* 相对定位 */
-            z-index: 0;
-        }
-
-        .img-box img {
-            width: 400px; /* 图片宽度 */
-            height: 400px; /* 图片高度 */
-            float: left; /* 左浮动 */
-        }
-
-        .prev, .next {
-            position: absolute;
-            height: 400px;
-            width: 30px;
-            font: 30px/300px '微软雅黑';
-            text-align: center;
-            color: #8B7B8B;
-            opacity: 0.2;
-            z-index: 50;
-            user-select: none;
-        }
-
-        .prev:hover, .next:hover {
-            background: #cdc1c5;
-            color: #f8f8ff;
-            opacity: 0.5;
-            cursor: pointer;
-        }
-
-        .prev {
-            left: 0;
-            top: 0;
-        }
-
-        .next {
-            right: 0;
-            top: 0;
-        }
-
-
-    </style>
-{% endblock %}
