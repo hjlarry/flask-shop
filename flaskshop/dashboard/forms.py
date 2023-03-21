@@ -122,9 +122,11 @@ class AttributeForm(FlaskForm):
 
 class CollectionForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
-    products = SelectMultipleField(lazy_gettext("Products"))
+    products_ids = SelectMultipleField(lazy_gettext("Products"))
     background_img = StringField(lazy_gettext("Current Image"))
-    bgimg_file = FileField(lazy_gettext("Upload"))
+    bgimg_file = FileField(lazy_gettext("Upload a new one"),
+                           validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'], 'Images only!'),
+                                       FileSize(1024 * 1024 * 1024, message='It is too big!')])
     submit = SubmitField(lazy_gettext("Submit"))
 
 

@@ -528,7 +528,7 @@ class ProductAttribute(Model):
 
     @property
     def types(self):
-        return ProductType.query.filter(ProductType.id.in_(id for id in self.product_types_ids)).all()
+        return ProductType.query.filter(ProductType.id.in_(self.product_types_ids)).all()
 
     @property
     def types_label(self):
@@ -654,13 +654,17 @@ class Collection(Model):
         return url_for("static", filename=self.background_img)
 
     @property
-    def products(self):
+    def products_ids(self):
         at_ids = (
             ProductCollection.query.with_entities(ProductCollection.product_id)
             .filter_by(collection_id=self.id)
             .all()
         )
-        return Product.query.filter(Product.id.in_(id for id, in at_ids)).all()
+        return [id[0] for id in at_ids]
+
+    @property
+    def products(self):
+        return Product.query.filter(Product.id.in_(self.products_ids)).all()
 
     @property
     def attr_filter(self):

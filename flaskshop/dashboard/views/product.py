@@ -104,19 +104,18 @@ def collections_manage(id=None):
         collection = Collection.get_by_id(id)
         form = CollectionForm(obj=collection)
     else:
+        collection = Collection()
         form = CollectionForm()
+    form.products_ids.choices = [(p.id, p.title) for p in Product.query.all()]
     if form.validate_on_submit():
-        if not id:
-            collection = Collection()
         collection.title = form.title.data
-        collection.update_products(form.products.data)
+        collection.update_products(form.products_ids.data)
         image = form.bgimg_file.data
         if image:
-            save_img_file(collection, image)
+            collection.background_img = save_img_file(image)
         collection.save()
         return redirect(url_for("dashboard.collections"))
-    products = Product.query.all()
-    return render_template("product/collection.html", form=form, products=products)
+    return render_template("product/collection.html", form=form)
 
 
 def categories_manage(id=None):
