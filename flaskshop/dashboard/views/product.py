@@ -98,13 +98,14 @@ def categories():
     return render_template("list.html", **context)
 
 
-def _save_img_file(obj, image):
+def _save_img_file(image):
     # TODO:if update a same filename file, will replace the older one, seems a bug
     upload_path = current_app.config["UPLOAD_DIR"] / image.filename
     upload_path.write_bytes(image.read())
-    obj.background_img = upload_path.relative_to(
+    background_img_url = upload_path.relative_to(
         current_app.config["STATIC_DIR"]
     ).as_posix()
+    return background_img_url
 
 
 def collections_manage(id=None):
@@ -132,19 +133,18 @@ def categories_manage(id=None):
         category = Category.get_by_id(id)
         form = CategoryForm(obj=category)
     else:
+        category = Category()
         form = CategoryForm()
+    form.parent_id.choices = [(c.id, c.title) for c in Category.first_level_items()]
+    form.parent_id.choices.insert(0, (0, 'None'))
     if form.validate_on_submit():
-        if not id:
-            category = Category()
-        category.title = form.title.data
-        category.parent_id = form.parent_id.data
+        form.populate_obj(category)
         image = form.bgimg_file.data
         if image:
-            _save_img_file(category, image)
+            category.background_img = _save_img_file(image)
         category.save()
         return redirect(url_for("dashboard.categories"))
-    parents = Category.first_level_items()
-    return render_template("product/category.html", form=form, parents=parents)
+    return render_template("product/category.html", form=form)
 
 
 def product_types():

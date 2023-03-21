@@ -113,7 +113,8 @@ class UserAddressForm(FlaskForm):
 
 class AttributeForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
-    values_label = StringField(lazy_gettext("Value"), description=lazy_gettext("Multiple values need separated by ','"),)
+    values_label = StringField(lazy_gettext("Value"),
+                               description=lazy_gettext("Multiple values need separated by ','"), )
     product_types_ids = SelectMultipleField(lazy_gettext("Product Types"))
     submit = SubmitField(lazy_gettext("Submit"))
 
@@ -128,9 +129,9 @@ class CollectionForm(FlaskForm):
 
 class CategoryForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
-    parent_id = SelectField(lazy_gettext("Parent"))
+    parent_id = SelectField(lazy_gettext("Parent"), coerce=int, default=0)
     background_img = StringField(lazy_gettext("Current Image"))
-    bgimg_file = FileField(lazy_gettext("Upload"))
+    bgimg_file = FileField(lazy_gettext("Upload a new one"))
     submit = SubmitField(lazy_gettext("Submit"))
 
 

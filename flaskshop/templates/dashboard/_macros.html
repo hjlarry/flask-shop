@@ -142,6 +142,13 @@
 </div>
 {% endmacro %}
 
+{% macro render_img(field) %}
+<div class="form-group">
+    <label>{{ field.label.text }}</label>
+    <img class="img-fluid rounded" src="{{ url_for('static', filename=field.data) }}">
+</div>
+{% endmacro %}
+
 {% macro render_multi_img(field) %}
 <div class="form-group">
     <label>{{ field.label.text }}</label>
