@@ -1,90 +1,106 @@
 {% extends 'dashboard/layout.html' %}
 {% from 'bootstrap5/pagination.html' import render_pagination %}
+{% block head_tail %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://unpkg.com/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard/index.css') }}">
+{% endblock %}
 {% block body %}
-<section class="content">
-    <div class="container-fluid">
-
-        <!-- /.row -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title" style="line-height: 40px;">{% trans %}Product List {% endtrans %}
-                        </h3>
-                        <div style="height:40px;">
-                            <form>
-                            <div class="row">
-                                <div class="form-group col-2">
-                                    <select class="form-control" name="sale">
-                                        <option value="" disabled selected hidden>{% trans %}On Sale{% endtrans %}</option>
-                                        <option value="1">{% trans %}Yes{% endtrans %}</option>
-                                        <option value="0">{% trans %}No{% endtrans %}</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-2">
-                                    <select class="form-control" name="category">
-                                        <option value="" disabled selected hidden>{% trans %}Category{% endtrans %}</option>
-                                        {% for c in categories%}
-                                        <option value="{{c.id}}">{{c.title}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="form-group col-3">
-                                    <input type="text" name="title" class="float-right form-control"
-                                        placeholder="Title">
-                                </div>
-                                <div class="form-group col-3">
-                                    <input type="text" name="created_at" class="float-right form-control"
-                                        placeholder="Created At" id="reservation">
-                                </div>
-                                <div class="form-group col-1">
-                                    <button type="submit" class="btn btn-default">{% trans %}Query{% endtrans %}</button>
-                                </div>
-                                <div class="form-group col-1">
-                                <a href="{{url_for('dashboard.product_create_step1')}}"
-                                class="btn btn-success">{% trans %}Create{% endtrans %}</a>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">{% trans %}Product List {% endtrans %}</h4>
+                            <div class="card-tools">
+                                <form>
+                                    <div class="row">
+                                        <div class="form-group col-2">
+                                            <select class="form-control form-control-sm" name="sale">
+                                                <option value="" disabled selected hidden>{% trans %}On
+                                                    Sale{% endtrans %}</option>
+                                                <option value="1">{% trans %}Yes{% endtrans %}</option>
+                                                <option value="0">{% trans %}No{% endtrans %}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <select class="form-control form-control-sm" name="category">
+                                                <option value="" disabled selected hidden>{% trans %}
+                                                    Category{% endtrans %}</option>
+                                                {% for c in categories %}
+                                                    <option value="{{ c.id }}">{{ c.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <input type="text" name="title" class="form-control form-control-sm"
+                                                   placeholder="Title">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <input type="text" name="created_at"
+                                                   class="form-control form-control-sm"
+                                                   onfocus="(this.type='date')"
+                                                   placeholder="Created At" id="reservation">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <input type="text" name="ended_at"
+                                                   class="form-control form-control-sm"
+                                                   onfocus="(this.type='date')"
+                                                   placeholder="Ended At" id="reservation">
+                                        </div>
+                                        <div class="form-group col-1">
+                                            <button type="submit" class="btn btn-secondary btn-sm">{% trans %}
+                                                Query{% endtrans %}</button>
+                                        </div>
+                                        <div class="form-group col-1">
+                                            <a href="{{ url_for('dashboard.product_create_step1') }}"
+                                               class="btn btn-success  btn-sm">{% trans %}Create{% endtrans %}</a>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                            </div>
-                            </form>
                         </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body table-responsive p-0">
-                        <table class="table table-hover">
-                            <tr>
-                                {% for th in props.values() %}
-                                <th>{{th}}</th>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                <tr>
+                                    {% for th in props.values() %}
+                                        <th>{{ th }}</th>
+                                    {% endfor %}
+                                    <th>{% trans %}Operation{% endtrans %}</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                {% for item in items %}
+                                    <tr>
+                                        {% for prop in props.keys() %}
+                                            <td>{{ item | attr(prop) }}</td>
+                                        {% endfor %}
+                                        <td>
+                                            <a href="{{ url_for('dashboard.product_detail', id=item.id) }}"
+                                               class="btn btn-info btn-sm">{% trans %}View{% endtrans %}</a>
+                                        </td>
+                                    </tr>
                                 {% endfor %}
-                                <th>{% trans %}Operation{% endtrans %}</th>
-                            </tr>
-                            {% for item in items %}
-                            <tr>
-                                {% for prop in props.keys() %}
-                                <td>{{ item | attr(prop) }}</td>
-                                {% endfor %}
-                                <td>
-                                    <a href="{{url_for('dashboard.product_detail', id=item.id)}}"
-                                        class="btn btn-info btn-sm">{% trans %}View{% endtrans %}</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        {% if pagination.pages > 1 %}
+                            <div class="card-footer clearfix">
+                                {{ render_pagination(pagination, size='sm', align='right') }}
+                            </div>
+                        {% endif %}
                     </div>
-                    <!-- /.card-body -->
-                    {% if pagination %}
-                    <div class="card-footer clearfix">
-                        {{render_pagination(pagination, size='sm', align='right')}}
-                    </div>
-                    {% endif %}
                 </div>
-                <!-- /.card -->
             </div>
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</section>
+        </div>
+    </section>
 
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='build/dashboard/daterangepicker.js') }}"></script>
+    <script src="{{ url_for('static', filename='build/dashboard/daterangepicker.js') }}"></script>
 {% endblock %}

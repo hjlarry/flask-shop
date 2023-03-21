@@ -194,10 +194,10 @@ def products():
         query = query.filter(Product.title.like(f"%{title}%"))
     created_at = request.args.get("created_at", type=str)
     if created_at:
-        start_date, end_date = created_at.split("-")
-        start_date = datetime.strptime(start_date.strip(), "%m/%d/%Y")
-        end_date = datetime.strptime(end_date.strip(), "%m/%d/%Y")
-        query = query.filter(Product.created_at.between(start_date, end_date))
+        query = query.filter(Product.created_at >= created_at)
+    ended_at = request.args.get("ended_at", type=str)
+    if ended_at:
+        query = query.filter(Product.created_at <= ended_at)
 
     pagination = query.paginate(page, 10)
     props = {
