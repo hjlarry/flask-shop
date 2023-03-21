@@ -113,8 +113,8 @@ class UserAddressForm(FlaskForm):
 
 class AttributeForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
-    values = FieldList(StringField(lazy_gettext("Value")))
-    types = SelectMultipleField(lazy_gettext("Product Types"))
+    values_label = StringField(lazy_gettext("Value"), description=lazy_gettext("Multiple values need separated by ','"),)
+    product_types_ids = SelectMultipleField(lazy_gettext("Product Types"))
     submit = SubmitField(lazy_gettext("Submit"))
 
 

@@ -47,18 +47,17 @@ def attributes_manage(id=None):
         attr = ProductAttribute.get_by_id(id)
         form = AttributeForm(obj=attr)
     else:
+        attr = ProductAttribute()
         form = AttributeForm()
+    form.product_types_ids.choices = [(p.id, p.title) for p in ProductType.query.all()]
     if form.validate_on_submit():
-        if not id:
-            attr = ProductAttribute()
         attr.title = form.title.data
-        attr.update_types(form.types.data)
-        attr.update_values(form.values.data)
+        attr.update_types(form.product_types_ids.data)
+        attr.update_values(form.values_label.data.split(','))
         attr.save()
         return redirect(url_for("dashboard.attributes"))
-    product_types = ProductType.query.all()
     return render_template(
-        "product/attribute.html", form=form, product_types=product_types
+        "product/attribute.html", form=form
     )
 
 
