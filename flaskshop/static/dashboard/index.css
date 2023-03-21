@@ -1,3 +1,7 @@
+a{
+    text-decoration: none;
+}
+
 .main-sidebar {
     height: 100vh;
     position: fixed;
@@ -11,15 +15,15 @@
     width: 4.6rem;
 }
 
-.sidebar-collapse .main-header{
+.sidebar-collapse .main-header {
     margin-left: 4.6rem;
 }
 
-.sidebar-collapse .content-wrapper{
+.sidebar-collapse .content-wrapper {
     margin-left: 4.6rem;
 }
 
-.sidebar-collapse .info{
+.sidebar-collapse .info {
     visibility: hidden;
 }
 
@@ -109,7 +113,7 @@
     color: #c2c7d0;
 }
 
-.nav li a:hover, .nav-sidebar>.menu-open>a {
+.nav li a:hover, .nav-sidebar > .menu-open > a {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.1);
 }
@@ -117,7 +121,7 @@
 .nav li a p {
     margin: .5rem;
     flex: 1;
-    display:flex;
+    display: flex;
     align-items: center;
 }
 
@@ -143,7 +147,7 @@
 }
 
 .right {
-    margin-left:auto;
+    margin-left: auto;
 }
 
 .content-wrapper {
@@ -151,7 +155,7 @@
     padding: 1rem 0.25rem;
     transition: margin-left 0.5s;
     background-color: #f4f6f9;
-    height:100vh;
+    height: 100vh;
 }
 
 .main-header {
@@ -164,26 +168,35 @@
     border: 0;
 }
 
-.card-header{
-    display: flex;
-    align-items: center;
-    flex-wrap:wrap;
+.card {
+    box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+    margin-bottom: 1rem;
 }
 
-.card-tools{
+.card-primary.card-outline {
+    border-top: 3px solid #007bff;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.card-tools {
     margin-left: auto;
 }
 
 .invoice {
     background-color: #fff;
-    border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0, 0, 0, .125);
     position: relative
 }
 
-.float-right{
-    float:right;
+.float-right {
+    float: right;
 }
 
-.no-transition{
+.no-transition {
     transition: none !important;
 }
