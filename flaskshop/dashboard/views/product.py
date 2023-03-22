@@ -274,10 +274,9 @@ def variant_manage(id=None):
         variant = ProductVariant.get_by_id(id)
         form = VariantForm(obj=variant)
     else:
+        variant = ProductVariant()
         form = VariantForm()
     if form.validate_on_submit():
-        if not id:
-            variant = ProductVariant()
         form.populate_obj(variant)
         product_id = request.args.get("product_id")
         if product_id:
