@@ -1,38 +1,38 @@
 {% extends 'dashboard/layout.html' %}
 {% from 'bootstrap5/form.html' import render_field %}
-{% import 'dashboard/_macros.html' as macros%}
+{% block head_tail %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://unpkg.com/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard/index.css') }}">
+{% endblock %}
 
 {% block body %}
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <!-- left column -->
                 <div class="col-md-12">
-                    <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">
+                            <h4 class="card-title">
                                 {% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{% trans %}Create
-                                {% endtrans %}{% endif %} {% trans %}Page{% endtrans %}</h3>
+                                {% endtrans %}{% endif %} {% trans %}Page{% endtrans %}</h4>
                         </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
                         <form method="POST" action="">
-
                             <div class="card-body">
                                 {{ form.hidden_tag() }}
                                 {{ render_field(form.title) }}
                                 {{ render_field(form.slug) }}
-                                {{ macros.render_boolean_field(form.is_visible, 'Show') }}
-                                <textarea id="content" name="content" style="display: none">
-                                    {{ form.content.data | safe }}
-                                </textarea>
-                                <div id="toolbar-container"></div>
-                                <div id="text-editor" style="height: 500px"></div>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                {{ macros.render_submit(form.submit) }}
+                                {{ render_field(form.is_visible) }}
+
+                                <div class="form-control mb-3 editor">
+                                    <input id="rawContent" name="content" type="hidden"
+                                           data-raw="{{ form.content.data | safe }}"/>                                    </input>
+                                    <div id="toolbar-container"></div>
+                                    <div id="text-editor"></div>
+                                </div>
+                                {{ render_field(form.submit) }}
                             </div>
                         </form>
                     </div>
@@ -45,5 +45,32 @@
 {% block tail_js %}
     <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
     <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
-    <script src="{{ url_for('static', filename='dashboard/editor.js') }}"></script>
+    <script>
+        const {createEditor, createToolbar} = window.wangEditor
+
+        const rawInput = document.getElementById('rawContent')
+        const editorConfig = {
+
+            onChange(editor) {
+                const html = editor.getHtml()
+                rawInput.value = html
+            }
+        }
+
+        const editor = createEditor({
+            selector: '#text-editor',
+            config: editorConfig,
+            html: rawInput.dataset.raw,
+            mode: 'simple',
+        })
+
+        const toolbarConfig = {}
+
+        const toolbar = createToolbar({
+            editor,
+            selector: '#toolbar-container',
+            config: toolbarConfig,
+            mode: 'simple',
+        })
+    </script>
 {% endblock %}

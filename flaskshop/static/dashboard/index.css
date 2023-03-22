@@ -245,3 +245,7 @@ label {
     width: 110px;
     height: 110px;
 }
+
+.editor{
+    height: 500px;
+}
