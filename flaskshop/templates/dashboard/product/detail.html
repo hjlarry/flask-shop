@@ -24,9 +24,10 @@
                                 <a href="{{ url_for('dashboard.product_manage', id=product.id) }}"
                                    class="btn btn-primary btn-sm" style="margin-right: 5px;">{% trans %}
                                     Edit{% endtrans %}</a>
-                                <a class="btn btn-danger btn-sm delete-btn"
+                                <a class="btn btn-danger btn-sm"
                                    data-delete-url="products/{{ product.id }}/delete"
                                    data-redirect-url="/dashboard/products"
+                                   data-bs-toggle="modal" data-bs-target="#deleteModal"
                                 >{% trans %}Delete{% endtrans %}</a>
                             </div>
                         </div>
@@ -132,8 +133,9 @@
                                         <td>
                                             <a href="{{ url_for('dashboard.variant_manage', id=item.id) }}"
                                                class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a>
-                                            <a class="btn btn-danger btn-sm delete-btn"
+                                            <a class="btn btn-danger btn-sm "
                                                data-delete-url="variants/{{ item.id }}/delete"
+                                               data-bs-toggle="modal" data-bs-target="#deleteModal"
                                             >{% trans %}
                                                 Delete{% endtrans %}</a>
                                         </td>

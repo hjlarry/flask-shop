@@ -32,9 +32,10 @@
 
                             <a href="{{ url_for('dashboard.user_edit', user_id=user.id) }}"
                                class="btn btn-primary btn-block"><b>{% trans %}Edit{% endtrans %}</b></a>
-                            <a class="btn btn-danger btn-block delete-btn"
+                            <a class="btn btn-danger btn-block"
                                data-delete-url="users/{{ user.id }}/delete"
                                data-redirect-url="/dashboard/users"
+                               data-bs-toggle="modal" data-bs-target="#deleteModal"
                             ><b>{% trans %}Delete{% endtrans %}</b></a>
                         </div>
                         <!-- /.card-body -->

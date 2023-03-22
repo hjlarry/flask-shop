@@ -36,32 +36,30 @@ toggleMenuBtns.forEach((menu) => {
     menu.addEventListener('click', callback)
 })
 
-const deleteBtns = document.querySelectorAll('.delete-btn')
-
-const deleteItem = (el) => {
-    const deleteUrl = el.dataset.deleteUrl
-    const redirectUrl = el.dataset.redirectUrl
-    Swal.fire({
-        title: 'Are you sure to delete?', icon: 'warning', showCancelButton: true, confirmButtonText: 'OK',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            fetch(`/dashboard_api/${deleteUrl}`, {method: 'DELETE'}).then(res => {
-                if (res.r) {
-                    console.log(res.msg)
-                } else {
-                    Swal.fire("Poof! This item has been deleted!");
-                    if (redirectUrl) {
+const deleteModal = document.getElementById('deleteModal')
+deleteModal.addEventListener('show.bs.modal', event => {
+    const triggerBtn = event.relatedTarget
+    const deleteUrl = triggerBtn.dataset.deleteUrl
+    const redirectUrl = triggerBtn.dataset.redirectUrl
+    const confirmBtn = document.getElementById('confirmDelete')
+    const deleteToast = document.getElementById('deleteToast')
+    confirmBtn.addEventListener('click', () => {
+        fetch(`/dashboard_api/${deleteUrl}`, {method: 'DELETE'}).then(res => {
+            if (res.r) {
+                console.log(res.msg)
+            } else {
+                const toast = new bootstrap.Toast(deleteToast)
+                toast.show()
+                const modal = bootstrap.Modal.getInstance(deleteModal);
+                modal.hide()
+                if (redirectUrl) {
+                    setTimeout(function (){
                         window.location.replace(redirectUrl);
-                    } else {
-                        el.closest('tr').remove();
-                    }
+                    }, 1000)
+                } else {
+                    triggerBtn.closest('tr').remove();
                 }
-            })
-        }
+            }
+        })
     })
-}
-
-deleteBtns.forEach((btn) => {
-    const callback = deleteItem.bind(this, btn)
-    btn.addEventListener('click', callback)
 })
