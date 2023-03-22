@@ -223,7 +223,7 @@ def product_detail(id):
 
 
 def _save_product(product, form):
-    # product.update_images(form.images.data)
+    product.update_images(form.images.data)
     product.update_attributes(form.attributes.data)
     del form.images
     del form.attributes
@@ -238,10 +238,8 @@ def _save_new_images(product_id):
         # request.files.getlist always not return empty, even not upload files
         if not img.filename:
             continue
-        upload_path = current_app.config["UPLOAD_DIR"] / img.filename
-        upload_path.write_bytes(img.read())
         ProductImage.create(
-            image=upload_path.relative_to(current_app.config["STATIC_DIR"]).as_posix(),
+            image=save_img_file(img),
             product_id=product_id,
         )
 
@@ -249,12 +247,12 @@ def _save_new_images(product_id):
 def product_edit(id):
     product = Product.get_by_id(id)
     form = ProductForm(obj=product)
+    form.category_id.choices = [(c.id, c.title) for c in Category.query.all()]
     if form.validate_on_submit():
         _save_product(product, form)
         _save_new_images(product.id)
         return redirect(url_for("dashboard.product_detail", id=product.id))
-    categories = Category.query.all()
-    context = {"form": form, "categories": categories, "product": product}
+    context = {"form": form, "product_type": product.product_type}
     return render_template("product/product_edit.html", **context)
 
 

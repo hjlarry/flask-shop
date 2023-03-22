@@ -121,13 +121,8 @@ class Product(Model):
         origin_ids = set(i for i, in origin_ids)
         new_images = set(int(i) for i in new_images)
         need_del = origin_ids - new_images
-        need_add = new_images - origin_ids
         for id in need_del:
             ProductImage.get_by_id(id).delete(commit=False)
-        for id in need_add:
-            image = ProductImage.get_by_id(id)
-            image.product_id = self.id
-            image.save(commit=False)
         db.session.commit()
 
     def update_attributes(self, attr_values):

@@ -31,28 +31,26 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div id="banner" class="carousel slide" data-bs-ride="true">
-                                        <div class="carousel-inner">
-                                            {% for img in product.images %}
-                                                <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                                    <img src="{{ img }}" class="d-block w-100" alt="...">
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                        <button class="carousel-control-prev" type="button"
-                                                data-bs-target="#banner" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button"
-                                                data-bs-target="#banner" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </button>
+                                <div id="banner" class="carousel slide" data-bs-ride="true">
+                                    <div class="carousel-inner">
+                                        {% for img in product.images %}
+                                            <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                                <img src="{{ img }}" class="d-block w-100" alt="...">
+                                            </div>
+                                        {% endfor %}
                                     </div>
+                                    <button class="carousel-control-prev" type="button"
+                                            data-bs-target="#banner" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                            data-bs-target="#banner" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
                                 </div>
-                                <div class="col-md-6 product-attrs">
+                                <div class="product-attrs">
                                     <ul class="list-group mb-3">
                                         <li class="list-group-item">
                                             <b>{% trans %}On Sale{% endtrans %}</b> <span
