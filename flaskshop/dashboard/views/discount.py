@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from flask import redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
 
@@ -87,12 +85,14 @@ def sales_manage(id=None):
     form.discount_value_type.choices = [(k.value, k.name) for k in DiscountValueTypeKinds]
 
     if form.validate_on_submit():
-        sale.update_products(form.products_ids.data)
-        sale.update_categories(form.categories_ids.data)
+        tmp_p = form.products_ids.data
+        tmp_c = form.categories_ids.data
         del form.products_ids
         del form.categories_ids
         form.populate_obj(sale)
         sale.save()
+        sale.update_products(tmp_p)
+        sale.update_categories(tmp_c)
         return redirect(url_for("dashboard.sales"))
 
     context = {

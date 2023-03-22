@@ -51,9 +51,9 @@ def attributes_manage(id=None):
     form.product_types_ids.choices = [(p.id, p.title) for p in ProductType.query.all()]
     if form.validate_on_submit():
         attr.title = form.title.data
+        attr.save()
         attr.update_types(form.product_types_ids.data)
         attr.update_values(form.values_label.data.split(','))
-        attr.save()
         return redirect(url_for("dashboard.attributes"))
     return render_template(
         "product/attribute.html", form=form
@@ -107,11 +107,11 @@ def collections_manage(id=None):
     form.products_ids.choices = [(p.id, p.title) for p in Product.query.all()]
     if form.validate_on_submit():
         collection.title = form.title.data
-        collection.update_products(form.products_ids.data)
         image = form.bgimg_file.data
         if image:
             collection.background_img = save_img_file(image)
         collection.save()
+        collection.update_products(form.products_ids.data)
         return redirect(url_for("dashboard.collections"))
     return render_template("product/collection.html", form=form)
 
@@ -165,12 +165,14 @@ def product_types_manage(id=None):
     form.product_attributes_ids.choices = [(p.id, p.title) for p in ProductAttribute.query.all()]
     form.variant_attr_id.choices = [(p.id, p.title) for p in ProductAttribute.query.all()]
     if form.validate_on_submit():
-        product_type.update_product_attr(form.product_attributes_ids.data)
-        product_type.update_variant_attr(form.variant_attr_id.data)
+        tmp_pa = form.product_attributes_ids.data
+        tmp_va = form.variant_attr_id.data
         del form.product_attributes_ids
         del form.variant_attr_id
         form.populate_obj(product_type)
         product_type.save()
+        product_type.update_product_attr(tmp_pa)
+        product_type.update_variant_attr(tmp_va)
         return redirect(url_for("dashboard.product_types"))
     return render_template(
         "product/product_type.html", form=form, attributes=attributes
