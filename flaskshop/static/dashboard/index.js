@@ -1,37 +1,3 @@
-const deleteItem = (delArgs, el) => {
-    Swal.fire({
-        title: 'Are you sure to delete?', icon: 'warning', showCancelButton: true, confirmButtonText: 'OK',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            fetch(`/dashboard_api/${delArgs['delete-url']}`, {method: 'DELETE'}).then(res => {
-                if (res.r) {
-                    console.log(res.msg)
-                } else {
-                    Swal.fire("Poof! This item has been deleted!");
-                    if (delArgs['redirect-url']) {
-                        window.location.replace(delArgs['redirect-url']);
-                    } else {
-                        el.closest('tr').remove();
-                    }
-
-                }
-            })
-        }
-    })
-}
-
-const delDirective = ({el, exp, effect}) => {
-    effect(() => {
-        el.addEventListener('click', () => {
-            deleteItem(JSON.parse(exp), el)
-        })
-    })
-
-}
-
-PetiteVue.createApp().directive('delete', delDirective).mount()
-
-
 const toggleSidebarBtn = document.getElementById('toggleSidebar')
 
 const toggleSibebar = () => {
@@ -68,4 +34,34 @@ const toggleMenu = (menu) => {
 toggleMenuBtns.forEach((menu) => {
     const callback = toggleMenu.bind(this, menu)
     menu.addEventListener('click', callback)
+})
+
+const deleteBtns = document.querySelectorAll('.delete-btn')
+
+const deleteItem = (el) => {
+    const deleteUrl = el.dataset.deleteUrl
+    const redirectUrl = el.dataset.redirectUrl
+    Swal.fire({
+        title: 'Are you sure to delete?', icon: 'warning', showCancelButton: true, confirmButtonText: 'OK',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/dashboard_api/${deleteUrl}`, {method: 'DELETE'}).then(res => {
+                if (res.r) {
+                    console.log(res.msg)
+                } else {
+                    Swal.fire("Poof! This item has been deleted!");
+                    if (redirectUrl) {
+                        window.location.replace(redirectUrl);
+                    } else {
+                        el.closest('tr').remove();
+                    }
+                }
+            })
+        }
+    })
+}
+
+deleteBtns.forEach((btn) => {
+    const callback = deleteItem.bind(this, btn)
+    btn.addEventListener('click', callback)
 })

@@ -44,8 +44,8 @@
                                         <td>
                                             <a href="{{ url_for('dashboard.{}_manage'.format(identity), id=item.id) }}"
                                                class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a>
-                                            <a class="btn btn-danger btn-sm"
-                                               v-delete='{"delete-url": "{{ identity }}/{{ item.id }}/delete"}'
+                                            <a class="btn btn-danger btn-sm delete-btn"
+                                               data-delete-url="{{ identity }}/{{ item.id }}/delete"
                                             >{% trans %}Delete{% endtrans %}</a>
                                         </td>
                                     </tr>

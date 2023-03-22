@@ -2,115 +2,125 @@
 {% import 'dashboard/_macros.html' as macros %}
 
 {% block body %}
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
 
-                <!-- Profile Image -->
-                <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle" src="{{ user.avatar }}"
-                                alt="User profile picture">
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle" src="{{ user.avatar }}"
+                                     alt="User profile picture">
+                            </div>
+
+                            <h3 class="profile-username text-center">{{ user.username }}</h3>
+
+                            <p class="text-muted text-center">{{ user.email }}</p>
+
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Is Active</b> <a
+                                        class="float-right">{{ macros.render_boolean(user.is_active) }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Registed</b> <a
+                                        class="float-right">{{ user.created_at.strftime('%Y-%m-%d') }}</a>
+                                </li>
+                            </ul>
+
+                            <a href="{{ url_for('dashboard.user_edit', user_id=user.id) }}"
+                               class="btn btn-primary btn-block"><b>{% trans %}Edit{% endtrans %}</b></a>
+                            <a class="btn btn-danger btn-block delete-btn"
+                               data-delete-url="users/{{ user.id }}/delete"
+                               data-redirect-url="/dashboard/users"
+                            ><b>{% trans %}Delete{% endtrans %}</b></a>
                         </div>
-
-                        <h3 class="profile-username text-center">{{user.username}}</h3>
-
-                        <p class="text-muted text-center">{{user.email}}</p>
-
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <b>Is Active</b> <a class="float-right">{{macros.render_boolean(user.is_active)}}</a>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Registed</b> <a class="float-right">{{user.created_at.strftime('%Y-%m-%d')}}</a>
-                            </li>
-                        </ul>
-
-                        <a href="{{url_for('dashboard.user_edit', user_id=user.id)}}"
-                            class="btn btn-primary btn-block"><b>{% trans %}Edit{% endtrans %}</b></a>
-                        <a class="btn btn-danger btn-block"
-                           v-delete='{"delete-url": "users/{{ user.id }}/delete", "redirect-url": "/dashboard/users"}'
-                        ><b>{% trans %}Delete{% endtrans %}</b></a>
+                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card-body -->
+                    <!-- /.card -->
                 </div>
-                <!-- /.card -->
-            </div>
-            <!-- /.col -->
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header p-2">
-                        <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#address"
-                                    data-toggle="tab">{% trans %}Addresses{% endtrans %}</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#order" data-toggle="tab">{% trans %}Orders{% endtrans %}</a></li>
-                        </ul>
-                    </div><!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="tab-content">
-                            <div class="active tab-pane" id="address">
-                                {% if addresses|list|length > 0 %}
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th style="width: 10px">{% trans %}ID{% endtrans %}</th>
-                                        <th>{% trans %}Contact Name{% endtrans %}</th>
-                                        <th>{% trans %}Contact Phone{% endtrans %}</th>
-                                        <th style="width: 40px">{% trans %}Operation{% endtrans %}</th>
-                                    </tr>
-                                    {% for address in addresses %}
-                                    <tr>
-                                        <td>{{address.id}}</td>
-                                        <td>{{address.contact_name}}</td>
-                                        <td>{{address.contact_phone}}</td>
-                                        <td style="text-align:center"><a
-                                                href="{{url_for('dashboard.address_edit', id=address.id)}}"
-                                                class="btn btn-primary btn-sm">{% trans %}Edit{% endtrans %}</a></td>
-                                    </tr>
-                                    {% endfor %}
-                                </table>
-                                {% else %}
-                                <h6 class="card-title">{% trans %}This user have not add address{% endtrans %}</h6>
-                                {% endif %}
-                            </div>
-                            <!-- /.tab-pane -->
-                            <div class="tab-pane" id="order">
-                                {% if orders|list|length > 0 %}
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>{% trans %}ID{% endtrans %}</th>
-                                        <th>{% trans %}Status{% endtrans %}</th>
-                                        <th>{% trans %}Total{% endtrans %}</th>
-                                        <th>{% trans %}Created At{% endtrans %}</th>
-                                        <th style="width: 40px">{% trans %}Operation{% endtrans %}</th>
-                                    </tr>
-                                    {% for order in orders %}
-                                    <tr>
-                                        <td>{{order.identity}}</td>
-                                        <td>{{order.status}}</td>
-                                        <td>{{order.total_net}}</td>
-                                        <td>{{order.created_at}}</td>
-                                        <td style="text-align:center"><a href="/dashboard/orders/{{order.id}}" class="btn btn-info btn-sm">{% trans %}View{% endtrans %}</a>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#address"
+                                                        data-toggle="tab">{% trans %}Addresses{% endtrans %}</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#order" data-toggle="tab">{% trans %}
+                                    Orders{% endtrans %}</a></li>
+                            </ul>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="active tab-pane" id="address">
+                                    {% if addresses|list|length > 0 %}
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th style="width: 10px">{% trans %}ID{% endtrans %}</th>
+                                                <th>{% trans %}Contact Name{% endtrans %}</th>
+                                                <th>{% trans %}Contact Phone{% endtrans %}</th>
+                                                <th style="width: 40px">{% trans %}Operation{% endtrans %}</th>
+                                            </tr>
+                                            {% for address in addresses %}
+                                                <tr>
+                                                    <td>{{ address.id }}</td>
+                                                    <td>{{ address.contact_name }}</td>
+                                                    <td>{{ address.contact_phone }}</td>
+                                                    <td style="text-align:center"><a
+                                                            href="{{ url_for('dashboard.address_edit', id=address.id) }}"
+                                                            class="btn btn-primary btn-sm">{% trans %}
+                                                        Edit{% endtrans %}</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    {% else %}
+                                        <h6 class="card-title">{% trans %}This user have not add
+                                            address{% endtrans %}</h6>
+                                    {% endif %}
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="order">
+                                    {% if orders|list|length > 0 %}
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th>{% trans %}ID{% endtrans %}</th>
+                                                <th>{% trans %}Status{% endtrans %}</th>
+                                                <th>{% trans %}Total{% endtrans %}</th>
+                                                <th>{% trans %}Created At{% endtrans %}</th>
+                                                <th style="width: 40px">{% trans %}Operation{% endtrans %}</th>
+                                            </tr>
+                                            {% for order in orders %}
+                                                <tr>
+                                                    <td>{{ order.identity }}</td>
+                                                    <td>{{ order.status }}</td>
+                                                    <td>{{ order.total_net }}</td>
+                                                    <td>{{ order.created_at }}</td>
+                                                    <td style="text-align:center"><a
+                                                            href="/dashboard/orders/{{ order.id }}"
+                                                            class="btn btn-info btn-sm">{% trans %}
+                                                        View{% endtrans %}</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
 
-                                </table>
-                                {% else %}
-                                <h6 class="card-title">{% trans %}This user have not create orders{% endtrans %}</h6>
-                                {% endif %}
+                                        </table>
+                                    {% else %}
+                                        <h6 class="card-title">{% trans %}This user have not create
+                                            orders{% endtrans %}</h6>
+                                    {% endif %}
+                                </div>
+                                <!-- /.tab-pane -->
                             </div>
-                            <!-- /.tab-pane -->
-                        </div>
-                        <!-- /.tab-content -->
-                    </div><!-- /.card-body -->
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.nav-tabs-custom -->
                 </div>
-                <!-- /.nav-tabs-custom -->
-            </div>
-            <!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</section>
+                <!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
 
 {% endblock %}
