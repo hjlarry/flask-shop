@@ -223,7 +223,7 @@ def product_detail(id):
 
 
 def _save_product(product, form):
-    product.update_images(form.images.data)
+    # product.update_images(form.images.data)
     product.update_attributes(form.attributes.data)
     del form.images
     del form.attributes
@@ -233,7 +233,7 @@ def _save_product(product, form):
 
 
 def _save_new_images(product_id):
-    upload_imgs = request.files.getlist("images")
+    upload_imgs = request.files.getlist("new_images")
     for img in upload_imgs:
         # request.files.getlist always not return empty, even not upload files
         if not img.filename:
@@ -260,6 +260,7 @@ def product_edit(id):
 
 def product_create_step1():
     form = ProductCreateForm()
+    form.product_type_id.choices = [(p.id, p.title) for p in ProductType.query.all()]
     if form.validate_on_submit():
         return redirect(
             url_for(
@@ -267,9 +268,8 @@ def product_create_step1():
                 product_type_id=form.product_type_id.data,
             )
         )
-    product_types = ProductType.query.all()
     return render_template(
-        "product/product_create_step1.html", form=form, product_types=product_types
+        "product/product_create_step1.html", form=form
     )
 
 
@@ -277,7 +277,7 @@ def product_create_step2():
     form = ProductForm()
     product_type_id = request.args.get("product_type_id", 1, int)
     product_type = ProductType.get_by_id(product_type_id)
-    categories = Category.query.all()
+    form.category_id.choices = [(c.id, c.title) for c in Category.query.all()]
     if form.validate_on_submit():
         product = Product(product_type_id=product_type_id)
         product = _save_product(product, form)
@@ -287,7 +287,6 @@ def product_create_step2():
         "product/product_create_step2.html",
         form=form,
         product_type=product_type,
-        categories=categories,
     )
 
 

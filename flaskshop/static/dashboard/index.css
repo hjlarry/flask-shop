@@ -210,3 +210,7 @@ a{
     flex-direction: column;
     justify-content: center;
 }
+
+label{
+    font-weight: 700;
+}

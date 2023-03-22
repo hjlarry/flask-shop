@@ -8,6 +8,7 @@ from wtforms import (
     DecimalField,
     FieldList,
     FileField,
+    MultipleFileField,
     FloatField,
     IntegerField,
     PasswordField,
@@ -135,7 +136,7 @@ class CategoryForm(FlaskForm):
     parent_id = SelectField(lazy_gettext("Parent"), coerce=int, default=0)
     background_img = StringField(lazy_gettext("Current Image"))
     bgimg_file = FileField(lazy_gettext("Upload a new one"),
-                           validators=[FileAllowed(['jpg','png','gif','jpeg'], 'Images only!'),
+                           validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'], 'Images only!'),
                                        FileSize(1024 * 1024 * 1024, message='It is too big!')])
     submit = SubmitField(lazy_gettext("Submit"))
 
@@ -161,14 +162,18 @@ class ProductForm(FlaskForm):
     review_count = IntegerField(lazy_gettext("Review Count"), default=0)
     category_id = SelectField(lazy_gettext("Category"))
     description = TextAreaField(lazy_gettext("Description"))
-    images = FieldList(StringField(lazy_gettext("Images")))  # TODO Add max image count
+    images = FieldList(StringField(lazy_gettext("Images")))
+    new_images = MultipleFileField(lazy_gettext(""),
+                                   validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'], 'Images only!'),
+                                               FileSize(1024 * 1024 * 1024, message='It is too big!'),
+                                               Length(max=5, message='You can only upload 5 images once')])
     attributes = FieldList(SelectField(lazy_gettext("Atributes")))
     submit = SubmitField(lazy_gettext("Submit"))
 
 
 class ProductCreateForm(FlaskForm):
     product_type_id = SelectField(lazy_gettext("Choose A Product Type"), default=1)
-    submit = SubmitField(lazy_gettext("Submit"))
+    submit = SubmitField(lazy_gettext("Next"))
 
 
 class VariantForm(FlaskForm):

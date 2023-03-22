@@ -162,13 +162,6 @@
         {% endfor %}
     </div>
     <br />
-    <div class="input-group">
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="exampleInputFile" name="{{ field.label.field_id }}"
-                multiple>
-            <label class="custom-file-label" for="exampleInputFile">Update New Image</label>
-        </div>
-    </div>
 </div>
 {% endmacro %}
 
@@ -179,7 +172,7 @@
     <p>
         {% for attr in attributes %}
         <label>{{attr.title}}</label>
-        <select class="form-control select2" style="width: 100%;" name="attributes-{{loop.index}}">
+        <select class="form-control" style="width: 100%;" name="attributes-{{loop.index}}">
             <option value="0">None</option>
             {% for item in attr.values %}
             {% set attr_id = attr.id|string %}
