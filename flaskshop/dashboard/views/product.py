@@ -1,6 +1,4 @@
-from datetime import datetime
-
-from flask import current_app, redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
 
 from flaskshop.dashboard.forms import (
@@ -222,38 +220,36 @@ def product_detail(id):
     return render_template("product/detail.html", product=product)
 
 
-def _save_product(product, form):
-    product.update_images(form.images.data)
-    product.update_attributes(form.attributes.data)
-    del form.images
-    del form.attributes
-    form.populate_obj(product)
-    product.save()
-    return product
-
-
-def _save_new_images(product_id):
-    upload_imgs = request.files.getlist("new_images")
-    for img in upload_imgs:
-        # request.files.getlist always not return empty, even not upload files
-        if not img.filename:
-            continue
-        ProductImage.create(
-            image=save_img_file(img),
-            product_id=product_id,
-        )
-
-
-def product_edit(id):
-    product = Product.get_by_id(id)
-    form = ProductForm(obj=product)
+def product_manage(id=None):
+    if id:
+        product = Product.get_by_id(id)
+        form = ProductForm(obj=product)
+        product_type = product.product_type
+    else:
+        form = ProductForm()
+        product_type_id = request.args.get("product_type_id", 1, int)
+        product_type = ProductType.get_by_id(product_type_id)
+        product = Product(product_type_id=product_type_id)
     form.category_id.choices = [(c.id, c.title) for c in Category.query.all()]
     if form.validate_on_submit():
-        _save_product(product, form)
-        _save_new_images(product.id)
+        product.update_images(form.images.data)
+        product.update_attributes(form.attributes.data)
+        del form.images
+        del form.attributes
+        form.populate_obj(product)
+        product.save()
+        upload_imgs = request.files.getlist("new_images")
+        for img in upload_imgs:
+            # request.files.getlist always not return empty, even not upload files
+            if not img.filename:
+                continue
+            ProductImage.create(
+                image=save_img_file(img),
+                product_id=product.id,
+            )
         return redirect(url_for("dashboard.product_detail", id=product.id))
-    context = {"form": form, "product_type": product.product_type}
-    return render_template("product/product_edit.html", **context)
+    context = {"form": form, "product_type": product_type}
+    return render_template("product/product.html", **context)
 
 
 def product_create_step1():
@@ -262,29 +258,12 @@ def product_create_step1():
     if form.validate_on_submit():
         return redirect(
             url_for(
-                "dashboard.product_create_step2",
+                "dashboard.product_manage",
                 product_type_id=form.product_type_id.data,
             )
         )
     return render_template(
         "product/product_create_step1.html", form=form
-    )
-
-
-def product_create_step2():
-    form = ProductForm()
-    product_type_id = request.args.get("product_type_id", 1, int)
-    product_type = ProductType.get_by_id(product_type_id)
-    form.category_id.choices = [(c.id, c.title) for c in Category.query.all()]
-    if form.validate_on_submit():
-        product = Product(product_type_id=product_type_id)
-        product = _save_product(product, form)
-        _save_new_images(product.id)
-        return redirect(url_for("dashboard.product_detail", id=product.id))
-    return render_template(
-        "product/product_create_step2.html",
-        form=form,
-        product_type=product_type,
     )
 
 

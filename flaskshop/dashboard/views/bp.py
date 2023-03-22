@@ -24,9 +24,8 @@ from .product import (
     collections,
     collections_manage,
     product_create_step1,
-    product_create_step2,
     product_detail,
-    product_edit,
+    product_manage,
     product_types,
     product_types_manage,
     products,
@@ -205,11 +204,11 @@ def flaskshop_load_blueprints(app):
     )
     bp.add_url_rule(
         "/products/create/step2",
-        view_func=product_create_step2,
+        view_func=product_manage,
         methods=["GET", "POST"],
     )
     bp.add_url_rule(
-        "/products/<id>/edit", view_func=product_edit, methods=["GET", "POST"]
+        "/products/<id>/edit", view_func=product_manage, methods=["GET", "POST"]
     )
     bp.add_url_rule(
         "/products/variant/create", view_func=variant_manage, methods=["GET", "POST"]

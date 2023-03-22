@@ -17,7 +17,9 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h4 class="card-title">{% trans %}Edit Product{% endtrans %}</h4>
+                            <h4 class="card-title">
+                                {% if 'edit' in request.path %}{% trans %}Edit Product{% endtrans %}{% else %}{% trans %}Create Product Step 2{% endtrans %}{% endif %}
+                            </h4>
                         </div>
                         <form method="POST" enctype=multipart/form-data>
                             <div class="card-body">

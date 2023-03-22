@@ -204,6 +204,7 @@ a {
 .carousel {
     width: 420px;
     height: 420px;
+    overflow: hidden;
 }
 
 .carousel-control-prev-icon, .carousel-control-next-icon {
