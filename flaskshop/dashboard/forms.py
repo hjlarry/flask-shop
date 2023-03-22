@@ -147,7 +147,7 @@ class ProductTypeForm(FlaskForm):
     is_shipping_required = BooleanField(
         lazy_gettext("Is shipping required"), default=True
     )
-    product_attributes = SelectMultipleField(lazy_gettext("Product atributes"))
+    product_attributes_ids = SelectMultipleField(lazy_gettext("Product atributes"))
     variant_attr_id = SelectField(lazy_gettext("Variant Attributes"))
     submit = SubmitField(lazy_gettext("Submit"))
 

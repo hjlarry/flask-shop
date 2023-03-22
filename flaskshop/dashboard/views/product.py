@@ -160,18 +160,18 @@ def product_types_manage(id=None):
         product_type = ProductType.get_by_id(id)
         form = ProductTypeForm(obj=product_type)
     else:
+        product_type = ProductType()
         form = ProductTypeForm()
+    form.product_attributes_ids.choices = [(p.id, p.title) for p in ProductAttribute.query.all()]
+    form.variant_attr_id.choices = [(p.id, p.title) for p in ProductAttribute.query.all()]
     if form.validate_on_submit():
-        if not id:
-            product_type = ProductType()
-        product_type.update_product_attr(form.product_attributes.data)
+        product_type.update_product_attr(form.product_attributes_ids.data)
         product_type.update_variant_attr(form.variant_attr_id.data)
-        del form.product_attributes
+        del form.product_attributes_ids
         del form.variant_attr_id
         form.populate_obj(product_type)
         product_type.save()
         return redirect(url_for("dashboard.product_types"))
-    attributes = ProductAttribute.query.all()
     return render_template(
         "product/product_type.html", form=form, attributes=attributes
     )

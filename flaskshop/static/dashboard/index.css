@@ -177,6 +177,11 @@ a {
     border-top: 3px solid #007bff;
 }
 
+.card-primary>.card-header{
+    background-color: #007bff;
+    color: #ffffff;
+}
+
 .card-header {
     display: flex;
     align-items: center;

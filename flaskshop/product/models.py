@@ -323,7 +323,7 @@ class ProductType(Model):
         return self.title
 
     @property
-    def product_attributes(self):
+    def product_attributes_ids(self):
         at_ids = (
             ProductTypeAttributes.query.with_entities(
                 ProductTypeAttributes.product_attribute_id
@@ -331,8 +331,12 @@ class ProductType(Model):
             .filter(ProductTypeAttributes.product_type_id == self.id)
             .all()
         )
+        return [id[0] for id in at_ids]
+
+    @property
+    def product_attributes(self):
         return ProductAttribute.query.filter(
-            ProductAttribute.id.in_(id for id, in at_ids)
+            ProductAttribute.id.in_(self.product_attributes_ids)
         ).all()
 
     @property
