@@ -53,7 +53,7 @@ deleteModal.addEventListener('show.bs.modal', event => {
                 const modal = bootstrap.Modal.getInstance(deleteModal);
                 modal.hide()
                 if (redirectUrl) {
-                    setTimeout(function (){
+                    setTimeout(function () {
                         window.location.replace(redirectUrl);
                     }, 1000)
                 } else {
@@ -63,3 +63,9 @@ deleteModal.addEventListener('show.bs.modal', event => {
         })
     })
 })
+
+
+document.querySelectorAll('select').forEach((el) => {
+    let settings = {};
+    new TomSelect(el, settings);
+});
