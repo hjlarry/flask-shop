@@ -125,15 +125,15 @@ def dashboard_menus_manage(id=None):
         menu = DashboardMenu.get_by_id(id)
         form = DashboardMenuForm(obj=menu)
     else:
+        menu = DashboardMenu()
         form = DashboardMenuForm()
+    form.parent_id.choices = [(d.id, d.title) for d in DashboardMenu.first_level_items()]
+    form.parent_id.choices.insert(0, (0, 'None'))
     if form.validate_on_submit():
-        if not id:
-            menu = DashboardMenu()
         form.populate_obj(menu)
         menu.save()
         return redirect(url_for("dashboard.dashboard_menus"))
-    parents = DashboardMenu.first_level_items()
-    return render_template("site/dashboard_menu.html", form=form, parents=parents)
+    return render_template("site/dashboard_menu.html", form=form)
 
 
 def site_pages():
@@ -161,10 +161,9 @@ def site_pages_manage(id=None):
         page = Page.get_by_id(id)
         form = SitePageForm(obj=page)
     else:
+        page = Page()
         form = SitePageForm()
     if form.validate_on_submit():
-        if not id:
-            page = Page()
         form.populate_obj(page)
         page.save()
         return redirect(url_for("dashboard.site_pages"))
