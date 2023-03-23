@@ -341,4 +341,5 @@ def generate_settings_form(settings):
                 BooleanField(setting.name, description=setting.description),
             )
 
+    SettingsForm.submit = SubmitField(lazy_gettext("Submit"))
     return SettingsForm
