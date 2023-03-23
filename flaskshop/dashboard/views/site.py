@@ -76,24 +76,24 @@ def site_menus_manage(id=None):
         menu = MenuItem.get_by_id(id)
         form = SiteMenuForm(obj=menu)
     else:
+        menu = MenuItem()
         form = SiteMenuForm()
+    form.parent_id.choices = [(m.id, m.title) for m in MenuItem.first_level_items()]
+    form.parent_id.choices.insert(0, (0, 'None'))
+    form.category_id.choices = [(c.id, c.title) for c in Category.query.all()]
+    form.category_id.choices.insert(0, (0, 'None'))
+    form.collection_id.choices = [(c.id, c.title) for c in Collection.query.all()]
+    form.collection_id.choices.insert(0, (0, 'None'))
+    form.page_id.choices = [(p.id, p.title) for p in Page.query.all()]
+    form.page_id.choices.insert(0, (0, 'None'))
 
     if form.validate_on_submit():
-        if not id:
-            menu = MenuItem()
         form.populate_obj(menu)
         menu.save()
         return redirect(url_for("dashboard.site_menus"))
-    parents = MenuItem.first_level_items()
-    categories = Category.query.all()
-    collections = Collection.query.all()
-    pages = Page.query.all()
+
     context = {
         "form": form,
-        "parents": parents,
-        "categories": categories,
-        "collections": collections,
-        "pages": pages,
     }
     return render_template("site/site_menu.html", **context)
 

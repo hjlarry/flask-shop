@@ -19,7 +19,7 @@ from wtforms import (
     SubmitField,
     TextAreaField,
 )
-from wtforms.validators import DataRequired, Length, NumberRange, optional
+from wtforms.validators import DataRequired, Length, NumberRange, Regexp, optional
 
 from flaskshop.constant import Permission, SettingValueType
 
@@ -76,7 +76,7 @@ class SiteMenuForm(FlaskForm):
 
 class SitePageForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
-    slug = StringField(lazy_gettext("Slug"))
+    slug = StringField(lazy_gettext("Slug"), validators=[Regexp(r'^\D+$', message='slug can not be number')])
     content = StringField(lazy_gettext("Content"))
     is_visible = BooleanField(lazy_gettext("Is Visible"), default=True)
     submit = SubmitField(lazy_gettext("Submit"))

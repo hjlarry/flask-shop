@@ -1,47 +1,41 @@
 {% extends 'dashboard/layout.html' %}
-{% from 'bootstrap5/form.html' import render_field %}
-{% import 'dashboard/_macros.html' as macros%}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block head_tail %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://unpkg.com/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard/index.css') }}">
+{% endblock %}
 
 {% block body %}
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-12">
-                <!-- general form elements -->
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">{% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{% trans %}Create{% endtrans %}{% endif %} {% trans %}Site Menu{% endtrans %}
-                        </h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form method="POST" action="">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h4 class="card-title">
+                                {% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{% trans %}Create
+                                {% endtrans %}{% endif %} {% trans %}Site Menu{% endtrans %}
+                            </h4>
+                        </div>
                         <div class="card-body">
-
-                            {{ form.hidden_tag() }}
-                            {{ render_field(form.title) }}
-                            {{ render_field(form.order) }}
-                            {{ render_field(form.url_) }}
-                            {{ render_field(form.position) }}
-                            {{ macros.render_select_field(form.parent_id, parents) }}
-                            {{ macros.render_select_field(form.category_id, categories) }}
-                            {{ macros.render_select_field(form.collection_id, collections) }}
-                            {{ macros.render_select_field(form.page_id, pages) }}
-
+                            {{ render_form(form) }}
                         </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            {{ macros.render_submit(form.submit) }}
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endblock %}
 
 {% block tail_js %}
-<script src="{{ url_for('static', filename='build/dashboard/select.js') }}"></script>
+    <script src="https://unpkg.com/tom-select@2.2.2/dist/js/tom-select.base.min.js"></script>
+    <script>
+        document.querySelectorAll('select').forEach((el) => {
+            let settings = {};
+            new TomSelect(el, settings);
+        });
+    </script>
 {% endblock %}
