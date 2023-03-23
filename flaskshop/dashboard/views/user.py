@@ -52,7 +52,8 @@ def user_edit(user_id):
 
         form.populate_obj(user)
         user.save()
-        selected_role = request.form.get(form.role.label.text)
+        # TODO user role have some problem
+        selected_role = form.role.data
         if selected_role != "0":
             selected_role = Role.query.filter(Role.name == selected_role).first()
             user_role = UserRole.query.filter(
