@@ -1,125 +1,130 @@
 {% extends 'dashboard/layout.html' %}
-{% block body %}
-<section class="content">
-    <div class="container-fluid">
-        <!-- Main row -->
-        <div class="row">
-            <!-- Left col -->
-            <div class="col-md-8">
+{% block head_tail %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://unpkg.com/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+    <link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard/index.css') }}">
+{% endblock %}
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="info-box mb-3">
+{% block body %}
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <!-- Left col -->
+                <div class="col-md-8">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-box mb-3">
                             <span class="info-box-icon bg-success elevation-1"><i
                                     class="fa fa-shopping-cart"></i></span>
 
-                            <div class="info-box-content">
-                                <span class="info-box-text">{% trans %}Sales{% endtrans %}</span>
-                                <span class="info-box-text"><b>{{orders_today}}</b> {% trans %}today and{% endtrans %} <b>{{orders_total}}</b>
-                                    {% trans %}total{% endtrans %}</span>
-                            </div>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">{% trans %}Sales{% endtrans %}</span>
+                                    <span class="info-box-text"><b>{{ orders_today }}</b> {% trans %}today
+                                        and{% endtrans %} <b>{{ orders_total }}</b>
+                                        {% trans %}total{% endtrans %}</span>
+                                </div>
 
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-6">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-users"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">{% trans %}Members{% endtrans %}</span>
+                                    <span class="info-box-text"><b>{{ users_today }}</b> {% trans %}new in{% endtrans %}
+                                        <b>{{ users_total }}</b>
+                                        {% trans %}accounts{% endtrans %}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <ul class="navi-card">
+                                <li class="item">
+                                    <a href="{{ url_for('dashboard.orders', status=order_fulfill.kind) }}">
+                                        <span>{{ order_fulfill.count }} {% trans %}Orders are ready to
+                                            fulfill{% endtrans %}</span>
+                                        <span class="right">></span>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="{{ url_for('dashboard.orders', status=order_unfulfill.kind) }}">
+                                        <span>{{ order_unfulfill.count }} {% trans %}Payments to
+                                            capture{% endtrans %}</span>
+                                        <span class="right">></span>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="{{ url_for('dashboard.products', sale=True) }}">
+                                        <span>{{ onsale_products_count }} {% trans %}products is on
+                                            sale{% endtrans %}</span>
+                                        <span class="right">></span>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <!-- /.col -->
-                    <div class="col-md-6">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-users"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">{% trans %}Members{% endtrans %}</span>
-                                <span class="info-box-text"><b>{{users_today}}</b> {% trans %}new in{% endtrans %} <b>{{users_total}}</b>
-                                    {% trans %}accounts{% endtrans %}</span>
-                            </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title">{% trans %}Top Products{% endtrans %}</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="products-list product-list-in-card px-2">
+                                {% for product in top_products %}
+                                    <li class="item">
+                                        <img src="{{ product.first_img }}"
+                                             alt="Product Image">
 
+                                        <div class="product-info">
+                                            <a href="{{ url_for('dashboard.product_detail', id=product.id) }}"
+                                               class="product-title">{{ product.title }}
+                                                <span class="badge text-bg-primary float-right">{{ product.price_human }}</span></a>
+                                            <span class="product-description">
+                                        {{ product.description }}
+                                    </span>
+                                            <span class="product-description">
+                                        {{ product.order_count }} {% trans %}Ordered{% endtrans %}
+                                    </span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
-                    <!-- /.col -->
                 </div>
-                <div class="card">
-                    <div class="card-body p-0">
-                        <ul class="navi-card">
-                            <li class="item">
-                                <a href="{{url_for('dashboard.orders', status=order_fulfill.kind)}}">
-                                    <span>{{order_fulfill.count}} {% trans %}Orders are ready to fulfill{% endtrans %}</span>
-                                    <span class="right">></span>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="{{url_for('dashboard.orders', status=order_unfulfill.kind)}}">
-                                    <span>{{order_unfulfill.count}} {% trans %}Payments to capture{% endtrans %}</span>
-                                    <span class="right">></span>
-                                </a>
-                            </li>
-                            <li class="item">
-                                <a href="{{url_for('dashboard.products', sale=True)}}">
-                                    <span>{{onsale_products_count}} {% trans %}products is on sale{% endtrans %}</span>
-                                    <span class="right">></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">{% trans %}Top Products{% endtrans %}</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
-                        <ul class="products-list product-list-in-card pl-2 pr-2">
-                            {% for product in top_products %}
-                            <li class="item">
-                                <div class="product-img">
-                                    <img src="{{ product.first_img }}"
-                                        alt="Product Image" class="img-size-50">
-                                </div>
-                                <div class="product-info">
-                                    <a href="{{url_for('dashboard.product_detail', id=product.id)}}" class="product-title">{{product.title}}
-                                        <span class="badge badge-info float-right">{{product.price_human}}</span></a>
-                                    <span class="product-description">
-                                        {{product.description}}
-                                    </span>
-                                    <span class="product-description">
-                                        {{product.order_count}} {% trans %}Ordered{% endtrans %}
-                                    </span>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-            </div>
-            <!-- /.col -->
 
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">{% trans %}Activity{% endtrans %}</h3>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title">{% trans %}Activity{% endtrans %}</h6>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="activity product-list-in-card pl-2 pr-2">
+                                {% for a in activity %}
+                                    <li class="item">
+                                        <span class="activity-title">{% trans %}Order{% endtrans %} #{{ a.order_id }}
+                                            {% trans %}was{% endtrans %} {{ order_events(a.type_).name }}</span>
+                                        <span>{{ a.created_at_human }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="item">
+                                        <span class="activity-title">{% trans %}There is no recent
+                                            activity{% endtrans %} </span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
-                        <ul class="activity product-list-in-card pl-2 pr-2">
-                            {% for a in activity %}
-                            <li class="item">
-                                <span class="activity-title">{% trans %}Order{% endtrans %} #{{a.order_id}} {% trans %}was{% endtrans %} {{order_events(a.type_).name}}</span>
-                                <span>{{a.created_at_human}}</span>
-                            </li>
-                            {% else %}
-                            <li class="item">
-                                <span class="activity-title">{% trans %}There is no recent activity{% endtrans %} </span>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
             </div>
-            <!-- /.col -->
         </div>
-        <!-- /.row -->
-    </div>
-    <!--/. container-fluid -->
-</section>
+    </section>
 {% endblock %}
