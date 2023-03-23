@@ -67,7 +67,7 @@ def user_edit(user_id):
                 UserRole.query.filter(UserRole.user_id == user.id).delete()
                 UserRole.create(user_id=user.id, role_id=selected_role.id)
         return redirect(url_for("dashboard.user", user_id=user_id))
-    return render_template("user/edit.html", form=form)
+    return render_template("general_edit.html", form=form, title=lazy_gettext("User"))
 
 
 def address_edit(id):
@@ -77,4 +77,4 @@ def address_edit(id):
         form.populate_obj(addr)
         addr.save()
         return redirect(url_for("dashboard.user", user_id=addr.user_id))
-    return render_template("user/edit_addr.html", form=form)
+    return render_template("general_edit.html", form=form, title=lazy_gettext("User Address"))

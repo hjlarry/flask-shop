@@ -1,8 +1,6 @@
 {% extends 'dashboard/layout.html' %}
 {% from 'bootstrap5/form.html' import render_form %}
 
-
-
 {% block body %}
     <section class="content">
         <div class="container-fluid">
@@ -11,9 +9,12 @@
                     <div class="card card-primary">
                         <div class="card-header">
                             <h4 class="card-title">
-                                {% if 'edit' in request.path %}{% trans %}Edit{% endtrans %}{% else %}{% trans %}Create
-                                {% endtrans %}{% endif %}
-                                {% trans %}Product Type{% endtrans %}</h4>
+                                {% if 'edit' in request.path %}
+                                    {% trans %}Edit{% endtrans %}
+                                {% else %}
+                                    {% trans %}Create{% endtrans %}
+                                {% endif %}
+                                {% trans %}{{ title }}{% endtrans %}</h4>
                         </div>
                         <div class="card-body">
                             {{ render_form(form) }}
@@ -24,4 +25,3 @@
         </div>
     </section>
 {% endblock %}
-

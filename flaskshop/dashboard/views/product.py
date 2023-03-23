@@ -56,7 +56,7 @@ def attributes_manage(id=None):
         attr.update_values(form.values_label.data.split(','))
         return redirect(url_for("dashboard.attributes"))
     return render_template(
-        "product/attribute.html", form=form
+        "general_edit.html", form=form, title=lazy_gettext("Attribute")
     )
 
 
@@ -175,7 +175,7 @@ def product_types_manage(id=None):
         product_type.update_variant_attr(tmp_va)
         return redirect(url_for("dashboard.product_types"))
     return render_template(
-        "product/product_type.html", form=form, attributes=attributes
+        "product/product_type.html", form=form, title=lazy_gettext("Product Type")
     )
 
 
@@ -265,7 +265,7 @@ def product_create_step1():
             )
         )
     return render_template(
-        "product/product_create_step1.html", form=form
+        "general_edit.html", form=form, title=lazy_gettext("Product Step 1")
     )
 
 
@@ -284,4 +284,4 @@ def variant_manage(id=None):
         variant.sku = str(variant.product_id) + "-" + str(form.sku_id.data)
         variant.save()
         return redirect(url_for("dashboard.product_detail", id=variant.product_id))
-    return render_template("product/variant.html", form=form)
+    return render_template("general_edit.html", form=form, title=lazy_gettext("Variant"))

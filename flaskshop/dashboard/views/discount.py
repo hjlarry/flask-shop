@@ -49,8 +49,9 @@ def vouchers_manage(id=None):
 
     context = {
         "form": form,
+        "title": lazy_gettext("Voucher")
     }
-    return render_template("discount/voucher.html", **context)
+    return render_template("general_edit.html", **context)
 
 
 def sales():
@@ -96,6 +97,7 @@ def sales_manage(id=None):
         return redirect(url_for("dashboard.sales"))
 
     context = {
-        "form": form
+        "form": form,
+        "title": lazy_gettext("Sale")
     }
-    return render_template("discount/sale.html", **context)
+    return render_template("general_edit.html", **context)

@@ -40,14 +40,13 @@ def shipping_methods_manage(id=None):
         shipping_method = ShippingMethod.get_by_id(id)
         form = ShippingMethodForm(obj=shipping_method)
     else:
+        shipping_method = ShippingMethod()
         form = ShippingMethodForm()
     if form.validate_on_submit():
-        if not id:
-            shipping_method = ShippingMethod()
         form.populate_obj(shipping_method)
         shipping_method.save()
         return redirect(url_for("dashboard.shipping_methods"))
-    return render_template("site/shipping_method.html", form=form)
+    return render_template("general_edit.html", form=form, title=lazy_gettext("Shipping Method"))
 
 
 def site_menus():
@@ -92,10 +91,7 @@ def site_menus_manage(id=None):
         menu.save()
         return redirect(url_for("dashboard.site_menus"))
 
-    context = {
-        "form": form,
-    }
-    return render_template("site/site_menu.html", **context)
+    return render_template("general_edit.html", form=form, title=lazy_gettext("Site Menu"))
 
 
 def dashboard_menus():
@@ -133,7 +129,7 @@ def dashboard_menus_manage(id=None):
         form.populate_obj(menu)
         menu.save()
         return redirect(url_for("dashboard.dashboard_menus"))
-    return render_template("site/dashboard_menu.html", form=form)
+    return render_template("general_edit.html", form=form, title=lazy_gettext("Dashboard Menu"))
 
 
 def site_pages():
@@ -221,8 +217,9 @@ def site_setting():
         Setting.update(settings=new_settings)
         flash(lazy_gettext("Settings saved."), "success")
     return render_template(
-        "site/settings.html",
+        "general_edit.html",
         form=form,
+        title=lazy_gettext("Site Settings")
     )
 
 
