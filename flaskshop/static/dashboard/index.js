@@ -1,5 +1,4 @@
-const toggleSidebarBtn = document.getElementById('toggleSidebar')
-
+// 展开和收起sidebar
 const toggleSibebar = () => {
     const isCollapse = document.body.classList.contains('sidebar-collapse')
     // 避免页面跳转时也呈现一个margin变化的动画
@@ -13,11 +12,10 @@ const toggleSibebar = () => {
         document.body.classList.add('sidebar-collapse')
     }
 }
+const toggleSidebarBtn = document.getElementById('toggleSidebar')
 toggleSidebarBtn.addEventListener('click', toggleSibebar)
 
-
-const toggleMenuBtns = document.querySelectorAll('.has-treeview')
-
+// 展开和收起menu
 const toggleMenu = (menu) => {
     const sub = menu.getElementsByClassName('nav-treeview')[0]
     const isOpen = menu.classList.contains('menu-open')
@@ -30,12 +28,13 @@ const toggleMenu = (menu) => {
     }
 
 }
-
+const toggleMenuBtns = document.querySelectorAll('.has-treeview')
 toggleMenuBtns.forEach((menu) => {
     const callback = toggleMenu.bind(this, menu)
     menu.addEventListener('click', callback)
 })
 
+// 所有的删除触发弹窗确认
 const deleteModal = document.getElementById('deleteModal')
 deleteModal.addEventListener('show.bs.modal', event => {
     const triggerBtn = event.relatedTarget
@@ -64,8 +63,7 @@ deleteModal.addEventListener('show.bs.modal', event => {
     })
 })
 
-
+// 所有的select使用tom-select组件
 document.querySelectorAll('select').forEach((el) => {
-    let settings = {};
-    new TomSelect(el, settings);
+    new TomSelect(el, {});
 });

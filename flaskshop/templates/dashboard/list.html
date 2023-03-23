@@ -1,9 +1,8 @@
 {% extends 'dashboard/layout.html' %}
 {% from 'bootstrap5/pagination.html' import render_pagination %}
 
-
 {% block body %}
-    <section class="content">
+    <section>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -47,7 +46,7 @@
                             </table>
                         </div>
                         {% if pagination.pages > 1 %}
-                            <div class="card-footer clearfix">
+                            <div class="card-footer">
                                 {{ render_pagination(pagination, size='sm', align='right') }}
                             </div>
                         {% endif %}
@@ -56,6 +55,4 @@
             </div>
         </div>
     </section>
-
 {% endblock %}
-

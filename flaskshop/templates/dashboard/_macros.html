@@ -1,155 +1,16 @@
-{% macro render_input_field(field) %}
-    {% set label_id = field.label.field_id %}
-    {% if label_id in ('email', 'password') %}
-        {% set type = label_id %}
-    {% else %}
-        {% set type = 'text' %}
-    {% endif %}
-    <div class="form-group">
-        <label for="{{ label_id }}">{{ field.label.text }}</label>
-        <input type="{{ type }}" class="form-control" id="{{ label_id }}" name="{{ label_id }}"
-               value="
-                       {% if field.data %}{{ field.data }}{% elif field.default is not none %}{{ field.default }}{% endif %}">
-        {% if field.errors %}
-            <div class="invalid-feedback" style="display:block">
-                {{ field.errors[0] }}
-            </div>
-        {% endif %}
-    </div>
-{% endmacro %}
-
-
-{% macro render_submit(field) %}
-    <button type="submit" class="btn btn-primary">{{ field.label.text }}</button>
-    <button onclick="window.history.go(-1); return false;" class="btn btn-default float-right">Cancel</button>
-{% endmacro %}
-
-
-{% macro render_select_field_role(role, has_zero=true) %}
-    <div class="form-group">
-        <label>{{ role.label.text }}</label>
-        <select class="form-control select2" style="width: 100%;" name="{{ role.label.text }}">
-            {% if has_zero %}
-                <option value="0">None</option>
-            {% endif %}
-            {% for item, data in role.choices %}
-                <option value="{{ item }}">{{ data }}</option>
-            {% endfor %}
-        </select>
-    </div>
-{% endmacro %}
-
-{% macro render_select_field(field, items, has_zero=true) %}
-    {% set label_id = field.label.field_id %}
-    <div class="form-group">
-        <label>{{ field.label.text }}</label>
-        <select class="form-control select2" style="width: 100%;" name="{{ label_id }}">
-            {% if has_zero %}
-                <option value="0">None</option>
-            {% endif %}
-            {% for item in items %}
-                <option value="{{ item.id }}" {% if item.id==field.data|int %} selected {% endif %}>
-                    {{ item.title }}
-                </option>
-            {% endfor %}
-        </select>
-        {% if field.description %}
-            <small class="form-text text-muted">{{ field.description|safe }}</small>
-        {% endif %}
-    </div>
-{% endmacro %}
-
-{% macro render_select_multi_field(field, items) %}
-    {% set label_id = field.label.field_id %}
-    <div class="form-group">
-        <label>{{ field.label.text }}</label>
-        <select class="form-control select2" style="width: 100%;" name="{{ label_id }}" multiple="multiple">
-            {% for item in items %}
-                <option value="{{ item.id }}" {% if field.data and item.title in field.data %} selected {% endif %}>
-                    {{ item.title }}
-                </option>
-            {% endfor %}
-        </select>
-    </div>
-{% endmacro %}
-
-{% macro render_radio_field(field) %}
-    {% set label_id = field.label.field_id %}
-    <div class="form-group">
-        <label>{{ field.label.text }}</label>
-        {% for item in field.choices %}
-            <div class="form-check">
-                <input class="form-check-input" type="radio" value="{{ item[0] }}" name="{{ label_id }}"
-                        {% if item[0]==field.data %} checked {% endif %}>
-                <label class="form-check-label">{{ item[1] }} </label>
-            </div>
-        {% endfor %}
-    </div>
-{% endmacro %}
-
-{% macro render_boolean_field(field, text='Yes') %}
-    <div class="form-group">
-        <label>{{ field.label.text }}</label>
-        <div class="form-check">
-            {{ field() }} {{ text }}
-        </div>
-    </div>
-{% endmacro %}
-
-{% macro render_field_list(field) %}
-    <div class="form-group">
-        <label>{{ field.label.text }}</label>
-        <div id="field_list">
-            {% for subfield in field %}
-                <div class="input-group input-group-sm field-list-item{% if subfield.errors %} error_class{% endif %}">
-                    <input type="text" class="form-control" id="{{ subfield.label.field_id }}"
-                           name="{{ subfield.label.field_id }}"
-                           value="{{ subfield.data }}">
-                    <span class="input-group-append">
-                <button type="button" class="btn btn-info btn-flat" id="item_del">Remove Entry</button>
-            </span>
-                </div>
-            {% endfor %}
-        </div>
-        <br/>
-        <button type="button" class="btn btn-info" id="add_entry" data-index="{{ field | length }}"
-                data-field="{{ field.label.field_id }}">Add
-            entry
-        </button>
-    </div>
-{% endmacro %}
-
 {% macro render_boolean(field) %}
     {% if field %}
-        <i class="fa fa-check" style="color:green"></i>
+        <i class="fa fa-check text-success"></i>
     {% else %}
-        <i class="fa fa-times" style="color:red"></i>
+        <i class="fa fa-times text-danger"></i>
     {% endif %}
-{% endmacro %}
-
-{% macro render_file_field(file_field, path_field) %}
-    {% set label_id = file_field.label.field_id %}
-    <div class="form-group">
-        {% if path_field.data %}
-            <label>{{ path_field.label.text }}</label>
-            <img class="" style="width: 900px;" src="{{ url_for('static', filename=path_field.data) }}">
-        {% endif %}
-        <p></p>
-        <label>{{ file_field.label.text }}</label>
-        <div class="input-group">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="{{ label_id }}" name="{{ label_id }}">
-                <label class="custom-file-label" for="{{ label_id }}">{{ path_field.data }}</label>
-            </div>
-        </div>
-    </div>
 {% endmacro %}
 
 {% macro render_img(field) %}
     <div class="form-group">
         <label>{{ field.label.text }}</label>
         {% if field.data %}
-            <img class="img-fluid rounded" src="{{ url_for('static', filename=field.data) }}">
+            <img class="img-fluid rounded" src="{{ url_for('static', filename=field.data) }}" alt="">
         {% endif %}
     </div>
 {% endmacro %}
@@ -160,7 +21,7 @@
         <div id="field_list" class="img_field ">
             {% for subfield in field %}
                 <div class="img_block my-2">
-                    <img class="img-thumbnail mb-1" src="{{ subfield.data }}">
+                    <img class="img-thumbnail mb-1" src="{{ subfield.data }}" alt="">
                     <input type="hidden" name="{{ subfield.label.field_id }}" value="{{ subfield.data.id }}">
                     <button type="button" class="btn btn-info btn-sm" id="item_del">Remove</button>
                 </div>
@@ -170,14 +31,13 @@
     </div>
 {% endmacro %}
 
-
 {% macro render_attribute_field(field, attributes) %}
     <div class="form-group">
         <label>{{ field.label.text }}</label>
         <p>
             {% for attr in attributes %}
                 <label>{{ attr.title }}</label>
-                <select class="form-control" style="width: 100%;" name="attributes-{{ loop.index }}">
+                <select class="form-control" name="attributes-{{ loop.index }}">
                     <option value="0">None</option>
                     {% for item in attr.values %}
                         {% set attr_id = attr.id|string %}
@@ -189,22 +49,5 @@
                 </select>
             {% endfor %}
         </p>
-    </div>
-{% endmacro %}
-
-{% macro render_daterange_field(field) %}
-    {% set label_id = field.label.field_id %}
-    <div class="form-group">
-        <label>{{ field.label.text }}</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-            <span class="input-group-text">
-                <i class="fa fa-calendar"></i>
-            </span>
-            </div>
-            <input type="text" class="form-control float-right" id="reservation" name="{{ label_id }}"
-                   value="
-                           {% if field.data %}{{ field.data }}{% elif field.default is not none %}{{ field.default }}{% endif %}">
-        </div>
     </div>
 {% endmacro %}

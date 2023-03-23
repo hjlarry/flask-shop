@@ -1,42 +1,34 @@
 {% extends 'dashboard/layout.html' %}
 
 {% block body %}
-    <section class="content">
+    <section>
         <div class="container-fluid">
-            <!-- Main row -->
             <div class="row">
-                <!-- Left col -->
                 <div class="col-md-8">
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="info-box mb-3">
-                            <span class="info-box-icon bg-success elevation-1"><i
+                            <span class="info-box-icon bg-success"><i
                                     class="fa fa-shopping-cart"></i></span>
-
                                 <div class="info-box-content">
                                     <span class="info-box-text">{% trans %}Sales{% endtrans %}</span>
                                     <span class="info-box-text"><b>{{ orders_today }}</b> {% trans %}today
                                         and{% endtrans %} <b>{{ orders_total }}</b>
                                         {% trans %}total{% endtrans %}</span>
                                 </div>
-
                             </div>
                         </div>
-                        <!-- /.col -->
                         <div class="col-md-6">
                             <div class="info-box mb-3">
-                                <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-users"></i></span>
+                                <span class="info-box-icon bg-warning"><i class="fa fa-users"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">{% trans %}Members{% endtrans %}</span>
                                     <span class="info-box-text"><b>{{ users_today }}</b> {% trans %}new in{% endtrans %}
                                         <b>{{ users_total }}</b>
                                         {% trans %}accounts{% endtrans %}</span>
                                 </div>
-
                             </div>
                         </div>
-                        <!-- /.col -->
                     </div>
                     <div class="card">
                         <div class="card-body p-0">
@@ -75,17 +67,17 @@
                                     <li class="item">
                                         <img src="{{ product.first_img }}"
                                              alt="Product Image">
-
                                         <div class="product-info">
                                             <a href="{{ url_for('dashboard.product_detail', id=product.id) }}"
                                                class="product-title">{{ product.title }}
-                                                <span class="badge text-bg-primary float-right">{{ product.price_human }}</span></a>
+                                                <span class="badge text-bg-primary float-right">{{ product.price_human }}</span>
+                                            </a>
                                             <span class="product-description">
-                                        {{ product.description }}
-                                    </span>
+                                                {{ product.description }}
+                                            </span>
                                             <span class="product-description">
-                                        {{ product.order_count }} {% trans %}Ordered{% endtrans %}
-                                    </span>
+                                                {{ product.order_count }} {% trans %}Ordered{% endtrans %}
+                                            </span>
                                         </div>
                                     </li>
                                 {% endfor %}
@@ -93,14 +85,13 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
                             <h6 class="card-title">{% trans %}Activity{% endtrans %}</h6>
                         </div>
                         <div class="card-body p-0">
-                            <ul class="activity product-list-in-card pl-2 pr-2">
+                            <ul class="activity product-list-in-card px-2">
                                 {% for a in activity %}
                                     <li class="item">
                                         <span class="activity-title">{% trans %}Order{% endtrans %} #{{ a.order_id }}

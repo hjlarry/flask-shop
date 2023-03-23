@@ -120,8 +120,6 @@ label {
     height: auto;
     width: 2.1rem;
     box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-    border-radius: 50%;
-
 }
 
 .user-panel .info {
