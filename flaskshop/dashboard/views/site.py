@@ -32,7 +32,7 @@ def shipping_methods():
         "pagination": pagination,
         "identity": "shipping_methods",
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 def shipping_methods_manage(id=None):
@@ -68,7 +68,7 @@ def site_menus():
         "pagination": pagination,
         "identity": "site_menus",
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 @admin_required
@@ -116,7 +116,7 @@ def dashboard_menus():
         "pagination": pagination,
         "identity": "dashboard_menus",
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 @admin_required
@@ -157,7 +157,7 @@ def site_pages():
         "pagination": pagination,
         "identity": "site_pages",
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 def site_pages_manage(id=None):

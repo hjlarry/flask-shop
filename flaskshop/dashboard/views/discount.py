@@ -26,7 +26,7 @@ def vouchers():
         "pagination": pagination,
         "identity": lazy_gettext("vouchers"),
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 def vouchers_manage(id=None):
@@ -69,7 +69,7 @@ def sales():
         "pagination": pagination,
         "identity": lazy_gettext("sales"),
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 def sales_manage(id=None):

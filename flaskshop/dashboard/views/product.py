@@ -38,7 +38,7 @@ def attributes():
         "pagination": pagination,
         "identity": "attributes",
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 def attributes_manage(id=None):
@@ -75,7 +75,7 @@ def collections():
         "pagination": pagination,
         "identity": "collections",
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 def categories():
@@ -94,7 +94,7 @@ def categories():
         "pagination": pagination,
         "identity": "categories",
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 def collections_manage(id=None):
@@ -152,7 +152,7 @@ def product_types():
         "pagination": pagination,
         "identity": "product_types",
     }
-    return render_template("list.html", **context)
+    return render_template("dashboard/general_list.html", **context)
 
 
 def product_types_manage(id=None):
