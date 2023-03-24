@@ -39,7 +39,9 @@ def vouchers_manage(id=None):
 
     form.product_id.choices = [(p.id, p.title) for p in Product.query.all()]
     form.category_id.choices = [(c.id, c.title) for c in Category.query.all()]
-    form.discount_value_type.choices = [(k.value, k.name) for k in DiscountValueTypeKinds]
+    form.discount_value_type.choices = [
+        (k.value, k.name) for k in DiscountValueTypeKinds
+    ]
     form.type_.choices = [(k.value, k.name) for k in VoucherTypeKinds]
 
     if form.validate_on_submit():
@@ -47,10 +49,7 @@ def vouchers_manage(id=None):
         voucher.save()
         return redirect(url_for("dashboard.vouchers"))
 
-    context = {
-        "form": form,
-        "title": lazy_gettext("Voucher")
-    }
+    context = {"form": form, "title": lazy_gettext("Voucher")}
     return render_template("general_edit.html", **context)
 
 
@@ -83,7 +82,9 @@ def sales_manage(id=None):
 
     form.products_ids.choices = [(p.id, p.title) for p in Product.query.all()]
     form.categories_ids.choices = [(c.id, c.title) for c in Category.query.all()]
-    form.discount_value_type.choices = [(k.value, k.name) for k in DiscountValueTypeKinds]
+    form.discount_value_type.choices = [
+        (k.value, k.name) for k in DiscountValueTypeKinds
+    ]
 
     if form.validate_on_submit():
         tmp_p = form.products_ids.data
@@ -96,8 +97,5 @@ def sales_manage(id=None):
         sale.update_categories(tmp_c)
         return redirect(url_for("dashboard.sales"))
 
-    context = {
-        "form": form,
-        "title": lazy_gettext("Sale")
-    }
+    context = {"form": form, "title": lazy_gettext("Sale")}
     return render_template("general_edit.html", **context)

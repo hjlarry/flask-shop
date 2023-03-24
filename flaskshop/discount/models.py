@@ -41,9 +41,9 @@ class Voucher(Model):
     def validity_period(self):
         if self.start_date and self.end_date:
             return (
-                    datetime.strftime(self.start_date, "%m/%d/%Y")
-                    + " - "
-                    + datetime.strftime(self.end_date, "%m/%d/%Y")
+                datetime.strftime(self.start_date, "%m/%d/%Y")
+                + " - "
+                + datetime.strftime(self.end_date, "%m/%d/%Y")
             )
         return ""
 

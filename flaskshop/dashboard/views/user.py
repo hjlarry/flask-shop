@@ -77,4 +77,6 @@ def address_edit(id):
         form.populate_obj(addr)
         addr.save()
         return redirect(url_for("dashboard.user", user_id=addr.user_id))
-    return render_template("general_edit.html", form=form, title=lazy_gettext("User Address"))
+    return render_template(
+        "general_edit.html", form=form, title=lazy_gettext("User Address")
+    )

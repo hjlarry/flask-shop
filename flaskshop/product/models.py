@@ -152,7 +152,7 @@ class Product(Model):
             product_id=self.id
         ).all()
         for item in itertools.chain(
-                self.images, self.variant, need_del_collection_products
+            self.images, self.variant, need_del_collection_products
         ):
             item.delete(commit=False)
         db.session.delete(self)
@@ -527,7 +527,9 @@ class ProductAttribute(Model):
 
     @property
     def types(self):
-        return ProductType.query.filter(ProductType.id.in_(self.product_types_ids)).all()
+        return ProductType.query.filter(
+            ProductType.id.in_(self.product_types_ids)
+        ).all()
 
     @property
     def types_label(self):
@@ -581,7 +583,7 @@ class ProductAttribute(Model):
             product_attribute_id=self.id
         ).all()
         for item in itertools.chain(
-                need_del_product_attrs, need_del_variant_attrs, self.values
+            need_del_product_attrs, need_del_variant_attrs, self.values
         ):
             item.delete(commit=False)
         db.session.delete(self)

@@ -30,10 +30,10 @@ class FlaskForm(_FlaskForm):
         success = True
         for name, field in self._fields.items():
             if field.type in (
-                    "SelectField",
-                    "SelectMultipleField",
-                    "RadioField",
-                    "FieldList",
+                "SelectField",
+                "SelectMultipleField",
+                "RadioField",
+                "FieldList",
             ):
                 continue
             if extra_validators is not None and name in extra_validators:
@@ -76,7 +76,10 @@ class SiteMenuForm(FlaskForm):
 
 class SitePageForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
-    slug = StringField(lazy_gettext("Slug"), validators=[Regexp(r'^\D+$', message='slug can not be number')])
+    slug = StringField(
+        lazy_gettext("Slug"),
+        validators=[Regexp(r"^\D+$", message="slug can not be number")],
+    )
     content = StringField(lazy_gettext("Content"))
     is_visible = BooleanField(lazy_gettext("Is Visible"), default=True)
     submit = SubmitField(lazy_gettext("Submit"))
@@ -115,8 +118,10 @@ class UserAddressForm(FlaskForm):
 
 class AttributeForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
-    values_label = StringField(lazy_gettext("Value"),
-                               description=lazy_gettext("Multiple values need separated by ','"), )
+    values_label = StringField(
+        lazy_gettext("Value"),
+        description=lazy_gettext("Multiple values need separated by ','"),
+    )
     product_types_ids = SelectMultipleField(lazy_gettext("Product Types"))
     submit = SubmitField(lazy_gettext("Submit"))
 
@@ -125,9 +130,13 @@ class CollectionForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
     products_ids = SelectMultipleField(lazy_gettext("Products"))
     background_img = StringField(lazy_gettext("Current Image"))
-    bgimg_file = FileField(lazy_gettext("Upload a new one"),
-                           validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'], 'Images only!'),
-                                       FileSize(1024 * 1024 * 1024, message='It is too big!')])
+    bgimg_file = FileField(
+        lazy_gettext("Upload a new one"),
+        validators=[
+            FileAllowed(["jpg", "png", "gif", "jpeg"], "Images only!"),
+            FileSize(1024 * 1024 * 1024, message="It is too big!"),
+        ],
+    )
     submit = SubmitField(lazy_gettext("Submit"))
 
 
@@ -135,9 +144,13 @@ class CategoryForm(FlaskForm):
     title = StringField(lazy_gettext("Title"), validators=[DataRequired()])
     parent_id = SelectField(lazy_gettext("Parent"), coerce=int, default=0)
     background_img = StringField(lazy_gettext("Current Image"))
-    bgimg_file = FileField(lazy_gettext("Upload a new one"),
-                           validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'], 'Images only!'),
-                                       FileSize(1024 * 1024 * 1024, message='It is too big!')])
+    bgimg_file = FileField(
+        lazy_gettext("Upload a new one"),
+        validators=[
+            FileAllowed(["jpg", "png", "gif", "jpeg"], "Images only!"),
+            FileSize(1024 * 1024 * 1024, message="It is too big!"),
+        ],
+    )
     submit = SubmitField(lazy_gettext("Submit"))
 
 
@@ -163,10 +176,14 @@ class ProductForm(FlaskForm):
     category_id = SelectField(lazy_gettext("Category"))
     description = TextAreaField(lazy_gettext("Description"))
     images = FieldList(StringField(lazy_gettext("Images")))
-    new_images = MultipleFileField(lazy_gettext(""),
-                                   validators=[FileAllowed(['jpg', 'png', 'gif', 'jpeg'], 'Images only!'),
-                                               FileSize(1024 * 1024 * 1024, message='It is too big!'),
-                                               Length(max=5, message='You can only upload 5 images once')])
+    new_images = MultipleFileField(
+        lazy_gettext(""),
+        validators=[
+            FileAllowed(["jpg", "png", "gif", "jpeg"], "Images only!"),
+            FileSize(1024 * 1024 * 1024, message="It is too big!"),
+            Length(max=5, message="You can only upload 5 images once"),
+        ],
+    )
     attributes = FieldList(SelectField(lazy_gettext("Atributes")))
     submit = SubmitField(lazy_gettext("Submit"))
 

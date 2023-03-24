@@ -53,7 +53,7 @@ def attributes_manage(id=None):
         attr.title = form.title.data
         attr.save()
         attr.update_types(form.product_types_ids.data)
-        attr.update_values(form.values_label.data.split(','))
+        attr.update_values(form.values_label.data.split(","))
         return redirect(url_for("dashboard.attributes"))
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("Attribute")
@@ -124,7 +124,7 @@ def categories_manage(id=None):
         category = Category()
         form = CategoryForm()
     form.parent_id.choices = [(c.id, c.title) for c in Category.first_level_items()]
-    form.parent_id.choices.insert(0, (0, 'None'))
+    form.parent_id.choices.insert(0, (0, "None"))
     if form.validate_on_submit():
         form.populate_obj(category)
         image = form.bgimg_file.data
@@ -162,8 +162,12 @@ def product_types_manage(id=None):
     else:
         product_type = ProductType()
         form = ProductTypeForm()
-    form.product_attributes_ids.choices = [(p.id, p.title) for p in ProductAttribute.query.all()]
-    form.variant_attr_id.choices = [(p.id, p.title) for p in ProductAttribute.query.all()]
+    form.product_attributes_ids.choices = [
+        (p.id, p.title) for p in ProductAttribute.query.all()
+    ]
+    form.variant_attr_id.choices = [
+        (p.id, p.title) for p in ProductAttribute.query.all()
+    ]
     if form.validate_on_submit():
         tmp_pa = form.product_attributes_ids.data
         tmp_va = form.variant_attr_id.data
@@ -284,4 +288,6 @@ def variant_manage(id=None):
         variant.sku = str(variant.product_id) + "-" + str(form.sku_id.data)
         variant.save()
         return redirect(url_for("dashboard.product_detail", id=variant.product_id))
-    return render_template("general_edit.html", form=form, title=lazy_gettext("Variant"))
+    return render_template(
+        "general_edit.html", form=form, title=lazy_gettext("Variant")
+    )
