@@ -1,7 +1,7 @@
-export default $(function () {
-  let navbarHeight = $('.navbar').outerHeight(true);
-  let footerHeight = $('.footer').outerHeight(true);
-  let windowHeight = $(window).height();
+export default $(() => {
+  const navbarHeight = $('.navbar').outerHeight(true);
+  const footerHeight = $('.footer').outerHeight(true);
+  const windowHeight = $(window).height();
   $('.maincontent').css('min-height', windowHeight - navbarHeight - footerHeight);
-  $("#carousel-example-generic").carousel('cycle');
+  $('#carousel-example-generic').carousel('cycle');
 });

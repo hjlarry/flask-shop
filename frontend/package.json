@@ -1,0 +1,49 @@
+{
+  "name": "flaskshop",
+  "version": "3.0.0",
+  "description": "a shop project with flask",
+  "main": "webpack.config.js",
+  "scripts": {
+    "build": "run-script-os",
+    "build:win32": "SET NODE_ENV=production && webpack --progress --color --optimization-minimize",
+    "build:default": "NODE_ENV=production webpack --progress --color --optimization-minimize",
+    "dev": "run-script-os",
+    "dev:win32": "SET NODE_ENV=debug && webpack --mode development --watch",
+    "dev:default": "NODE_ENV=debug webpack --mode development --watch",
+    "lint": "eslint \"js/**/*.js\" --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hjlarry/flaskshop.git"
+  },
+  "author": "hjlarry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hjlarry/flaskshop/issues"
+  },
+  "homepage": "https://github.com/hjlarry/flaskshop#readme",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "jquery": "^3.6.4",
+    "jquery.cookie": "^1.4.1",
+    "lazysizes": "^5.3.2",
+    "svg-injector-2": "^2.1.5"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.21.3",
+    "autoprefixer": "^10.4.14",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.7.3",
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "latest",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.7.5",
+    "postcss-loader": "^7.1.0",
+    "run-script-os": "^1.1.6",
+    "sass": "^1.60.0",
+    "sass-loader": "^13.2.1",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1"
+  }
+}

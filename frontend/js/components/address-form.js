@@ -1,37 +1,36 @@
-export default $(function () {
-    let $deleteAdressIcons = $('.icons');
-    let $deleteAdressIcon = $('.delete-icon');
-    let $deleteAddress = $('.address-delete');
+export default $(() => {
+  const $deleteAdressIcons = $('.icons');
+  const $deleteAdressIcon = $('.delete-icon');
+  const $deleteAddress = $('.address-delete');
 
-    $deleteAdressIcon.on('click', function () {
-        if ($deleteAddress.hasClass('none')) {
-            $deleteAddress.removeClass('none');
-            $deleteAdressIcons.addClass('none');
-        } else {
-            $deleteAddress.addClass('none');
-        }
-    });
-
-    $deleteAddress.find('.cancel').on('click', function () {
-        $deleteAddress.addClass('none');
-        $deleteAdressIcons.removeClass('none');
-    });
-
-    // New address dropdown
-
-    let $addressShow = $('.address_show label');
-    let $addressHide = $('.address_hide label');
-    let $addressForm = $('.checkout__new-address');
-    let $initialValue = $('#address_new').prop('checked');
-    $addressShow.on('click', function () {
-        $addressForm.slideDown('slow');
-    });
-    $addressHide.on('click', function () {
-        $addressForm.slideUp('slow');
-    });
-    if ($initialValue) {
-        $addressForm.slideDown(0);
+  $deleteAdressIcon.on('click', () => {
+    if ($deleteAddress.hasClass('none')) {
+      $deleteAddress.removeClass('none');
+      $deleteAdressIcons.addClass('none');
     } else {
-        $addressForm.slideUp(0);
+      $deleteAddress.addClass('none');
     }
+  });
+
+  $deleteAddress.find('.cancel').on('click', () => {
+    $deleteAddress.addClass('none');
+    $deleteAdressIcons.removeClass('none');
+  });
+
+  // New address dropdown
+  const $addressShow = $('.address_show label');
+  const $addressHide = $('.address_hide label');
+  const $addressForm = $('.checkout__new-address');
+  const $initialValue = $('#address_new').prop('checked');
+  $addressShow.on('click', () => {
+    $addressForm.slideDown('slow');
+  });
+  $addressHide.on('click', () => {
+    $addressForm.slideUp('slow');
+  });
+  if ($initialValue) {
+    $addressForm.slideDown(0);
+  } else {
+    $addressForm.slideUp(0);
+  }
 });

@@ -1,13 +1,12 @@
 export const $cartDropdown = $('.cart-dropdown');
 export const $cartIcon = $('.cart__icon');
 
-
-export default $(function () {
+export default $(() => {
   // Cart dropdown
-  $('.navbar__brand__cart').on("mouseenter", function () {
+  $('.navbar__brand__cart').on('mouseenter', () => {
     $cartDropdown.addClass('show');
     $cartIcon.addClass('hover');
-  }).on("mouseleave", function () {
+  }).on('mouseleave', () => {
     $cartDropdown.removeClass('show');
     $cartIcon.removeClass('hover');
   });
