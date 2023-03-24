@@ -11666,14 +11666,6 @@ input#id_quantity:focus {
   cursor: pointer;
 }
 
-select.form-control {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  border-radius: 2px;
-  background: url(arrow-select.svg) 100% 50% no-repeat/24px 14px;
-}
-
 .navigation ul {
   border-bottom: 1px solid #d3d1d0;
   margin-bottom: 1rem;
