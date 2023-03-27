@@ -77,14 +77,6 @@
         </aside>
 
         <div class="content-wrapper no-transition" id="content">
-            <section>
-                {% for message in get_flashed_messages(with_categories=True) %}
-                    <div class="alert alert-{{ message[0] }}">
-                        <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">&times;</button>
-                        {{ message[1] }}
-                    </div>
-                {% endfor %}
-            </section>
             {% block body %} {% endblock %}
         </div>
     </div>
@@ -117,6 +109,19 @@
                         aria-label="Close"></button>
             </div>
         </div>
+        {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="toast align-items-center text-bg-{{ message[0] }} border-0 msg-toast" role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true" data-bs-config='{"delay":2500}'>
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ message[1] }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                </div>
+            </div>
+        {% endfor %}
     </div>
     <script src="https://unpkg.com/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="https://unpkg.com/tom-select@2.2.2/dist/js/tom-select.base.min.js" defer></script>

@@ -67,3 +67,9 @@ deleteModal.addEventListener('show.bs.modal', event => {
 document.querySelectorAll('select').forEach((el) => {
     new TomSelect(el, {});
 });
+
+// flashed_messages在页面加载时自动展示
+document.querySelectorAll('.msg-toast').forEach((el) => {
+    const toast = new bootstrap.Toast(el)
+    toast.show()
+})
