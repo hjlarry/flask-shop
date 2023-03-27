@@ -10,4 +10,4 @@ COPY app.py  app.py
 
 RUN pip install --no-cache -r requirements.txt
 
-CMD ["flask", "run"]
+CMD ["flask", "run", "--host=0.0.0.0"]
