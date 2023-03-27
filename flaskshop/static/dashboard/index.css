@@ -55,6 +55,17 @@ label {
     transition: none !important;
 }
 
+/* 覆盖tom-select样式 */
+.ts-control {
+    border: 0;
+    padding: 1px 2px 2px 2px;
+}
+
+.ts-control input{
+    min-width: 0;
+}
+
+
 /* 侧边栏 */
 .main-sidebar {
     height: 100vh;
@@ -201,10 +212,6 @@ label {
     margin-left: 16rem;
     padding-left: 1rem;
     transition: all .5s;
-}
-
-.ts-control {
-    border: 0;
 }
 
 .invoice {
