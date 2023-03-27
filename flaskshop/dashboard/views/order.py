@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, flash
 from flask_babel import lazy_gettext
 
 from flaskshop.constant import OrderStatusKinds
@@ -47,10 +47,12 @@ def order_detail(id):
 def send_order(id):
     order = Order.get_by_id(id)
     order.delivered()
+    flash(lazy_gettext("Order is sent."), "success")
     return render_template("order/detail.html", order=order)
 
 
 def draft_order(id):
     order = Order.get_by_id(id)
     order.draft()
+    flash(lazy_gettext("Order is draft."), "success")
     return render_template("order/detail.html", order=order)

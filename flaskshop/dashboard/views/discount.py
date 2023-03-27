@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for, flash
 from flask_babel import lazy_gettext
 
 from flaskshop.constant import DiscountValueTypeKinds, VoucherTypeKinds
@@ -47,6 +47,7 @@ def vouchers_manage(id=None):
     if form.validate_on_submit():
         form.populate_obj(voucher)
         voucher.save()
+        flash(lazy_gettext("Voucher saved."), "success")
         return redirect(url_for("dashboard.vouchers"))
 
     context = {"form": form, "title": lazy_gettext("Voucher")}
@@ -95,6 +96,7 @@ def sales_manage(id=None):
         sale.save()
         sale.update_products(tmp_p)
         sale.update_categories(tmp_c)
+        flash(lazy_gettext("Sale saved."), "success")
         return redirect(url_for("dashboard.sales"))
 
     context = {"form": form, "title": lazy_gettext("Sale")}

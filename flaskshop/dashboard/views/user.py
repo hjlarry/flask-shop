@@ -66,6 +66,7 @@ def user_edit(user_id):
             else:
                 UserRole.query.filter(UserRole.user_id == user.id).delete()
                 UserRole.create(user_id=user.id, role_id=selected_role.id)
+        flash(lazy_gettext("User saved."), "success")
         return redirect(url_for("dashboard.user", user_id=user_id))
     return render_template("general_edit.html", form=form, title=lazy_gettext("User"))
 
@@ -76,6 +77,7 @@ def address_edit(id):
     if form.validate_on_submit():
         form.populate_obj(addr)
         addr.save()
+        flash(lazy_gettext("Address saved."), "success")
         return redirect(url_for("dashboard.user", user_id=addr.user_id))
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("User Address")

@@ -45,6 +45,7 @@ def shipping_methods_manage(id=None):
     if form.validate_on_submit():
         form.populate_obj(shipping_method)
         shipping_method.save()
+        flash(lazy_gettext("Shipping method saved."), "success")
         return redirect(url_for("dashboard.shipping_methods"))
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("Shipping Method")
@@ -91,6 +92,7 @@ def site_menus_manage(id=None):
     if form.validate_on_submit():
         form.populate_obj(menu)
         menu.save()
+        flash(lazy_gettext("Menu saved."), "success")
         return redirect(url_for("dashboard.site_menus"))
 
     return render_template(
@@ -134,6 +136,7 @@ def dashboard_menus_manage(id=None):
     if form.validate_on_submit():
         form.populate_obj(menu)
         menu.save()
+        flash(lazy_gettext("Menu saved."), "success")
         return redirect(url_for("dashboard.dashboard_menus"))
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("Dashboard Menu")
@@ -170,6 +173,7 @@ def site_pages_manage(id=None):
     if form.validate_on_submit():
         form.populate_obj(page)
         page.save()
+        flash(lazy_gettext("Page saved."), "success")
         return redirect(url_for("dashboard.site_pages"))
     return render_template("site/site_page.html", form=form)
 

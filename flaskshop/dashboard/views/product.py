@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for, flash
 from flask_babel import lazy_gettext
 
 from flaskshop.dashboard.forms import (
@@ -54,6 +54,7 @@ def attributes_manage(id=None):
         attr.save()
         attr.update_types(form.product_types_ids.data)
         attr.update_values(form.values_label.data.split(","))
+        flash(lazy_gettext("Attribute saved."), "success")
         return redirect(url_for("dashboard.attributes"))
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("Attribute")
@@ -112,6 +113,7 @@ def collections_manage(id=None):
             collection.background_img = save_img_file(image)
         collection.save()
         collection.update_products(form.products_ids.data)
+        flash(lazy_gettext("Collection saved."), "success")
         return redirect(url_for("dashboard.collections"))
     return render_template("product/collection.html", form=form)
 
@@ -131,6 +133,7 @@ def categories_manage(id=None):
         if image:
             category.background_img = save_img_file(image)
         category.save()
+        flash(lazy_gettext("Category saved."), "success")
         return redirect(url_for("dashboard.categories"))
     return render_template("product/category.html", form=form)
 
@@ -177,9 +180,10 @@ def product_types_manage(id=None):
         product_type.save()
         product_type.update_product_attr(tmp_pa)
         product_type.update_variant_attr(tmp_va)
+        flash(lazy_gettext("Product type saved."), "success")
         return redirect(url_for("dashboard.product_types"))
     return render_template(
-        "product/product_type.html", form=form, title=lazy_gettext("Product Type")
+        "general_edit.html", form=form, title=lazy_gettext("Product Type")
     )
 
 
@@ -253,6 +257,7 @@ def product_manage(id=None):
                 image=save_img_file(img),
                 product_id=product.id,
             )
+        flash(lazy_gettext("Product saved."), "success")
         return redirect(url_for("dashboard.product_detail", id=product.id))
     context = {"form": form, "product_type": product_type}
     return render_template("product/product.html", **context)
@@ -287,6 +292,7 @@ def variant_manage(id=None):
             variant.product_id = product_id
         variant.sku = str(variant.product_id) + "-" + str(form.sku_id.data)
         variant.save()
+        flash(lazy_gettext("Variant saved."), "success")
         return redirect(url_for("dashboard.product_detail", id=variant.product_id))
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("Variant")
