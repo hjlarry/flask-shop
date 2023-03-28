@@ -73,9 +73,7 @@ def ali_pay(token):
 @csrf_protect.exempt
 def ali_notify():
     data = request.form.to_dict()
-    # signature = data.pop("sign")
-    # success = zhifubao.verify_order(data, signature)
-    success = True
+    success = zhifubao.verify_order(data)
     if success:
         order_payment = OrderPayment.query.filter_by(
             payment_no=data["out_trade_no"]
@@ -133,7 +131,7 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule("/", view_func=index)
     bp.add_url_rule("/<string:token>", view_func=show)
     bp.add_url_rule("/pay/<string:token>/alipay", view_func=ali_pay)
-    bp.add_url_rule("/alipay/notify", view_func=ali_notify, methods=["POST"])
+    bp.add_url_rule("/alipay/notify", view_func=ali_notify, methods=["POST", "HEAD"])
     bp.add_url_rule("/pay/<string:token>/testpay", view_func=test_pay)
     bp.add_url_rule("/payment_success", view_func=payment_success)
     bp.add_url_rule("/cancel/<string:token>", view_func=cancel_order)
