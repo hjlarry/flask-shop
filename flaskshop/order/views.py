@@ -18,7 +18,6 @@ from flaskshop.constant import OrderStatusKinds, PaymentStatusKinds, ShipStatusK
 from flaskshop.extensions import csrf_protect
 from .payment import zhifubao
 
-
 from .models import Order, OrderPayment
 
 impl = HookimplMarker("flaskshop")
@@ -98,7 +97,14 @@ def payment_success():
     payment_no = request.args.get('out_trade_no')
     if payment_no:
         res = zhifubao.query_order(payment_no)
-        print(res)
+        if res["code"] == "10000":
+            order_payment = OrderPayment.query.filter_by(
+                payment_no=res["out_trade_no"]
+            ).first()
+            order_payment.pay_success(paid_at=res["send_pay_date"])
+        else:
+            print(res["msg"])
+
     return render_template("orders/checkout_success.html")
 
 

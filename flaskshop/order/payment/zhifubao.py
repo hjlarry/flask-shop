@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from alipay.aop.api.AlipayClientConfig import AlipayClientConfig
@@ -6,6 +7,17 @@ from alipay.aop.api.domain.AlipayTradePagePayModel import AlipayTradePagePayMode
 from alipay.aop.api.domain.AlipayTradeQueryModel import AlipayTradeQueryModel
 from alipay.aop.api.request.AlipayTradePagePayRequest import AlipayTradePagePayRequest
 from alipay.aop.api.request.AlipayTradeQueryRequest import AlipayTradeQueryRequest
+
+"""
+支付宝沙盒环境相关配置：
+1. 官方文档：https://opendocs.alipay.com/open/270/105898
+2. 网关：https://openapi.alipaydev.com/gateway.do
+3. app_id： 2016080400161922
+4. 买家账号：abmaks2733@sandbox.com，商家账号：okavaq0242@sandbox.com。所有需要密码的地方都是111111
+5. AlipayTradePagePayRequest接口直接返回跳转链接
+6. AlipayTradeQueryRequest订单主动查询接口返回：
+{"code":"10000","msg":"Success","buyer_logon_id":"abm***@sandbox.com","buyer_pay_amount":"0.00","buyer_user_id":"2088102170479214","buyer_user_type":"PRIVATE","invoice_amount":"0.00","out_trade_no":"167997094511","point_amount":"0.00","receipt_amount":"0.00","send_pay_date":"2023-03-28 10:36:28","total_amount":"0.02","trade_no":"2023032822001479210502487812","trade_status":"TRADE_SUCCESS"}
+"""
 
 
 def get_alipay_string():
@@ -53,8 +65,8 @@ def query_order(payment_no):
     model = AlipayTradeQueryModel()
     model.out_trade_no = payment_no
     request = AlipayTradeQueryRequest(biz_model=model)
-    response = client.page_execute(request)
-    return response
+    response = client.execute(request)
+    return json.loads(response)
 #
 #
 # def verify_order(data, signature):
