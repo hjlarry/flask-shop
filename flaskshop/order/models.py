@@ -292,6 +292,9 @@ class OrderPayment(Model):
     paid_at = Column(db.DateTime())
 
     def pay_success(self, paid_at):
+        # 异步回调和同步主动查询都会去根据结果更改订单状态，所以先查询下是否已经更改过了
+        if self.status == PaymentStatusKinds.confirmed.value:
+            return
         self.paid_at = paid_at
         self.status = PaymentStatusKinds.confirmed.value
         self.save(commit=False)

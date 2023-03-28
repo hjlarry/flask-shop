@@ -79,12 +79,12 @@ def ali_notify():
             payment_no=data["out_trade_no"]
         ).first()
         order_payment.pay_success(paid_at=data["gmt_payment"])
-    return "", 200
+        return "SUCCESS"
+    return "ERROR HAPPEND"
 
 
-# for test pay flow
 @login_required
-def test_pay(token):
+def test_pay_flow(token):
     payment = create_payment(token, "testpay")
     payment.pay_success(paid_at=datetime.now())
     return redirect(url_for("order.payment_success"))
@@ -132,7 +132,7 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule("/<string:token>", view_func=show)
     bp.add_url_rule("/pay/<string:token>/alipay", view_func=ali_pay)
     bp.add_url_rule("/alipay/notify", view_func=ali_notify, methods=["POST", "HEAD"])
-    bp.add_url_rule("/pay/<string:token>/testpay", view_func=test_pay)
+    bp.add_url_rule("/pay/<string:token>/testpay", view_func=test_pay_flow)
     bp.add_url_rule("/payment_success", view_func=payment_success)
     bp.add_url_rule("/cancel/<string:token>", view_func=cancel_order)
     bp.add_url_rule("/receive/<string:token>", view_func=receive)
