@@ -4,21 +4,20 @@ from datetime import datetime
 from flask import (
     Blueprint,
     abort,
-    current_app,
     redirect,
     render_template,
     request,
     url_for,
 )
+
 from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
 from pluggy import HookimplMarker
 
 from flaskshop.constant import OrderStatusKinds, PaymentStatusKinds, ShipStatusKinds
-
-# TODO: python-alipay-sdk is not support for python3.10 windows version
-# from .payment import zhifubao
 from flaskshop.extensions import csrf_protect
+from .payment import zhifubao
+
 
 from .models import Order, OrderPayment
 
@@ -61,16 +60,15 @@ def create_payment(token, payment_method):
             customer_ip_address=customer_ip_address,
         )
     if payment_method == "alipay":
-        # order_string = zhifubao.send_order(order.token, payment_no, order.total)
-        order_string = "TODO later"
-        payment.order_string = order_string
+        redirect_url = zhifubao.send_order(order.token, payment_no, order.total)
+        payment.redirect_url = redirect_url
     return payment
 
 
 @login_required
 def ali_pay(token):
     payment = create_payment(token, "alipay")
-    return redirect(current_app.config["PURCHASE_URI"] + payment.order_string)
+    return redirect(payment.redirect_url)
 
 
 @csrf_protect.exempt
@@ -97,6 +95,10 @@ def test_pay(token):
 
 @login_required
 def payment_success():
+    payment_no = request.args.get('out_trade_no')
+    if payment_no:
+        res = zhifubao.query_order(payment_no)
+        print(res)
     return render_template("orders/checkout_success.html")
 
 
