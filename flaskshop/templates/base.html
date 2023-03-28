@@ -70,7 +70,7 @@
         </div>
         <div class="navbar__brand container-fluid d-block">
             <div class="container">
-                <div class="row no-gutters" style="width:100%">
+                <div class="row no-gutters">
                     <div class="col-8 col-md-4 navbar__logo">
                         <div class="menu-icon-mobile d-md-none navbar__brand__menu-toggle closed open">
                             <svg data-src="{{ url_for('static', filename='img/mobile-menu.svg') }}" width="28px"
@@ -93,7 +93,7 @@
                             </div>
                             <input class="form-control" type="text" name="q" value="{{ request.args.get('q', '') }}"
                                    placeholder="Search for product" required>
-                            <button class="btn btn-primary" type="submit" style="padding-top: 0px;padding-bottom: 0px">
+                            <button class="btn btn-primary" type="submit">
                                 Search
                                 <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="18"
                                      height="18"></svg>

@@ -94,7 +94,7 @@
         <div class="btn-group" role="group" aria-label="select variant">
           {% for item in form.variant -%}
           <input type="radio" class="btn-check variant-picker__option" name="variant" id="{{item.id}}"
-            autocomplete="off" value="{{item.data}}" checked>
+            autocomplete="off" value="{{item.data}}" required>
           <label class="btn btn-outline-primary" for="{{item.id}}">{{ item.label.text|safe
             }}</label>
           {% endfor %}
@@ -107,7 +107,7 @@
       </div>
       {% else %}
       {% for item in form.variant -%}
-      <label class="btn btn-secondary variant-picker__option active" style="display: none">
+      <label class="d-none">
         {{ item(checked='checked')|safe }}
       </label>
       {% endfor %}

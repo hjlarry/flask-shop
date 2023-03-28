@@ -1,8 +1,6 @@
 {% extends 'dashboard/layout.html' %}
 {% import 'dashboard/_macros.html' as macros %}
 
-
-
 {% block body %}
     <section class="content">
         <div class="container-fluid">
@@ -16,7 +14,7 @@
                             </h4>
                             <div class="card-tools">
                                 <a href="{{ url_for('dashboard.product_manage', id=product.id) }}"
-                                   class="btn btn-primary btn-sm" style="margin-right: 5px;">{% trans %}
+                                   class="btn btn-primary btn-sm mx-2">{% trans %}
                                     Edit{% endtrans %}</a>
                                 <a class="btn btn-danger btn-sm"
                                    data-delete-url="products/{{ product.id }}/delete"
@@ -100,7 +98,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="m-0">{% trans %}Variants{% endtrans %}</h5>
-                            <div class="card-tools" style="display: flex;">
+                            <div class="card-tools">
                                 <div class="input-group input-group-sm">
                                     <a href="{{ url_for('dashboard.variant_manage', product_id=product.id) }}"
                                        class="btn btn-success btn-sm">{% trans %}Create{% endtrans %}</a>

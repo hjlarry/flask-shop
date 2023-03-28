@@ -46,10 +46,10 @@
                         <div class="card-header p-2">
                             <nav class="nav nav-pills nav-justified">
                                 <a class="nav-link active"
-                                                        data-bs-toggle="tab" data-bs-target="#address" role="tab"
+                                   data-bs-toggle="tab" data-bs-target="#address" role="tab"
                                 >{% trans %}Addresses{% endtrans %}</a>
                                 <a class="nav-link" data-bs-toggle="tab" data-bs-target="#order"
-                                                        role="tab">{% trans %}
+                                   role="tab">{% trans %}
                                     Orders{% endtrans %}</a>
                             </nav>
                         </div>
@@ -69,7 +69,7 @@
                                                     <td>{{ address.id }}</td>
                                                     <td>{{ address.contact_name }}</td>
                                                     <td>{{ address.contact_phone }}</td>
-                                                    <td style="text-align:center"><a
+                                                    <td class="text-center"><a
                                                             href="{{ url_for('dashboard.address_edit', id=address.id) }}"
                                                             class="btn btn-info btn-sm">{% trans %}
                                                         Edit{% endtrans %}</a></td>
@@ -97,7 +97,7 @@
                                                     <td>{{ order.status }}</td>
                                                     <td>{{ order.total_net }}</td>
                                                     <td>{{ order.created_at }}</td>
-                                                    <td style="text-align:center"><a
+                                                    <td class="text-center"><a
                                                             href="/dashboard/orders/{{ order.id }}"
                                                             class="btn btn-info btn-sm">{% trans %}
                                                         View{% endtrans %}</a>

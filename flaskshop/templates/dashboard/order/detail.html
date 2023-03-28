@@ -80,8 +80,8 @@
                         <div class="col-6">
                             <p class="lead">{% trans %}Payment Method{% endtrans %}: {{order.payment.payment_method}}</p>
                             <p class="lead">{% trans %}Order Note{% endtrans %}:</p>
-                            <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-                                {{order.note}}
+                            <p class="text-muted">
+                                {{order.note.content}}
                             </p>
                         </div>
                         <!-- /.col -->
@@ -89,7 +89,7 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
-                                        <th style="width:50%">{% trans %}Subtotal{% endtrans %}:</th>
+                                        <th class="w-50">{% trans %}Subtotal{% endtrans %}:</th>
                                         <td>${{order.total_net}}</td>
                                     </tr>
                                     <tr>

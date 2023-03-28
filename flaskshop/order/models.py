@@ -175,6 +175,10 @@ class Order(Model):
         return OrderNote.query.filter(OrderNote.order_id == self.id).all()
 
     @property
+    def note(self):
+        return OrderNote.query.filter(OrderNote.order_id == self.id).first()
+
+    @property
     def user(self):
         return User.get_by_id(self.user_id)
 

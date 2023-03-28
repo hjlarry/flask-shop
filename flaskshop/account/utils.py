@@ -175,7 +175,7 @@ def send_reset_pwd_email(to_email, new_passwd):
     msg["To"] = email.utils.formataddr(("Recipient", to_email))
     msg["From"] = email.utils.formataddr(("Admin", mailuser))
     msg["Subject"] = "Reset Password"
-    body = render_template("account/reser_passwd_mail.html", new_passwd=new_passwd)
+    body = render_template("account/reset_passwd_mail.html", new_passwd=new_passwd)
     msg.set_content(body, "html")
 
     with create_email_server() as s:
