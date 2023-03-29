@@ -47,8 +47,8 @@ def get_alipay_string():
 def get_payclient():
     app_private_key_string, alipay_public_key_string = get_alipay_string()
     alipay_client_config = AlipayClientConfig()
-    alipay_client_config.server_url = 'https://openapi.alipaydev.com/gateway.do'
-    alipay_client_config.app_id = '2016080400161922'
+    alipay_client_config.server_url = "https://openapi.alipaydev.com/gateway.do"
+    alipay_client_config.app_id = "2016080400161922"
     alipay_client_config.app_private_key = app_private_key_string
     alipay_client_config.alipay_public_key = alipay_public_key_string
     client = DefaultAlipayClient(alipay_client_config=alipay_client_config)
@@ -81,12 +81,12 @@ def query_order(payment_no):
 
 def verify_order(data):
     _, alipay_public_key_string = get_alipay_string()
-    signature = data.pop('sign')
-    data.pop('sign_type')
+    signature = data.pop("sign")
+    data.pop("sign_type")
     s_data = dict(sorted(data.items(), key=lambda x: x[0]))
-    msg = ''
+    msg = ""
     for key, value in s_data.items():
-        msg = msg + key + '=' + value + '&'
-    message = msg[:-1].encode('UTF-8')
+        msg = msg + key + "=" + value + "&"
+    message = msg[:-1].encode("UTF-8")
     result = verify_with_rsa(alipay_public_key_string, message, signature)
     return result

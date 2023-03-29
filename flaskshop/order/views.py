@@ -92,7 +92,7 @@ def test_pay_flow(token):
 
 @login_required
 def payment_success():
-    payment_no = request.args.get('out_trade_no')
+    payment_no = request.args.get("out_trade_no")
     if payment_no:
         res = zhifubao.query_order(payment_no)
         if res["code"] == "10000":

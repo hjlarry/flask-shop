@@ -1,31 +1,28 @@
 {% extends "base.html" %}
 {% from 'bootstrap5/pagination.html' import render_pagination %}
 
-
-
 {% block title %}
-{{ object.name }}
+    {{ object.name }}
 {% endblock %}
 
 
 {% block breadcrumb %}
-<div class="row">
-    <div class="col-md-7">
-        <ul class="breadcrumbs list-unstyled d-none d-md-block">
-            {% block breadcrumb_part %}{% endblock %}
-        </ul>
+    <div class="row">
+        <div class="col-md-7">
+            <ul class="breadcrumbs list-unstyled d-none d-md-block">
+                {% block breadcrumb_part %}{% endblock %}
+            </ul>
+        </div>
     </div>
-</div>
 {% endblock %}
 
 {% block topcontent %}
-{% if object.background_img %}
-<div class="row" id="product-list-image" style="background-image: url('{{ object.background_img_url }}')"></div>
-{% endif %}
+    {% if object.background_img %}
+        <div class="row" id="product-list-image" style="background-image: url('{{ object.background_img_url }}')"></div>
+    {% endif %}
 {% endblock topcontent %}
 
 {% block content %}
-
 <div id="product-list-page">
     <div class="row">
         <div class="col-md-4 col-lg-3">
@@ -39,7 +36,7 @@
                     </h1>
                     {% block title_tree %}{% endblock title_tree %}
                 </div>
-                <hr />
+                <hr/>
                 <div>
                     <h3 class="d-md-none filters-toggle">
                         {% trans %}Filters{% endtrans %}
@@ -48,50 +45,50 @@
                         <div class="click-area d-none"></div>
                         <button class="btn btn-link">
                             <div>
-                                <span>
-                                    {% if now_sorted_by == 'title' %}
+                            <span>
+                                {% if now_sorted_by == 'title' %}
                                     {% trans %}Sort by{% endtrans %}: <b>name</b>
-                                    {% elif now_sorted_by == 'basic_price' %}
+                                {% elif now_sorted_by == 'basic_price' %}
                                     {% trans %}Sort by{% endtrans %}: <b>price</b>
-                                    {% endif %}
-                                </span>
+                                {% endif %}
+                            </span>
                                 <div class="sort-order-icon">
                                     {% if is_descending %}
-                                    <svg data-src="{{ url_for('static', filename='img/chevron-down.svg') }}" />
+                                        <svg data-src="{{ url_for('static', filename='img/chevron-down.svg') }}"></svg>
                                     {% else %}
-                                    <svg data-src="{{ url_for('static', filename='img/chevron-up.svg') }}" />
+                                        <svg data-src="{{ url_for('static', filename='img/chevron-up.svg') }}"></svg>
                                     {% endif %}
                                 </div>
                             </div>
                         </button>
                         <ul class="sort-list d-none">
                             {% for choice, label in sort_by_choices.items() %}
-                            <li>
-                                <div class="row">
-                                    <div class="col-6">
-                                        {% trans %}Sort by{% endtrans %}
-                                        <strong>{{ label }}</strong>
-                                    </div>
-                                    <div class="col-6">
-                                        <div>
-                                            <a href="{{ get_sort_by_url(choice) }}">
-                                                <span>{% trans %}ascending{% endtrans %}</span>
-                                                <div class="sort-order-icon float-right">
-                                                    <img class="lazyload lazypreload"
-                                                        data-src="{{ url_for('static', filename='img/arrow-up.svg') }}">
-                                                </div>
-                                            </a>
-                                            <a href="{{ get_sort_by_url(choice,descending=True) }}">
-                                                <span>{% trans %}descending{% endtrans %}</span>
-                                                <div class="sort-order-icon float-right">
-                                                    <img class="lazyload lazypreload"
-                                                        data-src="{{ url_for('static', filename='img/arrow-down.svg') }}">
-                                                </div>
-                                            </a>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {% trans %}Sort by{% endtrans %}
+                                            <strong>{{ label }}</strong>
+                                        </div>
+                                        <div class="col-6">
+                                            <div>
+                                                <a href="{{ get_sort_by_url(choice) }}">
+                                                    <span>{% trans %}ascending{% endtrans %}</span>
+                                                    <div class="sort-order-icon float-right">
+                                                        <img class="lazyload lazypreload"
+                                                             data-src="{{ url_for('static', filename='img/arrow-up.svg') }}" alt="">
+                                                    </div>
+                                                </a>
+                                                <a href="{{ get_sort_by_url(choice,descending=True) }}">
+                                                    <span>{% trans %}descending{% endtrans %}</span>
+                                                    <div class="sort-order-icon float-right">
+                                                        <img class="lazyload lazypreload"
+                                                             data-src="{{ url_for('static', filename='img/arrow-down.svg') }}" alt="">
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -101,29 +98,31 @@
                     <div>
 
                         {% if pagination.items %}
-                        <div class="row">
-                            {% include "products/_items.html" %}
-                        </div>
-                        <div class="row">
-                            <div class="m-auto">
-
-                                {{ render_pagination(pagination) }}
-
+                            <div class="row">
+                                {% include "products/_items.html" %}
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="m-auto">
+
+                                    {{ render_pagination(pagination) }}
+
+                                </div>
+                            </div>
                         {% else %}
-                        <div class="row no-results">
-                            <div class="col-12">
-                                <svg data-src="{{ url_for('static', filename='img/no-results-bg.svg') }}" width="360"
-                                    height="360"></svg>
-                                <p>{% trans %}Sorry, no matches found for your request.{% endtrans %}</p>
-                                <p>{% trans %}Try again or shop new arrivals.{% endtrans %}</p>
+                            <div class="row no-results">
+                                <div class="col-12">
+                                    <svg data-src="{{ url_for('static', filename='img/no-results-bg.svg') }}"
+                                         width="360"
+                                         height="360"></svg>
+                                    <p>{% trans %}Sorry, no matches found for your request.{% endtrans %}</p>
+                                    <p>{% trans %}Try again or shop new arrivals.{% endtrans %}</p>
+                                </div>
                             </div>
-                        </div>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock content %}
+</div>
+{% endblock content %}
