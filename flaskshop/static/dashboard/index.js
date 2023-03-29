@@ -42,11 +42,15 @@ deleteModal.addEventListener('show.bs.modal', event => {
     const redirectUrl = triggerBtn.dataset.redirectUrl
     const confirmBtn = document.getElementById('confirmDelete')
     const deleteToast = document.getElementById('deleteToast')
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     confirmBtn.addEventListener('click', () => {
-        fetch(`/dashboard_api/${deleteUrl}`, {method: 'DELETE'}).then(res => {
-            if (res.r) {
-                console.log(res.msg)
-            } else {
+        fetch(`/dashboard/${deleteUrl}`, {method: 'DELETE', headers: {'X-CSRF-Token': csrfToken}}).then(response => {
+            if(response.ok){
+                return response.json()
+            }
+            throw new Error('Network was not ok!')
+        }).then(data => {
+            if (data.code === 0) {
                 const toast = new bootstrap.Toast(deleteToast)
                 toast.show()
                 const modal = bootstrap.Modal.getInstance(deleteModal);
@@ -58,6 +62,8 @@ deleteModal.addEventListener('show.bs.modal', event => {
                 } else {
                     triggerBtn.closest('tr').remove();
                 }
+            } else {
+                console.log(data)
             }
         })
     })

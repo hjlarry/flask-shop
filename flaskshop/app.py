@@ -36,7 +36,7 @@ def create_app(config_object=Config):
     register_commands(app)
     jinja_global_varibles(app)
     log_slow_queries(app)
-    app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {"/dashboard_api": dashboard_api})
+    # app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {"/dashboard_api": dashboard_api})
     return app
 
 

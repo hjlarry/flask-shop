@@ -47,8 +47,29 @@ from .site import (
     site_setting,
 )
 from .user import address_edit, user, user_edit, users
+from flaskshop.product.models import ProductVariant
 
 impl = HookimplMarker("flaskshop")
+
+import functools
+
+
+def wrap_partial(fn, *args, **kwargs):
+    partial_func = functools.partial(fn, *args, **kwargs)
+    functools.update_wrapper(partial_func, args[0])
+    return partial_func
+
+
+def item_del(cls, id):
+    try:
+        item = cls.get_by_id(id)
+        item.delete()
+    except Exception as e:
+        return {"code": 1, "msg": str(e)}
+    return {"code": 0}
+
+
+variant_del = wrap_partial(item_del, ProductVariant)
 
 
 def index():
@@ -232,4 +253,7 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule("/sales", view_func=sales)
     bp.add_url_rule("/sales/create", view_func=sales_manage, methods=["GET", "POST"])
     bp.add_url_rule("/sales/<id>/edit", view_func=sales_manage, methods=["GET", "POST"])
+    bp.add_url_rule(
+        "/variants/<int:id>/delete", view_func=variant_del, methods=["DELETE"]
+    )
     app.register_blueprint(bp, url_prefix="/dashboard")
