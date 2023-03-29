@@ -5,6 +5,7 @@ from sqlalchemy import or_
 
 from flaskshop.account.models import Role, User, UserAddress, UserRole
 from flaskshop.dashboard.forms import UserAddressForm, UserForm
+from flaskshop.dashboard.utils import wrap_partial, item_del
 from flaskshop.order.models import Order
 
 
@@ -69,6 +70,9 @@ def user_edit(user_id):
         flash(lazy_gettext("User saved."), "success")
         return redirect(url_for("dashboard.user", user_id=user_id))
     return render_template("general_edit.html", form=form, title=lazy_gettext("User"))
+
+
+user_del = wrap_partial(item_del, User)
 
 
 def address_edit(id):

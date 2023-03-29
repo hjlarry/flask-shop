@@ -19,7 +19,7 @@ from flaskshop.product.models import (
     ProductType,
     ProductVariant,
 )
-from flaskshop.dashboard.utils import save_img_file
+from flaskshop.dashboard.utils import save_img_file, wrap_partial, item_del
 
 
 def attributes():
@@ -59,6 +59,9 @@ def attributes_manage(id=None):
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("Attribute")
     )
+
+
+attribute_del = wrap_partial(item_del, ProductAttribute)
 
 
 def collections():
@@ -118,6 +121,9 @@ def collections_manage(id=None):
     return render_template("product/collection.html", form=form)
 
 
+collection_del = wrap_partial(item_del, Collection)
+
+
 def categories_manage(id=None):
     if id:
         category = Category.get_by_id(id)
@@ -136,6 +142,9 @@ def categories_manage(id=None):
         flash(lazy_gettext("Category saved."), "success")
         return redirect(url_for("dashboard.categories"))
     return render_template("product/category.html", form=form)
+
+
+category_del = wrap_partial(item_del, Category)
 
 
 def product_types():
@@ -185,6 +194,9 @@ def product_types_manage(id=None):
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("Product Type")
     )
+
+
+product_type_del = wrap_partial(item_del, ProductType)
 
 
 def products():
@@ -263,6 +275,9 @@ def product_manage(id=None):
     return render_template("product/product.html", **context)
 
 
+product_del = wrap_partial(item_del, Product)
+
+
 def product_create_step1():
     form = ProductCreateForm()
     form.product_type_id.choices = [(p.id, p.title) for p in ProductType.query.all()]
@@ -297,3 +312,6 @@ def variant_manage(id=None):
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("Variant")
     )
+
+
+variant_del = wrap_partial(item_del, ProductVariant)

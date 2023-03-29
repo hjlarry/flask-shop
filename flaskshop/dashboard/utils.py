@@ -1,3 +1,5 @@
+import functools
+
 from flask import current_app
 
 
@@ -24,3 +26,18 @@ def save_img_file(image):
         current_app.config["STATIC_DIR"]
     ).as_posix()
     return background_img_url
+
+
+def wrap_partial(fn, *args, **kwargs):
+    partial_func = functools.partial(fn, *args, **kwargs)
+    functools.update_wrapper(partial_func, args[0])
+    return partial_func
+
+
+def item_del(cls, id):
+    try:
+        item = cls.get_by_id(id)
+        item.delete()
+    except Exception as e:
+        return {"code": 1, "msg": str(e)}
+    return {"code": 0}

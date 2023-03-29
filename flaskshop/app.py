@@ -3,7 +3,6 @@
 import sys
 
 from flask import Flask, render_template
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 from flaskshop import commands
 from flaskshop.extensions import (
@@ -21,8 +20,6 @@ from flaskshop.plugin.models import PluginRegistry
 from flaskshop.settings import Config
 from flaskshop.utils import jinja_global_varibles, log_slow_queries
 
-from .dashboard_api.api_app import dashboard_api
-
 
 def create_app(config_object=Config):
     app = Flask(__name__.split(".")[0])
@@ -36,7 +33,6 @@ def create_app(config_object=Config):
     register_commands(app)
     jinja_global_varibles(app)
     log_slow_queries(app)
-    # app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {"/dashboard_api": dashboard_api})
     return app
 
 

@@ -3,6 +3,7 @@ from flask_babel import lazy_gettext
 
 from flaskshop.constant import DiscountValueTypeKinds, VoucherTypeKinds
 from flaskshop.dashboard.forms import SaleForm, VoucherForm
+from flaskshop.dashboard.utils import wrap_partial, item_del
 from flaskshop.discount.models import Sale, Voucher
 from flaskshop.product.models import Category, Product
 
@@ -54,6 +55,9 @@ def vouchers_manage(id=None):
     return render_template("general_edit.html", **context)
 
 
+voucher_del = wrap_partial(item_del, Voucher)
+
+
 def sales():
     page = request.args.get("page", type=int, default=1)
     pagination = Sale.query.paginate(page, 10)
@@ -101,3 +105,6 @@ def sales_manage(id=None):
 
     context = {"form": form, "title": lazy_gettext("Sale")}
     return render_template("general_edit.html", **context)
+
+
+sale_del = wrap_partial(item_del, Sale)

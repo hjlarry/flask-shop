@@ -10,6 +10,7 @@ from flaskshop.dashboard.forms import (
     SitePageForm,
     generate_settings_form,
 )
+from flaskshop.dashboard.utils import wrap_partial, item_del
 from flaskshop.dashboard.models import DashboardMenu, Setting
 from flaskshop.plugin.models import PluginRegistry
 from flaskshop.product.models import Category, Collection
@@ -50,6 +51,9 @@ def shipping_methods_manage(id=None):
     return render_template(
         "general_edit.html", form=form, title=lazy_gettext("Shipping Method")
     )
+
+
+shipping_methods_del = wrap_partial(item_del, ShippingMethod)
 
 
 def site_menus():
@@ -100,6 +104,9 @@ def site_menus_manage(id=None):
     )
 
 
+site_menu_del = wrap_partial(item_del, MenuItem)
+
+
 def dashboard_menus():
     page = request.args.get("page", type=int, default=1)
     pagination = DashboardMenu.query.paginate(page, 10)
@@ -143,6 +150,9 @@ def dashboard_menus_manage(id=None):
     )
 
 
+dashboard_menu_del = wrap_partial(item_del, DashboardMenu)
+
+
 def site_pages():
     page = request.args.get("page", type=int, default=1)
     pagination = Page.query.paginate(page, 10)
@@ -176,6 +186,9 @@ def site_pages_manage(id=None):
         flash(lazy_gettext("Page saved."), "success")
         return redirect(url_for("dashboard.site_pages"))
     return render_template("site/site_page.html", form=form)
+
+
+site_page_del = wrap_partial(item_del, Page)
 
 
 def plugin_list():

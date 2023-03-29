@@ -1,121 +1,65 @@
-from datetime import datetime
-
-from flask import Blueprint, render_template
+from flask import Blueprint
 from flask_login import login_required
 from pluggy import HookimplMarker
-from sqlalchemy import func
 
-from flaskshop.account.models import User
 from flaskshop.account.utils import permission_required
-from flaskshop.constant import OrderEvents, OrderStatusKinds, Permission
+from flaskshop.constant import Permission
 from flaskshop.dashboard.models import DashboardMenu
-from flaskshop.extensions import db
-from flaskshop.order.models import Order, OrderEvent, OrderLine
-from flaskshop.product.models import Product
 from flaskshop.settings import Config
 
-from .discount import sales, sales_manage, vouchers, vouchers_manage
+from .index import index
+from .discount import (
+    sales,
+    sales_manage,
+    sale_del,
+    vouchers,
+    vouchers_manage,
+    voucher_del,
+)
 from .order import draft_order, order_detail, orders, send_order
 from .product import (
     attributes,
     attributes_manage,
+    attribute_del,
     categories,
     categories_manage,
+    category_del,
     collections,
     collections_manage,
+    collection_del,
     product_create_step1,
     product_detail,
     product_manage,
+    product_del,
     product_types,
     product_types_manage,
+    product_type_del,
     products,
     variant_manage,
+    variant_del,
 )
 from .site import (
     config_index,
     dashboard_menus,
     dashboard_menus_manage,
+    dashboard_menu_del,
     plugin_disable,
     plugin_enable,
     plugin_list,
     shipping_methods,
     shipping_methods_manage,
+    shipping_methods_del,
     site_menus,
     site_menus_manage,
+    site_menu_del,
     site_pages,
     site_pages_manage,
+    site_page_del,
     site_setting,
 )
-from .user import address_edit, user, user_edit, users
-from flaskshop.product.models import ProductVariant
+from .user import address_edit, user, user_edit, user_del, users
 
 impl = HookimplMarker("flaskshop")
-
-import functools
-
-
-def wrap_partial(fn, *args, **kwargs):
-    partial_func = functools.partial(fn, *args, **kwargs)
-    functools.update_wrapper(partial_func, args[0])
-    return partial_func
-
-
-def item_del(cls, id):
-    try:
-        item = cls.get_by_id(id)
-        item.delete()
-    except Exception as e:
-        return {"code": 1, "msg": str(e)}
-    return {"code": 0}
-
-
-variant_del = wrap_partial(item_del, ProductVariant)
-
-
-def index():
-    def get_today_num(model):
-        target = db.cast(datetime.now(), db.DATE)
-        which = db.cast(model.created_at, db.DATE)
-        return model.query.filter(which == target).count()
-
-    def get_order_status(status):
-        return {
-            "count": Order.query.filter_by(status=status).count(),
-            "kind": status,
-        }
-
-    onsale_products_count = Product.query.filter_by(on_sale=True).count()
-
-    hot_product_ids = (
-        db.session.query(OrderLine.product_id, func.count(OrderLine.product_id))
-        .group_by(OrderLine.product_id)
-        .order_by(func.count(OrderLine.product_id).desc())
-        .all()
-    )
-    top5_products = []
-    for product_id, order_count in hot_product_ids[:5]:
-        p = Product.get_by_id(product_id)
-        # product may deleted
-        if not p:
-            continue
-        p.order_count = order_count
-        top5_products.append(p)
-
-    activity = OrderEvent.query.order_by(OrderEvent.id.desc()).limit(10)
-
-    context = {
-        "orders_total": Order.query.count(),
-        "orders_today": get_today_num(Order),
-        "users_total": User.query.count(),
-        "users_today": get_today_num(User),
-        "order_unfulfill": get_order_status(OrderStatusKinds.unfulfilled.value),
-        "order_fulfill": get_order_status(OrderStatusKinds.fulfilled.value),
-        "onsale_products_count": onsale_products_count,
-        "top_products": top5_products,
-        "activity": activity,
-        "order_events": OrderEvents,
-    }
-    return render_template("index.html", **context)
 
 
 @impl
@@ -144,6 +88,9 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule(
         "/site_menus/<id>/edit", view_func=site_menus_manage, methods=["GET", "POST"]
     )
+    bp.add_url_rule(
+        "/site_menus/<int:id>/delete", view_func=site_menu_del, methods=["DELETE"]
+    )
     bp.add_url_rule("/dashboard_menus", view_func=dashboard_menus)
     bp.add_url_rule(
         "/dashboard_menus/create",
@@ -155,12 +102,20 @@ def flaskshop_load_blueprints(app):
         view_func=dashboard_menus_manage,
         methods=["GET", "POST"],
     )
+    bp.add_url_rule(
+        "/dashboard_menus/<int:id>/delete",
+        view_func=dashboard_menu_del,
+        methods=["DELETE"],
+    )
     bp.add_url_rule("/site_pages", view_func=site_pages)
     bp.add_url_rule(
         "/site_pages/create", view_func=site_pages_manage, methods=["GET", "POST"]
     )
     bp.add_url_rule(
         "/site_pages/<id>/edit", view_func=site_pages_manage, methods=["GET", "POST"]
+    )
+    bp.add_url_rule(
+        "/site_pages/<int:id>/delete", view_func=site_page_del, methods=["DELETE"]
     )
     bp.add_url_rule(
         "/site_setting/edit", view_func=site_setting, methods=["GET", "POST"]
@@ -174,6 +129,7 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule(
         "/users/<user_id>/edit", view_func=user_edit, methods=["GET", "POST"]
     )
+    bp.add_url_rule("/users/<int:id>/delete", view_func=user_del, methods=["DELETE"])
     bp.add_url_rule(
         "/users/address/<id>/edit", view_func=address_edit, methods=["GET", "POST"]
     )
@@ -184,6 +140,9 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule(
         "/attributes/<id>/edit", view_func=attributes_manage, methods=["GET", "POST"]
     )
+    bp.add_url_rule(
+        "/attributes/<int:id>/delete", view_func=attribute_del, methods=["DELETE"]
+    )
     bp.add_url_rule("/collections", view_func=collections)
     bp.add_url_rule(
         "/collections/create", view_func=collections_manage, methods=["GET", "POST"]
@@ -191,12 +150,18 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule(
         "/collections/<id>/edit", view_func=collections_manage, methods=["GET", "POST"]
     )
+    bp.add_url_rule(
+        "/collections/<int:id>/delete", view_func=collection_del, methods=["DELETE"]
+    )
     bp.add_url_rule("/categories", view_func=categories)
     bp.add_url_rule(
         "/categories/create", view_func=categories_manage, methods=["GET", "POST"]
     )
     bp.add_url_rule(
         "/categories/<id>/edit", view_func=categories_manage, methods=["GET", "POST"]
+    )
+    bp.add_url_rule(
+        "/categories/<int:id>/delete", view_func=category_del, methods=["DELETE"]
     )
     bp.add_url_rule("/product_types", view_func=product_types)
     bp.add_url_rule(
@@ -206,6 +171,9 @@ def flaskshop_load_blueprints(app):
         "/product_types/<id>/edit",
         view_func=product_types_manage,
         methods=["GET", "POST"],
+    )
+    bp.add_url_rule(
+        "/product_types/<int:id>/delete", view_func=product_type_del, methods=["DELETE"]
     )
     bp.add_url_rule("/shipping_methods", view_func=shipping_methods)
     bp.add_url_rule(
@@ -217,6 +185,11 @@ def flaskshop_load_blueprints(app):
         "/shipping_methods/<id>/edit",
         view_func=shipping_methods_manage,
         methods=["GET", "POST"],
+    )
+    bp.add_url_rule(
+        "/shipping_methods/<int:id>/delete",
+        view_func=shipping_methods_del,
+        methods=["DELETE"],
     )
     bp.add_url_rule("/products", view_func=products)
     bp.add_url_rule("/products/<id>", view_func=product_detail)
@@ -234,10 +207,16 @@ def flaskshop_load_blueprints(app):
         "/products/<id>/edit", view_func=product_manage, methods=["GET", "POST"]
     )
     bp.add_url_rule(
+        "/products/<int:id>/delete", view_func=product_del, methods=["DELETE"]
+    )
+    bp.add_url_rule(
         "/products/variant/create", view_func=variant_manage, methods=["GET", "POST"]
     )
     bp.add_url_rule(
         "/products/variant/<id>/edit", view_func=variant_manage, methods=["GET", "POST"]
+    )
+    bp.add_url_rule(
+        "/variants/<int:id>/delete", view_func=variant_del, methods=["DELETE"]
     )
     bp.add_url_rule("/orders", view_func=orders)
     bp.add_url_rule("/orders/<id>", view_func=order_detail)
@@ -250,10 +229,12 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule(
         "/vouchers/<id>/edit", view_func=vouchers_manage, methods=["GET", "POST"]
     )
+    bp.add_url_rule(
+        "/vouchers/<int:id>/delete", view_func=voucher_del, methods=["DELETE"]
+    )
     bp.add_url_rule("/sales", view_func=sales)
     bp.add_url_rule("/sales/create", view_func=sales_manage, methods=["GET", "POST"])
     bp.add_url_rule("/sales/<id>/edit", view_func=sales_manage, methods=["GET", "POST"])
-    bp.add_url_rule(
-        "/variants/<int:id>/delete", view_func=variant_del, methods=["DELETE"]
-    )
+    bp.add_url_rule("/sales/<int:id>/delete", view_func=sale_del, methods=["DELETE"])
+
     app.register_blueprint(bp, url_prefix="/dashboard")
