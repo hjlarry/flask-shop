@@ -45,16 +45,10 @@ export default $(() => {
             $cartBadge.html(response.cart.numItems);
             $removeProductSuccess.removeClass('d-none');
           } else {
-            $.cookie('alert', 'true', { path: '/cart' });
             window.location.reload();
           }
         },
       });
     });
   });
-
-  if ($.cookie('alert') === 'true') {
-    $removeProductSuccess.removeClass('d-none');
-    $.cookie('alert', 'false', { path: '/cart' });
-  }
 });

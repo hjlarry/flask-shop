@@ -13267,6 +13267,10 @@ a.link--clean:hover {
   float: right;
 }
 
+.text-right {
+  text-align: right;
+}
+
 a {
   cursor: pointer;
 }

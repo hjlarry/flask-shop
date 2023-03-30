@@ -1,5 +1,4 @@
 import 'jquery';
-import 'jquery.cookie';
 import 'bootstrap';
 
 import '../scss/storefront.scss';
