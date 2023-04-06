@@ -91,5 +91,7 @@ if (mobileNav !== null) {
   window.addEventListener('resize', renderNavbar);
 }
 
-searchIcon.addEventListener('click', () => searchForm.classList.remove('search-form--hidden'));
-closeSearchIcon.addEventListener('click', () => searchForm.classList.add('search-form--hidden'));
+if (searchIcon !== null) {
+  searchIcon.addEventListener('click', () => searchForm.classList.remove('search-form--hidden'));
+  closeSearchIcon.addEventListener('click', () => searchForm.classList.add('search-form--hidden'));
+}

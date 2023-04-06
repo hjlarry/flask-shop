@@ -1,7 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
-const webpack = require('webpack');
 
 const resolve = path.resolve.bind(path, __dirname);
 // take debug mode from the environment
@@ -10,14 +9,6 @@ const debug = process.env.NODE_ENV === 'production' ? 'production' : 'developmen
 const extractCssPlugin = new MiniCssExtractPlugin({
     filename: '[name].css',
     chunkFilename: '[name].css',
-});
-
-const providePlugin = new webpack.ProvidePlugin({
-    $: 'jquery',
-    jQuery: 'jquery',
-    'window.jQuery': 'jquery',
-    Popper: 'popper.js',
-    'query-string': 'query-string',
 });
 
 const output = {
@@ -95,13 +86,7 @@ const config = {
     },
     plugins: [
         extractCssPlugin,
-        providePlugin,
     ],
-    resolve: {
-        alias: {
-            jquery: resolve('node_modules/jquery/dist/jquery.js'),
-        },
-    },
     optimization: {
         minimizer: [new TerserPlugin({
             extractComments: false,

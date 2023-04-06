@@ -24,7 +24,6 @@
   "homepage": "https://github.com/hjlarry/flaskshop#readme",
   "dependencies": {
     "bootstrap": "^5.2.3",
-    "jquery": "^3.6.4",
     "lazysizes": "^5.3.2",
     "svg-injector-2": "^2.1.5"
   },
