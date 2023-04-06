@@ -1,5 +1,4 @@
-import { csrftoken } from './public';
-
+const csrftoken = document.querySelector('meta[name=csrf-token]').getAttribute('content');
 const cartLine = document.querySelectorAll('.cart__line');
 const total = document.querySelector('.cart-total span');
 const cartBadge = document.querySelector('.navbar__brand__cart .badge');

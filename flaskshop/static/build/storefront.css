@@ -11009,7 +11009,7 @@ a.btn {
 .cart-dropdown {
   position: absolute;
   width: 33rem;
-  top: 9.1rem;
+  top: 7rem;
   right: 0;
   z-index: 3;
   display: none;
@@ -11052,7 +11052,6 @@ a.btn {
 }
 .cart-dropdown__list .item h3 p, .cart-dropdown__list .item .h3 p {
   margin-bottom: 0;
-  padding-top: 0.2rem;
   color: #bab7b6;
 }
 .cart-dropdown__list .item:last-child {
@@ -11904,6 +11903,7 @@ input#id_quantity:focus {
   .navbar__brand__cart .cart__icon {
     position: relative;
     padding: 2rem 1rem 2rem 0;
+    margin-top: 0;
   }
 }
 .navbar__brand__cart .cart__icon.hover {

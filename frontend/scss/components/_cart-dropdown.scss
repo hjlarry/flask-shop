@@ -1,7 +1,7 @@
 .cart-dropdown {
   position: absolute;
   width: 33rem;
-  top: 9.1rem;
+  top: 7.0rem;
   right: 0;
   z-index: 3;
   display: none;
@@ -50,7 +50,6 @@
 
         p {
           margin-bottom: 0;
-          padding-top: $global-padding * 0.2;
           color: $darken-gray;
         }
       }

@@ -3,1000 +3,1056 @@
 {% block title %}Style guide {% endblock %}
 
 {% block header %}
-<div class="container navbar__login">
-</div>
-<header class="checkout__header">
-  <div class="container">
-    <a href="/">
-      <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px" width="176px"></svg>
-    </a>
-    <h1>{% trans %}Style guide{% endtrans %}</h1>
-  </div>
-</header>
+    <header class="checkout__header">
+    <div class="navbar__login">
+        <div class="menu-icon-mobile d-none navbar__brand__menu-toggle closed open">
+            <svg data-src="{{ url_for('static', filename='img/mobile-menu.svg') }}" width="28px"
+                 height="20px"></svg>
+        </div>
+    </div>
+        <div class="container">
+            <a href="/">
+                <svg data-src="{{ url_for('static', filename='img/logo.svg') }}" height="38px" width="176px"></svg>
+            </a>
+            <h1>{% trans %}Style guide{% endtrans %}</h1>
+        </div>
+    </header>
 {% endblock %}
 
 {% block content %}
-<div class="container styleguide">
-  <div class="row">
-    <div class="col-md-3 push-md-9">
-      <nav class="styleguide__nav">
-        <a href="#typography">{% trans %}Typography{% endtrans %}</a>
-        <a href="#colors">{% trans %}Colors{% endtrans %}</a>
-        <a href="#grid">{% trans %}Grid{% endtrans %}</a>
-        <a href="#responsive">{% trans %}Responsive breakpoints{% endtrans %}</a>
-        <a href="#helpers">{% trans %}Helper classes{% endtrans %}</a>
-        <a href="#icons">{% trans %}Icons{% endtrans %}</a>
-        <a href="#s">{% trans %}Buttons{% endtrans %}</a>
-        <a href="#forms">{% trans %}Forms{% endtrans %}</a>
-        <a href="#pagination">{% trans %}Pagination{% endtrans %}</a>
-        <a href="#breadcrumbs">{% trans %}Breadcrumbs{% endtrans %}</a>
-        <a href="#notifications">{% trans %}Notifications{% endtrans %}</a>
-        <a href="#mainnav">{% trans %}Main navigation{% endtrans %}</a>
-        <a href="#tabs">{% trans %}Tabs{% endtrans %}</a>
-        <a href="#tables">{% trans %}Tables{% endtrans %}</a>
-        <a href="#cards">{% trans %}Cards{% endtrans %}</a>
-        <a href="#product">{% trans %}Product items{% endtrans %}</a>
-        <a href="#product-gallery">{% trans %}Product gallery{% endtrans %}</a>
-      </nav>
-    </div>
-    <div class="col-md-9 pull-md-3 styleguide__content">
-      <div id="typography" class="styleguide__content__block">
-        <div class="styleguide__tittle">
-          <h3 class="styleguide__content__block__title">{% trans %}Typography{% endtrans %}</h3>
-          <p>
-            {% trans %}We use Lato fontface in Regular(400),{% endtrans %} <span
-              class="styleguide__content__block__light">Light(300)</span>
-            {% trans %}and{% endtrans %} <span class="styleguide__content__block__bold">{% trans %}Bold(700){% endtrans
-              %}</span> {% trans %}weights{% endtrans %}.<br>
-            {% trans %}Lato includes only latin and latin extended characters. For other alphabets the default sans
-            serif font
-            will be used.{% endtrans %}
-          </p>
-          <p>{% trans %}Click and edit any text below to see how the component looks with different text{% endtrans %}
-          </p>
-          <p><strong>{% trans %}Headers{% endtrans %}</strong></p>
-        </div>
-        <div class="styleguide__section">get settings wariable
+    <div class="container styleguide">
+        <div class="row">
+            <div class="col-md-3 push-md-9">
+                <nav class="styleguide__nav">
+                    <a href="#typography">{% trans %}Typography{% endtrans %}</a>
+                    <a href="#colors">{% trans %}Colors{% endtrans %}</a>
+                    <a href="#grid">{% trans %}Grid{% endtrans %}</a>
+                    <a href="#responsive">{% trans %}Responsive breakpoints{% endtrans %}</a>
+                    <a href="#helpers">{% trans %}Helper classes{% endtrans %}</a>
+                    <a href="#icons">{% trans %}Icons{% endtrans %}</a>
+                    <a href="#s">{% trans %}Buttons{% endtrans %}</a>
+                    <a href="#forms">{% trans %}Forms{% endtrans %}</a>
+                    <a href="#pagination">{% trans %}Pagination{% endtrans %}</a>
+                    <a href="#breadcrumbs">{% trans %}Breadcrumbs{% endtrans %}</a>
+                    <a href="#notifications">{% trans %}Notifications{% endtrans %}</a>
+                    <a href="#mainnav">{% trans %}Main navigation{% endtrans %}</a>
+                    <a href="#tabs">{% trans %}Tabs{% endtrans %}</a>
+                    <a href="#tables">{% trans %}Tables{% endtrans %}</a>
+                    <a href="#cards">{% trans %}Cards{% endtrans %}</a>
+                    <a href="#product">{% trans %}Product items{% endtrans %}</a>
+                    <a href="#product-gallery">{% trans %}Product gallery{% endtrans %}</a>
+                </nav>
+            </div>
+            <div class="col-md-9 pull-md-3 styleguide__content">
+                <div id="typography" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Typography{% endtrans %}</h3>
+                        <p>
+                            {% trans %}We use Lato fontface in Regular(400),{% endtrans %} <span
+                                class="styleguide__content__block__light">Light(300)</span>
+                            {% trans %}and{% endtrans %} <span class="styleguide__content__block__bold">{% trans %}
+                            Bold(700){% endtrans %}</span> {% trans %}weights{% endtrans %}.<br>
+                            {% trans %}Lato includes only latin and latin extended characters. For other alphabets the
+                                default sans
+                                serif font
+                                will be used.{% endtrans %}
+                        </p>
+                        <p>{% trans %}Click and edit any text below to see how the component looks with different
+                            text{% endtrans %}
+                        </p>
+                        <p><strong>{% trans %}Headers{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">get settings wariable
 
-          <h1 contenteditable="true">{% trans %}H1 example text{% endtrans %}</h1>
-          <h2 contenteditable="true">{% trans %}H2 example text{% endtrans %}</h2>
-          <h3 contenteditable="true">{% trans %}H3 example text (always uppercased){% endtrans %}</h3>
-        </div>
-        <div class="styleguide__sub-tittle">
-          <p><strong>{% trans %}Paragraph{% endtrans %}</strong></p>
-        </div>
-        <div class="styleguide__section">
-          <p contenteditable="true">{% trans %}Saleor is open and free to use. It is not a bait to force you to pay us
-            later and
-            we promise to do our bests to fix bugs and improve the code. Some situations however call for a custom
-            solution and extra code to be written. Whether you need us to cover an exotic use case or build you a
-            custom e-commerce appliance, our team can help.{% endtrans %}</p>
-        </div>
-        <div class="styleguide__sub-tittle">
-          <p><strong>{% trans %}Links{% endtrans %}</strong></p>
-        </div>
-        <div class="styleguide__section">
-          <a href="#" contenteditable="true">{% trans %}Link example text{% endtrans %}</a>
-          <a href="#" class="link--styled" contenteditable="true">{% trans %}Styled link example text{% endtrans %}</a>
-        </div>
-      </div>
-      <div id="colors" class="styleguide__content__block">
-        <div class="styleguide__tittle">
-          <h3 class="styleguide__content__block__title">{% trans %}Colors{% endtrans %}</h3>
-        </div>
-        <div class="styleguide__section">
-          <div class="row">
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--body-color">
-              </div>
-              <p>#333333<br>$body-color</p>
-            </div>
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--white">
-              </div>
-              <p>#ffffff<br>$white</p>
-            </div>
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--light-gray">
-              </div>
-              <p>#f2f2f2<br>$light-gray</p>
-            </div>
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--gray">
-              </div>
-              <p>#D3D1D0<br>$gray</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--darken-gray">
-              </div>
-              <p>#bab7b6<br>$darken-gray</p>
-            </div>
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--skull-gray">
-              </div>
-              <p>#828282<br>$skull-gray</p>
-            </div>
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--blue">
-              </div>
-              <p>#26A5D4<br>$blue</p>
-            </div>
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--darken-blue">
-              </div>
-              <p>#1e83a9<br>$darken-blue</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--red">
-              </div>
-              <p>#EB5757<br>$red</p>
-            </div>
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--dark-red">
-              </div>
-              <p>#c53636<br>$dark-red</p>
-            </div>
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--green">
-              </div>
-              <p>#27AE60<br>$green</p>
-            </div>
-            <div class="col-md-3 col-6 styleguide__content__block__color">
-              <div class="styleguide__content__block__color--beige">
-              </div>
-              <p>#FFFAEC<br>$beige</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="grid" class="styleguide__content__block">
-        <div class="styleguide__tittle">
-          <h3 class="styleguide__content__block__title">Grid</h3>
-          <p>{% trans %}We use{% endtrans %} <a target="_blank"
-              href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap
-              5</a> {% trans %}responsive grid which is based on a 12 column layout. In most cases we use following
-            combinations{% endtrans %}:
-          </p>
-        </div>
-        <div class="styleguide__section">
-          <div class="row styleguide__content__block__grid">
-            <div class="col-md-3 col-6">
-              <p>col-md-3 col-6</p>
-            </div>
-            <div class="col-md-3 col-6">
-              <p>col-md-3 col-6</p>
-            </div>
-            <div class="col-md-3 col-6">
-              <p>col-md-3 col-6</p>
-            </div>
-            <div class="col-md-3 col-6">
-              <p>col-md-3 col-6</p>
-            </div>
-          </div>
-          <div class="row styleguide__content__block__grid">
-            <div class="col-md-6">
-              <p>col-md-6</p>
-            </div>
-            <div class="col-md-6">
-              <p>col-md-6</p>
-            </div>
-          </div>
-          <div class="row styleguide__content__block__grid">
-            <div class="col-lg-10 m-auto">
-              <p>col-lg-10 m-auto</p>
-            </div>
-          </div>
-          <div class="row styleguide__content__block__grid">
-            <div class="col-md-7">
-              <p>col-md-7</p>
-            </div>
-            <div class="col-md-5 styleguide__content__block__grid">
-              <p>col-md-5</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="responsive" class="styleguide__content__block">
-        <div class="styleguide__tittle">
-          <h3 class="styleguide__content__block__title">{% trans %}Responsive breakpoints{% endtrans %}</h3>
-        </div>
-        <div class="styleguide__section">
-          <div class="table__header">
-            <div class="row">
-              <div class="col-4">
-              </div>
-              <div class="col-4">
-                <small>{% trans %}Max container width{% endtrans %}</small>
-              </div>
-              <div class="col-4">
-                <small>{% trans %}Class prefix{% endtrans %}</small>
-              </div>
-            </div>
-          </div>
-          <div class="table__row">
-            <div class="row">
-              <div class="col-4">
-                {% trans %}Extra small{% endtrans %}<br>
-                <576px </div>
-                  <div class="col-4">
-                    {% trans %}None (auto){% endtrans %}
-                  </div>
-                  <div class="col-4">
-                    .col-
-                  </div>
-              </div>
-            </div>
-            <div class="table__row">
-              <div class="row">
-                <div class="col-4">
-                  {% trans %}Small{% endtrans %}<br>≥576px
-                </div>
-                <div class="col-4">
-                  540px
-                </div>
-                <div class="col-4">
-                  .col-sm
-                </div>
-              </div>
-            </div>
-            <div class="table__row">
-              <div class="row">
-                <div class="col-4">
-                  {% trans %}Medium{% endtrans %}<br>≥768px
-                </div>
-                <div class="col-4">
-                  720px
-                </div>
-                <div class="col-4">
-                  .col-md
-                </div>
-              </div>
-            </div>
-            <div class="table__row">
-              <div class="row">
-                <div class="col-4">
-                  {% trans %}Large{% endtrans %}<br>≥992px
-                </div>
-                <div class="col-4">
-                  960px
-                </div>
-                <div class="col-4">
-                  .col-lg
-                </div>
-              </div>
-            </div>
-            <div class="table__row">
-              <div class="row">
-                <div class="col-4">
-                  {% trans %}Extra large{% endtrans %}<br>≥1200px
-                </div>
-                <div class="col-4">
-                  1140px
-                </div>
-                <div class="col-4">
-                  .col-xl
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="helpers" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Helper classes</h3>
-            <p>{% trans %}Storefront templates built with{% endtrans %} <a target="_blank"
-                href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap
-                5</a> {% trans %}framework wich has handful utility classes{% endtrans %}:</p>
-            <p><strong>{% trans %}Responsive floats{% endtrans %}</strong></p>
-          </div>
-          <div class="styleguide__section">
-            <div>
-              <p class="float-left">
-                <code>&lt;div class="float-left"&gt;</code>{% trans %}Float left on all viewport sizes{% endtrans
-                %}<code>&lt;/div&gt;</code>
-              </p>
-            </div>
-            <br>
-            <div>
-              <p class="float-right">
-                <code>&lt;div class="float-right"&gt;</code>{% trans %}Float right on all viewport sizes{% endtrans
-                %}<code>&lt;/div&gt;</code>
-              </p>
-            </div>
-            <br>
-            <div>
-              <p class="float-none">
-                <code>&lt;div class="float-none"&gt;</code>{% trans %}Don't float on all viewport sizes{% endtrans
-                %}<code>&lt;/div&gt;</code>
-              </p>
-            </div>
-            <br>
-            <div>
-              <p class="float-sm-left">
-                <code>&lt;div class="float-sm-left"&gt;</code>{% trans %}Float left on viewports sized SM (small) or
-                wider{% endtrans %}<code>&lt;/div&gt;</code>
-              </p>
-            </div>
-            <br>
-            <div>
-              <p class="float-md-right">
-                <code>&lt;div class="float-md-right"&gt;</code>{% trans %}Float right on viewports sized MD (medium) or
-                wider{% endtrans %}<code>&lt;/div&gt;</code>
-              </p>
-            </div>
-            <br>
-          </div>
-          <div class="styleguide__sub-tittle">
-            <p><strong>{% trans %}Responsive utilities{% endtrans %}</strong></p>
-          </div>
-          <div class="styleguide__section">
-            <p>{% trans %}The <code>.hidden-*-up</code> classes hide the element when the viewport is at the given
-              breakpoint or
-              wider. For example, <code>.hidden-md-up</code> hides an element on medium, large, and extra-large
-              viewports.{% endtrans %}</p>
-            <p>{% trans %}The <code>.hidden-*-down</code> classes hide the element when the viewport is at the given
-              breakpoint or
-              smaller. For example, <code>.hidden-md-down</code> hides an element on extra-small, small, and medium
-              viewports.{% endtrans %}</p>
-          </div>
-        </div>
-        <div id="icons" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">{% trans %}Icons{% endtrans %}</h3>
-          </div>
-          <div class="styleguide__section">
-            <svg data-src="{{ url_for('static', filename='img/cart.svg') }}"></svg>
-            <svg data-src="{{ url_for('static', filename='img/chevron-down.svg') }}"></svg>
-            <svg data-src="{{ url_for('static', filename='img/chevron-up.svg') }}"></svg>
-            <svg data-src="{{ url_for('static', filename='img/arrow-down.svg') }}"></svg>
-            <svg data-src="{{ url_for('static', filename='img/arrow-up.svg') }}"></svg>
-            <svg data-src="{{ url_for('static', filename='img/search.svg') }}"></svg>
-            <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
-            <svg data-src="{{ url_for('static', filename='img/delete.svg') }}"></svg>
-            <svg data-src="{{ url_for('static', filename='img/loader.svg') }}"></svg>
-          </div>
-        </div>
-        <div id="buttons" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Buttons</h3>
-            <p>{% trans %}Click and edit any button below to see how the component looks with different text{% endtrans
-              %}</p>
-          </div>
-          <div class="styleguide__section">
-            <button class="btn primary">
-              <span contenteditable="true">{% trans %}Primary Button (buttons can be really very wide){% endtrans
-                %}</span>
-            </button>
-            <button class="btn secondary">
-              <span contenteditable="true">{% trans %}Secondary Button{% endtrans %}</span>
-            </button>
-            <button class="btn danger">
-              <span contenteditable="true">{% trans %}Danger Button{% endtrans %}</span>
-            </button>
-            <button class="btn primary disabled">
-              <span contenteditable="true">{% trans %}Disabled Button{% endtrans %}</span>
-            </button>
-            <button class="btn gray">
-              <span contenteditable="true">{% trans %}Gray Button{% endtrans %}</span>
-            </button>
-            <button class="btn primary narrow">
-              <span contenteditable="true">{% trans %}Primary Narrow Button{% endtrans %}</span>
-            </button>
-            <button class="btn secondary narrow">
-              <span contenteditable="true">{% trans %}Secondary Narrow Button{% endtrans %}</span>
-            </button>
-            <button class="btn danger narrow">
-              <span contenteditable="true">{% trans %}Danger Narrow Button{% endtrans %}</span>
-            </button>
-            <div class="home__block1">
-              <div class="home--square">
-                <div class="home--content">
-                  <div class="home--content-wrapper">
-                    <div class="home--content-inner">
-                      <a class="btn btn-secondary home__button" href="#" onclick="return false;">
-                        <span contenteditable="true">{% trans %}Home page button{% endtrans %}</span>
-                      </a>
+                        <h1 contenteditable="true">{% trans %}H1 example text{% endtrans %}</h1>
+                        <h2 contenteditable="true">{% trans %}H2 example text{% endtrans %}</h2>
+                        <h3 contenteditable="true">{% trans %}H3 example text (always uppercased){% endtrans %}</h3>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="forms" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">{% trans %}Forms{% endtrans %}</h3>
-            <p><strong>{% trans %}Text form{% endtrans %}</strong></p>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label class="control-label" contenteditable="true">{% trans %}Given name{% endtrans %}</label>
-                  <input autocomplete="given-name" class="form-control" maxlength="256" name="first_name" title=""
-                    type="text">
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <div class="form-group">
-                  <label class="control-label" contenteditable="true">{% trans %}Family name{% endtrans %}</label>
-                  <input autocomplete="family-name" class="form-control" id="id_last_name" maxlength="256"
-                    name="last_name" title="" type="text">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="styleguide__sub-tittle">
-            <p><strong>{% trans %}Filters{% endtrans %}</strong></p>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="col-lg-4 col-md-6 m-auto">
-                <div class="styleguide__section">
-                  <div class="product-filters">
-                    <div class="filter-section" aria-expanded="true">
-                      <div class="filter-section__header">
-                        <h3>{% trans %}Box Size{% endtrans %}</h3>
-                        <div class="filter-section__icon">
-                          <img class="lazypreload lazyloaded"
-                            data-src="{{ url_for('static', filename='img/chevron-up.svg') }}"
-                            src="{{ url_for('static', filename='img/chevron-up.svg') }}">
-                        </div>
-                      </div>
-                      <div class="filter-section__content">
-                        <div class="filter-form-field">
-                          <ul>
-                            <li>
-                              <label for="Flavor1">
-                                <input type="radio" name="Flavor" value="19" id="Flavor1">
-                                {% trans %}100g{% endtrans %}
-                              </label>
-                            </li>
-                            <li>
-                              <label for="Flavor2">
-                                <input type="radio" name="Flavor" value="20" id="Flavor2">
-                                {% trans %}250g{% endtrans %}
-                              </label>
-                            </li>
-                            <li>
-                              <label for="Flavor2">
-                                <input type="radio" name="Flavor" value="20" id="Flavor2">
-                                {% trans %}500g{% endtrans %}
-                              </label>
-                            </li>
-                            <li>
-                              <label for="Flavor2">
-                                <input type="radio" name="Flavor" value="20" id="Flavor2">
-                                {% trans %}Feel free to place here as long option as you want{% endtrans %}
-                              </label>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Paragraph{% endtrans %}</strong></p>
                     </div>
-                  </div>
+                    <div class="styleguide__section">
+                        <p contenteditable="true">{% trans %}Saleor is open and free to use. It is not a bait to force
+                            you to pay us
+                            later and
+                            we promise to do our bests to fix bugs and improve the code. Some situations however call
+                            for a custom
+                            solution and extra code to be written. Whether you need us to cover an exotic use case or
+                            build you a
+                            custom e-commerce appliance, our team can help.{% endtrans %}</p>
+                    </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Links{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">
+                        <a href="#" contenteditable="true">{% trans %}Link example text{% endtrans %}</a>
+                        <a href="#" class="link--styled" contenteditable="true">{% trans %}Styled link example
+                            text{% endtrans %}</a>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="styleguide__sub-tittle">
-            <p><strong>{% trans %}Select{% endtrans %}</strong></p>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="col-12">
-                <div class="deliveryform">
-                  <select>
-                    <option>{% trans %}Option{% endtrans %} 1</option>
-                    <option>{% trans %}Option{% endtrans %} 2</option>
-                    <option>{% trans %}Option{% endtrans %} 3</option>
-                    <option>{% trans %}Option{% endtrans %} 4</option>
-                  </select>
+                <div id="colors" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Colors{% endtrans %}</h3>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--body-color">
+                                </div>
+                                <p>#333333<br>$body-color</p>
+                            </div>
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--white">
+                                </div>
+                                <p>#ffffff<br>$white</p>
+                            </div>
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--light-gray">
+                                </div>
+                                <p>#f2f2f2<br>$light-gray</p>
+                            </div>
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--gray">
+                                </div>
+                                <p>#D3D1D0<br>$gray</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--darken-gray">
+                                </div>
+                                <p>#bab7b6<br>$darken-gray</p>
+                            </div>
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--skull-gray">
+                                </div>
+                                <p>#828282<br>$skull-gray</p>
+                            </div>
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--blue">
+                                </div>
+                                <p>#26A5D4<br>$blue</p>
+                            </div>
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--darken-blue">
+                                </div>
+                                <p>#1e83a9<br>$darken-blue</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--red">
+                                </div>
+                                <p>#EB5757<br>$red</p>
+                            </div>
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--dark-red">
+                                </div>
+                                <p>#c53636<br>$dark-red</p>
+                            </div>
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--green">
+                                </div>
+                                <p>#27AE60<br>$green</p>
+                            </div>
+                            <div class="col-md-3 col-6 styleguide__content__block__color">
+                                <div class="styleguide__content__block__color--beige">
+                                </div>
+                                <p>#FFFAEC<br>$beige</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="styleguide__sub-tittle">
-            <p><strong>{% trans %}Number input{% endtrans %}</strong></p>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="col-12">
-                <form role="form" class="form-cart">
-                  <div class="" tabindex="-1">
-                    <input id="id_quantity" max="50" min="1" name="quantity" type="number" value="2" required="">
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="styleguide__sub-tittle">
-            <p><strong>{% trans %}Radio buttons{% endtrans %}</strong></p>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="col-12">
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="styleguide-radio">
-                    <span contenteditable="true">{% trans %}First option{% endtrans %}</span>
-                  </label>
+                <div id="grid" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">Grid</h3>
+                        <p>{% trans %}We use{% endtrans %} <a target="_blank"
+                                                              href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap
+                            5</a> {% trans %}responsive grid which is based on a 12 column layout. In most cases we use
+                            following
+                            combinations{% endtrans %}:
+                        </p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row styleguide__content__block__grid">
+                            <div class="col-md-3 col-6">
+                                <p>col-md-3 col-6</p>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <p>col-md-3 col-6</p>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <p>col-md-3 col-6</p>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <p>col-md-3 col-6</p>
+                            </div>
+                        </div>
+                        <div class="row styleguide__content__block__grid">
+                            <div class="col-md-6">
+                                <p>col-md-6</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>col-md-6</p>
+                            </div>
+                        </div>
+                        <div class="row styleguide__content__block__grid">
+                            <div class="col-lg-10 m-auto">
+                                <p>col-lg-10 m-auto</p>
+                            </div>
+                        </div>
+                        <div class="row styleguide__content__block__grid">
+                            <div class="col-md-7">
+                                <p>col-md-7</p>
+                            </div>
+                            <div class="col-md-5 styleguide__content__block__grid">
+                                <p>col-md-5</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="styleguide-radio">
-                    <span contenteditable="true">{% trans %}Feel free to place here as long text as you want{% endtrans
-                      %}</span>
-                  </label>
+                <div id="responsive" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Responsive
+                            breakpoints{% endtrans %}</h3>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="table__header">
+                            <div class="row">
+                                <div class="col-4">
+                                </div>
+                                <div class="col-4">
+                                    <small>{% trans %}Max container width{% endtrans %}</small>
+                                </div>
+                                <div class="col-4">
+                                    <small>{% trans %}Class prefix{% endtrans %}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table__row">
+                            <div class="row">
+                                <div class="col-4">
+                                    {% trans %}Extra small{% endtrans %}<br>
+                                    <576px
+                                </div>
+                                <div class="col-4">
+                                    {% trans %}None (auto){% endtrans %}
+                                </div>
+                                <div class="col-4">
+                                    .col-
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table__row">
+                            <div class="row">
+                                <div class="col-4">
+                                    {% trans %}Small{% endtrans %}<br>≥576px
+                                </div>
+                                <div class="col-4">
+                                    540px
+                                </div>
+                                <div class="col-4">
+                                    .col-sm
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table__row">
+                            <div class="row">
+                                <div class="col-4">
+                                    {% trans %}Medium{% endtrans %}<br>≥768px
+                                </div>
+                                <div class="col-4">
+                                    720px
+                                </div>
+                                <div class="col-4">
+                                    .col-md
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table__row">
+                            <div class="row">
+                                <div class="col-4">
+                                    {% trans %}Large{% endtrans %}<br>≥992px
+                                </div>
+                                <div class="col-4">
+                                    960px
+                                </div>
+                                <div class="col-4">
+                                    .col-lg
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table__row">
+                            <div class="row">
+                                <div class="col-4">
+                                    {% trans %}Extra large{% endtrans %}<br>≥1200px
+                                </div>
+                                <div class="col-4">
+                                    1140px
+                                </div>
+                                <div class="col-4">
+                                    .col-xl
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="styleguide__sub-tittle">
-            <p><strong>{% trans %}Input groups{% endtrans %}</strong></p>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="input-group mb-3">
-                  <input class="form-control" type="text" name="q" required value="{% if query %}{{ query }}{% endif %}"
-                    placeholder="Search for product">
-                  <button class="btn secondary narrow">
-                    <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="19" height="19"></svg>
-                  </button>
+                <div id="helpers" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">Helper classes</h3>
+                        <p>{% trans %}Storefront templates built with{% endtrans %} <a target="_blank"
+                                                                                       href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap
+                            5</a> {% trans %}framework wich has handful utility classes{% endtrans %}:</p>
+                        <p><strong>{% trans %}Responsive floats{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div>
+                            <p class="float-left">
+                                <code>&lt;div class="float-left"&gt;</code>{% trans %}Float left on all viewport
+                                sizes{% endtrans %}<code>&lt;/div&gt;</code>
+                            </p>
+                        </div>
+                        <br>
+                        <div>
+                            <p class="float-right">
+                                <code>&lt;div class="float-right"&gt;</code>{% trans %}Float right on all viewport
+                                sizes{% endtrans %}<code>&lt;/div&gt;</code>
+                            </p>
+                        </div>
+                        <br>
+                        <div>
+                            <p class="float-none">
+                                <code>&lt;div class="float-none"&gt;</code>{% trans %}Don't float on all viewport
+                                sizes{% endtrans %}<code>&lt;/div&gt;</code>
+                            </p>
+                        </div>
+                        <br>
+                        <div>
+                            <p class="float-sm-left">
+                                <code>&lt;div class="float-sm-left"&gt;</code>{% trans %}Float left on viewports sized
+                                SM (small) or
+                                wider{% endtrans %}<code>&lt;/div&gt;</code>
+                            </p>
+                        </div>
+                        <br>
+                        <div>
+                            <p class="float-md-right">
+                                <code>&lt;div class="float-md-right"&gt;</code>{% trans %}Float right on viewports sized
+                                MD (medium) or
+                                wider{% endtrans %}<code>&lt;/div&gt;</code>
+                            </p>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Responsive utilities{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">
+                        <p>{% trans %}The <code>.hidden-*-up</code> classes hide the element when the viewport is at the
+                            given
+                            breakpoint or
+                            wider. For example, <code>.hidden-md-up</code> hides an element on medium, large, and
+                            extra-large
+                            viewports.{% endtrans %}</p>
+                        <p>{% trans %}The <code>.hidden-*-down</code> classes hide the element when the viewport is at
+                            the given
+                            breakpoint or
+                            smaller. For example, <code>.hidden-md-down</code> hides an element on extra-small, small,
+                            and medium
+                            viewports.{% endtrans %}</p>
+                    </div>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <form class="form-group input-btn">
-                  <div class="form-group">
-                    <input class="form-control" id="id_discount-voucher" name="discount-voucher" title="" type="text"
-                      required="">
-                  </div>
-                  <button class="btn secondary narrow" type="submit">{% trans %}Use{% endtrans %}</button>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="styleguide__sub-tittle">
-            <p><strong>{% trans %}Variant picker{% endtrans %}</strong></p>
-          </div>
-          <div class="variant-picker styleguide__section">
-            <div class="btn-group" data-toggle="buttons">
-              <label class="btn btn-secondary variant-picker__option"><input type="radio" name="4"><span
-                  contenteditable="true">{% trans %}100g{% endtrans %}</span></label>
-              <label class="btn btn-secondary variant-picker__option" aria-pressed="true"><input type="radio"
-                  name="5"><span contenteditable="true">{% trans %}250g{% endtrans %}</span></label>
-              <label class="btn btn-secondary variant-picker__option active" aria-pressed="true"><input type="radio"
-                  name="6"><span contenteditable="true">{% trans %}Feel free to place here as long text as you want{%
-                  endtrans %}</span></label>
-            </div>
-          </div>
-          <div class="styleguide__sub-tittle">
-            <p><strong>{% trans %}Errors{% endtrans %}</strong></p>
-            <p>{% trans %}Errors are always displayed as a small red text below the form explaining what cause the
-              error.{% endtrans %}</p>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="col-12">
-                <div class="form-group">
-                  <label class="control-label" for="id_first_name" contenteditable="true">Email</label>
-                  <input autocomplete="given-name" class="form-control" id="id_first_name" maxlength="256"
-                    name="first_name" title="" type="text">
-                  <span class="help-block">
+                <div id="icons" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Icons{% endtrans %}</h3>
+                    </div>
+                    <div class="styleguide__section">
+                        <svg data-src="{{ url_for('static', filename='img/cart.svg') }}"></svg>
+                        <svg data-src="{{ url_for('static', filename='img/chevron-down.svg') }}"></svg>
+                        <svg data-src="{{ url_for('static', filename='img/chevron-up.svg') }}"></svg>
+                        <svg data-src="{{ url_for('static', filename='img/arrow-down.svg') }}"></svg>
+                        <svg data-src="{{ url_for('static', filename='img/arrow-up.svg') }}"></svg>
+                        <svg data-src="{{ url_for('static', filename='img/search.svg') }}"></svg>
+                        <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
+                        <svg data-src="{{ url_for('static', filename='img/delete.svg') }}"></svg>
+                        <svg data-src="{{ url_for('static', filename='img/loader.svg') }}"></svg>
+                    </div>
+                </div>
+                <div id="buttons" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">Buttons</h3>
+                        <p>{% trans %}Click and edit any button below to see how the component looks with different
+                            text{% endtrans %}</p>
+                    </div>
+                    <div class="styleguide__section">
+                        <button class="btn primary">
+              <span contenteditable="true">{% trans %}Primary Button (buttons can be really very
+                  wide){% endtrans %}</span>
+                        </button>
+                        <button class="btn secondary">
+                            <span contenteditable="true">{% trans %}Secondary Button{% endtrans %}</span>
+                        </button>
+                        <button class="btn danger">
+                            <span contenteditable="true">{% trans %}Danger Button{% endtrans %}</span>
+                        </button>
+                        <button class="btn primary disabled">
+                            <span contenteditable="true">{% trans %}Disabled Button{% endtrans %}</span>
+                        </button>
+                        <button class="btn gray">
+                            <span contenteditable="true">{% trans %}Gray Button{% endtrans %}</span>
+                        </button>
+                        <button class="btn primary narrow">
+                            <span contenteditable="true">{% trans %}Primary Narrow Button{% endtrans %}</span>
+                        </button>
+                        <button class="btn secondary narrow">
+                            <span contenteditable="true">{% trans %}Secondary Narrow Button{% endtrans %}</span>
+                        </button>
+                        <button class="btn danger narrow">
+                            <span contenteditable="true">{% trans %}Danger Narrow Button{% endtrans %}</span>
+                        </button>
+                        <div class="home__block1">
+                            <div class="home--square">
+                                <div class="home--content">
+                                    <div class="home--content-wrapper">
+                                        <div class="home--content-inner">
+                                            <a class="btn btn-secondary home__button" href="#" onclick="return false;">
+                                                <span contenteditable="true">{% trans %}Home page
+                                                    button{% endtrans %}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="forms" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Forms{% endtrans %}</h3>
+                        <p><strong>{% trans %}Text form{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" contenteditable="true">{% trans %}Given
+                                        name{% endtrans %}</label>
+                                    <input autocomplete="given-name" class="form-control" maxlength="256"
+                                           name="first_name" title=""
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" contenteditable="true">{% trans %}Family
+                                        name{% endtrans %}</label>
+                                    <input autocomplete="family-name" class="form-control" id="id_last_name"
+                                           maxlength="256"
+                                           name="last_name" title="" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Filters{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 m-auto">
+                                <div class="styleguide__section">
+                                    <div class="product-filters">
+                                        <div class="filter-section" aria-expanded="true">
+                                            <div class="filter-section__header">
+                                                <h3>{% trans %}Box Size{% endtrans %}</h3>
+                                                <div class="filter-section__icon">
+                                                    <img class="lazypreload lazyloaded"
+                                                         data-src="{{ url_for('static', filename='img/chevron-up.svg') }}"
+                                                         src="{{ url_for('static', filename='img/chevron-up.svg') }}">
+                                                </div>
+                                            </div>
+                                            <div class="filter-section__content">
+                                                <div class="filter-form-field">
+                                                    <ul>
+                                                        <li>
+                                                            <label for="Flavor1">
+                                                                <input type="radio" name="Flavor" value="19"
+                                                                       id="Flavor1">
+                                                                {% trans %}100g{% endtrans %}
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label for="Flavor2">
+                                                                <input type="radio" name="Flavor" value="20"
+                                                                       id="Flavor2">
+                                                                {% trans %}250g{% endtrans %}
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label for="Flavor2">
+                                                                <input type="radio" name="Flavor" value="20"
+                                                                       id="Flavor2">
+                                                                {% trans %}500g{% endtrans %}
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label for="Flavor2">
+                                                                <input type="radio" name="Flavor" value="20"
+                                                                       id="Flavor2">
+                                                                {% trans %}Feel free to place here as long option as you
+                                                                    want{% endtrans %}
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Select{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="deliveryform">
+                                    <select>
+                                        <option>{% trans %}Option{% endtrans %} 1</option>
+                                        <option>{% trans %}Option{% endtrans %} 2</option>
+                                        <option>{% trans %}Option{% endtrans %} 3</option>
+                                        <option>{% trans %}Option{% endtrans %} 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Number input{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-12">
+                                <form role="form" class="form-cart">
+                                    <div class="" tabindex="-1">
+                                        <input id="id_quantity" max="50" min="1" name="quantity" type="number" value="2"
+                                               required="">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Radio buttons{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="styleguide-radio">
+                                        <span contenteditable="true">{% trans %}First option{% endtrans %}</span>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="styleguide-radio">
+                                        <span contenteditable="true">{% trans %}Feel free to place here as long text as
+                                            you want{% endtrans %}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Input groups{% endtrans %}</strong></p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <input class="form-control" type="text" name="q" required
+                                           value="{% if query %}{{ query }}{% endif %}"
+                                           placeholder="Search for product">
+                                    <button class="btn secondary narrow">
+                                        <svg data-src="{{ url_for('static', filename='img/search.svg') }}" width="19"
+                                             height="19"></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <form class="form-group input-btn">
+                                    <div class="form-group">
+                                        <input class="form-control" id="id_discount-voucher" name="discount-voucher"
+                                               title="" type="text"
+                                               required="">
+                                    </div>
+                                    <button class="btn secondary narrow" type="submit">{% trans %}
+                                        Use{% endtrans %}</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Variant picker{% endtrans %}</strong></p>
+                    </div>
+                    <div class="variant-picker styleguide__section">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-secondary variant-picker__option"><input type="radio" name="4"><span
+                                    contenteditable="true">{% trans %}100g{% endtrans %}</span></label>
+                            <label class="btn btn-secondary variant-picker__option" aria-pressed="true"><input
+                                    type="radio"
+                                    name="5"><span contenteditable="true">{% trans %}250g{% endtrans %}</span></label>
+                            <label class="btn btn-secondary variant-picker__option active" aria-pressed="true"><input
+                                    type="radio"
+                                    name="6"><span contenteditable="true">{% trans %}Feel free to place here as long
+                                text as you want{% endtrans %}</span></label>
+                        </div>
+                    </div>
+                    <div class="styleguide__sub-tittle">
+                        <p><strong>{% trans %}Errors{% endtrans %}</strong></p>
+                        <p>{% trans %}Errors are always displayed as a small red text below the form explaining what
+                            cause the
+                            error.{% endtrans %}</p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="control-label" for="id_first_name"
+                                           contenteditable="true">Email</label>
+                                    <input autocomplete="given-name" class="form-control" id="id_first_name"
+                                           maxlength="256"
+                                           name="first_name" title="" type="text">
+                                    <span class="help-block">
                     <div class="help-block" contenteditable="true">{% trans %}This field is required{% endtrans %}
                     </div>
                   </span>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-8 col-md-6">
-                <p contenteditable="true">{% trans %}Radio form{% endtrans %}</p>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="styleguide-radio">
-                    <span contenteditable="true">{% trans %}First option{% endtrans %}</span>
-                  </label>
-                </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="styleguide-radio">
-                    <span contenteditable="true">{% trans %}Feel free to place here as long text as you want{%
-                      endtrans
-                      %}</span>
-                  </label>
-                </div>
-                <span class="help-block">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 col-md-6">
+                                <p contenteditable="true">{% trans %}Radio form{% endtrans %}</p>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="styleguide-radio">
+                                        <span contenteditable="true">{% trans %}First option{% endtrans %}</span>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="styleguide-radio">
+                                        <span contenteditable="true">{% trans %}Feel free to place here as long text as
+                                            you want{% endtrans %}</span>
+                                    </label>
+                                </div>
+                                <span class="help-block">
                   <div class="help-block" contenteditable="true">{% trans %}This field is required{% endtrans %}.
                   </div>
                 </span>
-              </div>
-              <div class="col-4 col-md-6">
-                <p contenteditable="true">{% trans %}Quantity{% endtrans %}</p>
-                <form role="form" class="form-cart form-group">
-                  <div class="" tabindex="-1">
-                    <input id="id_quantity" max="50" min="1" name="quantity" type="number" value="52" required="">
-                  </div>
-                </form>
-                <span class="help-block">
+                            </div>
+                            <div class="col-4 col-md-6">
+                                <p contenteditable="true">{% trans %}Quantity{% endtrans %}</p>
+                                <form role="form" class="form-cart form-group">
+                                    <div class="" tabindex="-1">
+                                        <input id="id_quantity" max="50" min="1" name="quantity" type="number"
+                                               value="52" required="">
+                                    </div>
+                                </form>
+                                <span class="help-block">
                   <div class="help-block" contenteditable="true">{% trans %}Only 32 remaining in stock{% endtrans %}.
                   </div>
                 </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="pagination" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">{% trans %}Pagination{% endtrans %}</h3>
-            <p>{% trans %}Click and edit any item below to see how the component looks with different text{% endtrans
-              %}
-            </p>
-          </div>
-          <ul class="pagination styleguide__section">
-            <li class="page-item disabled">
-              <a class="page-link" href="#pagination">«</a>
-            </li>
-            <li class="page-item active" aria-current="page">
-              <a class="page-link" href="#pagination">1</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#pagination">2</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#pagination">3</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#pagination">»</a>
-            </li>
-          </ul>
-        </div>
-        <div id="breadcrumbs" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Breadcrumbs</h3>
-            <p>{% trans %}Click and edit any item below to see how the component looks with different text{% endtrans
-              %}
-            </p>
-          </div>
-          <ul class="breadcrumbs list-unstyled styleguide__section">
-            <li>
-              <a href="/" contenteditable="true">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="{{ url_for('account.index') }}" contenteditable="true">
-                {% trans %}Your profile{% endtrans %}
-              </a>
-            </li>
-            <li>
-              <a href="#" contenteditable="true">
-                {% trans %}Edit address{% endtrans %}
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="notifications" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">{% trans %}Notifications{% endtrans %}</h3>
-            <p>{% trans %}Click and edit any item below to see how the component looks with different text{% endtrans
-              %}
-            </p>
-          </div>
-          <div class="styleguide__section">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-              <span contenteditable="true">{% trans %}This is Success alert{% endtrans %}.</span>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              <span contenteditable="true">{% trans %}This is Danger alert{% endtrans %}.</span>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <span contenteditable="true">{% trans %}This is Warning alert. Notifications content is not limited with
-                container width. Place here as many information as you want or need to{% endtrans %}.</span>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-          </div>
-        </div>
-        <div id="mainnav" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">{% trans %}Main navigation{% endtrans %}</h3>
-            <p>{% trans %}Click and edit any item below to see how the component looks with different text{% endtrans
-              %}
-            </p>
-          </div>
-
-          <nav class="navigation styleguide__section">
-            <ul class="menu nav mb-4 mb-md-0">
-              <li class="nav-item  menu__item">
-                <a class="nav-link" href="/products/category/1">
-                  Apparel
-                </a>
-              </li>
-              <li class="nav-item  menu__item">
-                <a class="nav-link" href="/products/category/2">
-                  Accessories
-                </a>
-              </li>
-              <li class="nav-item nav-item__dropdown menu__item">
-                <a class="nav-link" href="/products/category/3">
-                  Groceries
-                </a>
-                <div class="nav-item__dropdown-content">
-                  <div class="container">
-                    <ul>
-                      <li>
-                        <a href="/products/category/4">
-                          <strong>Coffees</strong>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="/products/category/5">
-                          <strong>Candies</strong>
-                        </a>
-                      </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="pagination" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Pagination{% endtrans %}</h3>
+                        <p>{% trans %}Click and edit any item below to see how the component looks with different
+                            text{% endtrans %}
+                        </p>
+                    </div>
+                    <ul class="pagination styleguide__section">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#pagination">«</a>
+                        </li>
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#pagination">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#pagination">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#pagination">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#pagination">»</a>
+                        </li>
                     </ul>
-                  </div>
                 </div>
-              </li>
-              <li class="nav-item  menu__item">
-                <a class="nav-link" href="/products/category/6">
-                  Books
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div id="tabs" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">{% trans %}Tabs navigation{% endtrans %}</h3>
-          </div>
-          <div class="styleguide__section">
-            <ul class="nav nav-tabs col-lg-10 m-auto" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#orders" role="tab">
-                  <h3>{% trans %}Recent Orders{% endtrans %}</h3>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#password" role="tab">
-                  <h3>{% trans %}Change password{% endtrans %}</h3>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#addresses" role="tab">
-                  <h3>{% trans %}Addresses book{% endtrans %}</h3>
-                </a>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane active fade show" id="orders" role="tabpanel">
-                <div class="col-lg-10 m-auto">
-                  <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porttitor,
-                    felis et volutpat blandit, ex turpis consectetur eros, sit amet malesuada diam elit ut arcu.</p>
+                <div id="breadcrumbs" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">Breadcrumbs</h3>
+                        <p>{% trans %}Click and edit any item below to see how the component looks with different
+                            text{% endtrans %}
+                        </p>
+                    </div>
+                    <ul class="breadcrumbs list-unstyled styleguide__section">
+                        <li>
+                            <a href="/" contenteditable="true">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('account.index') }}" contenteditable="true">
+                                {% trans %}Your profile{% endtrans %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" contenteditable="true">
+                                {% trans %}Edit address{% endtrans %}
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-              </div>
-              <div class="tab-pane fade" id="password" role="tabpanel">
-                <div class="col-lg-10 m-auto">
-                  <p class="text-center">Cras dapibus at turpis eget porta. Donec laoreet nulla nunc, ac euismod diam
-                    efficitur et. In hac habitasse platea dictumst. Donec eleifend pharetra est, ac molestie lorem
-                    lacinia a.</p>
+                <div id="notifications" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Notifications{% endtrans %}</h3>
+                        <p>{% trans %}Click and edit any item below to see how the component looks with different
+                            text{% endtrans %}
+                        </p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <span contenteditable="true">{% trans %}This is Success alert{% endtrans %}.</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <span contenteditable="true">{% trans %}This is Danger alert{% endtrans %}.</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <span contenteditable="true">{% trans %}This is Warning alert. Notifications content is not limited with
+                  container width. Place here as many information as you want or need to{% endtrans %}.</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="tab-pane fade" id="addresses" role="tabpanel">
-                <div class="col-lg-10 m-auto">
-                  <p class="text-center">Nullam sit amet finibus tortor. Curabitur auctor malesuada dui, quis ornare
-                    libero posuere quis. Aliquam non faucibus erat, nec hendrerit ex.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="tables" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Tables</h3>
-            <p>{% trans %}Click and edit any text below to see how the component looks with different text{% endtrans
-              %}
-            </p>
-          </div>
-          <div class="styleguide__section">
-            <div class="table__header">
-              <div class="row">
-                <div class="col-md-2 col-3">
-                  <small contenteditable="true">{% trans %}Order{% endtrans %}</small>
-                </div>
-                <div class="col-md-4 d-none d-md-block">
-                  <small contenteditable="true">{% trans %}Date{% endtrans %}</small>
-                </div>
-                <div class="col-md-2 col-4 text-right">
-                  <small contenteditable="true">{% trans %}Summary{% endtrans %}</small>
-                </div>
-                <div class="col-md-3 d-none d-md-block">
-                  <small contenteditable="true">{% trans %}Status{% endtrans %}</small>
-                </div>
-                <div class="col-md-1 col-5"></div>
-              </div>
-            </div>
-            <div class="table__row">
-              <div class="row">
-                <div class="col-md-2 col-3" contenteditable="true">
-                  #1
-                </div>
-                <div class="col-md-4 hidden-sm-down" contenteditable="true">
+                <div id="mainnav" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Main navigation{% endtrans %}</h3>
+                        <p>{% trans %}Click and edit any item below to see how the component looks with different
+                            text{% endtrans %}
+                        </p>
+                    </div>
 
+                    <nav class="navigation styleguide__section">
+                        <ul class="menu nav mb-4 mb-md-0">
+                            <li class="nav-item  menu__item">
+                                <a class="nav-link" href="/products/category/1">
+                                    Apparel
+                                </a>
+                            </li>
+                            <li class="nav-item  menu__item">
+                                <a class="nav-link" href="/products/category/2">
+                                    Accessories
+                                </a>
+                            </li>
+                            <li class="nav-item nav-item__dropdown menu__item">
+                                <a class="nav-link" href="/products/category/3">
+                                    Groceries
+                                </a>
+                                <div class="nav-item__dropdown-content">
+                                    <div class="container">
+                                        <ul>
+                                            <li>
+                                                <a href="/products/category/4">
+                                                    <strong>Coffees</strong>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/products/category/5">
+                                                    <strong>Candies</strong>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item  menu__item">
+                                <a class="nav-link" href="/products/category/6">
+                                    Books
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-                <div class="col-md-2 col-4">
-                  <span class="float-right" contenteditable="true">129.35</span>
+                <div id="tabs" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Tabs navigation{% endtrans %}</h3>
+                    </div>
+                    <div class="styleguide__section">
+                        <ul class="nav nav-tabs col-lg-10 m-auto" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#orders" role="tab">
+                                    <h3>{% trans %}Recent Orders{% endtrans %}</h3>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#password" role="tab">
+                                    <h3>{% trans %}Change password{% endtrans %}</h3>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#addresses" role="tab">
+                                    <h3>{% trans %}Addresses book{% endtrans %}</h3>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active fade show" id="orders" role="tabpanel">
+                                <div class="col-lg-10 m-auto">
+                                    <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Praesent porttitor,
+                                        felis et volutpat blandit, ex turpis consectetur eros, sit amet malesuada diam
+                                        elit ut arcu.</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="password" role="tabpanel">
+                                <div class="col-lg-10 m-auto">
+                                    <p class="text-center">Cras dapibus at turpis eget porta. Donec laoreet nulla nunc,
+                                        ac euismod diam
+                                        efficitur et. In hac habitasse platea dictumst. Donec eleifend pharetra est, ac
+                                        molestie lorem
+                                        lacinia a.</p>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="addresses" role="tabpanel">
+                                <div class="col-lg-10 m-auto">
+                                    <p class="text-center">Nullam sit amet finibus tortor. Curabitur auctor malesuada
+                                        dui, quis ornare
+                                        libero posuere quis. Aliquam non faucibus erat, nec hendrerit ex.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3 hidden-sm-down">
-                  <span class="label label-default" contenteditable="true">{% trans %}Payment pending{% endtrans
-                    %}</span>
-                </div>
-                <div class="col-md-1 col-5">
-                  <a href="#" class="float-right link--styled" contenteditable="true">
-                    {% trans %}Details{% endtrans %}
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="table__row">
-              <div class="row">
-                <div class="col-md-2 col-3" contenteditable="true">
-                  #2
-                </div>
-                <div class="col-md-4 hidden-sm-down" contenteditable="true">
+                <div id="tables" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">Tables</h3>
+                        <p>{% trans %}Click and edit any text below to see how the component looks with different
+                            text{% endtrans %}
+                        </p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="table__header">
+                            <div class="row">
+                                <div class="col-md-2 col-3">
+                                    <small contenteditable="true">{% trans %}Order{% endtrans %}</small>
+                                </div>
+                                <div class="col-md-4 d-none d-md-block">
+                                    <small contenteditable="true">{% trans %}Date{% endtrans %}</small>
+                                </div>
+                                <div class="col-md-2 col-4 text-right">
+                                    <small contenteditable="true">{% trans %}Summary{% endtrans %}</small>
+                                </div>
+                                <div class="col-md-3 d-none d-md-block">
+                                    <small contenteditable="true">{% trans %}Status{% endtrans %}</small>
+                                </div>
+                                <div class="col-md-1 col-5"></div>
+                            </div>
+                        </div>
+                        <div class="table__row">
+                            <div class="row">
+                                <div class="col-md-2 col-3" contenteditable="true">
+                                    #1
+                                </div>
+                                <div class="col-md-4 hidden-sm-down" contenteditable="true">
 
-                </div>
-                <div class="col-md-2 col-4">
-                  <span class="float-right" contenteditable="true">129.35</span>
-                </div>
-                <div class="col-md-3 hidden-sm-down">
-                  <span class="label label-success" contenteditable="true">{% trans %}Fully paid{% endtrans %}</span>
-                </div>
-                <div class="col-md-1 col-5">
-                  <a href="#" class="float-right link--styled" contenteditable="true">
-                    {% trans %}Details{% endtrans %}
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="cards" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Cards</h3>
-            <p>{% trans %}Click and edit any text below to see how the component looks with different text{% endtrans
-              %}
-            </p>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="card-deck col-md-6 m-auto">
-                <div class="card card-block">
-                  <div class="address-details">
-                    <p contenteditable="true">{% trans %}Mr. Walter C. Brown{% endtrans %}<br>
-                      {% trans %}49 Featherstone Street{% endtrans %}<br>
-                      {% trans %}London, EC1Y 8SY{% endtrans %}
-                      <br>
-                      {% trans %}United Kingdom{% endtrans %}<br>
-                    </p>
-                  </div>
-                  <ul class="icons">
-                    <li>
-                      <a href="#" contenteditable="true">{% trans %}Edit{% endtrans %}</a>
-                    </li>
-                    <li>
-                      <a class="delete-icon">
-                        <svg data-src="{{ url_for('static', filename='img/delete.svg') }}" height="20px"
-                          width="20px"></svg>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="address-delete none">
-                    <form>
-                      <button type="submit" class="btn danger narrow float-right" contenteditable="true">
-                        {% trans %}Remove Address{% endtrans %}
-                      </button>
-                      <a class="btn btn-link cancel float-md-right" contenteditable="true">
-                        {% trans %}Cancel{% endtrans %}
-                      </a>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="product" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">Products</h3>
-            <p>{% trans %}Click and edit any text below to see how the component looks with different text{% endtrans
-              %}
-            </p>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="col-6 col-lg-3 product-list">
-                <div class="text-center">
-                  <div>
-                    <img class="img-responsive" src="{{ url_for('static', filename='img/sample-product.jpg') }}" alt="">
-                    <span class="product-list-item-name" contenteditable="true">{% trans %}Johnson-Brown{% endtrans
-                      %}</span>
-                  </div>
-                  <div class="panel-footer">
-                    <span contenteditable="true">32.13</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6 col-lg-3 product-list">
-                <div class="text-center">
-                  <div>
-                    <img class="img-responsive" src="{{ url_for('static', filename='img/sample-product2.jpg') }}"
-                      alt="">
-                    <span class="product-list-item-name" contenteditable="true">{% trans %}Johnson-Brown{% endtrans
-                      %}</span>
-                  </div>
-                  <div class="panel-footer">
-                    <div class="product-list__sale">
-                      <svg data-src="{{ url_for('static', filename='img/sale-bg.svg') }}"></svg>
-                      <span class="product-list__sale__text" contenteditable="true">{% trans %}Sale{% endtrans
-                        %}</span>
+                                </div>
+                                <div class="col-md-2 col-4">
+                                    <span class="float-right" contenteditable="true">129.35</span>
+                                </div>
+                                <div class="col-md-3 hidden-sm-down">
+                  <span class="label label-default" contenteditable="true">{% trans %}Payment
+                      pending{% endtrans %}</span>
+                                </div>
+                                <div class="col-md-1 col-5">
+                                    <a href="#" class="float-right link--styled" contenteditable="true">
+                                        {% trans %}Details{% endtrans %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table__row">
+                            <div class="row">
+                                <div class="col-md-2 col-3" contenteditable="true">
+                                    #2
+                                </div>
+                                <div class="col-md-4 hidden-sm-down" contenteditable="true">
+
+                                </div>
+                                <div class="col-md-2 col-4">
+                                    <span class="float-right" contenteditable="true">129.35</span>
+                                </div>
+                                <div class="col-md-3 hidden-sm-down">
+                                    <span class="label label-success" contenteditable="true">{% trans %}Fully
+                                        paid{% endtrans %}</span>
+                                </div>
+                                <div class="col-md-1 col-5">
+                                    <a href="#" class="float-right link--styled" contenteditable="true">
+                                        {% trans %}Details{% endtrans %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <span contenteditable="true">{% trans %}FROM{% endtrans %} 72.25</span>
-                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="product-gallery" class="styleguide__content__block">
-          <div class="styleguide__tittle">
-            <h3 class="styleguide__content__block__title">{% trans %}Product gallery{% endtrans %}</h3>
-          </div>
-          <div class="styleguide__section">
-            <div class="row">
-              <div class="col-md-8 col-lg-6 col-12 m-auto product__gallery">
-                <div id="carousel-example-generic" class="carousel slide" data-bs-ride="carousel">
-                  <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                      <img class="d-block img-fluid" src="{{ url_for('static', filename='img/sample-product.jpg') }}"
-                        alt="">
+                <div id="cards" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">Cards</h3>
+                        <p>{% trans %}Click and edit any text below to see how the component looks with different
+                            text{% endtrans %}
+                        </p>
                     </div>
-                    <div class="carousel-item">
-                      <img class="d-block img-fluid" src="{{ url_for('static', filename='img/sample-product2.jpg') }}"
-                        alt="">
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="card-deck col-md-6 m-auto">
+                                <div class="card card-block">
+                                    <div class="address-details">
+                                        <p contenteditable="true">{% trans %}Mr. Walter C. Brown{% endtrans %}<br>
+                                            {% trans %}49 Featherstone Street{% endtrans %}<br>
+                                            {% trans %}London, EC1Y 8SY{% endtrans %}
+                                            <br>
+                                            {% trans %}United Kingdom{% endtrans %}<br>
+                                        </p>
+                                    </div>
+                                    <ul class="icons">
+                                        <li>
+                                            <a href="#" contenteditable="true">{% trans %}Edit{% endtrans %}</a>
+                                        </li>
+                                        <li>
+                                            <a class="delete-icon">
+                                                <svg data-src="{{ url_for('static', filename='img/delete.svg') }}"
+                                                     height="20px"
+                                                     width="20px"></svg>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div class="address-delete none">
+                                        <form>
+                                            <button type="submit" class="btn danger narrow float-right"
+                                                    contenteditable="true">
+                                                {% trans %}Remove Address{% endtrans %}
+                                            </button>
+                                            <a class="btn btn-link cancel float-md-right" contenteditable="true">
+                                                {% trans %}Cancel{% endtrans %}
+                                            </a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <a class="carousel-control-prev" data-bs-target="#carousel-example-generic" role="button"
-                    data-bs-slide="prev">
-                    <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
-                  </a>
-                  <a class="carousel-control-next" data-bs-target="#carousel-example-generic" role="button"
-                    data-bs-slide="next">
-                    <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
-                  </a>
-                  <ol class="carousel-indicators d-none d-md-block">
-                    <li data-bs-target="#carousel-example-generic" data-bs-slide-to="0" class="active">
-                      <img src="{{ url_for('static', filename='img/sample-product.jpg') }}" alt="">
-                    </li>
-                    <li data-bs-target="#carousel-example-generic" data-bs-slide-to="1" class="">
-                      <img src="{{ url_for('static', filename='img/sample-product2.jpg') }}" alt="">
-                    </li>
-                  </ol>
                 </div>
-              </div>
+                <div id="product" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">Products</h3>
+                        <p>{% trans %}Click and edit any text below to see how the component looks with different
+                            text{% endtrans %}
+                        </p>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-6 col-lg-3 product-list">
+                                <div class="text-center">
+                                    <div>
+                                        <img class="img-responsive"
+                                             src="{{ url_for('static', filename='img/sample-product.jpg') }}" alt="">
+                                        <span class="product-list-item-name" contenteditable="true">{% trans %}
+                                            Johnson-Brown{% endtrans %}</span>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <span contenteditable="true">32.13</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-3 product-list">
+                                <div class="text-center">
+                                    <div>
+                                        <img class="img-responsive"
+                                             src="{{ url_for('static', filename='img/sample-product2.jpg') }}"
+                                             alt="">
+                                        <span class="product-list-item-name" contenteditable="true">{% trans %}
+                                            Johnson-Brown{% endtrans %}</span>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <div class="product-list__sale">
+                                            <svg data-src="{{ url_for('static', filename='img/sale-bg.svg') }}"></svg>
+                                            <span class="product-list__sale__text" contenteditable="true">{% trans %}
+                                                Sale{% endtrans %}</span>
+                                        </div>
+                                        <span contenteditable="true">{% trans %}FROM{% endtrans %} 72.25</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="product-gallery" class="styleguide__content__block">
+                    <div class="styleguide__tittle">
+                        <h3 class="styleguide__content__block__title">{% trans %}Product gallery{% endtrans %}</h3>
+                    </div>
+                    <div class="styleguide__section">
+                        <div class="row">
+                            <div class="col-md-8 col-lg-6 col-12 m-auto product__gallery">
+                                <div id="carousel-example-generic" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner" role="listbox">
+                                        <div class="carousel-item active">
+                                            <img class="d-block img-fluid"
+                                                 src="{{ url_for('static', filename='img/sample-product.jpg') }}"
+                                                 alt="">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img class="d-block img-fluid"
+                                                 src="{{ url_for('static', filename='img/sample-product2.jpg') }}"
+                                                 alt="">
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev" data-bs-target="#carousel-example-generic"
+                                       role="button"
+                                       data-bs-slide="prev">
+                                        <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
+                                    </a>
+                                    <a class="carousel-control-next" data-bs-target="#carousel-example-generic"
+                                       role="button"
+                                       data-bs-slide="next">
+                                        <svg data-src="{{ url_for('static', filename='img/gallery-arrow.svg') }}"></svg>
+                                    </a>
+                                    <ol class="carousel-indicators d-none d-md-block">
+                                        <li data-bs-target="#carousel-example-generic" data-bs-slide-to="0"
+                                            class="active">
+                                            <img src="{{ url_for('static', filename='img/sample-product.jpg') }}"
+                                                 alt="">
+                                        </li>
+                                        <li data-bs-target="#carousel-example-generic" data-bs-slide-to="1" class="">
+                                            <img src="{{ url_for('static', filename='img/sample-product2.jpg') }}"
+                                                 alt="">
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  {% endblock %}
+{% endblock %}
 
-  {% block footer %}
-  {% endblock %}
+{% block footer %}
+{% endblock %}
