@@ -1,8 +1,8 @@
 const cartDropdown = document.querySelector('.cart-dropdown');
 const cartIcon = document.querySelector('.cart__icon');
+const navBarCart = document.querySelector('.navbar__brand__cart');
 
-// TODO 不需要foreach了  就这一个
-document.querySelectorAll('.navbar__brand__cart').forEach((navBarCart) => {
+if (navBarCart !== null) {
   navBarCart.addEventListener('mouseenter', () => {
     cartDropdown.classList.add('show');
     cartIcon.classList.add('hover');
@@ -11,4 +11,4 @@ document.querySelectorAll('.navbar__brand__cart').forEach((navBarCart) => {
     cartDropdown.classList.remove('show');
     cartIcon.classList.remove('hover');
   });
-});
+}

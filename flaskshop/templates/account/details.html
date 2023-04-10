@@ -113,7 +113,7 @@
       <div class="card-deck-wrapper account__addresses">
         <div class="row card-deck">
           {% for address in current_user.addresses %}
-          <div class="col-md-6">
+          <div class="col-md-6 myaddress">
             <div class="card card-block">
               {{macros.format_address(address)}}
               <ul class="icons">

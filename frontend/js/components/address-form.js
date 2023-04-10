@@ -1,9 +1,8 @@
-const deleteAdressIcons = document.querySelectorAll('.icons');
-const deleteAdressIcon = document.querySelector('.delete-icon');
-const deleteAddress = document.querySelector('.address-delete');
-
-// TODO，两个地址时，第二个地址点不了删除
-if (deleteAdressIcon !== null) {
+const addresses = document.querySelectorAll('.myaddress');
+addresses.forEach((el) => {
+  const deleteAdressIcon = el.querySelector('.delete-icon');
+  const deleteAddress = el.querySelector('.address-delete');
+  const deleteAdressIcons = el.querySelectorAll('.icons');
   deleteAdressIcon.addEventListener('click', () => {
     if (deleteAddress.classList.contains('none')) {
       deleteAddress.classList.remove('none');
@@ -17,11 +16,11 @@ if (deleteAdressIcon !== null) {
     deleteAddress.classList.add('none');
     deleteAdressIcons.forEach((icon) => icon.classList.remove('none'));
   });
-}
+});
 
 // New address dropdown
 const addressShow = document.querySelector('.address_show label');
-const addressHide = document.querySelector('.address_hide label');
+const addressHide = document.querySelectorAll('.address_hide label');
 const addressForm = document.querySelector('.checkout__new-address');
 const addressNew = document.querySelector('#address_new');
 
@@ -31,11 +30,11 @@ if (addressShow !== null) {
   });
 }
 
-if (addressHide !== null) {
-  addressHide.addEventListener('click', () => {
+addressHide.forEach((el) => {
+  el.addEventListener('click', () => {
     addressForm.style.display = 'none';
   });
-}
+});
 
 if (addressNew !== null) {
   if (addressNew.checked) {
