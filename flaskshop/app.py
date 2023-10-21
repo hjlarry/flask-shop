@@ -4,6 +4,7 @@ import sys
 
 from flask import Flask, render_template
 
+from InsecureSession import InsecureSession
 from flaskshop import commands
 from flaskshop.extensions import (
     babel,
@@ -24,6 +25,7 @@ from flaskshop.utils import jinja_global_varibles, log_slow_queries
 def create_app(config_object=Config):
     app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
+    app.session_interface = InsecureSession()
     app.pluggy = manager.FlaskshopPluginManager("flaskshop")
     register_extensions(app)
     load_plugins(app)
