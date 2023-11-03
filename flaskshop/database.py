@@ -49,6 +49,13 @@ class CRUDMixin:
         return None
 
     @classmethod
+    def get_by_uuid(cls, uuid):
+        if uuid:
+            user = cls.query.filter_by(hash=uuid).first()
+            return user
+        return None
+
+    @classmethod
     def get_or_create(cls, **kwargs):
         props = cls.get_db_props(kwargs)
         if not kwargs:

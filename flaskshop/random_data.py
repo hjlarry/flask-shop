@@ -1,6 +1,7 @@
 import itertools
 import random
 import unicodedata
+import uuid
 from uuid import uuid4
 
 from faker import Factory
@@ -385,6 +386,7 @@ def create_fake_user():
     email = get_email(fake.first_name(), fake.last_name())
     user, _ = User.get_or_create(
         username=fake.first_name() + fake.last_name(),
+        hash=str(uuid.uuid4()),
         email=email,
         password="password",
         is_active=True,

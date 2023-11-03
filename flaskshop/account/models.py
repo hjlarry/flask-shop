@@ -13,6 +13,7 @@ from flaskshop.extensions import bcrypt
 class User(Model, UserMixin):
     __tablename__ = "account_user"
     username = Column(db.String(80), unique=True, nullable=False, comment="user`s name")
+    hash = Column(db.String(80), unique=False, nullable=True)
     email = Column(db.String(80), unique=True, nullable=False)
     #: The hashed password
     _password = db.Column(db.String(255), nullable=False)

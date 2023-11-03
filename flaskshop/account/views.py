@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 """User views."""
+import uuid
+
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
-from flask_login import current_user, login_required, login_user, logout_user
+from flask_login import current_user, login_required, logout_user
+#standar login
+#from flask_login import login_user
+#login with hash/uuid support
+from custom_login_user import login_user
 from pluggy import HookimplMarker
 
 from flaskshop.order.models import Order
@@ -62,6 +68,7 @@ def signup():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
         user = User.create(
+            hash=str(uuid.uuid4()),
             username=form.username.data,
             email=form.email.data.lower(),
             password=form.password.data,

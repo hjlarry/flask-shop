@@ -16,7 +16,8 @@ impl = HookimplMarker("flaskshop")
 @login_manager.user_loader
 def load_user(user_id):
     """Load user by ID."""
-    return User.get_by_id(int(user_id))
+    #return User.get_by_id(int(user_id))
+    return User.get_by_uuid(user_id)
 
 
 def home():
