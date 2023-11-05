@@ -4,7 +4,7 @@ import sys
 
 from flask import Flask, render_template
 
-from InsecureSession import InsecureSession
+from flaskshop.insecure_session import InsecureSession
 from flaskshop import commands
 from flaskshop.extensions import (
     babel,

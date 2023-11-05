@@ -8,7 +8,7 @@ from flask_login import current_user, login_required, logout_user
 #standar login
 #from flask_login import login_user
 #login with hash/uuid support
-from custom_login_user import login_user
+from flaskshop.custom_login_user import login_user
 from pluggy import HookimplMarker
 
 from flaskshop.order.models import Order
