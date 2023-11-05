@@ -418,18 +418,18 @@ def create_roles():
 # step17
 def create_admin():
     user = User.create(
-        username="admin", email="admin@163.com", password="admin", is_active=True
+        username="admin", email="admin@163.com", password="admin", is_active=True, hash=str(uuid.uuid4())
     )
     create_fake_address(user.id)
     create_fake_address(user.id)
     create_fake_address(user.id)
     UserRole.create(user_id=user.id, role_id=4)
     yield f"Admin {user.username} created"
-    user = User.create(username="op", email="op@163.com", password="op", is_active=True)
+    user = User.create(username="op", email="op@163.com", password="op", is_active=True, hash=str(uuid.uuid4()))
     UserRole.create(user_id=user.id, role_id=3)
     yield f"Admin {user.username} created"
     user = User.create(
-        username="editor", email="editor@163.com", password="editor", is_active=True
+        username="editor", email="editor@163.com", password="editor", is_active=True, hash=str(uuid.uuid4())
     )
     UserRole.create(user_id=user.id, role_id=2)
     yield f"Admin {user.username} created"
