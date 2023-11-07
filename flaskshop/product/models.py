@@ -215,6 +215,7 @@ class Category(Model):
     title = Column(db.String(255), nullable=False)
     parent_id = Column(db.Integer(), default=0)
     background_img = Column(db.String(255))
+    owner_hash = Column(db.String(80), unique=False, nullable=True)
 
     def __str__(self):
         return self.title

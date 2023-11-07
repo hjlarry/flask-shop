@@ -20,6 +20,7 @@ from flaskshop.product.models import (
     ProductVariant,
 )
 from flaskshop.dashboard.utils import save_img_file, wrap_partial, item_del
+from flask_login import current_user
 
 
 def attributes():
@@ -90,6 +91,7 @@ def categories():
         "title": lazy_gettext("Title"),
         "parent": lazy_gettext("Parent"),
         "created_at": lazy_gettext("Created At"),
+        "owner_hash": lazy_gettext("Created By")
     }
     context = {
         "title": lazy_gettext("Product Category"),
@@ -138,6 +140,8 @@ def categories_manage(id=None):
         image = form.bgimg_file.data
         if image:
             category.background_img = save_img_file(image)
+
+        category.owner_hash = current_user.hash
         category.save()
         flash(lazy_gettext("Category saved."), "success")
         return redirect(url_for("dashboard.categories"))

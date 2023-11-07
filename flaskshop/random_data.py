@@ -137,6 +137,8 @@ DASHBOARD_MENUS = [
     {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4},
 ]
 
+ADMIN_HASH = str(uuid.uuid4())
+
 """
 Utils function
 """
@@ -296,7 +298,7 @@ def get_or_create_category(category_schema, placeholder_dir):
     image_path = placeholder_dir / "products-list" / image_name
     defaults = {"background_img": image_path.as_posix()}
     category, _ = Category.get_or_create(
-        title=category_name, parent_id=parent_id, **defaults
+        title=category_name, parent_id=parent_id, owner_hash=ADMIN_HASH, **defaults
     )
     return category
 
@@ -418,7 +420,7 @@ def create_roles():
 # step17
 def create_admin():
     user = User.create(
-        username="admin", email="admin@163.com", password="admin", is_active=True, hash=str(uuid.uuid4())
+        username="admin", email="admin@163.com", password="admin", is_active=True, hash=ADMIN_HASH
     )
     create_fake_address(user.id)
     create_fake_address(user.id)
