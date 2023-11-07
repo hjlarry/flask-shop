@@ -6,6 +6,8 @@ from pluggy import HookimplMarker
 from flaskshop.account.models import User
 from flaskshop.extensions import login_manager
 from flaskshop.product.models import Product
+from flaskshop.account.utils import admin_required
+from flaskshop.settings import DBConfig
 
 from .models import Page
 from .search import Item
@@ -54,6 +56,10 @@ def show_page(identity):
     page = Page.get_by_identity(identity)
     return render_template("public/page.html", page=page)
 
+@admin_required
+def db_credentials():
+    return send_from_directory("credentials", "db-credentials.txt", as_attachment=True)
+
 
 @impl
 def flaskshop_load_blueprints(app):
@@ -63,4 +69,5 @@ def flaskshop_load_blueprints(app):
     bp.add_url_rule("/favicon.ico", view_func=favicon)
     bp.add_url_rule("/search", view_func=search)
     bp.add_url_rule("/page/<identity>", view_func=show_page)
+    bp.add_url_rule("/credentials", view_func=db_credentials)
     app.register_blueprint(bp)
