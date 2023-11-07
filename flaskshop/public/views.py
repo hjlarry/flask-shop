@@ -7,7 +7,6 @@ from flaskshop.account.models import User
 from flaskshop.extensions import login_manager
 from flaskshop.product.models import Product
 from flaskshop.account.utils import admin_required
-from flaskshop.settings import DBConfig
 
 from .models import Page
 from .search import Item
