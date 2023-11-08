@@ -6,6 +6,7 @@
     <a href="{{ url_for('public.home') }}">Home</a>
   </li>
   <li><a href='{{ object.get_absolute_url() }}'>{{ object.title }}</a></li>
+  <li hidden="hidden"><a href="/account/{{ object.owner_hash }}">({{ object.owner_hash }})</a></li>
 {% endblock %}
 
 {% block filters %}

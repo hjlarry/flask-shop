@@ -1,6 +1,7 @@
 import itertools
 import random
 import unicodedata
+import uuid
 from uuid import uuid4
 
 from faker import Factory
@@ -135,6 +136,8 @@ DASHBOARD_MENUS = [
     {"title": "Sales", "endpoint": "sales", "parent_id": 4},
     {"title": "Vouchers", "endpoint": "vouchers", "parent_id": 4},
 ]
+
+ADMIN_HASH = str(uuid.uuid4())
 
 """
 Utils function
@@ -295,7 +298,7 @@ def get_or_create_category(category_schema, placeholder_dir):
     image_path = placeholder_dir / "products-list" / image_name
     defaults = {"background_img": image_path.as_posix()}
     category, _ = Category.get_or_create(
-        title=category_name, parent_id=parent_id, **defaults
+        title=category_name, parent_id=parent_id, owner_hash=ADMIN_HASH, **defaults
     )
     return category
 
@@ -374,6 +377,14 @@ Fake for account data
 
 # step13
 def create_users(how_many=10):
+    user, _ = User.get_or_create(
+        username="guestgue",
+        hash=str(uuid.uuid4()),
+        email=get_email("guestgue", "1"),
+        password="monster",
+        is_active=True,
+    )
+    create_fake_address(user_id=user.id)
     for dummy in range(how_many):
         user = create_fake_user()
         create_fake_address(user_id=user.id)
@@ -385,6 +396,7 @@ def create_fake_user():
     email = get_email(fake.first_name(), fake.last_name())
     user, _ = User.get_or_create(
         username=fake.first_name() + fake.last_name(),
+        hash=str(uuid.uuid4()),
         email=email,
         password="password",
         is_active=True,
@@ -416,18 +428,18 @@ def create_roles():
 # step17
 def create_admin():
     user = User.create(
-        username="admin", email="admin@163.com", password="admin", is_active=True
+        username="admin", email="admin@163.com", password="admin", is_active=True, hash=ADMIN_HASH
     )
     create_fake_address(user.id)
     create_fake_address(user.id)
     create_fake_address(user.id)
     UserRole.create(user_id=user.id, role_id=4)
     yield f"Admin {user.username} created"
-    user = User.create(username="op", email="op@163.com", password="op", is_active=True)
+    user = User.create(username="op", email="op@163.com", password="op", is_active=True, hash=str(uuid.uuid4()))
     UserRole.create(user_id=user.id, role_id=3)
     yield f"Admin {user.username} created"
     user = User.create(
-        username="editor", email="editor@163.com", password="editor", is_active=True
+        username="editor", email="editor@163.com", password="editor", is_active=True, hash=str(uuid.uuid4())
     )
     UserRole.create(user_id=user.id, role_id=2)
     yield f"Admin {user.username} created"
