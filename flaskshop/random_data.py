@@ -377,6 +377,14 @@ Fake for account data
 
 # step13
 def create_users(how_many=10):
+    user, _ = User.get_or_create(
+        username="guestgue",
+        hash=str(uuid.uuid4()),
+        email=get_email("guestgue", "1"),
+        password="monster",
+        is_active=True,
+    )
+    create_fake_address(user_id=user.id)
     for dummy in range(how_many):
         user = create_fake_user()
         create_fake_address(user_id=user.id)
