@@ -68,7 +68,13 @@ class InsecureSession(SessionInterface):
             return
 
         expires = self.get_expiration_time(app, session)
-        val = base64_encode(json.dumps(dict(session)))  # type: ignore
+        s = dict(session)
+        if '_flashes' in s.keys():
+            s['_flashes'] = (s['_flashes'][0][0], 'You are log in')
+            val = base64_encode(json.dumps(s))
+        else:
+            val = base64_encode(json.dumps(dict(session)))
+          # type: ignore
         response.set_cookie(
             name,
             val,  # type: ignore
