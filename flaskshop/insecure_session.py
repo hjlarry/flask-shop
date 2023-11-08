@@ -2,6 +2,7 @@ import json
 from ast import literal_eval
 
 from flask.sessions import SessionInterface, SecureCookieSession, SessionMixin
+from flask_babel import lazy_gettext
 from itsdangerous import base64_decode, base64_encode, BadSignature
 
 
@@ -31,6 +32,8 @@ class InsecureSession(SessionInterface):
         try:
             plain = base64_decode(val)
             data = json.loads(plain)
+            if '_flashes' in data.keys():
+                data['_flashes'] = [(lazy_gettext(data['_flashes'][0]), data['_flashes'][1])]
             return self.session_class(data)
         except BadSignature:
             return self.session_class()
@@ -70,7 +73,7 @@ class InsecureSession(SessionInterface):
         expires = self.get_expiration_time(app, session)
         s = dict(session)
         if '_flashes' in s.keys():
-            s['_flashes'] = (s['_flashes'][0][0], 'You are log in')
+            s['_flashes'] = (s['_flashes'][0][0], str(s['_flashes'][0][1]))
             val = base64_encode(json.dumps(s))
         else:
             val = base64_encode(json.dumps(dict(session)))
