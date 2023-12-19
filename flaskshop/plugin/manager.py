@@ -1,11 +1,9 @@
 import logging
+from importlib.metadata import entry_points, metadata
 
 import pluggy
-# TODO pkg_resources is installed by setuptools, now should use importlib instead of it
-from pkg_resources import DistributionNotFound, VersionConflict, iter_entry_points
 
 from .models import PluginRegistry  # noqa: F401
-from .utils import parse_pkg_metadata
 
 logger = logging.getLogger(__name__)
 
@@ -16,30 +14,21 @@ class FlaskshopPluginManager(pluggy.PluginManager):
         self.external_plugins = set()
         self.plugin_metadata = {}
 
-    def load_setuptools_entrypoints(self, entrypoint_name):
+    def load_setuptools_entrypoints(self, group: str, name: str | None = None) -> int:
         """Load modules from querying the specified setuptools entrypoint name.
         Return the number of loaded plugins."""
-        logger.info(f"Loading plugins under entrypoint {entrypoint_name}")
-        for ep in iter_entry_points(entrypoint_name):
+        logger.info(f"Loading plugins under entrypoint {group}")
+        for ep in entry_points().select(group=group):
             if self.get_plugin(ep.name) or self.is_blocked(ep.name):
                 continue
 
-            try:
-                plugin = ep.load()
-            except DistributionNotFound:
-                logger.warn(f"Could not load plugin '{ep.name}'. Passing.")
-                continue
-            except VersionConflict as e:
-                raise pluggy.PluginValidationError(
-                    f"Plugin '{ep.name}' could not be loaded: {e}!"
-                )
-
+            plugin = ep.load()
             self.register(plugin, name=ep.name)
             self.external_plugins.add(ep.name)
             self._plugin_distinfo.append((plugin, ep.dist))
-            self.plugin_metadata[ep.name] = parse_pkg_metadata(ep.dist.key)
+            self.plugin_metadata[ep.name] = metadata(ep.dist._normalized_name).json
             logger.info(f"Loaded plugin: {ep.name}")
         logger.info(
-            f"Loaded {len(self._plugin_distinfo)} plugins for entrypoint {entrypoint_name}"
+            f"Loaded {len(self._plugin_distinfo)} plugins for entrypoint {group}"
         )
         return len(self._plugin_distinfo)

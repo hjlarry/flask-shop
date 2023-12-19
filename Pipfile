@@ -25,7 +25,6 @@ libgravatar = "*"
 elasticsearch-dsl = "*"
 python-dotenv = "*"
 pymysql = "*"
-setuptools = "*"
 
 [dev-packages]
 
