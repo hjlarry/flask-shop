@@ -45,7 +45,7 @@ class CRUDMixin:
                 isinstance(record_id, (int, float)),
             )
         ):
-            return cls.query.get(int(record_id))
+            return db.session.get(cls, int(record_id))
         return None
 
     @classmethod

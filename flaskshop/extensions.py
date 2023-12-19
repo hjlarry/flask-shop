@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 import arrow
 from flask import abort, request, session
@@ -12,7 +12,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_sqlalchemy.model import Model, DefaultMeta, _QueryProperty
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy import Column, DateTime, Integer, event
-from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
+from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy.orm import declarative_base
 
 from flaskshop.corelib.db import PropsMixin, PropsItem
 
@@ -34,8 +35,8 @@ def get_locale():
 class BaseModel(PropsMixin, Model):
     __table_args__ = {"mysql_charset": "utf8mb4", "extend_existing": True}
     id = Column(Integer, primary_key=True)
-    created_at = Column(DateTime, default=datetime.utcnow())
-    updated_at = Column(DateTime, default=datetime.utcnow(), onupdate=datetime.utcnow())
+    created_at = Column(DateTime, default=datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
 
     def __repr__(self):
         return f"<{self.__class__.__name__} id:{self.id}>"
