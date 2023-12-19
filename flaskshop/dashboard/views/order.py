@@ -21,7 +21,7 @@ def orders():
     ended_at = request.args.get("ended_at", type=str)
     if ended_at:
         query = query.filter(Order.created_at <= ended_at)
-    pagination = query.paginate(page, 10)
+    pagination = query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "identity": lazy_gettext("Identity"),

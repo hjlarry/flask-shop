@@ -255,8 +255,7 @@ class Category(Model):
         all_category_ids = [child.id for child in category.children] + [category.id]
         query = Product.query.filter(Product.category_id.in_(all_category_ids))
         ctx, query = get_product_list_context(query, category)
-        pagination = query.paginate(page, per_page=16)
-        del pagination.query
+        pagination = query.paginate(page=page, per_page=16)
         ctx.update(object=category, pagination=pagination, products=pagination.items)
         return ctx
 
@@ -722,8 +721,7 @@ class ProductCollection(Model):
         )
         query = Product.query.filter(Product.id.in_(id for id, in at_ids))
         ctx, query = get_product_list_context(query, collection)
-        pagination = query.paginate(page, per_page=16)
-        del pagination.query
+        pagination = query.paginate(page=page, per_page=16)
         ctx.update(object=collection, pagination=pagination, products=pagination.items)
         return ctx
 

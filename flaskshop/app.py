@@ -14,6 +14,7 @@ from flaskshop.extensions import (
     debug_toolbar,
     login_manager,
     migrate,
+    get_locale
 )
 from flaskshop.plugin import manager, spec
 from flaskshop.plugin.models import PluginRegistry
@@ -44,7 +45,7 @@ def register_extensions(app):
     debug_toolbar.init_app(app)
     migrate.init_app(app, db)
     bootstrap.init_app(app)
-    babel.init_app(app)
+    babel.init_app(app, locale_selector=get_locale)
 
 
 def register_blueprints(app):

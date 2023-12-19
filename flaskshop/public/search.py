@@ -2,11 +2,12 @@ from elasticsearch.exceptions import ConflictError, NotFoundError
 from elasticsearch.helpers import parallel_bulk
 from elasticsearch_dsl import Boolean, Date, Document, Float, Integer, Text
 from elasticsearch_dsl.connections import connections
-from flask_sqlalchemy import Pagination
+from flask_sqlalchemy.pagination import Pagination
 
 from flaskshop.settings import Config
 
-connections.create_connection(hosts=Config.ES_HOSTS)
+if Config.USE_ES:
+    connections.create_connection(hosts=Config.ES_HOSTS)
 
 SERACH_FIELDS = ["title^10", "description^5"]
 

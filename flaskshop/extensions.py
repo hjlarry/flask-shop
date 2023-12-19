@@ -8,12 +8,12 @@ from flask_bootstrap import Bootstrap5
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flask_sqlalchemy import DefaultMeta, Model, SQLAlchemy, _QueryProperty
+from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy.model import Model
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy import Column, DateTime, Integer, event
-from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 
-from flaskshop.corelib.db import PropsItem, PropsMixin
+from flaskshop.corelib.db import PropsMixin
 
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
@@ -24,7 +24,6 @@ bootstrap = Bootstrap5()
 babel = Babel()
 
 
-@babel.localeselector
 def get_locale():
     if request.args.get("lang"):
         session["lang"] = request.args.get("lang")
@@ -121,39 +120,4 @@ class BaseModel(PropsMixin, Model):
         event.listen(cls, "after_delete", cls._flush_delete_event)
 
 
-class BindDBPropertyMixin:
-    def __init__(cls, name, bases, d):
-        super().__init__(name, bases, d)
-        db_columns = []
-        for k, v in d.items():
-            if isinstance(v, PropsItem):
-                db_columns.append((k, v.default))
-        setattr(cls, "_db_columns", db_columns)
-
-
-class CombinedMeta(BindDBPropertyMixin, DefaultMeta):
-    pass
-
-
-class UnLockedAlchemy(SQLAlchemy):
-    def make_declarative_base(self, model, metadata=None):
-        if not isinstance(model, DeclarativeMeta):
-            model = declarative_base(
-                cls=model, name="Model", metadata=metadata, metaclass=CombinedMeta
-            )
-        if metadata is not None and model.metadata is not metadata:
-            model.metadata = metadata
-
-        if not getattr(model, "query_class", None):
-            model.query_class = self.Query
-
-        model.query = _QueryProperty(self)
-        return model
-
-    def apply_driver_hacks(self, app, info, options):
-        if "isolation_level" not in options:
-            options["isolation_level"] = "READ COMMITTED"
-        return super().apply_driver_hacks(app, info, options)
-
-
-db = UnLockedAlchemy(model_class=BaseModel)
+db = SQLAlchemy(model_class=BaseModel)

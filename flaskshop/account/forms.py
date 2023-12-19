@@ -45,9 +45,9 @@ class RegisterForm(FlaskForm):
         super(RegisterForm, self).__init__(*args, **kwargs)
         self.user = None
 
-    def validate(self):
+    def validate(self, extra_validators=None):
         """Validate the form."""
-        initial_validation = super(RegisterForm, self).validate()
+        initial_validation = super(RegisterForm, self).validate(extra_validators)
         if not initial_validation:
             return False
         user = User.query.filter_by(username=self.username.data).first()
@@ -71,9 +71,9 @@ class ResetPasswd(FlaskForm):
         super(ResetPasswd, self).__init__(*args, **kwargs)
         self.user = None
 
-    def validate(self):
+    def validate(self, extra_validators=None):
         """Validate the form."""
-        initial_validation = super(ResetPasswd, self).validate()
+        initial_validation = super(ResetPasswd, self).validate(extra_validators)
         if not initial_validation:
             return False
 
@@ -105,9 +105,9 @@ class LoginForm(FlaskForm):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.user = None
 
-    def validate(self):
+    def validate(self, extra_validators=None):
         """Validate the form."""
-        initial_validation = super(LoginForm, self).validate()
+        initial_validation = super(LoginForm, self).validate(extra_validators)
         if not initial_validation:
             return False
 
@@ -147,9 +147,9 @@ class ChangePasswordForm(FlaskForm):
         super().__init__(*args, **kwargs)
         self.user = current_user
 
-    def validate(self):
+    def validate(self, extra_validators=None):
         """Validate the form."""
-        initial_validation = super().validate()
+        initial_validation = super().validate(extra_validators)
         if not initial_validation:
             return False
 

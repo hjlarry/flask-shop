@@ -20,7 +20,7 @@ def users():
                 User.email.like("%" + search_word + "%"),
             )
         )
-    pagination = query.paginate(page, 10)
+    pagination = query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "username": lazy_gettext("Username"),

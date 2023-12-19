@@ -19,7 +19,7 @@ from flaskshop.public.models import MenuItem, Page
 
 def shipping_methods():
     page = request.args.get("page", type=int, default=1)
-    pagination = ShippingMethod.query.paginate(page, 10)
+    pagination = ShippingMethod.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),
@@ -58,7 +58,7 @@ shipping_methods_del = wrap_partial(item_del, ShippingMethod)
 
 def site_menus():
     page = request.args.get("page", type=int, default=1)
-    pagination = MenuItem.query.paginate(page, 10)
+    pagination = MenuItem.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),
@@ -109,7 +109,7 @@ site_menu_del = wrap_partial(item_del, MenuItem)
 
 def dashboard_menus():
     page = request.args.get("page", type=int, default=1)
-    pagination = DashboardMenu.query.paginate(page, 10)
+    pagination = DashboardMenu.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),
@@ -155,7 +155,7 @@ dashboard_menu_del = wrap_partial(item_del, DashboardMenu)
 
 def site_pages():
     page = request.args.get("page", type=int, default=1)
-    pagination = Page.query.paginate(page, 10)
+    pagination = Page.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),

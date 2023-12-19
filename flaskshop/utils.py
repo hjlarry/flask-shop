@@ -6,7 +6,7 @@ from logging.handlers import RotatingFileHandler
 from urllib.parse import urlencode
 
 from flask import current_app, flash, request
-from flask_sqlalchemy import get_debug_queries
+from flask_sqlalchemy.record_queries import get_recorded_queries
 
 from flaskshop.checkout.models import Cart
 from flaskshop.constant import SiteDefaultSettings
@@ -35,10 +35,10 @@ def log_slow_queries(app):
 
     @app.after_request
     def after_request(response):
-        for query in get_debug_queries():
+        for query in get_recorded_queries():
             if query.duration >= app.config["DATABASE_QUERY_TIMEOUT"]:
                 app.logger.warn(
-                    f"Context: {query.context}\n"
+                    f"Context: {query.location}\n"
                     f"SLOW QUERY: {query.statement}\n"
                     f"Parameters: {query.parameters}\n"
                     f"Duration: {query.duration}"

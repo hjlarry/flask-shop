@@ -1,6 +1,7 @@
 import logging
 
 import pluggy
+# TODO pkg_resources is installed by setuptools, now should use importlib instead of it
 from pkg_resources import DistributionNotFound, VersionConflict, iter_entry_points
 
 from .models import PluginRegistry  # noqa: F401

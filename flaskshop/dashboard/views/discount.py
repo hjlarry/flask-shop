@@ -10,7 +10,7 @@ from flaskshop.product.models import Category, Product
 
 def vouchers():
     page = request.args.get("page", type=int, default=1)
-    pagination = Voucher.query.paginate(page, 10)
+    pagination = Voucher.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),
@@ -60,7 +60,7 @@ voucher_del = wrap_partial(item_del, Voucher)
 
 def sales():
     page = request.args.get("page", type=int, default=1)
-    pagination = Sale.query.paginate(page, 10)
+    pagination = Sale.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),

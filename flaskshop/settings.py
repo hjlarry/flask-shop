@@ -23,7 +23,7 @@ class DBConfig:
 
 class Config:
     ENV = "dev"
-    FLASK_DEBUG = True
+    # FLASK_DEBUG = True
     SECRET_KEY = os.getenv("SECRET_KEY", "thisisashop")
 
     # Redis

@@ -24,7 +24,7 @@ from flaskshop.dashboard.utils import save_img_file, wrap_partial, item_del
 
 def attributes():
     page = request.args.get("page", type=int, default=1)
-    pagination = ProductAttribute.query.paginate(page, 10)
+    pagination = ProductAttribute.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),
@@ -66,7 +66,7 @@ attribute_del = wrap_partial(item_del, ProductAttribute)
 
 def collections():
     page = request.args.get("page", type=int, default=1)
-    pagination = Collection.query.paginate(page, 10)
+    pagination = Collection.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),
@@ -84,7 +84,7 @@ def collections():
 
 def categories():
     page = request.args.get("page", type=int, default=1)
-    pagination = Category.query.paginate(page, 10)
+    pagination = Category.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),
@@ -149,7 +149,7 @@ category_del = wrap_partial(item_del, Category)
 
 def product_types():
     page = request.args.get("page", type=int, default=1)
-    pagination = ProductType.query.paginate(page, 10)
+    pagination = ProductType.query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),
@@ -219,7 +219,7 @@ def products():
     if ended_at:
         query = query.filter(Product.created_at <= ended_at)
 
-    pagination = query.paginate(page, 10)
+    pagination = query.paginate(page=page, per_page=10)
     props = {
         "id": lazy_gettext("ID"),
         "title": lazy_gettext("Title"),
