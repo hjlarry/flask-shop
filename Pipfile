@@ -1,0 +1,34 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+flask-babel = "*"
+arrow = "*"
+flask-bcrypt = "*"
+flask-login = "*"
+flask-sqlalchemy = "*"
+flask-debugtoolbar = "*"
+flask-wtf = "*"
+redis = "*"
+flask-migrate = "*"
+bootstrap-flask = "*"
+pluggy = "*"
+pytest = "*"
+faker = "*"
+alipay-sdk-python = "*"
+elasticsearch = "*"
+phonenumbers = "*"
+libgravatar = "*"
+elasticsearch-dsl = "*"
+python-dotenv = "*"
+pymysql = "*"
+setuptools = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
+python_full_version = "3.12.0"
