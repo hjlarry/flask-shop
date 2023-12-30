@@ -88,8 +88,8 @@ class Item(Document):
 
     @classmethod
     def get_es(cls):
-        search = cls.search()
-        return connections.get_connection(search._using)
+        # search = cls.search()
+        return connections.get_connection()
 
     @classmethod
     def new_search(cls, query, page, order_by=None, per_page=16):
@@ -99,4 +99,17 @@ class Item(Document):
         s = s.extra(**{"from": start, "size": per_page})
         s = s if order_by is None else s.sort(order_by)
         rs = s.execute()
-        return Pagination(query, page, per_page, rs.hits.total, rs)
+        return CustomPagination(page, per_page, rs=rs, query=query)
+
+
+class CustomPagination(Pagination):
+    def __init__(self, page, per_page, **kwargs):
+        self.rs = kwargs.get('rs')
+        self.query = kwargs.get('query')
+        super().__init__(page, per_page, **kwargs)
+
+    def _query_items(self):
+        return self.rs
+
+    def _query_count(self):
+        return self.rs.hits.total.value

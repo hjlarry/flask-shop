@@ -20,29 +20,32 @@ services:
     volumes:
       - redis-data:/data
 
-  esearch:
-    image: elasticsearch:7.5.0
+  elasticsearch:
+    image: elasticsearch:8.11.1
     restart: unless-stopped
     environment:
       discovery.type: single-node
+      xpack.security.enabled: false
     volumes:
-      - esearch-data:/usr/share/elasticsearch/data
+      - elasticsearch-data:/usr/share/elasticsearch/data
 
   web:
     build: .
     depends_on:
       - db
       - redis
-      - esearch
+      - elasticsearch
     ports:
       - "5000:5000"
     environment:
       DB_URI: mysql+pymysql://root:root@db:3306/flaskshop?charset=utf8mb4
       REDIS_URI: redis://redis:6379
-      ESEARCH_URI: esearch
+      ESEARCH_URI: http://elasticsearch:9200
+      USE_ES: 1
+      FLASK_DEBUG: 1
     restart: unless-stopped
 
 volumes:
   db_data:
   redis-data:
-  esearch-data:
+  elasticsearch-data:

@@ -39,7 +39,7 @@ def search():
         pagination = Item.new_search(query, page)
     else:
         pagination = Product.query.filter(Product.title.ilike(f"%{query}%")).paginate(
-            page
+            page=page, per_page=10
         )
     return render_template(
         "public/search_result.html",
