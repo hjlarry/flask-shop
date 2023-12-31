@@ -5,6 +5,7 @@ from elasticsearch_dsl.connections import connections
 from flask_sqlalchemy.pagination import Pagination
 
 from flaskshop.settings import Config
+from flaskshop.product.models import ProductImage
 
 if Config.USE_ES:
     connections.create_connection(hosts=Config.ES_HOSTS)
@@ -88,7 +89,6 @@ class Item(Document):
 
     @classmethod
     def get_es(cls):
-        # search = cls.search()
         return connections.get_connection()
 
     @classmethod
@@ -109,6 +109,8 @@ class CustomPagination(Pagination):
         super().__init__(page, per_page, **kwargs)
 
     def _query_items(self):
+        for item in self.rs:
+            item.first_img = ProductImage.query.filter(ProductImage.product_id == item.id).first()
         return self.rs
 
     def _query_count(self):
