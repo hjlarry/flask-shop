@@ -15,7 +15,7 @@ SERACH_FIELDS = ["title^10", "description^5"]
 
 def get_item_data(item):
     return {
-        "id": item.id,
+        "meta": {"id": item.id},
         "title": item.title,
         "description": item.description,
         "first_img": item.first_img,
@@ -110,6 +110,7 @@ class CustomPagination(Pagination):
 
     def _query_items(self):
         for item in self.rs:
+            item.id = item.meta.id
             item.first_img = ProductImage.query.filter(ProductImage.product_id == item.id).first()
         return self.rs
 
