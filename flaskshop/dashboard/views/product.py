@@ -177,18 +177,12 @@ def product_types_manage(id=None):
     form.product_attributes_ids.choices = [
         (p.id, p.title) for p in ProductAttribute.query.all()
     ]
-    form.variant_attr_id.choices = [
-        (p.id, p.title) for p in ProductAttribute.query.all()
-    ]
     if form.validate_on_submit():
         tmp_pa = form.product_attributes_ids.data
-        tmp_va = form.variant_attr_id.data
         del form.product_attributes_ids
-        del form.variant_attr_id
         form.populate_obj(product_type)
         product_type.save()
         product_type.update_product_attr(tmp_pa)
-        product_type.update_variant_attr(tmp_va)
         flash(lazy_gettext("Product type saved."), "success")
         return redirect(url_for("dashboard.product_types"))
     return render_template(

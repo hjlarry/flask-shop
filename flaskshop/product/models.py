@@ -304,14 +304,6 @@ class ProductTypeAttributes(Model):
     product_attribute_id = Column(db.Integer())
 
 
-class ProductTypeVariantAttributes(Model):
-    """存储的产品SKU的属性是可以给用户去选择的"""
-
-    __tablename__ = "product_type_variant_attribute"
-    product_type_id = Column(db.Integer())
-    product_attribute_id = Column(db.Integer())
-
-
 class ProductType(Model):
     __tablename__ = "product_type"
     title = Column(db.String(255), nullable=False)
@@ -338,26 +330,6 @@ class ProductType(Model):
             ProductAttribute.id.in_(self.product_attributes_ids)
         ).all()
 
-    @property
-    def variant_attributes(self):
-        at_ids = (
-            ProductTypeVariantAttributes.query.with_entities(
-                ProductTypeVariantAttributes.product_attribute_id
-            )
-            .filter(ProductTypeVariantAttributes.product_type_id == self.id)
-            .all()
-        )
-        return ProductAttribute.query.filter(
-            ProductAttribute.id.in_(id for id, in at_ids)
-        ).all()
-
-    @property
-    def variant_attr_id(self):
-        if self.variant_attributes:
-            return self.variant_attributes[0].id
-        else:
-            return None
-
     def update_product_attr(self, new_attrs):
         origin_ids = (
             ProductTypeAttributes.query.with_entities(
@@ -381,27 +353,11 @@ class ProductType(Model):
             db.session.add(new)
         db.session.commit()
 
-    def update_variant_attr(self, variant_attr):
-        origin_attr = ProductTypeVariantAttributes.query.filter_by(
-            product_type_id=self.id
-        ).first()
-        if origin_attr:
-            origin_attr.product_attribute_id = variant_attr
-            origin_attr.save()
-        else:
-            ProductTypeVariantAttributes.create(
-                product_type_id=self.id, product_attribute_id=variant_attr
-            )
-
     def delete(self):
         need_del_product_attrs = ProductTypeAttributes.query.filter_by(
             product_type_id=self.id
         ).all()
-        need_del_variant_attrs = ProductTypeVariantAttributes.query.filter_by(
-            product_type_id=self.id
-        ).all()
-
-        for item in itertools.chain(need_del_product_attrs, need_del_variant_attrs):
+        for item in need_del_product_attrs:
             item.delete(commit=False)
         need_update_products = Product.query.filter_by(product_type_id=self.id).all()
         for product in need_update_products:
@@ -419,7 +375,6 @@ class ProductVariant(Model):
     quantity = Column(db.Integer(), default=0)
     quantity_allocated = Column(db.Integer(), default=0)
     product_id = Column(db.Integer(), default=0)
-    attributes = Column(MutableDict.as_mutable(db.JSON()))
 
     def __str__(self):
         return self.title or self.sku
@@ -461,14 +416,6 @@ class ProductVariant(Model):
 
     def get_absolute_url(self):
         return url_for("product.show", id=self.product.id)
-
-    @property
-    def attribute_map(self):
-        items = {
-            ProductAttribute.get_by_id(k): AttributeChoiceValue.get_by_id(v)
-            for k, v in self.attributes.items()
-        }
-        return items
 
     def check_enough_stock(self, quantity):
         if self.stock < quantity:
@@ -578,11 +525,8 @@ class ProductAttribute(Model):
         need_del_product_attrs = ProductTypeAttributes.query.filter_by(
             product_attribute_id=self.id
         ).all()
-        need_del_variant_attrs = ProductTypeVariantAttributes.query.filter_by(
-            product_attribute_id=self.id
-        ).all()
         for item in itertools.chain(
-            need_del_product_attrs, need_del_variant_attrs, self.values
+            need_del_product_attrs, self.values
         ):
             item.delete(commit=False)
         db.session.delete(self)

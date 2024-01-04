@@ -1,5 +1,5 @@
-import itertools
 import random
+import itertools
 import unicodedata
 from uuid import uuid4
 
@@ -29,7 +29,6 @@ from flaskshop.product.models import (
     ProductImage,
     ProductType,
     ProductTypeAttributes,
-    ProductTypeVariantAttributes,
     ProductVariant,
 )
 from flaskshop.public.models import MenuItem, Page
@@ -58,14 +57,14 @@ DEFAULT_SCHEMA = {
             "Collar": ["Round", "V-Neck", "Polo"],
             "Brand": ["Saleor"],
         },
-        "variant_attributes": {"Size": ["XS", "S", "M", "L", "XL", "XXL"]},
+        "variant_titles": ["XS", "S", "M", "L", "XL", "XXL"],
         "images_dir": "t-shirts/",
         "is_shipping_required": True,
     },
     "Mugs": {
         "category": {"name": "Accessories", "image_name": "accessories.jpg"},
         "product_attributes": {"Brand": ["Saleor"]},
-        "variant_attributes": {},
+        "variant_titles": [],
         "images_dir": "mugs/",
         "is_shipping_required": True,
     },
@@ -79,7 +78,7 @@ DEFAULT_SCHEMA = {
             "Coffee Genre": ["Arabica", "Robusta"],
             "Brand": ["Saleor"],
         },
-        "variant_attributes": {"Box Size": ["100g", "250g", "500g", "1kg"]},
+        "variant_titles": ["100g", "250g", "500g", "1kg"],
         "different_variant_prices": True,
         "images_dir": "coffee/",
         "is_shipping_required": True,
@@ -91,7 +90,7 @@ DEFAULT_SCHEMA = {
             "parent": GROCERIES_CATEGORY,
         },
         "product_attributes": {"Flavor": ["Sour", "Sweet"], "Brand": ["Saleor"]},
-        "variant_attributes": {"Candy Box Size": ["100g", "250g", "500g"]},
+        "variant_titles": ["100g", "250g", "500g"],
         "images_dir": "candy/",
         "is_shipping_required": True,
     },
@@ -102,7 +101,7 @@ DEFAULT_SCHEMA = {
             "Publisher": ["Mirumee Press", "Saleor Publishing"],
             "Language": ["English", "Pirate"],
         },
-        "variant_attributes": {},
+        "variant_titles": [],
         "images_dir": "books/",
         "is_shipping_required": False,
     },
@@ -113,7 +112,7 @@ DEFAULT_SCHEMA = {
             "Publisher": ["Mirumee Press", "Saleor Publishing"],
             "Language": ["English", "Pirate"],
         },
-        "variant_attributes": {"Cover": ["Soft", "Hard"]},
+        "variant_titles": ["Soft", "Hard"],
         "images_dir": "books/",
         "is_shipping_required": True,
     },
@@ -139,24 +138,6 @@ DASHBOARD_MENUS = [
 """
 Utils function
 """
-
-
-def get_variant_combinations(product):
-    # Returns all possible variant combinations
-    # For example: product type has two variant attributes: Size, Color
-    # Size has available values: [S, M], Color has values [Red, Green]
-    # All combinations will be generated (S, Red), (S, Green), (M, Red),
-    # (M, Green)
-    # Output is list of dicts, where key is product attribute id and value is
-    # attribute value id. Casted to string.
-    variant_attr_map = {
-        attr: attr.values for attr in product.product_type.variant_attributes
-    }
-    all_combinations = itertools.product(*variant_attr_map.values())
-    return [
-        {str(attr_value.attribute.id): str(attr_value.id) for attr_value in combination}
-        for combination in all_combinations
-    ]
 
 
 def get_price_override(schema, combinations_num, current_price):
@@ -196,7 +177,7 @@ Fake for products data
 
 # step1
 def create_products_by_schema(
-    placeholder_dir, how_many, create_images, schema=DEFAULT_SCHEMA
+        placeholder_dir, how_many, create_images, schema=DEFAULT_SCHEMA
 ):
     for product_type, type_schema in create_product_types_by_schema(schema):
         create_products_by_type(
@@ -220,19 +201,13 @@ def create_product_types_by_schema(root_schema):
 # step3
 def create_product_type_with_attributes(name, schema):
     product_attributes_schema = schema.get("product_attributes", {})
-    variant_attributes_schema = schema.get("variant_attributes", {})
     is_shipping_required = schema.get("is_shipping_required", True)
     product_type = ProductType.get_or_create(
         title=name, is_shipping_required=is_shipping_required
     )[0]
     product_attributes = create_attributes_and_values(product_attributes_schema)
-    variant_attributes = create_attributes_and_values(variant_attributes_schema)
     for attr in product_attributes:
         ProductTypeAttributes.get_or_create(
-            product_type_id=product_type.id, product_attribute_id=attr.id
-        )
-    for attr in variant_attributes:
-        ProductTypeVariantAttributes.get_or_create(
             product_type_id=product_type.id, product_attribute_id=attr.id
         )
     return product_type
@@ -252,7 +227,7 @@ def create_attributes_and_values(attribute_data):
 
 # step5
 def create_products_by_type(
-    product_type, schema, placeholder_dir, how_many=10, create_images=True, stdout=None
+        product_type, schema, placeholder_dir, how_many=10, create_images=True, stdout=None
 ):
     category = get_or_create_category(schema["category"], placeholder_dir)
 
@@ -264,16 +239,16 @@ def create_products_by_type(
         if create_images:
             type_placeholders = placeholder_dir / schema["images_dir"]
             create_product_images(product, random.randrange(1, 5), type_placeholders)
-        variant_combinations = get_variant_combinations(product)
+        variant_combinations = schema["variant_titles"]
 
         prices = get_price_override(schema, len(variant_combinations), product.price)
         variants_with_prices = itertools.zip_longest(variant_combinations, prices)
 
         for i, variant_price in enumerate(variants_with_prices, start=1337):
-            attr_combination, price = variant_price
+            title, price = variant_price
             sku = f"{product.id}-{i}"
             create_variant(
-                product, attributes=attr_combination, sku=sku, price_override=price
+                product, sku=sku, title=title, price_override=price
             )
 
         if not variant_combinations:
@@ -337,12 +312,7 @@ def create_product_images(product, how_many, placeholder_dir):
 def create_variant(product, **kwargs):
     defaults = {"product_id": product.id, "quantity": fake.random_int(1, 50)}
     defaults.update(kwargs)
-    attributes = defaults.pop("attributes")
     variant = ProductVariant(**defaults)
-    variant.attributes = attributes
-
-    if variant.attributes:
-        variant.title = get_name_from_attributes(variant)
     variant.save()
     return variant
 
@@ -444,7 +414,7 @@ def create_page():
     <h2 align="center">AN OPENSOURCE STOREFRONT PLATFORM FOR PERFECTIONISTS</h2>
     <h3 align="center">WRITTEN IN PYTHON, BEST SERVED AS A BESPOKE, HIGH-PERFORMANCE E-COMMERCE SOLUTION</h3>
     <p><br></p>
-    <p><img src="http://getsaleor.com/images/main-pic.svg"></p>
+    <p><img src="https://getsaleor.com/images/main-pic.svg"></p>
     <p style="text-align: center;">
         <a href="https://github.com/mirumee/saleor/">Get Saleor</a> today!
     </p>
