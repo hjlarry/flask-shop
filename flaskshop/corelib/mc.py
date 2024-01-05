@@ -2,7 +2,7 @@ import functools
 import inspect
 from pickle import UnpicklingError
 
-from flask import current_app, request
+from flask import current_app
 from sqlalchemy.ext.serializer import dumps, loads
 
 from flaskshop.corelib.db import rdb
@@ -13,7 +13,7 @@ BUILTIN_TYPES = (int, bytes, str, float, bool)
 
 def gen_key_factory(key_pattern, arg_names, defaults):
     args = (
-        dict(zip(arg_names[-len(defaults) :], defaults))  # noqa: E203
+        dict(zip(arg_names[-len(defaults):], defaults))  # noqa: E203
         if defaults
         else {}
     )
@@ -68,47 +68,6 @@ def cache(key_pattern, expire=None):  # noqa: C901
                 r = None
             if isinstance(r, bytes):
                 r = r.decode()
-            return r
-
-        _.original_function = f
-        return _
-
-    return deco
-
-
-def cache_by_args(key_pattern, expire=None):  # noqa: C901
-    def deco(f):
-        arg_names, varargs, varkw, defaults, *_ = inspect.getfullargspec(f)
-        if varargs or varkw:
-            raise Exception("do not support varargs")
-        gen_key = gen_key_factory(key_pattern, arg_names, defaults)
-
-        @functools.wraps(f)
-        def _(*a, **kw):
-            if not current_app.config["USE_REDIS"]:
-                return f(*a, **kw)
-            key, args = gen_key(*a, **kw)
-            if not key:
-                return f(*a, **kw)
-            key = key + ":" + request.query_string.decode()
-            force = kw.pop("force", False)
-            r = rdb.get(key) if not force else None
-            if r is None:
-                r = f(*a, **kw)
-                if r is not None:
-                    if not isinstance(r, BUILTIN_TYPES):
-                        r = dumps(r)
-                    rdb.set(key, r, expire)
-                else:
-                    r = dumps(empty)
-                    rdb.set(key, r, expire)
-
-            try:
-                r = loads(r)
-            except (TypeError, UnpicklingError):
-                pass
-            if isinstance(r, Empty):
-                r = None
             return r
 
         _.original_function = f

@@ -5,7 +5,7 @@ from sqlalchemy import desc
 from sqlalchemy.ext.mutable import MutableDict
 
 from flaskshop.corelib.db import PropsItem
-from flaskshop.corelib.mc import cache, cache_by_args, rdb
+from flaskshop.corelib.mc import cache, rdb
 from flaskshop.database import Column, Model, db
 from flaskshop.settings import Config
 
@@ -249,7 +249,6 @@ class Category(Model):
         return attr_filter
 
     @classmethod
-    @cache_by_args(MC_KEY_CATEGORY_PRODUCTS.format("{category_id}", "{page}"))
     def get_product_by_category(cls, category_id, page):
         category = Category.get_by_id(category_id)
         all_category_ids = [child.id for child in category.children] + [category.id]
@@ -655,7 +654,6 @@ class ProductCollection(Model):
     collection_id = Column(db.Integer())
 
     @classmethod
-    @cache_by_args(MC_KEY_COLLECTION_PRODUCTS.format("{collection_id}", "{page}"))
     def get_product_by_collection(cls, collection_id, page):
         collection = Collection.get_by_id(collection_id)
         at_ids = (
